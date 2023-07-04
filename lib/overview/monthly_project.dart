@@ -38,11 +38,13 @@ class _MonthlyProjectState extends State<MonthlyProject> {
   void initState() {
     getUserId().whenComplete(() {
       _stream = FirebaseFirestore.instance
-          .collection('MonthlyProjectReport')
+          .collection('MonthlyProjectReport2')
           .doc('${widget.depoName}')
-          .collection('AllMonthData')
+          // .collection('AllMonthData')
+          .collection('userId')
           .doc(userId)
-          .collection('MonthData')
+          .collection('Monthly Data')
+          // .collection('MonthData')
           .doc(DateFormat.yMMM().format(DateTime.now()))
           .snapshots();
       _isloading = false;
@@ -76,8 +78,8 @@ class _MonthlyProjectState extends State<MonthlyProject> {
               // _showDialog(context);
               // FirebaseApi().defaultKeyEventsField(
               //     'MonthlyProjectReport', widget.depoName!);
-              // FirebaseApi().nestedKeyEventsField('MonthlyProjectReport',
-              //     widget.depoName!, 'AllMonthData', userId);
+              FirebaseApi().nestedKeyEventsField(
+                  'MonthlyProjectReport2', widget.depoName!, 'userId', userId);
               storeData();
             },
           ),
@@ -533,17 +535,18 @@ class _MonthlyProjectState extends State<MonthlyProject> {
     }
 
     FirebaseFirestore.instance
-        .collection('MonthlyProjectReport')
+        .collection('MonthlyProjectReport2')
         .doc('${widget.depoName}')
         // .collection('AllMonthData')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Monthly Data')
         // .collection('MonthData')
         .doc(DateFormat.yMMM().format(DateTime.now()))
         .set({
       'data': tabledata2,
     }).whenComplete(() {
       tabledata2.clear();
-      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,

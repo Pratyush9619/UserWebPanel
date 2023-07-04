@@ -106,7 +106,10 @@ class _DepotsPageState extends State<DepotsPage> {
                   borderRadius: BorderRadius.circular(20),
                   color: blue,
                   image: DecorationImage(
-                      image: NetworkImage(img), fit: BoxFit.fill),
+                      image: NetworkImage(
+                        img,
+                      ),
+                      fit: BoxFit.fill),
                 ),
               ),
               SizedBox(height: 10),

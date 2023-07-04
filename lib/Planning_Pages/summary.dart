@@ -79,6 +79,7 @@ class _ViewSummaryState extends State<ViewSummary> {
   Widget build(BuildContext context) {
     _summaryProvider!
         .fetchdailydata(widget.depoName!, widget.userId, startdate!, enddate!);
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -136,6 +137,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                       }
                                                     },
                                                     onSubmit: (value) {
+                                                      dailyproject.clear();
                                                       setState(() {
                                                         startdate =
                                                             DateTime.parse(
@@ -147,7 +149,9 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                       });
                                                       Navigator.pop(context);
                                                     },
-                                                    onCancel: () {},
+                                                    onCancel: () {
+                                                      Navigator.pop(context);
+                                                    },
                                                   ),
                                                 ),
                                               ),
@@ -256,9 +260,13 @@ class _ViewSummaryState extends State<ViewSummary> {
                 ? Expanded(
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance
-                            .collection('MonthlyProjectReport')
+                            .collection('MonthlyProjectReport2')
                             .doc('${widget.depoName}')
-                            .collection(widget.userId)
+                            // .collection('AllMonthData')
+                            .collection('userId')
+                            .doc(userId)
+                            .collection('Monthly Data')
+                            // .collection('MonthData')
                             .doc(DateFormat.yMMM().format(startdate!))
                             .snapshots(),
                         builder: (context, snapshot) {
@@ -498,260 +506,306 @@ class _ViewSummaryState extends State<ViewSummary> {
                         }),
                   )
                 : widget.id == 'Daily Report'
-                    ? Consumer<SummaryProvider>(
-                        builder: (context, value, child) {
-                          return FutureBuilder(
-                            future: _dailydata,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.data == null ||
-                                    snapshot.data!.length == 0) {
-                                  return const Center(
-                                    child: Text(
-                                      "No Data Found!!",
-                                      style: TextStyle(fontSize: 25.0),
-                                    ),
-                                  );
+                    ? Expanded(
+                        child: Consumer<SummaryProvider>(
+                          builder: (context, value, child) {
+                            return FutureBuilder(
+                              future: _dailydata,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  if (snapshot.data == null ||
+                                      snapshot.data!.length == 0) {
+                                    return const Center(
+                                      child: Text(
+                                        "No Data Found!!",
+                                        style: TextStyle(fontSize: 25.0),
+                                      ),
+                                    );
+                                  } else {
+                                    return LoadingPage();
+                                  }
                                 } else {
-                                  return LoadingPage();
-                                }
-                              } else {
-                                dailyproject = value.dailydata;
-                                _dailyDataSource = DailyDataSource(
-                                    dailyproject,
-                                    context,
-                                    widget.cityName!,
-                                    widget.depoName!,
-                                    widget.userId);
-                                _dataGridController = DataGridController();
+                                  dailyproject = value.dailydata;
+                                  _dailyDataSource = DailyDataSource(
+                                      dailyproject,
+                                      context,
+                                      widget.cityName!,
+                                      widget.depoName!,
+                                      widget.userId);
+                                  _dataGridController = DataGridController();
 
-                                return SfDataGridTheme(
-                                  data: SfDataGridThemeData(
-                                      headerColor: lightblue),
-                                  child: SfDataGrid(
-                                      source: _dailyDataSource,
-                                      allowEditing: true,
-                                      frozenColumnsCount: 2,
-                                      gridLinesVisibility:
-                                          GridLinesVisibility.both,
-                                      headerGridLinesVisibility:
-                                          GridLinesVisibility.both,
-                                      selectionMode: SelectionMode.single,
-                                      navigationMode: GridNavigationMode.cell,
-                                      columnWidthMode: ColumnWidthMode.auto,
-                                      editingGestureType:
-                                          EditingGestureType.tap,
-                                      controller: _dataGridController,
-                                      columns: [
-                                        GridColumn(
-                                          visible: false,
-                                          columnName: 'SiNo',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: true,
-                                          width: 70,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('SI No.',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                  return SfDataGridTheme(
+                                    data: SfDataGridThemeData(
+                                        headerColor: lightblue),
+                                    child: SfDataGrid(
+                                        source: _dailyDataSource,
+                                        allowEditing: true,
+                                        frozenColumnsCount: 2,
+                                        gridLinesVisibility:
+                                            GridLinesVisibility.both,
+                                        headerGridLinesVisibility:
+                                            GridLinesVisibility.both,
+                                        selectionMode: SelectionMode.single,
+                                        navigationMode: GridNavigationMode.cell,
+                                        columnWidthMode: ColumnWidthMode.auto,
+                                        editingGestureType:
+                                            EditingGestureType.tap,
+                                        controller: _dataGridController,
+                                        columns: [
+                                          GridColumn(
+                                            columnName: 'Date',
+                                            visible: true,
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: true,
+                                            width: 150,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Date',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          columnName: 'TypeOfActivity',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: true,
-                                          width: 200,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('Type of Activity',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            visible: false,
+                                            columnName: 'SiNo',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: true,
+                                            width: 70,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('SI No.',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          columnName: 'ActivityDetails',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: true,
-                                          width: 220,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('Activity Details',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            columnName: 'TypeOfActivity',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: true,
+                                            width: 200,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Type of Activity',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          columnName: 'Progress',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: true,
-                                          width: 320,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('Progress',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            columnName: 'ActivityDetails',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: true,
+                                            width: 220,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Activity Details',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          columnName: 'Status',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: true,
-                                          width: 320,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('Remark / Status',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            columnName: 'Progress',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: true,
+                                            width: 320,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Progress',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          visible: false,
-                                          columnName: 'upload',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: false,
-                                          width: 150,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('Upload Image',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            columnName: 'Status',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: true,
+                                            width: 320,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Remark / Status',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          columnName: 'view',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: false,
-                                          width: 120,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('View Image',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            visible: false,
+                                            columnName: 'upload',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: false,
+                                            width: 150,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Upload Image',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          visible: false,
-                                          columnName: 'Add',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: false,
-                                          width: 120,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('Add Row',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            columnName: 'view',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: false,
+                                            width: 120,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('View Image',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                        GridColumn(
-                                          columnName: 'Delete',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: true,
-                                          visible: false,
-                                          width: 120,
-                                          label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            alignment: Alignment.center,
-                                            child: Text('Delete Row',
-                                                overflow:
-                                                    TextOverflow.values.first,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                    color: white)
-                                                //    textAlign: TextAlign.center,
-                                                ),
+                                          GridColumn(
+                                            visible: false,
+                                            columnName: 'Add',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: false,
+                                            width: 120,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Add Row',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
                                           ),
-                                        ),
-                                      ]),
-                                );
-                              }
-                            },
-                          );
-                        },
+                                          GridColumn(
+                                            columnName: 'Delete',
+                                            autoFitPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 16),
+                                            allowEditing: true,
+                                            visible: false,
+                                            width: 120,
+                                            label: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              alignment: Alignment.center,
+                                              child: Text('Delete Row',
+                                                  overflow:
+                                                      TextOverflow.values.first,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                      color: white)
+                                                  //    textAlign: TextAlign.center,
+                                                  ),
+                                            ),
+                                          ),
+                                        ]),
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        ),
                       )
 
                     // ? Expanded(

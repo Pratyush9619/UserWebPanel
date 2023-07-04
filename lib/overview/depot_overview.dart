@@ -1297,11 +1297,17 @@ class _DepotOverviewState extends State<DepotOverview> {
                               ),
                               ElevatedButton(
                                   onPressed: () async {
-                                    result = await FilePicker.platform
-                                        .pickFiles(
-                                            type: FileType.custom,
-                                            withData: true,
-                                            allowedExtensions: ['pdf']);
+                                    result =
+                                        await FilePicker.platform.pickFiles(
+                                      type: FileType.any,
+                                      withData: true,
+                                      //     allowedExtensions: [
+                                      //   'pdf',
+                                      //   'jpg',
+                                      //   'jpeg',
+                                      //   'svg'
+                                      // ]
+                                    );
                                     fileBytes = result!.files.first.bytes;
                                     if (result == null) {
                                       print("No file selected");
@@ -1380,11 +1386,12 @@ class _DepotOverviewState extends State<DepotOverview> {
                               ),
                               ElevatedButton(
                                   onPressed: () async {
-                                    result1 = await FilePicker.platform
-                                        .pickFiles(
-                                            type: FileType.custom,
-                                            withData: true,
-                                            allowedExtensions: ['pdf']);
+                                    result1 =
+                                        await FilePicker.platform.pickFiles(
+                                      type: FileType.custom,
+                                      withData: true,
+                                      // allowedExtensions: ['pdf']
+                                    );
                                     fileBytes1 = result1!.files.first.bytes;
                                     if (result == null) {
                                       print("No file selected");
@@ -1538,11 +1545,12 @@ class _DepotOverviewState extends State<DepotOverview> {
                               ),
                               ElevatedButton(
                                   onPressed: () async {
-                                    result2 = await FilePicker.platform
-                                        .pickFiles(
-                                            type: FileType.custom,
-                                            withData: true,
-                                            allowedExtensions: ['pdf']);
+                                    result2 =
+                                        await FilePicker.platform.pickFiles(
+                                      type: FileType.custom,
+                                      withData: true,
+                                      // allowedExtensions: ['pdf']
+                                    );
                                     fileBytes2 = result!.files.first.bytes;
                                     if (result2 == null) {
                                       print("No file selected");
@@ -1792,18 +1800,23 @@ class _DepotOverviewState extends State<DepotOverview> {
             .ref(
                 'BOQElectrical/${widget.cityName}/${widget.depoName}/$userId/electrical/${result!.files.first.name}')
             .putData(
-                fileBytes!, SettableMetadata(contentType: 'application/pdf'));
+              fileBytes!,
+            );
         await FirebaseStorage.instance
             .ref(
                 'BOQCivil/${widget.cityName}/${widget.depoName}/$userId/civil/${result1!.files.first.name}')
             .putData(
-                fileBytes1!, SettableMetadata(contentType: 'application/pdf'));
+              fileBytes1!,
+              //  SettableMetadata(contentType: 'application/pdf')
+            );
 
         await FirebaseStorage.instance
             .ref(
                 'BOQSurvey/${widget.cityName}/${widget.depoName}/$userId/survey/${result1!.files.first.name}')
             .putData(
-                fileBytes2!, SettableMetadata(contentType: 'application/pdf'));
+              fileBytes2!,
+              //  SettableMetadata(contentType: 'application/pdf')
+            );
       }
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

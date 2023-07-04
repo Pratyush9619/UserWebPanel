@@ -122,6 +122,29 @@ class _DailyProjectState extends State<DailyProject> {
                           controller: _dataGridController,
                           columns: [
                             GridColumn(
+                              columnName: 'Date',
+                              visible: false,
+                              autoFitPadding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              allowEditing: true,
+                              width: 150,
+                              label: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                alignment: Alignment.center,
+                                child: Text('Date',
+                                    overflow: TextOverflow.values.first,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: white)
+                                    //    textAlign: TextAlign.center,
+                                    ),
+                              ),
+                            ),
+
+                            GridColumn(
                               columnName: 'SiNo',
                               visible: false,
                               autoFitPadding:
@@ -389,6 +412,28 @@ class _DailyProjectState extends State<DailyProject> {
                           controller: _dataGridController,
                           columns: [
                             GridColumn(
+                              columnName: 'Date',
+                              visible: false,
+                              autoFitPadding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              allowEditing: true,
+                              width: 70,
+                              label: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                alignment: Alignment.center,
+                                child: Text('Date',
+                                    overflow: TextOverflow.values.first,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: white)
+                                    //    textAlign: TextAlign.center,
+                                    ),
+                              ),
+                            ),
+                            GridColumn(
                               columnName: 'SiNo',
                               visible: false,
                               autoFitPadding:
@@ -606,6 +651,7 @@ class _DailyProjectState extends State<DailyProject> {
       for (var data in i.getCells()) {
         if (data.columnName != 'button' && data.columnName != 'Delete') {
           tableData[data.columnName] = data.value;
+          tableData.addAll({"Date": selectedDate});
         }
       }
 

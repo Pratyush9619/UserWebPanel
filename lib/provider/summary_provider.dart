@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class SummaryProvider extends ChangeNotifier {
+  Map<String, dynamic> alldate = Map();
   List<DailyProjectModel> _dailydata = [];
 
   List<DailyProjectModel> get dailydata {
@@ -29,8 +30,8 @@ class SummaryProvider extends ChangeNotifier {
         if (value.data() != null) {
           print('swswssw${value.data()!['data'].length}');
           for (int i = 0; i < value.data()!['data'].length; i++) {
-            loadeddata
-                .add(DailyProjectModel.fromjson(value.data()!['data'][i]));
+            var _data = value.data()!['data'][i];
+            loadeddata.add(DailyProjectModel.fromjson(_data));
           }
           _dailydata = loadeddata;
           notifyListeners();
