@@ -74,7 +74,7 @@ class _ImagePageState extends State<ImagePage> {
           : isPdf
               ? ViewFile(path: widget.file.url)
               : isexcel
-                  ? ViewExcel(path: widget.file.ref.toString())
+                  ? ViewExcel(path: widget.file.ref)
                   : const Center(
                       child: Text(
                         'Cannot be displayed',

@@ -32,14 +32,17 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
 
   @override
   void initState() {
-    futureFiles = FirebaseApi.listAll(
-        '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+    // futureFiles = FirebaseApi.listAll(
+    //     '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
     super.initState();
   }
 
 // /DetailedEngRFC/Bengaluru/BMTC KR Puram-29/ ZW3210
   @override
   Widget build(BuildContext context) {
+    futureFiles = FirebaseApi.listAll(
+        '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('PDF List'),
@@ -108,9 +111,13 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
             color: Colors.blue,
           ),
         ),
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ImagePage(file: file),
-        )),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ImagePage(file: file),
+          ));
+
+          dispose();
+        },
       );
 
   Widget buildHeader(int length) => ListTile(

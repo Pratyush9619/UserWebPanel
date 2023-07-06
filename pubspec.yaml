@@ -60,6 +60,7 @@ dependencies:
   syncfusion_flutter_xlsio:
   tab_indicator_styler: ^2.0.0
   table_calendar: ^3.0.8
+
   open_file:
   path_provider:
   dependencies:

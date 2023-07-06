@@ -1792,18 +1792,24 @@ class _DepotOverviewState extends State<DepotOverview> {
             .ref(
                 'BOQElectrical/${widget.cityName}/${widget.depoName}/$userId/electrical/${result!.files.first.name}')
             .putData(
-                fileBytes!, SettableMetadata(contentType: 'application/pdf'));
+              fileBytes!,
+              //  SettableMetadata(contentType: 'application/pdf'),
+            );
         await FirebaseStorage.instance
             .ref(
                 'BOQCivil/${widget.cityName}/${widget.depoName}/$userId/civil/${result1!.files.first.name}')
             .putData(
-                fileBytes1!, SettableMetadata(contentType: 'application/pdf'));
+              fileBytes1!,
+              // SettableMetadata(contentType: 'application/pdf'),
+            );
 
         await FirebaseStorage.instance
             .ref(
                 'BOQSurvey/${widget.cityName}/${widget.depoName}/$userId/survey/${result1!.files.first.name}')
             .putData(
-                fileBytes2!, SettableMetadata(contentType: 'application/pdf'));
+              fileBytes2!,
+              //  SettableMetadata(contentType: 'application/pdf'),
+            );
       }
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
