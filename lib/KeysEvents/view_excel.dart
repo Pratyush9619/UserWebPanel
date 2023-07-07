@@ -18,16 +18,19 @@ class ViewExcel extends StatefulWidget {
 }
 
 class _ViewExcelState extends State<ViewExcel> {
-  List sheets = [];
-  List sheetsForTitle = [];
+  List<List<List>> sheets = [];
+  List<List> sheetsForTitle = [];
   bool isLoad = true;
-  List<List<dynamic>> sheetData = [];
+  List<List<List>> sheetData = [];
+  List sub = [];
 
   int sheetNumber = 0;
   @override
   void initState() {
     // sheetsForTitle = getFile();
     getFile().whenComplete(() {
+      deleteRow();
+
       setState(() {
         isLoad = false;
         // sheetsForTitle = sheetData;
@@ -62,7 +65,7 @@ class _ViewExcelState extends State<ViewExcel> {
         (await widget.path.getData(oneMegabyte)) as List<int>);
 
     for (var table in excel.tables.keys) {
-      List columns = [];
+      List<List> columns = [];
       for (var row in excel.tables[table]!.rows) {
         List rows = [];
         for (var cell in row) {
@@ -77,11 +80,12 @@ class _ViewExcelState extends State<ViewExcel> {
     sheetsForTitle = sheetData;
   }
 
-  Future<void> assignFileValues() async {
-    // sheetsForTitle.clear();
-    // sheets.clear();
-    sheetsForTitle = await getFile();
-    sheets = await getFile();
+  deleteRow() {
+    for (int i = 1; i < sheets[sheetNumber].length; i++) {
+      print("Printing Columns " + sheets[sheetNumber][i].toString());
+      sub.add(sheets[sheetNumber][i]);
+    }
+    print("Final Sublist    " + sub.toString());
   }
 
   @override
@@ -146,64 +150,61 @@ class _ViewExcelState extends State<ViewExcel> {
                               Expanded(
                                 child: ListView.builder(
                                     scrollDirection: Axis.vertical,
-                                    itemCount: sheets[sheetNumber].length,
+                                    itemCount: sheets[sheetNumber].length - 1,
                                     itemBuilder: (context, col) {
+                                      List data__ = sub;
+                                      List rows = [];
+                                      for (int i = 0; i < data__.length; i++) {
+                                        rows.add(data__[i]);
+                                      }
+
+                                      // .skip(1).toList();
+
                                       return Row(
-                                        children: List.generate(
-                                            sheets[sheetNumber][col].length,
+                                        children: List.generate(rows.length,
+                                            // sheets[sheetNumber][col].length,
                                             (index) {
-                                          sheets[sheetNumber][0][index] = null;
-                                          if (sheets[0][col][index] != null) {
-                                            return Container(
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .1,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  .05,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 8.0,
-                                                vertical: 5.0,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: white,
-                                                border: const Border(
-                                                    left: BorderSide(
-                                                      color: Colors.grey,
-                                                      width: 0.2,
-                                                    ),
-                                                    right: BorderSide(
-                                                      color: Colors.grey,
-                                                      width: 0.2,
-                                                    ),
-                                                    bottom: BorderSide(
-                                                      color: Colors.grey,
-                                                      width: 0.2,
-                                                    )),
-                                              ),
-                                              child: Text(
-                                                sheets[sheetNumber][col][index]
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            );
-                                          } else {
-                                            return SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .1,
-                                              height: 0,
-                                              child: const Text(
-                                                  "This is Empty cell"),
-                                            );
-                                          }
+                                          // sheets[sheetNumber][0][index] = null;
+
+                                          print(rows[index][col]);
+
+                                          return Container(
+                                            alignment: Alignment.center,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .1,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                .05,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0,
+                                              vertical: 5.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: white,
+                                              border: const Border(
+                                                  left: BorderSide(
+                                                    color: Colors.grey,
+                                                    width: 0.2,
+                                                  ),
+                                                  right: BorderSide(
+                                                    color: Colors.grey,
+                                                    width: 0.2,
+                                                  ),
+                                                  bottom: BorderSide(
+                                                    color: Colors.grey,
+                                                    width: 0.2,
+                                                  )),
+                                            ),
+                                            child: Text(
+                                              rows[col][index].toString(),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          );
                                         }),
                                       );
                                     }),
@@ -219,8 +220,6 @@ class _ViewExcelState extends State<ViewExcel> {
                       children: List.generate(2, (index) {
                         return InkWell(
                           onTap: () {
-                            print("Before change" +
-                                sheetsForTitle[sheetNumber].toString());
                             setState(() {
                               // sheets.clear();
                               // sheetsForTitle.clear();
