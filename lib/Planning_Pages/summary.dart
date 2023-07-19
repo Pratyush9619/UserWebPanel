@@ -306,12 +306,14 @@ class _ViewSummaryState extends State<ViewSummary> {
                                       editingGestureType:
                                           EditingGestureType.tap,
                                       controller: _dataGridController,
+                                      onQueryRowHeight: (details) {
+                                        return details.getIntrinsicRowHeight(
+                                            details.rowIndex);
+                                      },
                                       columns: [
                                         GridColumn(
                                           columnName: 'ActivityNo',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
+                                          autoFitPadding: tablepadding,
                                           allowEditing: true,
                                           width: 160,
                                           label: Container(
@@ -332,9 +334,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         ),
                                         GridColumn(
                                           columnName: 'ActivityDetails',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
+                                          autoFitPadding: tablepadding,
                                           allowEditing: true,
                                           width: 240,
                                           label: Container(
@@ -353,9 +353,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         ),
                                         // GridColumn(
                                         //   columnName: 'Months',
-                                        //   autoFitPadding: const EdgeInsets.symmetric(
-                                        //       horizontal: 16),
-                                        //   allowEditing: false,
+                                        //   auets.symmetric(
+                                        //       tablepadding),                                        //   allowEditing: false,
                                         //   width: 200,
                                         //   label: Container(
                                         //     padding: const EdgeInsets.symmetric(
@@ -372,8 +371,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         // ),
                                         // GridColumn(
                                         //   columnName: 'Duration',
-                                        //   autoFitPadding:
-                                        //       const EdgeInsets.symmetric(horizontal: 16),
+                                        //                       //       const EdgeInsets.symmetric(tablepadding),
                                         //   allowEditing: false,
                                         //   width: 120,
                                         //   label: Container(
@@ -393,8 +391,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         // ),
                                         // GridColumn(
                                         //   columnName: 'StartDate',
-                                        //   autoFitPadding:
-                                        //       const EdgeInsets.symmetric(horizontal: 16),
+                                        //                       //       const EdgeInsets.symmetric(tablepadding),
                                         //   allowEditing: false,
                                         //   width: 160,
                                         //   label: Container(
@@ -413,8 +410,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         // ),
                                         // GridColumn(
                                         //   columnName: 'EndDate',
-                                        //   autoFitPadding:
-                                        //       const EdgeInsets.symmetric(horizontal: 16),
+                                        //                       //       const EdgeInsets.symmetric(tablepadding),
                                         //   allowEditing: false,
                                         //   width: 120,
                                         //   label: Container(
@@ -433,9 +429,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         // ),
                                         GridColumn(
                                           columnName: 'Progress',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
+                                          autoFitPadding: tablepadding,
                                           allowEditing: true,
                                           width: 250,
                                           label: Container(
@@ -455,9 +449,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         ),
                                         GridColumn(
                                           columnName: 'Status',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
+                                          autoFitPadding: tablepadding,
                                           allowEditing: true,
                                           width: 250,
                                           label: Container(
@@ -477,9 +469,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         ),
                                         GridColumn(
                                           columnName: 'Action',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
+                                          autoFitPadding: tablepadding,
                                           allowEditing: true,
                                           width: 250,
                                           label: Container(
@@ -551,13 +541,15 @@ class _ViewSummaryState extends State<ViewSummary> {
                                         editingGestureType:
                                             EditingGestureType.tap,
                                         controller: _dataGridController,
+                                        onQueryRowHeight: (details) {
+                                          return details.getIntrinsicRowHeight(
+                                              details.rowIndex);
+                                        },
                                         columns: [
                                           GridColumn(
                                             columnName: 'Date',
                                             visible: true,
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: true,
                                             width: 150,
                                             label: Container(
@@ -581,9 +573,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             visible: false,
                                             columnName: 'SiNo',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: true,
                                             width: 70,
                                             label: Container(
@@ -606,9 +596,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           ),
                                           GridColumn(
                                             columnName: 'TypeOfActivity',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: true,
                                             width: 200,
                                             label: Container(
@@ -630,9 +618,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           ),
                                           GridColumn(
                                             columnName: 'ActivityDetails',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: true,
                                             width: 220,
                                             label: Container(
@@ -654,9 +640,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           ),
                                           GridColumn(
                                             columnName: 'Progress',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: true,
                                             width: 320,
                                             label: Container(
@@ -678,9 +662,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           ),
                                           GridColumn(
                                             columnName: 'Status',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: true,
                                             width: 320,
                                             label: Container(
@@ -703,9 +685,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             visible: false,
                                             columnName: 'upload',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: false,
                                             width: 150,
                                             label: Container(
@@ -727,9 +707,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           ),
                                           GridColumn(
                                             columnName: 'view',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: false,
                                             width: 120,
                                             label: Container(
@@ -752,9 +730,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             visible: false,
                                             columnName: 'Add',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: false,
                                             width: 120,
                                             label: Container(
@@ -776,9 +752,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           ),
                                           GridColumn(
                                             columnName: 'Delete',
-                                            autoFitPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 16),
+                                            autoFitPadding: tablepadding,
                                             allowEditing: true,
                                             visible: false,
                                             width: 120,
@@ -874,8 +848,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                     //                 GridColumn(
                     //                   columnName: 'SiNo',
                     //                   autoFitPadding:
-                    //                       const EdgeInsets.symmetric(
-                    //                           horizontal: 16),
+                    //
+                    //                           tablepadding,
                     //                   allowEditing: true,
                     //                   width: 70,
                     //                   label: Container(
@@ -896,8 +870,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                     //                 GridColumn(
                     //                   columnName: 'TypeOfActivity',
                     //                   autoFitPadding:
-                    //                       const EdgeInsets.symmetric(
-                    //                           horizontal: 16),
+                    //
+                    //                           tablepadding,
                     //                   allowEditing: true,
                     //                   width: 200,
                     //                   label: Container(
@@ -917,8 +891,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                     //                 GridColumn(
                     //                   columnName: 'ActivityDetails',
                     //                   autoFitPadding:
-                    //                       const EdgeInsets.symmetric(
-                    //                           horizontal: 16),
+                    //
+                    //                           tablepadding,
                     //                   allowEditing: true,
                     //                   width: 220,
                     //                   label: Container(
@@ -938,8 +912,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                     //                 GridColumn(
                     //                   columnName: 'Progress',
                     //                   autoFitPadding:
-                    //                       const EdgeInsets.symmetric(
-                    //                           horizontal: 16),
+                    //
+                    //                           tablepadding,
                     //                   allowEditing: true,
                     //                   width: 320,
                     //                   label: Container(
@@ -959,8 +933,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                     //                 GridColumn(
                     //                   columnName: 'Status',
                     //                   autoFitPadding:
-                    //                       const EdgeInsets.symmetric(
-                    //                           horizontal: 16),
+                    //
+                    //                           tablepadding,
                     //                   allowEditing: true,
                     //                   width: 320,
                     //                   label: Container(
@@ -980,8 +954,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                     //                 GridColumn(
                     //                   columnName: 'Delete',
                     //                   autoFitPadding:
-                    //                       const EdgeInsets.symmetric(
-                    //                           horizontal: 16),
+                    //
+                    //                           tablepadding,
                     //                   allowEditing: true,
                     //                   visible: false,
                     //                   width: 120,
@@ -1071,9 +1045,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                       columns: [
                                         GridColumn(
                                           columnName: 'srNo',
-                                          autoFitPadding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 16),
+                                          autoFitPadding: tablepadding,
                                           allowEditing: true,
                                           width: 80,
                                           label: Container(

@@ -40,7 +40,7 @@ class _ImagePageState extends State<ImagePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.file_download),
+            icon: const Icon(Icons.file_download),
             onPressed: () async {
               await FirebaseApi.downloadFile(widget.file.ref);
 

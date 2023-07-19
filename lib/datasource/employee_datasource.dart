@@ -220,14 +220,14 @@ class EmployeeDataSource extends DataGridSource {
                                                         _employees[dataRowIndex]
                                                             .activity,
                                                     columnName: 'Activity'),
-                                                DataGridCell(
-                                                    value: _employees[
-                                                        dataRowIndex],
-                                                    columnName: 'viewbutton'),
-                                                DataGridCell(
-                                                    value: _employees[
-                                                        dataRowIndex],
-                                                    columnName: 'uploadbutton'),
+                                                // DataGridCell(
+                                                //     value: _employees[
+                                                //         dataRowIndex],
+                                                //     columnName: 'viewbutton'),
+                                                // DataGridCell(
+                                                //     value: _employees[
+                                                //         dataRowIndex],
+                                                //     columnName: 'uploadbutton'),
                                                 DataGridCell(
                                                     value:
                                                         _employees[dataRowIndex]
@@ -307,13 +307,13 @@ class EmployeeDataSource extends DataGridSource {
                                                       RowColumnIndex(
                                                           dataRowIndex, 5));
                                               notifyListeners();
-                                              print('state$date');
-                                              print('valuedata$value');
+                                              // print('state$date');
+                                              // print('valuedata$value');
 
-                                              print('start $rangeStartDate');
-                                              print('End $rangeEndDate');
-                                              // date = rangeStartDate;
-                                              print('object$date');
+                                              // print('start $rangeStartDate');
+                                              // print('End $rangeEndDate');
+                                              // // date = rangeStartDate;
+                                              // print('object$date');
 
                                               Navigator.pop(context);
                                             }
@@ -430,8 +430,7 @@ class EmployeeDataSource extends DataGridSource {
                                                   int.parse(
                                                       diff.inDays.toString());
 
-                                              dataGridRows[dataRowIndex] =
-                                                  DataGridRow(cells: [
+                                              DataGridRow(cells: [
                                                 DataGridCell(
                                                     value:
                                                         _employees[dataRowIndex]
@@ -442,14 +441,14 @@ class EmployeeDataSource extends DataGridSource {
                                                         _employees[dataRowIndex]
                                                             .activity,
                                                     columnName: 'Activity'),
-                                                DataGridCell(
-                                                    value: _employees[
-                                                        dataRowIndex],
-                                                    columnName: 'viewbutton'),
-                                                DataGridCell(
-                                                    value: _employees[
-                                                        dataRowIndex],
-                                                    columnName: 'uploadbutton'),
+                                                // DataGridCell(
+                                                //     value: _employees[
+                                                //         dataRowIndex],
+                                                //     columnName: 'viewbutton'),
+                                                // DataGridCell(
+                                                //     value: _employees[
+                                                //         dataRowIndex],
+                                                //     columnName: 'uploadbutton'),
                                                 DataGridCell(
                                                     value:
                                                         _employees[dataRowIndex]

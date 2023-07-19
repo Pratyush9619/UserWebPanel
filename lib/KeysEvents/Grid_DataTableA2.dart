@@ -181,6 +181,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                                   columnWidthMode: ColumnWidthMode.auto,
                                   editingGestureType: EditingGestureType.tap,
                                   controller: _dataGridController,
+
                                   // onQueryRowHeight: (details) {
                                   //   return details.rowIndex == 0 ? 60.0 : 49.0;
                                   // },
@@ -1008,12 +1009,14 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
     Map<String, dynamic> table_data = Map();
     for (var i in _employeeDataSource.dataGridRows) {
       for (var data in i.getCells()) {
-        if (data.columnName != 'button') {
+        if (data.columnName != 'viewbutton' &&
+            data.columnName != 'uploadbutton') {
           table_data[data.columnName] = data.value;
         }
       }
 
       tabledata2.add(table_data);
+      print(tabledata2);
       table_data = {};
     }
 

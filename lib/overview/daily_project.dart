@@ -120,17 +120,19 @@ class _DailyProjectState extends State<DailyProject> {
                           columnWidthMode: ColumnWidthMode.fitByCellValue,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               columnName: 'Date',
                               visible: false,
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 150,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Date',
                                     overflow: TextOverflow.values.first,
@@ -147,13 +149,11 @@ class _DailyProjectState extends State<DailyProject> {
                             GridColumn(
                               columnName: 'SiNo',
                               visible: false,
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 70,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -169,11 +169,11 @@ class _DailyProjectState extends State<DailyProject> {
                             // GridColumn(
                             //   columnName: 'Date',
                             //   autoFitPadding:
-                            //       const EdgeInsets.symmetric(horizontal: 16),
+                            //       tablepadding,
                             //   allowEditing: false,
                             //   width: 160,
                             //   label: Container(
-                            //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            //     padding: tablepadding,
                             //     alignment: Alignment.center,
                             //     child: Text('Date',
                             //         textAlign: TextAlign.center,
@@ -188,11 +188,11 @@ class _DailyProjectState extends State<DailyProject> {
                             //   visible: false,
                             //   columnName: 'State',
                             //   autoFitPadding:
-                            //       const EdgeInsets.symmetric(horizontal: 16),
+                            //       tablepadding,
                             //   allowEditing: true,
                             //   width: 120,
                             //   label: Container(
-                            //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            //     padding: tablepadding,
                             //     alignment: Alignment.center,
                             //     child: Text('State',
                             //         textAlign: TextAlign.center,
@@ -209,11 +209,11 @@ class _DailyProjectState extends State<DailyProject> {
                             //   visible: false,
                             //   columnName: 'DepotName',
                             //   autoFitPadding:
-                            //       const EdgeInsets.symmetric(horizontal: 16),
+                            //       tablepadding,
                             //   allowEditing: true,
                             //   width: 150,
                             //   label: Container(
-                            //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            //     padding: tablepadding,
                             //     alignment: Alignment.center,
                             //     child: Text('Depot Name',
                             //         overflow: TextOverflow.values.first,
@@ -227,13 +227,11 @@ class _DailyProjectState extends State<DailyProject> {
                             // ),
                             GridColumn(
                               columnName: 'TypeOfActivity',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 200,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Type of Activity',
                                     overflow: TextOverflow.values.first,
@@ -247,13 +245,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'ActivityDetails',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 220,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Activity Details',
                                     overflow: TextOverflow.values.first,
@@ -267,14 +263,12 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Progress',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               columnWidthMode: ColumnWidthMode.fill,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Progress',
                                     overflow: TextOverflow.values.first,
@@ -288,13 +282,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Status',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 280,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Remark / Status',
                                     overflow: TextOverflow.values.first,
@@ -308,13 +300,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'upload',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 150,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Image',
                                     overflow: TextOverflow.values.first,
@@ -328,13 +318,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'view',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('View Image',
                                     overflow: TextOverflow.values.first,
@@ -348,13 +336,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('ADD Row',
                                     overflow: TextOverflow.values.first,
@@ -368,13 +354,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,
@@ -410,17 +394,19 @@ class _DailyProjectState extends State<DailyProject> {
                           navigationMode: GridNavigationMode.cell,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               columnName: 'Date',
                               visible: false,
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 70,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Date',
                                     overflow: TextOverflow.values.first,
@@ -436,13 +422,11 @@ class _DailyProjectState extends State<DailyProject> {
                             GridColumn(
                               columnName: 'SiNo',
                               visible: false,
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 70,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -457,13 +441,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'TypeOfActivity',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 200,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Type of Activity',
                                     overflow: TextOverflow.values.first,
@@ -477,13 +459,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'ActivityDetails',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 220,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Activity Details',
                                     overflow: TextOverflow.values.first,
@@ -497,13 +477,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Progress',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Progress',
                                     overflow: TextOverflow.values.first,
@@ -517,13 +495,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Status',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 280,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Remark / Status',
                                     overflow: TextOverflow.values.first,
@@ -537,13 +513,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'upload',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 150,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Image',
                                     overflow: TextOverflow.values.first,
@@ -557,13 +531,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'view',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('view Image',
                                     overflow: TextOverflow.values.first,
@@ -577,13 +549,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -597,13 +567,11 @@ class _DailyProjectState extends State<DailyProject> {
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,

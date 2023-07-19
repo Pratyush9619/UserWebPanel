@@ -390,17 +390,19 @@ class _DetailedEngtState extends State<DetailedEng>
                           columnWidthMode: ColumnWidthMode.auto,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               visible: false,
                               columnName: 'SiNo',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 80,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -415,10 +417,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'button',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Drawing ',
                                     textAlign: TextAlign.center,
@@ -430,10 +432,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ViewDrawing',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('View Drawing ',
                                     textAlign: TextAlign.center,
@@ -445,13 +447,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Title',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Description',
                                     textAlign: TextAlign.center,
@@ -464,13 +464,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Number',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
-                              width: 130,
+                              width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Drawing Number',
                                     textAlign: TextAlign.center,
@@ -485,13 +483,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'PreparationDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Preparation Date',
                                     overflow: TextOverflow.values.first,
@@ -505,13 +501,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'SubmissionDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Submission Date',
                                     overflow: TextOverflow.values.first,
@@ -525,13 +519,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ApproveDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Approve Date',
                                     overflow: TextOverflow.values.first,
@@ -545,13 +537,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ReleaseDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Release Date',
                                     overflow: TextOverflow.values.first,
@@ -565,13 +555,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text(
                                   'Add Row',
@@ -584,13 +572,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,
@@ -629,17 +615,19 @@ class _DetailedEngtState extends State<DetailedEng>
                           columnWidthMode: ColumnWidthMode.auto,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               visible: false,
                               columnName: 'SiNo',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 80,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -654,10 +642,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'button',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Drawing ',
                                     textAlign: TextAlign.center,
@@ -669,10 +657,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ViewDrawing',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('View Drawing ',
                                     textAlign: TextAlign.center,
@@ -684,13 +672,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Title',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Description',
                                     textAlign: TextAlign.center,
@@ -703,13 +689,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Number',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
-                              width: 130,
+                              width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Drawing Number',
                                     textAlign: TextAlign.center,
@@ -724,13 +708,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'PreparationDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Preparation Date',
                                     overflow: TextOverflow.values.first,
@@ -744,13 +726,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'SubmissionDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Submission Date',
                                     overflow: TextOverflow.values.first,
@@ -764,13 +744,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ApproveDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Approve Date',
                                     overflow: TextOverflow.values.first,
@@ -784,13 +762,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ReleaseDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Release Date',
                                     overflow: TextOverflow.values.first,
@@ -804,13 +780,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -821,13 +795,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,
@@ -886,17 +858,19 @@ class _DetailedEngtState extends State<DetailedEng>
                           columnWidthMode: ColumnWidthMode.auto,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               visible: false,
                               columnName: 'SiNo',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 80,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -911,10 +885,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'button',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Drawing ',
                                     textAlign: TextAlign.center,
@@ -926,10 +900,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ViewDrawing',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('View Drawing ',
                                     textAlign: TextAlign.center,
@@ -941,13 +915,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Title',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Description',
                                     textAlign: TextAlign.center,
@@ -960,13 +932,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Number',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
-                              width: 130,
+                              width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Drawing Number',
                                     textAlign: TextAlign.center,
@@ -981,13 +951,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'PreparationDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Preparation Date',
                                     overflow: TextOverflow.values.first,
@@ -1001,13 +969,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'SubmissionDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Submission Date',
                                     overflow: TextOverflow.values.first,
@@ -1021,13 +987,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ApproveDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Approve Date',
                                     overflow: TextOverflow.values.first,
@@ -1041,13 +1005,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ReleaseDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Release Date',
                                     overflow: TextOverflow.values.first,
@@ -1061,13 +1023,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -1081,13 +1041,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,
@@ -1129,17 +1087,19 @@ class _DetailedEngtState extends State<DetailedEng>
                           columnWidthMode: ColumnWidthMode.auto,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               visible: false,
                               columnName: 'SiNo',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 80,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -1154,10 +1114,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'button',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Drawing ',
                                     textAlign: TextAlign.center,
@@ -1169,10 +1129,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ViewDrawing',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('View Drawing ',
                                     textAlign: TextAlign.center,
@@ -1184,13 +1144,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Title',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Description',
                                     textAlign: TextAlign.center,
@@ -1203,13 +1161,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Number',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
-                              width: 130,
+                              width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Drawing Number',
                                     textAlign: TextAlign.center,
@@ -1224,13 +1180,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'PreparationDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Preparation Date',
                                     overflow: TextOverflow.values.first,
@@ -1244,13 +1198,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'SubmissionDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Submission Date',
                                     overflow: TextOverflow.values.first,
@@ -1264,13 +1216,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ApproveDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Approve Date',
                                     overflow: TextOverflow.values.first,
@@ -1284,13 +1234,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ReleaseDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Release Date',
                                     overflow: TextOverflow.values.first,
@@ -1304,13 +1252,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -1324,13 +1270,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,
@@ -1407,17 +1351,19 @@ class _DetailedEngtState extends State<DetailedEng>
                           columnWidthMode: ColumnWidthMode.auto,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               visible: false,
                               columnName: 'SiNo',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 80,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -1432,10 +1378,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'button',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Drawing ',
                                     textAlign: TextAlign.center,
@@ -1447,10 +1393,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ViewDrawing',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('View Drawing ',
                                     textAlign: TextAlign.center,
@@ -1462,13 +1408,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Title',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Description',
                                     textAlign: TextAlign.center,
@@ -1481,13 +1425,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Number',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
-                              width: 130,
+                              width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Drawing Number',
                                     textAlign: TextAlign.center,
@@ -1502,13 +1444,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'PreparationDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Preparation Date',
                                     overflow: TextOverflow.values.first,
@@ -1522,13 +1462,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'SubmissionDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Submission Date',
                                     overflow: TextOverflow.values.first,
@@ -1542,13 +1480,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ApproveDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Approve Date',
                                     overflow: TextOverflow.values.first,
@@ -1562,13 +1498,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ReleaseDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Release Date',
                                     overflow: TextOverflow.values.first,
@@ -1582,13 +1516,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -1599,13 +1531,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -1644,17 +1574,19 @@ class _DetailedEngtState extends State<DetailedEng>
                           columnWidthMode: ColumnWidthMode.auto,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
+                          onQueryRowHeight: (details) {
+                            return details
+                                .getIntrinsicRowHeight(details.rowIndex);
+                          },
                           columns: [
                             GridColumn(
                               visible: false,
                               columnName: 'SiNo',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 80,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
@@ -1669,10 +1601,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'button',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Upload Drawing ',
                                     textAlign: TextAlign.center,
@@ -1684,10 +1616,10 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ViewDrawing',
-                              width: 130,
+                              width: 170,
                               allowEditing: false,
                               label: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('View Drawing ',
                                     textAlign: TextAlign.center,
@@ -1699,13 +1631,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Title',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 300,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Description',
                                     textAlign: TextAlign.center,
@@ -1718,13 +1648,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Number',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: true,
                               width: 130,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Drawing Number',
                                     textAlign: TextAlign.center,
@@ -1739,13 +1667,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'PreparationDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Preparation Date',
                                     overflow: TextOverflow.values.first,
@@ -1759,13 +1685,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'SubmissionDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Submission Date',
                                     overflow: TextOverflow.values.first,
@@ -1779,13 +1703,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ApproveDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Approve Date',
                                     overflow: TextOverflow.values.first,
@@ -1799,13 +1721,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'ReleaseDate',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 170,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Release Date',
                                     overflow: TextOverflow.values.first,
@@ -1819,13 +1739,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Add',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -1836,13 +1754,11 @@ class _DetailedEngtState extends State<DetailedEng>
                             ),
                             GridColumn(
                               columnName: 'Delete',
-                              autoFitPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              autoFitPadding: tablepadding,
                               allowEditing: false,
                               width: 120,
                               label: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: tablepadding,
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,

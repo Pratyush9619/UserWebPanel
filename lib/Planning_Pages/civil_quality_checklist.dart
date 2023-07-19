@@ -1,9 +1,11 @@
 import 'package:assingment/Planning_Pages/quality_checklist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+import '../Authentication/auth_service.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_Ironite_flooring.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_backfilling.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_ceiling.dart';
@@ -18,6 +20,7 @@ import '../QualityDatasource/qualityCivilDatasource/quality_proofing.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_roofing.dart';
 import '../components/loading_page.dart';
 import '../model/quality_checklistModel.dart';
+import '../widget/custom_qualitycivil_textfield.dart';
 import '../widget/quality_list.dart';
 import '../widget/style.dart';
 
@@ -61,11 +64,13 @@ List<QualitychecklistModel> qualitylisttable11 = <QualitychecklistModel>[];
 List<QualitychecklistModel> qualitylisttable12 = <QualitychecklistModel>[];
 
 int? _selectedIndex = 0;
+// String currentDate = DateFormat.yMMMMd().format(DateTime.now());
 List clntitle = [
   'Exc',
   'BF',
   'Mass',
   'DWG',
+  'FC',
   'F&T',
   'GI',
   'IF',
@@ -74,6 +79,15 @@ List clntitle = [
   'WCR',
   'Proofing'
 ];
+
+late TextEditingController _field1Controller;
+late TextEditingController _field2Controller;
+late TextEditingController _field3Controller;
+late TextEditingController _field4Controller;
+late TextEditingController _field5Controller;
+late TextEditingController _field6Controller;
+late TextEditingController _field7Controller;
+late TextEditingController _field8Controller;
 
 class CivilQualityChecklist extends StatefulWidget {
   String? cityName;
@@ -93,6 +107,7 @@ class CivilQualityChecklist extends StatefulWidget {
 }
 
 class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
+  Stream? _fieldStream;
   Stream? _stream;
   Stream? _stream1;
   Stream? _stream2;
@@ -104,12 +119,155 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
   Stream? _stream8;
   Stream? _stream9;
   Stream? _stream10;
+  Stream? _stream11;
   late DataGridController _dataGridController;
   bool _isloading = true;
+
+  void initializeController() {
+    _field1Controller = TextEditingController();
+    _field2Controller = TextEditingController();
+    _field3Controller = TextEditingController();
+    _field4Controller = TextEditingController();
+    _field5Controller = TextEditingController();
+    _field6Controller = TextEditingController();
+    _field7Controller = TextEditingController();
+    _field8Controller = TextEditingController();
+  }
+
+  initializeStream() {
+    // _fieldStream = FirebaseFirestore.instance
+    //     .collection('QualityChecklistCollection')
+    //     .doc(widget.depoName)
+    //     .collection('${clntitle[_selectedIndex!]}')
+    //     .doc('July 11, 2023')
+    //     .snapshots();
+
+    _stream = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('Excavation TABLE DATA')
+        .doc('Excavation')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream1 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('BackFilling TABLE DATA')
+        .doc('BackFilling')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream2 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('Massonary TABLE DATA')
+        .doc('Massonary')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream3 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('Glazzing TABLE DATA')
+        .doc('Glazzing')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream4 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('CEILLING TABLE DATA')
+        .doc('CEILING DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream5 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('FLOORING TABLE DATA')
+        .doc('FLOORING DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream6 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('INSPECTION TABLE DATA')
+        .doc('INSPECTION DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream7 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('INRONITE TABLE DATA')
+        .doc('INRONITE DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream8 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('PAINTING TABLE DATA')
+        .doc('PAINTING DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream9 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('PAVING TABLE DATA')
+        .doc('PAVING DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+    _stream10 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('ROOFING TABLE DATA')
+        .doc('ROOFING DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream11 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc(widget.depoName)
+        .collection('PROOFING TABLE DATA')
+        .doc('PROOFING DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+  }
+
+  initializeFieldStream() {
+    FirebaseFirestore.instance
+        .collection('QualityChecklistCollection')
+        .doc(widget.depoName)
+        .collection('${clntitle[_selectedIndex!]}')
+        .doc(widget.currentDate);
+  }
 
   @override
   void initState() {
     super.initState();
+    initializeController();
+    getUserId().whenComplete(() {
+      initializeStream();
+
+      _isloading = false;
+      setState(() {});
+    });
 
     qualitylisttable1 = excavation_getData();
     _qualityExcavationDataSource = QualityExcavationDataSource(
@@ -170,13 +328,20 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
     _qualityProofingDataSource = QualityProofingDataSource(
         qualitylisttable12, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
-
-    _isloading = false;
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    _field1Controller.clear();
+    _field2Controller.clear();
+    _field3Controller.clear();
+    _field4Controller.clear();
+    _field5Controller.clear();
+    _field6Controller.clear();
+    _field7Controller.clear();
+    _field8Controller.clear();
+
+    retrieveFieldData(widget.depoName!, widget.currentDate!);
     return DefaultTabController(
         length: 12,
         child: Scaffold(
@@ -217,20 +382,22 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
               ],
             ),
           ),
-          body: TabBarView(children: [
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-            civilupperScreen(),
-          ]),
+          body: _isloading
+              ? LoadingPage()
+              : TabBarView(children: [
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                  civilupperScreen(),
+                ]),
         ));
   }
 
@@ -238,14 +405,9 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
     return _isloading
         ? LoadingPage()
         : StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('CivilQualityChecklistCollection')
-                .doc('${widget.depoName}')
-                .collection('Exc')
-                .doc('July 1, 2023')
-                .snapshots(),
+            stream: _fieldStream,
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (!snapshot.hasData) {
                 return Column(
                   children: [
                     Container(
@@ -267,576 +429,86 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          const Text('TPCL/DIST/EV/CHECKLIST ')
+                          const Text('TPCL/DIST/EV/CHECKLIST')
                         ],
                       ),
                     ),
                     Container(
                         decoration: BoxDecoration(color: lightblue),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: Text(
-                                            'Project',
-                                          )),
-                                      const SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'EmployeeName')
-                                                          ? snapshot.data!.get(
-                                                              'EmployeeName')
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        empName = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        empName =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(
-                                                        snapshot.data!
-                                                                .data()
-                                                                .toString()
-                                                                .contains(
-                                                                    'EmployeeName')
-                                                            ? snapshot.data!.get(
-                                                                    'EmployeeName') ??
-                                                                ''
-                                                            : '',
-                                                      )))),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: Text(
-                                            'P.O.No',
-                                          )),
-                                      SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'Dist EV')
-                                                          ? snapshot.data!.get(
-                                                                  'Dist EV') ??
-                                                              ''
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        distev = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        distev =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(snapshot.data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'Dist EV')
-                                                          ? snapshot.data!.get(
-                                                                  'Dist EV') ??
-                                                              ''
-                                                          : '')))),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: const Text(
-                                            'Contractor',
-                                          )),
-                                      const SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'VendorName')
-                                                          ? snapshot.data!.get(
-                                                                  'VendorName') ??
-                                                              ''
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        vendorname = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        vendorname =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(snapshot.data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'VendorName')
-                                                          ? snapshot.data!.get(
-                                                                  'VendorName') ??
-                                                              ''
-                                                          : '')))),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: Text(
-                                            'Description:',
-                                          )),
-                                      SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains('Date')
-                                                          ? snapshot.data!.get(
-                                                                  'Date') ??
-                                                              ''
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        date = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        date =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(
-                                                        snapshot.data!
-                                                                .data()
-                                                                .toString()
-                                                                .contains(
-                                                                    'Date')
-                                                            ? snapshot.data!.get(
-                                                                    'Date') ??
-                                                                ''
-                                                            : '',
-                                                      )))),
-                                    ],
-                                  ),
-                                )
-                              ],
-                              //   children: [
-                              //     HeaderValue('Employee Name', '', empName ?? ''),
-                              //     HeaderValue('Doc No.:TPCL/ DIST-EV', '', distev ?? ''),
-                              //     HeaderValue('VENDOR NAME', '', vendorname ?? ''),
-                              //     HeaderValue('DATE', '', date ?? ''),
-                              //   ],
-                              // ),
-                              // Column(
-                              //   children: [
-                              //     HeaderValue('OLA NUMBER', '', olano ?? ''),
-                              //     HeaderValue('PANEL SR NO.', '', panel ?? ''),
-                              //     HeaderValue('DepotName', '', depotname ?? ''),
-                              //     HeaderValue('CUSTOMER NAME', '', customername ?? ''),
-                              //   ],
-                            ),
-                            Column(
-                              children: [
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: Text(
-                                            'System / Bldg.',
-                                          )),
-                                      SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains('OlaNo')
-                                                          ? snapshot.data!.get(
-                                                                  'OlaNo') ??
-                                                              ''
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        olano = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        olano =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(snapshot.data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains('OlaNo')
-                                                          ? snapshot.data!.get(
-                                                                  'OlaNo') ??
-                                                              ''
-                                                          : '')))),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: const Text(
-                                            'Ref. Document 1',
-                                          )),
-                                      SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'PanelNo')
-                                                          ? snapshot.data!.get(
-                                                                  'PanelNo') ??
-                                                              ''
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        panel = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        panel =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(
-                                                        snapshot.data!
-                                                                .data()
-                                                                .toString()
-                                                                .contains(
-                                                                    'PanelNo')
-                                                            ? snapshot.data!.get(
-                                                                    'PanelNo') ??
-                                                                ''
-                                                            : '',
-                                                      )))),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: Text(
-                                            'Ref Document 2',
-                                          )),
-                                      SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'DepotName')
-                                                          ? snapshot.data!.get(
-                                                                  'DepotName') ??
-                                                              ''
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        depotname = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        depotname =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(
-                                                        snapshot.data!
-                                                                .data()
-                                                                .toString()
-                                                                .contains(
-                                                                    'DepotName')
-                                                            ? snapshot.data!.get(
-                                                                    'DepotName') ??
-                                                                ''
-                                                            : '',
-                                                      )))),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: lightblue,
-                                  width: 600,
-                                  padding: const EdgeInsets.all(3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Container(
-                                          width: 150,
-                                          child: Text(
-                                            'Ref Document 3',
-                                          )),
-                                      SizedBox(width: 5),
-                                      Expanded(
-                                          child: Container(
-                                              height: 30,
-                                              child: widget.isHeader!
-                                                  ? TextFormField(
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              contentPadding:
-                                                                  EdgeInsets.only(
-                                                                      top: 0,
-                                                                      bottom: 0,
-                                                                      left: 5)),
-                                                      initialValue: snapshot
-                                                              .data!
-                                                              .data()
-                                                              .toString()
-                                                              .contains(
-                                                                  'CustomerName')
-                                                          ? snapshot.data!.get(
-                                                                  'CustomerName') ??
-                                                              ''
-                                                          : '',
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
-                                                      onChanged: (value) {
-                                                        customername = value;
-                                                      },
-                                                      onSaved: (newValue) {
-                                                        customername =
-                                                            newValue.toString();
-                                                      },
-                                                    )
-                                                  : Container(
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          border: Border.all(
-                                                              color: blue)),
-                                                      child: Text(
-                                                        snapshot.data!
-                                                                .data()
-                                                                .toString()
-                                                                .contains(
-                                                                    'CustomerName')
-                                                            ? snapshot.data!.get(
-                                                                    'CustomerName') ??
-                                                                ''
-                                                            : '',
-                                                      )))),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        )),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              _selectedIndex == 0
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        CustomCivilTextField(
+                                            controller: _field1Controller,
+                                            title: 'Project'),
+                                        CustomCivilTextField(
+                                            controller: _field2Controller,
+                                            title: 'P.O.No.'),
+                                        CustomCivilTextField(
+                                            controller: _field3Controller,
+                                            title: 'Contractor'),
+                                        CustomCivilTextField(
+                                            controller: _field4Controller,
+                                            title: 'Description'),
+                                      ],
+                                    )
+                                  : Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        CustomCivilTextField(
+                                            controller: _field1Controller,
+                                            title: 'Vendor / Sub Vendor'),
+                                        CustomCivilTextField(
+                                            controller: _field2Controller,
+                                            title: 'Date'),
+                                        CustomCivilTextField(
+                                            controller: _field3Controller,
+                                            title: 'Grid / Axis Level'),
+                                      ],
+                                    ),
+                              _selectedIndex == 0
+                                  ? Column(
+                                      children: [
+                                        CustomCivilTextField(
+                                            controller: _field5Controller,
+                                            title: 'System / Bldg. '),
+                                        CustomCivilTextField(
+                                            controller: _field6Controller,
+                                            title: 'Ref Document 1'),
+                                        CustomCivilTextField(
+                                            controller: _field7Controller,
+                                            title: 'Ref Document 2'),
+                                        CustomCivilTextField(
+                                            controller: _field8Controller,
+                                            title: 'Ref Document 3'),
+                                      ],
+                                    )
+                                  : Column(
+                                      children: [
+                                        CustomCivilTextField(
+                                            controller: _field4Controller,
+                                            title: 'Location'),
+                                        CustomCivilTextField(
+                                            controller: _field5Controller,
+                                            title: 'Drawing no.'),
+                                        CustomCivilTextField(
+                                            controller: _field6Controller,
+                                            title:
+                                                'Component of the structure'),
+                                      ],
+                                    )
+                            ])),
                     Expanded(
                       child: StreamBuilder(
                         stream: _selectedIndex == 0
@@ -860,7 +532,10 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                             : _selectedIndex ==
                                                                     9
                                                                 ? _stream9
-                                                                : _stream10,
+                                                                : _selectedIndex ==
+                                                                        10
+                                                                    ? _stream10
+                                                                    : _stream11,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -896,7 +571,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                           ? _qualityPaintingDataSource
                                                                           : _selectedIndex == 9
                                                                               ? _qualityPavingDataSource
-                                                                              : _qualityInspectionDataSource,
+                                                                              : _qualityProofingDataSource,
                                       // _selectedIndex == 10
                                       //     ? _qualityRoofingDataSource
                                       //     : _qualityPROOFINGDataSource,
@@ -974,7 +649,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                           ),
                                         ),
                                         GridColumn(
-                                          columnName: 'Reference',
+                                          columnName: 'reference',
                                           allowEditing: true,
                                           width: 250,
                                           label: Container(
@@ -1072,23 +747,144 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                           } else if (snapshot.hasData) {
                             alldata = '';
                             alldata = snapshot.data['data'] as List<dynamic>;
-                            qualitylisttable1.clear();
-                            alldata.forEach((element) {
-                              qualitylisttable1
-                                  .add(QualitychecklistModel.fromJson(element));
+                            if (_selectedIndex == 0) {
+                              qualitylisttable1.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 1) {
+                              qualitylisttable2.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 2) {
+                              qualitylisttable3.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 3) {
+                              qualitylisttable4.clear();
+                            } else if (_selectedIndex == 4) {
+                              qualitylisttable5.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 5) {
+                              qualitylisttable6.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 6) {
+                              qualitylisttable7.clear();
+                              _dataGridController = DataGridController();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 7) {
+                              qualitylisttable8.clear();
+                              _dataGridController = DataGridController();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 8) {
+                              qualitylisttable9.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 9) {
+                              qualitylisttable10.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 10) {
+                              qualitylisttable11.clear();
+                              _dataGridController = DataGridController();
+                            } else {
+                              qualitylisttable12.clear();
+                              _dataGridController = DataGridController();
+                            }
 
-                              //  else if (_selectedIndex == 10) {
-                              //   _qualityRoofingDataSource = QualityWCRDataSource(
-                              //       qualitylisttable1,
-                              //       widget.depoName!,
-                              //       widget.cityName!);
-                              //   _dataGridController = DataGridController();
-                              // } else if (_selectedIndex == 11) {
-                              //   _qualityPROOFINGDataSource =
-                              //       QualityPROOFINGDataSource(qualitylisttable1,
-                              //           widget.depoName!, widget.cityName!);
-                              //   _dataGridController = DataGridController();
-                              // }
+                            alldata.forEach((element) {
+                              if (_selectedIndex == 0) {
+                                qualitylisttable1.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityExcavationDataSource =
+                                    QualityExcavationDataSource(
+                                        qualitylisttable1,
+                                        widget.depoName!,
+                                        widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 1) {
+                                qualitylisttable2.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityBackFillingDataSource =
+                                    QualityBackFillingDataSource(
+                                        qualitylisttable2,
+                                        widget.depoName!,
+                                        widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 2) {
+                                qualitylisttable3.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityMassonaryDataSource =
+                                    QualityMassonaryDataSource(
+                                        qualitylisttable3,
+                                        widget.depoName!,
+                                        widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 3) {
+                                qualitylisttable4.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityGlazzingDataSource =
+                                    QualityGlazzingDataSource(qualitylisttable4,
+                                        widget.depoName!, widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 4) {
+                                qualitylisttable5.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityCeillingDataSource =
+                                    QualityCeillingDataSource(qualitylisttable5,
+                                        widget.depoName!, widget.cityName!);
+
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 5) {
+                                qualitylisttable6.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityflooringDataSource =
+                                    QualityflooringDataSource(qualitylisttable6,
+                                        widget.depoName!, widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 6) {
+                                qualitylisttable7.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityInspectionDataSource =
+                                    QualityInspectionDataSource(
+                                        qualitylisttable7,
+                                        widget.depoName!,
+                                        widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 7) {
+                                qualitylisttable8.add(
+                                    QualitychecklistModel.fromJson(element));
+
+                                _qualityIroniteflooringDataSource =
+                                    QualityIroniteflooringDataSource(
+                                        qualitylisttable8,
+                                        widget.depoName!,
+                                        widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 8) {
+                                qualitylisttable9.add(
+                                    QualitychecklistModel.fromJson(element));
+
+                                _qualityPaintingDataSource =
+                                    QualityPaintingDataSource(qualitylisttable9,
+                                        widget.depoName!, widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 9) {
+                                qualitylisttable10.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityPavingDataSource =
+                                    QualityPavingDataSource(qualitylisttable10,
+                                        widget.depoName!, widget.cityName!);
+                                _dataGridController = DataGridController();
+                              } else if (_selectedIndex == 10) {
+                                qualitylisttable11.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityRoofingDataSource =
+                                    QualityRoofingDataSource(qualitylisttable11,
+                                        widget.depoName!, widget.cityName!);
+                              } else {
+                                qualitylisttable12.add(
+                                    QualitychecklistModel.fromJson(element));
+                                _qualityProofingDataSource =
+                                    QualityProofingDataSource(
+                                        qualitylisttable12,
+                                        widget.depoName!,
+                                        widget.cityName!);
+                              }
                             });
                             return SfDataGridTheme(
                               data: SfDataGridThemeData(headerColor: blue),
@@ -1113,15 +909,13 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 : _selectedIndex ==
                                                                         8
                                                                     ? _qualityPaintingDataSource
-                                                                    :
-                                                                    // _selectedIndex ==
-                                                                    //         9
-                                                                    //     ?
-                                                                    _qualityPavingDataSource,
-                                // _selectedIndex ==
-                                //         10
-                                //     ? _qualityRoofingDataSource
-                                //     : _qualityPROOFINGDataSource,
+                                                                    : _selectedIndex ==
+                                                                            9
+                                                                        ? _qualityPavingDataSource
+                                                                        : _selectedIndex ==
+                                                                                10
+                                                                            ? _qualityRoofingDataSource
+                                                                            : _qualityProofingDataSource,
 
                                 //key: key,
                                 allowEditing: true,
@@ -1189,7 +983,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                     ),
                                   ),
                                   GridColumn(
-                                    columnName: 'Reference',
+                                    columnName: 'reference',
                                     allowEditing: true,
                                     width: 250,
                                     label: Container(
@@ -1271,6 +1065,12 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
             },
           );
   }
+
+  Future<void> getUserId() async {
+    await AuthService().getCurrentUserId().then((value) {
+      userId = value;
+    });
+  }
 }
 
 civilstoreData(BuildContext context, String depoName, String currentDate) {
@@ -1281,6 +1081,7 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
   Map<String, dynamic> ceillingTableData = Map();
   Map<String, dynamic> flooringTableData = Map();
   Map<String, dynamic> inspectionTableData = Map();
+  Map<String, dynamic> inroniteTableData = Map();
   Map<String, dynamic> paintingTableData = Map();
   Map<String, dynamic> pavingTableData = Map();
   Map<String, dynamic> roofingTableData = Map();
@@ -1288,8 +1089,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
 
   for (var i in _qualityExcavationDataSource.dataGridRows) {
     for (var data in i.getCells()) {
-      if (data.columnName != 'button' ||
-          data.columnName == 'View' ||
+      if (data.columnName != 'Upload' ||
+          data.columnName != 'View' ||
           data.columnName != 'Delete') {
         excavationTableData[data.columnName] = data.value;
       }
@@ -1309,11 +1110,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
       .set({
     'data': excavationtabledatalist,
   }).whenComplete(() {
-    excavationTableData.clear();
+    excavationtabledatalist.clear();
     for (var i in _qualityBackFillingDataSource.dataGridRows) {
       for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
+        if (data.columnName != 'Upload' ||
+            data.columnName != 'View' ||
             data.columnName != 'Delete') {
           backfillingTableData[data.columnName] = data.value;
         }
@@ -1332,10 +1133,10 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
         .set({
       'data': backfillingtabledatalist,
     }).whenComplete(() {
-      backfillingTableData.clear();
+      backfillingtabledatalist.clear();
       for (var i in _qualityMassonaryDataSource.dataGridRows) {
         for (var data in i.getCells()) {
-          if (data.columnName != 'button' ||
+          if (data.columnName != 'Upload' ||
               data.columnName == 'View' ||
               data.columnName != 'Delete') {
             massonaryTableData[data.columnName] = data.value;
@@ -1354,12 +1155,12 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
           .collection(userId)
           .doc(currentDate)
           .set({
-        'data': backfillingtabledatalist,
+        'data': massonarytabledatalist,
       }).whenComplete(() {
-        massonaryTableData.clear();
+        massonarytabledatalist.clear();
         for (var i in _qualityGlazzingDataSource.dataGridRows) {
           for (var data in i.getCells()) {
-            if (data.columnName != 'button' ||
+            if (data.columnName != 'Upload' ||
                 data.columnName == 'View' ||
                 data.columnName != 'Delete') {
               doorsTableData[data.columnName] = data.value;
@@ -1379,10 +1180,10 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
             .set({
           'data': doorstabledatalist,
         }).whenComplete(() {
-          doorsTableData.clear();
+          doorstabledatalist.clear();
           for (var i in _qualityCeillingDataSource.dataGridRows) {
             for (var data in i.getCells()) {
-              if (data.columnName != 'button' || data.columnName != 'Delete') {
+              if (data.columnName != 'Upload' || data.columnName != 'Delete') {
                 ceillingTableData[data.columnName] = data.value;
               }
             }
@@ -1394,17 +1195,16 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
               .collection('QualityChecklist')
               .doc(depoName)
               .collection('CEILLING TABLE DATA')
-              .doc('CEILLING DATA')
+              .doc('CEILING DATA')
               .collection(userId)
               .doc(currentDate)
               .set({
             'data': ceillingtabledatalist,
           }).whenComplete(() {
-            ceillingTableData.clear();
+            ceillingtabledatalist.clear();
             for (var i in _qualityflooringDataSource.dataGridRows) {
               for (var data in i.getCells()) {
-                if (data.columnName != 'button' ||
-                    data.columnName == 'View' ||
+                if (data.columnName != 'Upload' ||
                     data.columnName != 'Delete') {
                   flooringTableData[data.columnName] = data.value;
                 }
@@ -1423,10 +1223,32 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                 .set({
               'data': flooringtabledatalist,
             }).whenComplete(() {
-              flooringTableData.clear();
+              // for (var i in _qualityflooringDataSource.dataGridRows) {
+              //   for (var data in i.getCells()) {
+              //     if (data.columnName != 'Upload' ||
+              //         data.columnName == 'View' ||
+              //         data.columnName != 'Delete') {
+              //       flooringTableData[data.columnName] = data.value;
+              //     }
+              //   }
+              //   flooringtabledatalist.add(flooringTableData);
+              //   flooringTableData = {};
+              // }
+
+              // FirebaseFirestore.instance
+              //     .collection('QualityChecklist')
+              //     .doc(depoName)
+              //     .collection('FLOORING TABLE DATA')
+              //     .doc('FLOORING DATA')
+              //     .collection(userId)
+              //     .doc(currentDate)
+              //     .set({
+              //   'data': flooringtabledatalist,
+              // }).whenComplete(() {
+              flooringtabledatalist.clear();
               for (var i in _qualityInspectionDataSource.dataGridRows) {
                 for (var data in i.getCells()) {
-                  if (data.columnName != 'button' ||
+                  if (data.columnName != 'Upload' ||
                       data.columnName == 'View' ||
                       data.columnName != 'Delete') {
                     inspectionTableData[data.columnName] = data.value;
@@ -1446,36 +1268,36 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                   .set({
                 'data': inspectiontabledatalist,
               }).whenComplete(() {
-                inspectionTableData.clear();
-                for (var i in _qualityflooringDataSource.dataGridRows) {
+                inspectiontabledatalist.clear();
+                for (var i in _qualityIroniteflooringDataSource.dataGridRows) {
                   for (var data in i.getCells()) {
-                    if (data.columnName != 'button' ||
-                        data.columnName == 'View' ||
+                    if (data.columnName != 'Upload' ||
+                        data.columnName != 'View' ||
                         data.columnName != 'Delete') {
-                      flooringTableData[data.columnName] = data.value;
+                      inroniteTableData[data.columnName] = data.value;
                     }
                   }
-                  flooringtabledatalist.add(flooringTableData);
-                  flooringTableData = {};
+                  inronitetabledatalist.add(inroniteTableData);
+                  inroniteTableData = {};
                 }
 
                 FirebaseFirestore.instance
                     .collection('QualityChecklist')
                     .doc(depoName)
-                    .collection('FLOORING TABLE DATA')
-                    .doc('FLOORING DATA')
+                    .collection('INRONITE TABLE DATA')
+                    .doc('INRONITE DATA')
                     .collection(userId)
                     .doc(currentDate)
                     .set({
-                  'data': flooringtabledatalist,
+                  'data': inronitetabledatalist,
                 }).whenComplete(() {
-                  flooringTableData.clear();
+                  inronitetabledatalist.clear();
                   for (var i in _qualityPaintingDataSource.dataGridRows) {
                     for (var data in i.getCells()) {
-                      if (data.columnName != 'button' ||
-                          data.columnName == 'View' ||
+                      if (data.columnName != 'Upload' ||
+                          data.columnName != 'View' ||
                           data.columnName != 'Delete') {
-                        flooringTableData[data.columnName] = data.value;
+                        paintingTableData[data.columnName] = data.value;
                       }
                     }
                     paintingtabledatalist.add(paintingTableData);
@@ -1492,10 +1314,10 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                       .set({
                     'data': paintingtabledatalist,
                   }).whenComplete(() {
-                    paintingTableData.clear();
+                    paintingtabledatalist.clear();
                     for (var i in _qualityPavingDataSource.dataGridRows) {
                       for (var data in i.getCells()) {
-                        if (data.columnName != 'button' ||
+                        if (data.columnName != 'Upload' ||
                             data.columnName == 'View' ||
                             data.columnName != 'Delete') {
                           pavingTableData[data.columnName] = data.value;
@@ -1518,7 +1340,7 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                       pavingtabledatalist.clear();
                       for (var i in _qualityRoofingDataSource.dataGridRows) {
                         for (var data in i.getCells()) {
-                          if (data.columnName != 'button' ||
+                          if (data.columnName != 'Upload' ||
                               data.columnName == 'View' ||
                               data.columnName != 'Delete') {
                             roofingTableData[data.columnName] = data.value;
@@ -1538,17 +1360,17 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                           .set({
                         'data': roofingtabledatalist,
                       }).whenComplete(() {
-                        roofingTableData.clear();
+                        roofingtabledatalist.clear();
                         for (var i in _qualityProofingDataSource.dataGridRows) {
                           for (var data in i.getCells()) {
-                            if (data.columnName != 'button' ||
+                            if (data.columnName != 'Upload' ||
                                 data.columnName == 'View' ||
                                 data.columnName != 'Delete') {
-                              roofingTableData[data.columnName] = data.value;
+                              proofingTableData[data.columnName] = data.value;
                             }
                           }
-                          roofingtabledatalist.add(roofingTableData);
-                          roofingTableData = {};
+                          proofingtabledatalist.add(proofingTableData);
+                          proofingTableData = {};
                         }
 
                         FirebaseFirestore.instance
@@ -1561,6 +1383,7 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                             .set({
                           'data': proofingtabledatalist,
                         }).whenComplete(() {
+                          proofingtabledatalist.clear();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: const Text('Data are synced'),
                             backgroundColor: blue,
@@ -1586,13 +1409,32 @@ storeFieldData(String depoName, String currentDate) {
       .collection('${clntitle[_selectedIndex!]}')
       .doc(currentDate)
       .set({
-    'EmployeeName': empName ?? 'Enter Employee Name',
-    'Dist EV': distev ?? 'Enter Dist EV',
-    'VendorName': vendorname ?? 'Enter Vendor Name',
-    'Date': date ?? 'Enter Date',
-    'OlaNo': olano ?? 'Enter Ola No',
-    'PanelNo': panel ?? 'Enter Panel',
-    'DepotName': depotname ?? 'Enter depot Name Name',
-    'CustomerName': customername ?? 'Enter Customer Name'
+    'Project': _field1Controller.text.toString(),
+    'PO No': _field2Controller.text.toString(),
+    'Contractor': _field3Controller.text.toString(),
+    'Description': _field4Controller.text.toString(),
+    'System': _field5Controller.text.toString(),
+    'Ref Document1': _field6Controller.text.toString(),
+    'Ref Document2': _field7Controller.text.toString(),
+    'Ref Document3': _field8Controller.text.toString(),
+  });
+}
+
+retrieveFieldData(String depoName, String currentDate) {
+  FirebaseFirestore.instance
+      .collection('QualityChecklistCollection')
+      .doc(depoName)
+      .collection('${clntitle[_selectedIndex!]}')
+      .doc(currentDate)
+      .get()
+      .then((value) {
+    _field1Controller.text = value.data()!['Project'];
+    _field2Controller.text = value.data()!['PO No'];
+    _field3Controller.text = value.data()!['Contractor'];
+    _field4Controller.text = value.data()!['Description'];
+    _field5Controller.text = value.data()!['System'];
+    _field6Controller.text = value.data()!['Ref Document1'];
+    _field7Controller.text = value.data()!['Ref Document2'];
+    _field8Controller.text = value.data()!['Ref Document3'];
   });
 }

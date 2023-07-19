@@ -1,6 +1,7 @@
 import 'package:assingment/Planning_Pages/quality_checklist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
@@ -73,8 +74,8 @@ class _ElectricalQualityChecklistState
   List<QualitychecklistModel> qualitylisttable8 = <QualitychecklistModel>[];
   List<QualitychecklistModel> qualitylisttable9 = <QualitychecklistModel>[];
   List<QualitychecklistModel> qualitylisttable10 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable11 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable12 = <QualitychecklistModel>[];
+  // List<QualitychecklistModel> qualitylisttable11 = <QualitychecklistModel>[];
+  // List<QualitychecklistModel> qualitylisttable12 = <QualitychecklistModel>[];
 
 // late QualityChecklistDataSource _checklistDataSource;
 
@@ -88,8 +89,8 @@ class _ElectricalQualityChecklistState
   Stream? _stream7;
   Stream? _stream8;
   Stream? _stream9;
-  Stream? _stream10;
-  Stream? _stream11;
+//  Stream? _stream10;
+
   late DataGridController _dataGridController;
   bool _isloading = true;
   int? _selectedIndex = 0;
@@ -147,6 +148,96 @@ class _ElectricalQualityChecklistState
     _qualityEPDataSource = QualityEPDataSource(
         qualitylisttable10, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
+
+    _stream = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('PSS TABLE DATA')
+        .doc('PSS')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream1 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('RMU TABLE DATA')
+        .doc('RMU')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream2 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('CONVENTIONAL TRANSFORMER TABLE DATA')
+        .doc('CONVENTIONAL TRANSFORMER')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream3 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('CTPT METERING UNIT TABLE DATA')
+        .doc('CTPT METERING UNIT')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream4 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('ACDB TABLE DATA')
+        .doc('ACDB DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream5 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('CABLE INSTALLATION TABLE DATA')
+        .doc('CABLE INSTALLATION')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream6 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('CDI TABLE DATA')
+        .doc('CDI DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream7 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('MSP TABLE DATA')
+        .doc('MSP DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream8 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('CHARGER TABLE DATA')
+        .doc('CHARGER DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
+
+    _stream9 = FirebaseFirestore.instance
+        .collection('QualityChecklist')
+        .doc('${widget.depoName}')
+        .collection('EARTH TABLE DATA')
+        .doc('EARTH DATA')
+        .collection(userId)
+        .doc(widget.currentDate)
+        .snapshots();
     _isloading = false;
     setState(() {});
   }
@@ -259,7 +350,7 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            'Employee Name',
+                                            '',
                                           )),
                                       const SizedBox(width: 5),
                                       Expanded(
@@ -282,7 +373,7 @@ class _ElectricalQualityChecklistState
                                                                   'EmployeeName')
                                                           ? snapshot.data!.get(
                                                               'EmployeeName')
-                                                          : 'Employee Name',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -310,7 +401,7 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'EmployeeName') ??
                                                                 ''
-                                                            : 'Employee Name',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
@@ -350,7 +441,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'Dist EV') ??
                                                               ''
-                                                          : 'Dist EV',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -377,7 +468,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'Dist EV') ??
                                                               ''
-                                                          : 'Dist EV')))),
+                                                          : '')))),
                                     ],
                                   ),
                                 ),
@@ -416,7 +507,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'VendorName') ??
                                                               ''
-                                                          : 'VendorName',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -443,7 +534,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'VendorName') ??
                                                               ''
-                                                          : 'VendorName')))),
+                                                          : '')))),
                                     ],
                                   ),
                                 ),
@@ -481,7 +572,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'Date') ??
                                                               ''
-                                                          : 'Date',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -509,7 +600,7 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'Date') ??
                                                                 ''
-                                                            : 'Date',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
@@ -566,7 +657,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'OlaNo') ??
                                                               ''
-                                                          : 'OlaNo',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -592,7 +683,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'OlaNo') ??
                                                               ''
-                                                          : 'OlaNo')))),
+                                                          : '')))),
                                     ],
                                   ),
                                 ),
@@ -631,7 +722,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'PanelNo') ??
                                                               ''
-                                                          : 'PanelNo',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -659,7 +750,7 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'PanelNo') ??
                                                                 ''
-                                                            : 'PanelNo',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
@@ -699,7 +790,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'DepotName') ??
                                                               ''
-                                                          : 'DepotName',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -727,7 +818,7 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'DepotName') ??
                                                                 ''
-                                                            : 'DepotName',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
@@ -767,7 +858,7 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'CustomerName') ??
                                                               ''
-                                                          : 'CustomerName',
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
                                                       onChanged: (value) {
@@ -795,7 +886,7 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'CustomerName') ??
                                                                 ''
-                                                            : 'CustomerName',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
@@ -824,13 +915,7 @@ class _ElectricalQualityChecklistState
                                                         ? _stream7
                                                         : _selectedIndex == 8
                                                             ? _stream8
-                                                            : _selectedIndex ==
-                                                                    9
-                                                                ? _stream9
-                                                                : _selectedIndex ==
-                                                                        10
-                                                                    ? _stream10
-                                                                    : _stream11,
+                                                            : _stream9,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -1060,64 +1145,114 @@ class _ElectricalQualityChecklistState
                           } else if (snapshot.hasData) {
                             alldata = '';
                             alldata = snapshot.data['data'] as List<dynamic>;
-                            qualitylisttable1.clear();
+                            if (_selectedIndex == 0) {
+                              qualitylisttable1.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 1) {
+                              qualitylisttable2.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 2) {
+                              qualitylisttable3.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 3) {
+                              qualitylisttable4.clear();
+                            } else if (_selectedIndex == 4) {
+                              qualitylisttable5.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 5) {
+                              qualitylisttable6.clear();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 6) {
+                              qualitylisttable7.clear();
+                              _dataGridController = DataGridController();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 7) {
+                              qualitylisttable8.clear();
+                              _dataGridController = DataGridController();
+                              _dataGridController = DataGridController();
+                            } else if (_selectedIndex == 8) {
+                              qualitylisttable9.clear();
+                              _dataGridController = DataGridController();
+                            } else {
+                              qualitylisttable10.clear();
+                              _dataGridController = DataGridController();
+                            }
+
                             alldata.forEach((element) {
-                              qualitylisttable1
-                                  .add(QualitychecklistModel.fromJson(element));
                               if (_selectedIndex == 0) {
+                                qualitylisttable1.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityPSSDataSource = QualityPSSDataSource(
                                     qualitylisttable1,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 1) {
+                                qualitylisttable2.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityrmuDataSource = QualityrmuDataSource(
                                     qualitylisttable2,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 2) {
+                                qualitylisttable3.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityctDataSource = QualityctDataSource(
                                     qualitylisttable3,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 3) {
+                                qualitylisttable4.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualitycmuDataSource = QualitycmuDataSource(
                                     qualitylisttable4,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 4) {
+                                qualitylisttable5.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityacdDataSource = QualityacdDataSource(
                                     qualitylisttable5,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 5) {
+                                qualitylisttable6.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityCIDataSource = QualityCIDataSource(
                                     qualitylisttable6,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 6) {
+                                qualitylisttable7.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityCDIDataSource = QualityCDIDataSource(
                                     qualitylisttable7,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 7) {
+                                qualitylisttable8.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityMSPDataSource = QualityMSPDataSource(
                                     qualitylisttable8,
                                     widget.cityName!,
                                     widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 8) {
+                                qualitylisttable9.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityChargerDataSource =
                                     QualityChargerDataSource(qualitylisttable9,
                                         widget.cityName!, widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 9) {
+                                qualitylisttable10.add(
+                                    QualitychecklistModel.fromJson(element));
                                 _qualityEPDataSource = QualityEPDataSource(
                                     qualitylisttable10,
                                     widget.cityName!,

@@ -479,9 +479,8 @@ class QualityPavingDataSource extends DataGridSource {
       _checklistModel[dataRowIndex].responsibility = newCellValue.toString();
     } else if (column.columnName == 'reference') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<dynamic>(
-              columnName: 'reference', value: newCellValue as int);
-      _checklistModel[dataRowIndex].reference = newCellValue as dynamic;
+          DataGridCell<dynamic>(columnName: 'reference', value: newCellValue);
+      _checklistModel[dataRowIndex].reference = newCellValue;
     } else {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<String>(columnName: 'observation', value: newCellValue);

@@ -6,6 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'image_page.dart';
 
 class ViewAllPdf extends StatefulWidget {
@@ -91,27 +93,33 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
     );
   }
 
-  Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
-        // leading: ClipOval(
-        //   child: Image.network(
-        //     file.url,
-        //     width: 52,
-        //     height: 52,
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
-        title: Text(
-          file.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-            color: Colors.blue,
-          ),
+  Widget buildFile(BuildContext context, FirebaseFile file) {
+    final isImage = ['.jpeg', '.jpg', '.png'].any(file.name.contains);
+    final isPdf = ['.pdf'].any(file.name.contains);
+    final isexcel = ['.xlsx'].any(file.name.contains);
+    return Column(
+      children: [
+        InkWell(
+          child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
+              alignment: Alignment.center,
+              height: 120,
+              width: 120,
+              child: isImage
+                  ? Image.network(
+                      file.url,
+                      fit: BoxFit.fill,
+                    )
+                  : Image.asset('assets/pdf_logo.png')),
+          //PdfThumbnail.fromFile(file.ref.fullPath, currentPage: 2)),
+          onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ImagePage(file: file))),
         ),
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ImagePage(file: file),
-        )),
-      );
+        Text(file.name)
+      ],
+    );
+  }
 
   Widget buildHeader(int length) => ListTile(
         tileColor: Colors.blue,

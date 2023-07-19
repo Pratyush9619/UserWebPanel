@@ -912,7 +912,8 @@ class _StatutoryAprovalA4State extends State<StatutoryAprovalA4> {
     Map<String, dynamic> table_data = Map();
     for (var i in _employeeDataSource.dataGridRows) {
       for (var data in i.getCells()) {
-        if (data.columnName != 'button') {
+        if (data.columnName != 'viewbutton' &&
+            data.columnName != 'uploadbutton') {
           table_data[data.columnName] = data.value;
         }
       }

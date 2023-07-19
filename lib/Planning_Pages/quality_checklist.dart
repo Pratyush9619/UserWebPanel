@@ -247,6 +247,7 @@ class _QualityChecklistState extends State<QualityChecklist> {
                                             depoName: widget.depoName,
                                             cityName: widget.cityName,
                                             id: 'Quality Checklist',
+                                            userId: userId,
                                             selectedtab:
                                                 _selectedIndex.toString(),
                                             isHeader: false,
@@ -352,10 +353,14 @@ class _QualityChecklistState extends State<QualityChecklist> {
             ),
             body: TabBarView(children: [
               CivilQualityChecklist(
-                  cityName: widget.cityName, depoName: widget.depoName),
+                cityName: widget.cityName,
+                depoName: widget.depoName,
+                currentDate: widget.currentDate,
+              ),
               ElectricalQualityChecklist(
                   cityName: widget.cityName,
                   depoName: widget.depoName,
+                  currentDate: widget.currentDate,
                   userId: userId)
             ]),
           )),
