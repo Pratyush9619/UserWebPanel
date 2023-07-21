@@ -1,5 +1,6 @@
 import 'package:assingment/Planning_Pages/quality_checklist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -143,109 +144,109 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
     //     .snapshots();
 
     _stream = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('Excavation TABLE DATA')
-        .doc('Excavation')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Exc TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream1 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('BackFilling TABLE DATA')
-        .doc('BackFilling')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('BackFilling TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream2 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('Massonary TABLE DATA')
-        .doc('Massonary')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Massonary TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream3 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('Glazzing TABLE DATA')
-        .doc('Glazzing')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Glazzing TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream4 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('CEILLING TABLE DATA')
-        .doc('CEILING DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Ceilling TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream5 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('FLOORING TABLE DATA')
-        .doc('FLOORING DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Flooring TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream6 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('INSPECTION TABLE DATA')
-        .doc('INSPECTION DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Inspection TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream7 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('INRONITE TABLE DATA')
-        .doc('INRONITE DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Ironite TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream8 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('PAINTING TABLE DATA')
-        .doc('PAINTING DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Painting TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream9 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('PAVING TABLE DATA')
-        .doc('PAVING DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Paving TABLE')
         .doc(widget.currentDate)
         .snapshots();
     _stream10 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('ROOFING TABLE DATA')
-        .doc('ROOFING DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Roofing TABLE')
         .doc(widget.currentDate)
         .snapshots();
 
     _stream11 = FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(widget.depoName)
-        .collection('PROOFING TABLE DATA')
-        .doc('PROOFING DATA')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('Proofing TABLE')
         .doc(widget.currentDate)
         .snapshots();
   }
@@ -254,7 +255,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
     FirebaseFirestore.instance
         .collection('QualityChecklistCollection')
         .doc(widget.depoName)
-        .collection('${clntitle[_selectedIndex!]}')
+        .collection('${clntitle[_selectedIndex!]} TABLE')
         .doc(widget.currentDate);
   }
 
@@ -1101,11 +1102,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
   }
 
   FirebaseFirestore.instance
-      .collection('QualityChecklist')
+      .collection('CivilQualityChecklist')
       .doc(depoName)
-      .collection('Excavation TABLE DATA')
-      .doc('Excavation')
-      .collection(userId)
+      .collection('userId')
+      .doc(userId)
+      .collection('Exc TABLE')
       .doc(currentDate)
       .set({
     'data': excavationtabledatalist,
@@ -1124,11 +1125,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
     }
 
     FirebaseFirestore.instance
-        .collection('QualityChecklist')
+        .collection('CivilQualityChecklist')
         .doc(depoName)
-        .collection('BackFilling TABLE DATA')
-        .doc('BackFilling')
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('BackFilling TABLE')
         .doc(currentDate)
         .set({
       'data': backfillingtabledatalist,
@@ -1148,11 +1149,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
       }
 
       FirebaseFirestore.instance
-          .collection('QualityChecklist')
+          .collection('CivilQualityChecklist')
           .doc(depoName)
-          .collection('Massonary TABLE DATA')
-          .doc('Massonary')
-          .collection(userId)
+          .collection('userId')
+          .doc(userId)
+          .collection('Massonary TABLE')
           .doc(currentDate)
           .set({
         'data': massonarytabledatalist,
@@ -1160,8 +1161,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
         massonarytabledatalist.clear();
         for (var i in _qualityGlazzingDataSource.dataGridRows) {
           for (var data in i.getCells()) {
-            if (data.columnName != 'Upload' ||
-                data.columnName == 'View' ||
+            if (data.columnName != 'Upload' &&
+                data.columnName != 'View' &&
                 data.columnName != 'Delete') {
               doorsTableData[data.columnName] = data.value;
             }
@@ -1171,11 +1172,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
         }
 
         FirebaseFirestore.instance
-            .collection('QualityChecklist')
+            .collection('CivilQualityChecklist')
             .doc(depoName)
-            .collection('Glazzing TABLE DATA')
-            .doc('Glazzing')
-            .collection(userId)
+            .collection('userId')
+            .doc(userId)
+            .collection('Glazzing TABLE')
             .doc(currentDate)
             .set({
           'data': doorstabledatalist,
@@ -1183,7 +1184,9 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
           doorstabledatalist.clear();
           for (var i in _qualityCeillingDataSource.dataGridRows) {
             for (var data in i.getCells()) {
-              if (data.columnName != 'Upload' || data.columnName != 'Delete') {
+              if (data.columnName != 'Upload' &&
+                  data.columnName != 'View' &&
+                  data.columnName != 'Delete') {
                 ceillingTableData[data.columnName] = data.value;
               }
             }
@@ -1192,11 +1195,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
           }
 
           FirebaseFirestore.instance
-              .collection('QualityChecklist')
+              .collection('CivilQualityChecklist')
               .doc(depoName)
-              .collection('CEILLING TABLE DATA')
-              .doc('CEILING DATA')
-              .collection(userId)
+              .collection('userId')
+              .doc(userId)
+              .collection('Ceilling TABLE')
               .doc(currentDate)
               .set({
             'data': ceillingtabledatalist,
@@ -1204,7 +1207,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
             ceillingtabledatalist.clear();
             for (var i in _qualityflooringDataSource.dataGridRows) {
               for (var data in i.getCells()) {
-                if (data.columnName != 'Upload' ||
+                if (data.columnName != 'Upload' &&
+                    data.columnName != 'View' &&
                     data.columnName != 'Delete') {
                   flooringTableData[data.columnName] = data.value;
                 }
@@ -1214,11 +1218,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
             }
 
             FirebaseFirestore.instance
-                .collection('QualityChecklist')
+                .collection('CivilQualityChecklist')
                 .doc(depoName)
-                .collection('FLOORING TABLE DATA')
-                .doc('FLOORING DATA')
-                .collection(userId)
+                .collection('userId')
+                .doc(userId)
+                .collection('Flooring TABLE')
                 .doc(currentDate)
                 .set({
               'data': flooringtabledatalist,
@@ -1248,8 +1252,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
               flooringtabledatalist.clear();
               for (var i in _qualityInspectionDataSource.dataGridRows) {
                 for (var data in i.getCells()) {
-                  if (data.columnName != 'Upload' ||
-                      data.columnName == 'View' ||
+                  if (data.columnName != 'Upload' &&
+                      data.columnName != 'View' &&
                       data.columnName != 'Delete') {
                     inspectionTableData[data.columnName] = data.value;
                   }
@@ -1259,11 +1263,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
               }
 
               FirebaseFirestore.instance
-                  .collection('QualityChecklist')
+                  .collection('CivilQualityChecklist')
                   .doc(depoName)
-                  .collection('INSPECTION TABLE DATA')
-                  .doc('INSPECTION DATA')
-                  .collection(userId)
+                  .collection('userId')
+                  .doc(userId)
+                  .collection('Inspection TABLE')
                   .doc(currentDate)
                   .set({
                 'data': inspectiontabledatalist,
@@ -1271,8 +1275,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                 inspectiontabledatalist.clear();
                 for (var i in _qualityIroniteflooringDataSource.dataGridRows) {
                   for (var data in i.getCells()) {
-                    if (data.columnName != 'Upload' ||
-                        data.columnName != 'View' ||
+                    if (data.columnName != 'Upload' &&
+                        data.columnName != 'View' &&
                         data.columnName != 'Delete') {
                       inroniteTableData[data.columnName] = data.value;
                     }
@@ -1282,11 +1286,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                 }
 
                 FirebaseFirestore.instance
-                    .collection('QualityChecklist')
+                    .collection('CivilQualityChecklist')
                     .doc(depoName)
-                    .collection('INRONITE TABLE DATA')
-                    .doc('INRONITE DATA')
-                    .collection(userId)
+                    .collection('userId')
+                    .doc(userId)
+                    .collection('Ironite TABLE')
                     .doc(currentDate)
                     .set({
                   'data': inronitetabledatalist,
@@ -1294,8 +1298,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                   inronitetabledatalist.clear();
                   for (var i in _qualityPaintingDataSource.dataGridRows) {
                     for (var data in i.getCells()) {
-                      if (data.columnName != 'Upload' ||
-                          data.columnName != 'View' ||
+                      if (data.columnName != 'Upload' &&
+                          data.columnName != 'View' &&
                           data.columnName != 'Delete') {
                         paintingTableData[data.columnName] = data.value;
                       }
@@ -1305,11 +1309,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                   }
 
                   FirebaseFirestore.instance
-                      .collection('QualityChecklist')
+                      .collection('CivilQualityChecklist')
                       .doc(depoName)
-                      .collection('PAINTING TABLE DATA')
-                      .doc('PAINTING DATA')
-                      .collection(userId)
+                      .collection('userId')
+                      .doc(userId)
+                      .collection('Painting TABLE')
                       .doc(currentDate)
                       .set({
                     'data': paintingtabledatalist,
@@ -1317,8 +1321,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                     paintingtabledatalist.clear();
                     for (var i in _qualityPavingDataSource.dataGridRows) {
                       for (var data in i.getCells()) {
-                        if (data.columnName != 'Upload' ||
-                            data.columnName == 'View' ||
+                        if (data.columnName != 'Upload' &&
+                            data.columnName != 'View' &&
                             data.columnName != 'Delete') {
                           pavingTableData[data.columnName] = data.value;
                         }
@@ -1328,11 +1332,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                     }
 
                     FirebaseFirestore.instance
-                        .collection('QualityChecklist')
+                        .collection('CivilQualityChecklist')
                         .doc(depoName)
-                        .collection('PAVING TABLE DATA')
-                        .doc('PAVING DATA')
-                        .collection(userId)
+                        .collection('userId')
+                        .doc(userId)
+                        .collection('Paving TABLE')
                         .doc(currentDate)
                         .set({
                       'data': pavingtabledatalist,
@@ -1340,8 +1344,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                       pavingtabledatalist.clear();
                       for (var i in _qualityRoofingDataSource.dataGridRows) {
                         for (var data in i.getCells()) {
-                          if (data.columnName != 'Upload' ||
-                              data.columnName == 'View' ||
+                          if (data.columnName != 'Upload' &&
+                              data.columnName != 'View' &&
                               data.columnName != 'Delete') {
                             roofingTableData[data.columnName] = data.value;
                           }
@@ -1351,11 +1355,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                       }
 
                       FirebaseFirestore.instance
-                          .collection('QualityChecklist')
+                          .collection('CivilQualityChecklist')
                           .doc(depoName)
-                          .collection('ROOFING TABLE DATA')
-                          .doc('ROOFING DATA')
-                          .collection(userId)
+                          .collection('userId')
+                          .doc(userId)
+                          .collection('Roofing TABLE')
                           .doc(currentDate)
                           .set({
                         'data': roofingtabledatalist,
@@ -1363,8 +1367,8 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                         roofingtabledatalist.clear();
                         for (var i in _qualityProofingDataSource.dataGridRows) {
                           for (var data in i.getCells()) {
-                            if (data.columnName != 'Upload' ||
-                                data.columnName == 'View' ||
+                            if (data.columnName != 'Upload' &&
+                                data.columnName != 'View' &&
                                 data.columnName != 'Delete') {
                               proofingTableData[data.columnName] = data.value;
                             }
@@ -1374,11 +1378,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                         }
 
                         FirebaseFirestore.instance
-                            .collection('QualityChecklist')
+                            .collection('CivilQualityChecklist')
                             .doc(depoName)
-                            .collection('PROOFING TABLE DATA')
-                            .doc('PROOFING DATA')
-                            .collection(userId)
+                            .collection('userId')
+                            .doc(userId)
+                            .collection('Proofing TABLE')
                             .doc(currentDate)
                             .set({
                           'data': proofingtabledatalist,
@@ -1404,9 +1408,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
 
 storeFieldData(String depoName, String currentDate) {
   FirebaseFirestore.instance
-      .collection('QualityChecklistCollection')
+      .collection('CivilChecklistField')
       .doc(depoName)
-      .collection('${clntitle[_selectedIndex!]}')
+      .collection('userId')
+      .doc(userId)
+      .collection('${clntitle[_selectedIndex!]} TABLE')
       .doc(currentDate)
       .set({
     'Project': _field1Controller.text.toString(),
@@ -1422,9 +1428,11 @@ storeFieldData(String depoName, String currentDate) {
 
 retrieveFieldData(String depoName, String currentDate) {
   FirebaseFirestore.instance
-      .collection('QualityChecklistCollection')
+      .collection('CivilChecklistField')
       .doc(depoName)
-      .collection('${clntitle[_selectedIndex!]}')
+      .collection('userId')
+      .doc(userId)
+      .collection('${clntitle[_selectedIndex!]} TABLE')
       .doc(currentDate)
       .get()
       .then((value) {

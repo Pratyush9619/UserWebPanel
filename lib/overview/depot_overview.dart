@@ -1461,28 +1461,27 @@ class _DepotOverviewState extends State<DepotOverview> {
                   width: MediaQuery.of(context).size.width,
                   child: Column(children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         OverviewField(
                             'Depots location and Address ', _addressController),
-                        const SizedBox(height: 5),
                         OverviewField('No of Buses in Scope', _scopeController),
-                        const SizedBox(height: 5),
                         OverviewField(
                             'No. of Charger Required ', _chargerController)
                       ],
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         OverviewField('Rating of Charger', _ratingController),
-                        const SizedBox(height: 5),
                         OverviewField(
                             'Required Sanctioned load', _loadController),
-                        const SizedBox(height: 5),
                         OverviewField('Existing Utility Of PowerSource ',
                             _powersourceController)
                       ],
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1500,54 +1499,25 @@ class _DepotOverviewState extends State<DepotOverview> {
                         //     ),
                         //   ],
                         // ),
-                        const SizedBox(height: 5),
+
                         OverviewField('Project Manager ',
                             _elctricalManagerNameController),
-                        const SizedBox(height: 5),
+
                         OverviewField('Electrical Engineer',
                             _electricalEngineerController),
 
-                        const SizedBox(height: 5),
                         OverviewField(
                             'Electrical Vendor', _electricalVendorController),
-
-                        const SizedBox(height: 5),
                       ],
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Row(
-                          children: [
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     Container(
-                            //       padding: const EdgeInsets.all(5),
-                            //       decoration: BoxDecoration(
-                            //           borderRadius: BorderRadius.circular(10),
-                            //           color: blue),
-                            //       child: Text('Civil',
-                            //           style: TextStyle(
-                            //               fontSize: 16,
-                            //               fontWeight: FontWeight.bold,
-                            //               color: white)),
-                            //     ),
-                            //   ],
-                            // ),
-                            const SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                OverviewField('Civil Manager',
-                                    _civilManagerNameController),
-                                OverviewField('Civil Engineer ',
-                                    _civilEngineerController),
-                                OverviewField(
-                                    'Civil Vendor', _civilVendorController),
-                              ],
-                            ),
-                          ],
-                        ),
+                        OverviewField(
+                            'Civil Manager', _civilManagerNameController),
+                        OverviewField(
+                            'Civil Engineer ', _civilEngineerController),
+                        OverviewField('Civil Vendor', _civilVendorController),
                       ],
                     ),
                     Padding(
@@ -2121,7 +2091,7 @@ class _DepotOverviewState extends State<DepotOverview> {
             child: Text(title, textAlign: TextAlign.start, style: formtext),
           ),
           Container(
-            width: 180,
+            width: 200,
             child: CustomTextField(
               controller: controller,
             ),

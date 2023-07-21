@@ -291,8 +291,12 @@ class _QualityChecklistState extends State<QualityChecklist> {
                                     //   'CustomerName':
                                     //       customername ?? 'Enter Customer Name'
                                     // });
-                                    storeFieldData(
-                                        widget.depoName!, widget.currentDate!);
+                                    _selectedIndex == 0
+                                        ? storeFieldData(widget.depoName!,
+                                            widget.currentDate!)
+                                        : storeElectricalFieldData(
+                                            widget.depoName!,
+                                            widget.currentDate!);
                                     _selectedIndex == 0
                                         ? civilstoreData(
                                             context,
