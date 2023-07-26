@@ -1,5 +1,6 @@
 import 'package:assingment/Planning_Pages/electrical_quality_checklist.dart';
 import 'package:assingment/Planning_Pages/summary.dart';
+import 'package:assingment/components/Loading_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -271,39 +272,19 @@ class _QualityChecklistState extends State<QualityChecklist> {
                                   color: lightblue),
                               child: TextButton(
                                   onPressed: () {
-                                    // FirebaseFirestore.instance
-                                    //     .collection(
-                                    //         'QualityChecklistCollection')
-                                    //     .doc('${widget.depoName}')
-                                    //     .collection('ChecklistData')
-                                    //     .doc(widget.currentDate)
-                                    //     .set({
-                                    //   'EmployeeName':
-                                    //       empName ?? 'Enter Employee Name',
-                                    //   'Dist EV': distev ?? 'Enter Dist EV',
-                                    //   'VendorName':
-                                    //       vendorname ?? 'Enter Vendor Name',
-                                    //   'Date': date ?? 'Enter Date',
-                                    //   'OlaNo': olano ?? 'Enter Ola No',
-                                    //   'PanelNo': panel ?? 'Enter Panel',
-                                    //   'DepotName':
-                                    //       depotname ?? 'Enter depot Name Name',
-                                    //   'CustomerName':
-                                    //       customername ?? 'Enter Customer Name'
-                                    // });
-                                    _selectedIndex == 0
-                                        ? storeFieldData(widget.depoName!,
-                                            widget.currentDate!)
-                                        : storeElectricalFieldData(
-                                            widget.depoName!,
-                                            widget.currentDate!);
-                                    _selectedIndex == 0
-                                        ? civilstoreData(
-                                            context,
-                                            widget.depoName!,
-                                            widget.currentDate!)
-                                        : storeData(context, widget.depoName!,
-                                            widget.currentDate!);
+                                    if (_selectedIndex == 0) {
+                                      civilstoreData(context, widget.depoName!,
+                                          widget.currentDate!);
+                                      storeFieldData(widget.depoName!,
+                                          widget.currentDate!);
+                                    } else {
+                                      storeElectricalData(
+                                          context,
+                                          widget.depoName!,
+                                          widget.currentDate!);
+                                      storeElectricalFieldData(widget.depoName!,
+                                          widget.currentDate!);
+                                    }
                                   },
                                   child: Text(
                                     'Sync Data',

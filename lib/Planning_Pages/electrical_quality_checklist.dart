@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+import '../FirebaseApi/firebase_api.dart';
 import '../QualityDatasource/qualityElectricalDatasource/quality_EP.dart';
 import '../QualityDatasource/qualityElectricalDatasource/quality_acdb.dart';
 import '../QualityDatasource/qualityElectricalDatasource/quality_cdi.dart';
@@ -46,11 +47,11 @@ List<dynamic> eptabledatalist = [];
 late TextEditingController _empName;
 late TextEditingController _tpcl;
 late TextEditingController _vendorName;
+late TextEditingController _location;
 late TextEditingController _date;
 late TextEditingController _olaNo;
 late TextEditingController _panelNo;
 late TextEditingController _depotName;
-late TextEditingController _customeName;
 
 int? _selectedIndex = 0;
 List elntitle = [
@@ -126,7 +127,7 @@ class _ElectricalQualityChecklistState
     _olaNo = TextEditingController();
     _panelNo = TextEditingController();
     _depotName = TextEditingController();
-    _customeName = TextEditingController();
+    _location = TextEditingController();
     // _field2Controller = TextEditingController();
     // _field3Controller = TextEditingController();
     // _field4Controller = TextEditingController();
@@ -139,56 +140,57 @@ class _ElectricalQualityChecklistState
   @override
   void initState() {
     super.initState();
+
     initializeController();
 
     qualitylisttable1 = getData();
     _qualityPSSDataSource = QualityPSSDataSource(
-        qualitylisttable1, widget.depoName!, widget.cityName!);
+        qualitylisttable1, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable2 = rmu_getData();
     _qualityrmuDataSource = QualityrmuDataSource(
-        qualitylisttable2, widget.depoName!, widget.cityName!);
+        qualitylisttable2, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable3 = ct_getData();
     _qualityctDataSource = QualityctDataSource(
-        qualitylisttable3, widget.depoName!, widget.cityName!);
+        qualitylisttable3, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable4 = cmu_getData();
     _qualitycmuDataSource = QualitycmuDataSource(
-        qualitylisttable4, widget.depoName!, widget.cityName!);
+        qualitylisttable4, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable5 = acdb_getData();
     _qualityacdDataSource = QualityacdDataSource(
-        qualitylisttable5, widget.depoName!, widget.cityName!);
+        qualitylisttable5, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable6 = ci_getData();
     _qualityCIDataSource = QualityCIDataSource(
-        qualitylisttable6, widget.depoName!, widget.cityName!);
+        qualitylisttable6, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable7 = cdi_getData();
     _qualityCDIDataSource = QualityCDIDataSource(
-        qualitylisttable7, widget.depoName!, widget.cityName!);
+        qualitylisttable7, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable8 = msp_getData();
     _qualityMSPDataSource = QualityMSPDataSource(
-        qualitylisttable8, widget.depoName!, widget.cityName!);
+        qualitylisttable8, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable9 = charger_getData();
     _qualityChargerDataSource = QualityChargerDataSource(
-        qualitylisttable9, widget.depoName!, widget.cityName!);
+        qualitylisttable9, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable10 = earth_pit_getData();
     _qualityEPDataSource = QualityEPDataSource(
-        qualitylisttable10, widget.depoName!, widget.cityName!);
+        qualitylisttable10, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     _stream = FirebaseFirestore.instance
@@ -286,6 +288,15 @@ class _ElectricalQualityChecklistState
 
   @override
   Widget build(BuildContext context) {
+    _empName.clear();
+    _tpcl.clear();
+    _vendorName.clear();
+    _date.clear();
+    _olaNo.clear();
+    _panelNo.clear();
+    _depotName.clear();
+    _location.clear();
+    retrieveElectricalFieldData(widget.depoName!, widget.currentDate!);
     return DefaultTabController(
         length: 10,
         child: Scaffold(
@@ -393,7 +404,7 @@ class _ElectricalQualityChecklistState
                                     controller: _vendorName,
                                     title: 'Vendor Name'),
                                 CustomCivilTextField(
-                                    controller: _date, title: 'Date'),
+                                    controller: _location, title: 'Location'),
                                 // Container(
                                 //   color: lightblue,
                                 //   width: 625,
@@ -1682,7 +1693,7 @@ class _ElectricalQualityChecklistState
   }
 }
 
-storeData(BuildContext context, String depoName, String currentDate) {
+storeElectricalData(BuildContext context, String depoName, String currentDate) {
   Map<String, dynamic> pssTableData = Map();
   Map<String, dynamic> rmuTableData = Map();
   Map<String, dynamic> ctTableData = Map();
@@ -1924,6 +1935,11 @@ storeData(BuildContext context, String depoName, String currentDate) {
                       'data': eptabledatalist,
                     }).whenComplete(() {
                       eptabledatalist.clear();
+                      FirebaseApi().nestedKeyEventsField(
+                          'ElectricalQualityChecklist',
+                          depoName,
+                          'userId',
+                          userId);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Text('Data are synced'),
                         backgroundColor: blue,
@@ -1956,6 +1972,29 @@ storeElectricalFieldData(String depoName, String currentDate) {
     'Ola No': _olaNo.text.toString(),
     'Panel No': _panelNo.text.toString(),
     'Depot Name': _depotName.text.toString(),
-    'Customer Name': _customeName.text.toString(),
+    'Location Name': _location.text.toString(),
+  });
+  FirebaseApi().nestedKeyEventsField(
+      'ElectricalChecklistField', depoName, 'userId', userId);
+}
+
+retrieveElectricalFieldData(String depoName, String currentDate) {
+  FirebaseFirestore.instance
+      .collection('ElectricalChecklistField')
+      .doc(depoName)
+      .collection('userId')
+      .doc(userId)
+      .collection('${elntitle[_selectedIndex!]} TABLE')
+      .doc(currentDate)
+      .get()
+      .then((value) {
+    _empName.text = value.data()!['Employee Name'];
+    _tpcl.text = value.data()!['TPCL'];
+    _vendorName.text = value.data()!['Vendor Name'];
+    _date.text = value.data()!['Date'];
+    _olaNo.text = value.data()!['Ola No'];
+    _panelNo.text = value.data()!['Panel No'];
+    _depotName.text = value.data()!['Depot Name'];
+    _location.text = value.data()!['Location Name'];
   });
 }

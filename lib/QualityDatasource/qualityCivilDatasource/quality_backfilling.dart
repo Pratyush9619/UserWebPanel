@@ -1,3 +1,4 @@
+import 'package:assingment/KeysEvents/view_AllFiles.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,6 +50,7 @@ class QualityBackFillingDataSource extends DataGridSource {
     DateTime? rangeEndDate1 = DateTime.now();
     DateTime? date1;
     DateTime? endDate1;
+    String currentDate = DateFormat.yMMMMd().format(DateTime.now());
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
@@ -78,12 +80,15 @@ class QualityBackFillingDataSource extends DataGridSource {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => UploadDocument(
-                              userId: userId,
-                              title: 'QualityChecklistCDI',
-                              cityName: cityName,
-                              depoName: depoName,
-                              activity:
-                                  '${row.getCells()[3].value.toString()}'),
+                            title: 'QualityChecklist',
+                            subtitle: 'civil_Engineer',
+                            cityName: cityName,
+                            depoName: depoName,
+                            userId: userId,
+                            fldrName: 'B.F Table',
+                            date: currentDate,
+                            srNo: row.getCells()[0].value,
+                          ),
                         ));
                       },
                       child: const Text('Upload'));
@@ -94,14 +99,16 @@ class QualityBackFillingDataSource extends DataGridSource {
                       return ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UploadDocument(
-                                  userId: userId,
-                                  title: 'QualityChecklistCDI',
-                                  cityName: cityName,
-                                  depoName: depoName,
-                                  activity:
-                                      '${row.getCells()[3].value.toString()}'),
-                            ));
+                                builder: (context) => ViewAllPdf(
+                                      title: 'QualityChecklist',
+                                      subtitle: 'civil_Engineer',
+                                      cityName: cityName,
+                                      depoName: depoName,
+                                      userId: userId,
+                                      fldrName: 'B.F Table',
+                                      date: currentDate,
+                                      srNo: row.getCells()[0].value,
+                                    )));
                           },
                           child: const Text('View'));
                     })

@@ -474,21 +474,21 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                           ],
 
-                          stackedHeaderRows: [
-                            StackedHeaderRow(cells: [
-                              StackedHeaderCell(
-                                  columnNames: ['Upload', 'View'],
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      'Attachment Details',
-                                      style:
-                                          TextStyle(color: white, fontSize: 18),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ))
-                            ])
-                          ],
+                          // stackedHeaderRows: [
+                          //   StackedHeaderRow(cells: [
+                          //     StackedHeaderCell(
+                          //         columnNames: ['Upload', 'View'],
+                          //         child: Container(
+                          //           padding: EdgeInsets.all(10),
+                          //           child: Text(
+                          //             'Attachment Details',
+                          //             style:
+                          //                 TextStyle(color: white, fontSize: 18),
+                          //             textAlign: TextAlign.center,
+                          //           ),
+                          //         ))
+                          //   ])
+                          // ],
                         ),
                       );
                     } else if (snapshot.hasData) {
@@ -581,21 +581,21 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                           ],
 
-                          stackedHeaderRows: [
-                            StackedHeaderRow(cells: [
-                              StackedHeaderCell(
-                                  columnNames: ['Upload', 'View'],
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      'Attachment Details',
-                                      style:
-                                          TextStyle(color: white, fontSize: 18),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ))
-                            ])
-                          ],
+                          // stackedHeaderRows: [
+                          //   StackedHeaderRow(cells: [
+                          //     StackedHeaderCell(
+                          //         columnNames: ['Upload', 'View'],
+                          //         child: Container(
+                          //           padding: EdgeInsets.all(10),
+                          //           child: Text(
+                          //             'Attachment Details',
+                          //             style:
+                          //                 TextStyle(color: white, fontSize: 18),
+                          //             textAlign: TextAlign.center,
+                          //           ),
+                          //         ))
+                          //   ])
+                          // ],
                         ),
                       );
                     } else {

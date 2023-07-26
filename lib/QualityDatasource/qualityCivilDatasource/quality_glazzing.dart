@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../KeysEvents/upload.dart';
+import '../../KeysEvents/view_AllFiles.dart';
 import '../../Planning_Pages/quality_checklist.dart';
 import '../../model/quality_checklistModel.dart';
 
@@ -48,6 +49,7 @@ class QualityGlazzingDataSource extends DataGridSource {
     DateTime? rangeEndDate1 = DateTime.now();
     DateTime? date1;
     DateTime? endDate1;
+    String currentDate = DateFormat.yMMMMd().format(DateTime.now());
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
@@ -77,12 +79,15 @@ class QualityGlazzingDataSource extends DataGridSource {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => UploadDocument(
-                              userId: userId,
-                              title: 'QualityChecklistCI',
-                              cityName: cityName,
-                              depoName: depoName,
-                              activity:
-                                  '${row.getCells()[3].value.toString()}'),
+                            title: 'QualityChecklist',
+                            subtitle: 'civil_Engineer',
+                            cityName: cityName,
+                            depoName: depoName,
+                            userId: userId,
+                            fldrName: 'D.W.G',
+                            date: currentDate,
+                            srNo: row.getCells()[0].value,
+                          ),
                         ));
                       },
                       child: const Text('Upload'));
@@ -93,13 +98,16 @@ class QualityGlazzingDataSource extends DataGridSource {
                       return ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UploadDocument(
-                                  userId: userId,
-                                  title: 'QualityChecklistCI',
-                                  cityName: cityName,
-                                  depoName: depoName,
-                                  activity:
-                                      '${row.getCells()[3].value.toString()}'),
+                              builder: (context) => ViewAllPdf(
+                                title: 'QualityChecklist',
+                                subtitle: 'civil_Engineer',
+                                cityName: cityName,
+                                depoName: depoName,
+                                userId: userId,
+                                fldrName: 'D.W.G',
+                                date: currentDate,
+                                srNo: row.getCells()[0].value,
+                              ),
                             ));
                           },
                           child: const Text('View'));

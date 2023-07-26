@@ -177,7 +177,9 @@ class _KeyEventsState extends State<KeyEvents> {
       yourstream = FirebaseFirestore.instance
           .collection('KeyEventsTable')
           .doc(widget.depoName!)
-          .collection(userId)
+          .collection('KeyDataTable')
+          .doc(userId)
+          .collection('KeyAllEvents')
           // .doc('${widget.depoName}')
           .snapshots();
 

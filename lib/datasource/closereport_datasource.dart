@@ -64,7 +64,7 @@ class CloseReportDataSource extends DataGridSource {
                             title: 'ClosureReport',
                             cityName: cityName,
                             depoName: depoName,
-                            activity: row.getCells()[0].value.toString(),
+                            fldrName: row.getCells()[0].value.toString(),
                             userId: userId,
                           ),
                         ));

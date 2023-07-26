@@ -93,8 +93,6 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
     super.initState();
 
     // });
-
-    int length = _employees.length * 66;
   }
 
   // @override
@@ -144,7 +142,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
             storeData();
           },
         ),
-        preferredSize: Size.fromHeight(50),
+        preferredSize: const Size.fromHeight(50),
       ),
       body: _isLoading
           ? LoadingPage()
@@ -494,14 +492,14 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                     ),
                   );
                 } else {
-                  // alldata = snapshot.data['data'] as List<dynamic>;
-                  // _employees.clear();
-                  // alldata.forEach((element) {
-                  //   _employees.add(Employee.fromJson(element));
-                  //   _employeeDataSource = EmployeeDataSource(
-                  //       _employees, context, widget.cityName, widget.depoName);
-                  //   _dataGridController = DataGridController();
-                  // });
+                  alldata = snapshot.data['data'] as List<dynamic>;
+                  _employees.clear();
+                  alldata.forEach((element) {
+                    _employees.add(Employee.fromJson(element));
+                    _employeeDataSource = EmployeeDataSource(_employees,
+                        context, userId, widget.cityName!, widget.depoName);
+                    _dataGridController = DataGridController();
+                  });
                   for (int i = 0; i < alldata.length; i++) {
                     var weightdata = alldata[i]['Weightage'];
                     var yaxisdata = alldata[i]['srNo'];

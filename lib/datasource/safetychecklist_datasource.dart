@@ -93,7 +93,7 @@ class SafetyChecklistDataSource extends DataGridSource {
                               cityName: cityName,
                               depoName: depoName,
                               title: 'SafetyChecklist',
-                              activity: row.getCells()[0].value.toString(),
+                              fldrName: row.getCells()[0].value.toString(),
                               userId: userId,
                             ),
                           ));

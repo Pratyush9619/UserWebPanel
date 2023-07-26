@@ -91,7 +91,7 @@ class DailyDataSource extends DataGridSource {
                             MaterialPageRoute(
                               builder: (context) => UploadDocument(
                                 title: 'Data Image',
-                                activity: row.getCells()[1].value.toString(),
+                                fldrName: row.getCells()[1].value.toString(),
                                 userId: userId,
                                 cityName: cityName,
                                 depoName: depoName,

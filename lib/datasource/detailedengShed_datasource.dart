@@ -199,7 +199,7 @@ class DetailedEngSourceShed extends DataGridSource {
                                       title: 'DetailedEngShed',
                                       cityName: cityName,
                                       depoName: depoName,
-                                      activity:
+                                      fldrName:
                                           '${row.getCells()[4].value.toString()}'),
                                 ));
                               }

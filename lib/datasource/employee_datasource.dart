@@ -99,7 +99,7 @@ class EmployeeDataSource extends DataGridSource {
                             userId: userId,
                             cityName: cityName,
                             depoName: depoName,
-                            activity: '${row.getCells()[1].value.toString()}',
+                            fldrName: '${row.getCells()[1].value.toString()}',
                             // path: '',
                           ),
                         ));

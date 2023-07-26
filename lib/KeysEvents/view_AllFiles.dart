@@ -11,18 +11,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'image_page.dart';
 
 class ViewAllPdf extends StatefulWidget {
-  String title;
-  String cityName;
-  String depoName;
-  String userId;
-  String docId;
+  String? title;
+  String? subtitle;
+  String? cityName;
+  String? depoName;
+  dynamic userId;
+  String? fldrName;
+  String? date;
+  int? srNo;
+  dynamic docId;
   ViewAllPdf(
       {super.key,
       required this.title,
+      this.subtitle,
       required this.cityName,
       required this.depoName,
       required this.userId,
-      required this.docId});
+      this.fldrName,
+      this.date,
+      this.srNo,
+      this.docId});
 
   @override
   State<ViewAllPdf> createState() => _ViewAllPdfState();
@@ -34,8 +42,11 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
 
   @override
   void initState() {
-    futureFiles = FirebaseApi.listAll(
-        '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+    futureFiles = widget.title == 'QualityChecklist'
+        ? FirebaseApi.listAll(
+            '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}')
+        : FirebaseApi.listAll(
+            '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
     super.initState();
   }
 

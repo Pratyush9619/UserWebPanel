@@ -198,7 +198,7 @@ class DetailedEngSourceEV extends DataGridSource {
                                       title: 'DetailedEngEV',
                                       cityName: cityName,
                                       depoName: depoName,
-                                      activity: activitydata),
+                                      fldrName: activitydata),
                                 ));
                               }
                               // showDialog(

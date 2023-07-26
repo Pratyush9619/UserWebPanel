@@ -199,7 +199,7 @@ class DetailedEngSource extends DataGridSource {
                                       title: 'DetailedEngRFC',
                                       cityName: cityName,
                                       depoName: depoName,
-                                      activity: activitydata),
+                                      fldrName: activitydata),
                                 ));
                               }
 

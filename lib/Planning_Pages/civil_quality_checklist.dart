@@ -7,6 +7,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import '../Authentication/auth_service.dart';
+import '../FirebaseApi/firebase_api.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_Ironite_flooring.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_backfilling.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_ceiling.dart';
@@ -136,13 +137,6 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
   }
 
   initializeStream() {
-    // _fieldStream = FirebaseFirestore.instance
-    //     .collection('QualityChecklistCollection')
-    //     .doc(widget.depoName)
-    //     .collection('${clntitle[_selectedIndex!]}')
-    //     .doc('July 11, 2023')
-    //     .snapshots();
-
     _stream = FirebaseFirestore.instance
         .collection('CivilQualityChecklist')
         .doc(widget.depoName)
@@ -272,62 +266,62 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
 
     qualitylisttable1 = excavation_getData();
     _qualityExcavationDataSource = QualityExcavationDataSource(
-        qualitylisttable1, widget.depoName!, widget.cityName!);
+        qualitylisttable1, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable2 = backfilling_getData();
     _qualityBackFillingDataSource = QualityBackFillingDataSource(
-        qualitylisttable2, widget.depoName!, widget.cityName!);
+        qualitylisttable2, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable3 = massonary_getData();
     _qualityMassonaryDataSource = QualityMassonaryDataSource(
-        qualitylisttable3, widget.depoName!, widget.cityName!);
+        qualitylisttable3, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable4 = glazzing_getData();
     _qualityGlazzingDataSource = QualityGlazzingDataSource(
-        qualitylisttable4, widget.depoName!, widget.cityName!);
+        qualitylisttable4, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable5 = ceilling_getData();
     _qualityCeillingDataSource = QualityCeillingDataSource(
-        qualitylisttable5, widget.depoName!, widget.cityName!);
+        qualitylisttable5, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable6 = florring_getData();
     _qualityflooringDataSource = QualityflooringDataSource(
-        qualitylisttable6, widget.depoName!, widget.cityName!);
+        qualitylisttable6, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable7 = inspection_getData();
     _qualityInspectionDataSource = QualityInspectionDataSource(
-        qualitylisttable7, widget.depoName!, widget.cityName!);
+        qualitylisttable7, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable8 = ironite_florring_getData();
     _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
-        qualitylisttable8, widget.depoName!, widget.cityName!);
+        qualitylisttable8, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable9 = painting_getData();
     _qualityPaintingDataSource = QualityPaintingDataSource(
-        qualitylisttable9, widget.depoName!, widget.cityName!);
+        qualitylisttable9, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable10 = paving_getData();
     _qualityPavingDataSource = QualityPavingDataSource(
-        qualitylisttable10, widget.depoName!, widget.cityName!);
+        qualitylisttable10, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable11 = roofing_getData();
     _qualityRoofingDataSource = QualityRoofingDataSource(
-        qualitylisttable11, widget.depoName!, widget.cityName!);
+        qualitylisttable11, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
 
     qualitylisttable12 = proofing_getData();
     _qualityProofingDataSource = QualityProofingDataSource(
-        qualitylisttable12, widget.depoName!, widget.cityName!);
+        qualitylisttable12, widget.cityName!, widget.depoName!);
     _dataGridController = DataGridController();
   }
 
@@ -342,7 +336,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
     _field7Controller.clear();
     _field8Controller.clear();
 
-    retrieveFieldData(widget.depoName!, widget.currentDate!);
+    retrieveFieldData();
+    // print('pratyush++');
     return DefaultTabController(
         length: 12,
         child: Scaffold(
@@ -405,113 +400,103 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
   civilupperScreen() {
     return _isloading
         ? LoadingPage()
-        : StreamBuilder(
-            stream: _fieldStream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      height: 80,
-                      decoration: BoxDecoration(color: lightblue),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset('assets/Tata-Power.jpeg',
-                                  height: 50, width: 100),
-                              const Text('TATA POWER'),
-                            ],
-                          ),
-                          Text(
-                            civil_title[int.parse(_selectedIndex.toString())],
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                          const Text('TPCL/DIST/EV/CHECKLIST')
-                        ],
-                      ),
-                    ),
-                    Container(
-                        decoration: BoxDecoration(color: lightblue),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              _selectedIndex == 0
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        CustomCivilTextField(
-                                            controller: _field1Controller,
-                                            title: 'Project'),
-                                        CustomCivilTextField(
-                                            controller: _field2Controller,
-                                            title: 'P.O.No.'),
-                                        CustomCivilTextField(
-                                            controller: _field3Controller,
-                                            title: 'Contractor'),
-                                        CustomCivilTextField(
-                                            controller: _field4Controller,
-                                            title: 'Description'),
-                                      ],
-                                    )
-                                  : Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        CustomCivilTextField(
-                                            controller: _field1Controller,
-                                            title: 'Vendor / Sub Vendor'),
-                                        CustomCivilTextField(
-                                            controller: _field2Controller,
-                                            title: 'Date'),
-                                        CustomCivilTextField(
-                                            controller: _field3Controller,
-                                            title: 'Grid / Axis Level'),
-                                      ],
-                                    ),
-                              _selectedIndex == 0
-                                  ? Column(
-                                      children: [
-                                        CustomCivilTextField(
-                                            controller: _field5Controller,
-                                            title: 'System / Bldg. '),
-                                        CustomCivilTextField(
-                                            controller: _field6Controller,
-                                            title: 'Ref Document 1'),
-                                        CustomCivilTextField(
-                                            controller: _field7Controller,
-                                            title: 'Ref Document 2'),
-                                        CustomCivilTextField(
-                                            controller: _field8Controller,
-                                            title: 'Ref Document 3'),
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        CustomCivilTextField(
-                                            controller: _field4Controller,
-                                            title: 'Location'),
-                                        CustomCivilTextField(
-                                            controller: _field5Controller,
-                                            title: 'Drawing no.'),
-                                        CustomCivilTextField(
-                                            controller: _field6Controller,
-                                            title:
-                                                'Component of the structure'),
-                                      ],
-                                    )
-                            ])),
-                    Expanded(
-                      child: StreamBuilder(
+        :
+        // StreamBuilder(
+        //     stream: _fieldStream,
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return LoadingPage();
+        //       }
+        //       if (!snapshot.hasData) {
+        //         return
+        Column(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(8),
+                height: 50,
+                decoration: BoxDecoration(color: lightblue),
+                child: Text(
+                  civil_title[int.parse(_selectedIndex.toString())],
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                  decoration: BoxDecoration(color: lightblue),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _selectedIndex == 0
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CustomCivilTextField(
+                                      controller: _field1Controller,
+                                      title: 'Project'),
+                                  CustomCivilTextField(
+                                      controller: _field2Controller,
+                                      title: 'P.O.No.'),
+                                  CustomCivilTextField(
+                                      controller: _field3Controller,
+                                      title: 'Contractor'),
+                                  CustomCivilTextField(
+                                      controller: _field4Controller,
+                                      title: 'Description'),
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CustomCivilTextField(
+                                      controller: _field1Controller,
+                                      title: 'Vendor / Sub Vendor'),
+                                  CustomCivilTextField(
+                                      controller: _field2Controller,
+                                      title: 'Date'),
+                                  CustomCivilTextField(
+                                      controller: _field3Controller,
+                                      title: 'Grid / Axis Level'),
+                                ],
+                              ),
+                        _selectedIndex == 0
+                            ? Column(
+                                children: [
+                                  CustomCivilTextField(
+                                      controller: _field5Controller,
+                                      title: 'System / Bldg. '),
+                                  CustomCivilTextField(
+                                      controller: _field6Controller,
+                                      title: 'Ref Document 1'),
+                                  CustomCivilTextField(
+                                      controller: _field7Controller,
+                                      title: 'Ref Document 2'),
+                                  CustomCivilTextField(
+                                      controller: _field8Controller,
+                                      title: 'Ref Document 3'),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  CustomCivilTextField(
+                                      controller: _field4Controller,
+                                      title: 'Location'),
+                                  CustomCivilTextField(
+                                      controller: _field5Controller,
+                                      title: 'Drawing no.'),
+                                  CustomCivilTextField(
+                                      controller: _field6Controller,
+                                      title: 'Component of the structure'),
+                                ],
+                              )
+                      ])),
+              Expanded(
+                child: _isloading
+                    ? LoadingPage()
+                    : StreamBuilder(
                         stream: _selectedIndex == 0
                             ? _stream
                             : _selectedIndex == 1
@@ -541,8 +526,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return LoadingPage();
-                          }
-                          if (!snapshot.hasData ||
+                          } else if (!snapshot.hasData ||
                               snapshot.data.exists == false) {
                             return widget.isHeader!
                                 ? SfDataGridTheme(
@@ -794,8 +778,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                 _qualityExcavationDataSource =
                                     QualityExcavationDataSource(
                                         qualitylisttable1,
-                                        widget.depoName!,
-                                        widget.cityName!);
+                                        widget.cityName!,
+                                        widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 1) {
                                 qualitylisttable2.add(
@@ -803,8 +787,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                 _qualityBackFillingDataSource =
                                     QualityBackFillingDataSource(
                                         qualitylisttable2,
-                                        widget.depoName!,
-                                        widget.cityName!);
+                                        widget.cityName!,
+                                        widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 2) {
                                 qualitylisttable3.add(
@@ -812,22 +796,22 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                 _qualityMassonaryDataSource =
                                     QualityMassonaryDataSource(
                                         qualitylisttable3,
-                                        widget.depoName!,
-                                        widget.cityName!);
+                                        widget.cityName!,
+                                        widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 3) {
                                 qualitylisttable4.add(
                                     QualitychecklistModel.fromJson(element));
                                 _qualityGlazzingDataSource =
                                     QualityGlazzingDataSource(qualitylisttable4,
-                                        widget.depoName!, widget.cityName!);
+                                        widget.cityName!, widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 4) {
                                 qualitylisttable5.add(
                                     QualitychecklistModel.fromJson(element));
                                 _qualityCeillingDataSource =
                                     QualityCeillingDataSource(qualitylisttable5,
-                                        widget.depoName!, widget.cityName!);
+                                        widget.cityName!, widget.depoName!);
 
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 5) {
@@ -835,7 +819,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                     QualitychecklistModel.fromJson(element));
                                 _qualityflooringDataSource =
                                     QualityflooringDataSource(qualitylisttable6,
-                                        widget.depoName!, widget.cityName!);
+                                        widget.cityName!, widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 6) {
                                 qualitylisttable7.add(
@@ -843,8 +827,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                 _qualityInspectionDataSource =
                                     QualityInspectionDataSource(
                                         qualitylisttable7,
-                                        widget.depoName!,
-                                        widget.cityName!);
+                                        widget.cityName!,
+                                        widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 7) {
                                 qualitylisttable8.add(
@@ -853,8 +837,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                 _qualityIroniteflooringDataSource =
                                     QualityIroniteflooringDataSource(
                                         qualitylisttable8,
-                                        widget.depoName!,
-                                        widget.cityName!);
+                                        widget.cityName!,
+                                        widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 8) {
                                 qualitylisttable9.add(
@@ -862,29 +846,29 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
 
                                 _qualityPaintingDataSource =
                                     QualityPaintingDataSource(qualitylisttable9,
-                                        widget.depoName!, widget.cityName!);
+                                        widget.cityName!, widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 9) {
                                 qualitylisttable10.add(
                                     QualitychecklistModel.fromJson(element));
                                 _qualityPavingDataSource =
                                     QualityPavingDataSource(qualitylisttable10,
-                                        widget.depoName!, widget.cityName!);
+                                        widget.cityName!, widget.depoName!);
                                 _dataGridController = DataGridController();
                               } else if (_selectedIndex == 10) {
                                 qualitylisttable11.add(
                                     QualitychecklistModel.fromJson(element));
                                 _qualityRoofingDataSource =
                                     QualityRoofingDataSource(qualitylisttable11,
-                                        widget.depoName!, widget.cityName!);
+                                        widget.cityName!, widget.depoName!);
                               } else {
                                 qualitylisttable12.add(
                                     QualitychecklistModel.fromJson(element));
                                 _qualityProofingDataSource =
                                     QualityProofingDataSource(
                                         qualitylisttable12,
-                                        widget.depoName!,
-                                        widget.cityName!);
+                                        widget.cityName!,
+                                        widget.depoName!);
                               }
                             });
                             return SfDataGridTheme(
@@ -1052,18 +1036,12 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                               ),
                             );
                           } else {
-                            // here w3e have to put Nodata page
                             return LoadingPage();
                           }
                         },
                       ),
-                    ),
-                  ],
-                );
-              } else {
-                return LoadingPage();
-              }
-            },
+              ),
+            ],
           );
   }
 
@@ -1071,6 +1049,31 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
     await AuthService().getCurrentUserId().then((value) {
       userId = value;
     });
+  }
+
+  void retrieveFieldData() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('CivilChecklistField')
+        .doc(widget.depoName)
+        .collection('userId')
+        .doc('ZW3210')
+        .collection('${clntitle[_selectedIndex!]} TABLE')
+        .doc(widget.currentDate)
+        .get();
+
+    Map<String, dynamic> tempMap =
+        documentSnapshot.data() as Map<String, dynamic>;
+
+    print(tempMap);
+
+    _field1Controller.text = tempMap['Project'] ?? '';
+    _field2Controller.text = tempMap['PO No'] ?? '';
+    _field3Controller.text = tempMap['Contractor'] ?? '';
+    _field4Controller.text = tempMap['Description'] ?? '';
+    _field5Controller.text = tempMap['System'] ?? '';
+    _field6Controller.text = tempMap['Ref Document1'] ?? '';
+    _field7Controller.text = tempMap['Ref Document2'] ?? '';
+    _field8Controller.text = tempMap['Ref Document3'] ?? '';
   }
 }
 
@@ -1388,6 +1391,11 @@ civilstoreData(BuildContext context, String depoName, String currentDate) {
                           'data': proofingtabledatalist,
                         }).whenComplete(() {
                           proofingtabledatalist.clear();
+                          FirebaseApi().nestedKeyEventsField(
+                              'CivilQualityChecklist',
+                              depoName,
+                              'userId',
+                              userId);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: const Text('Data are synced'),
                             backgroundColor: blue,
@@ -1424,25 +1432,7 @@ storeFieldData(String depoName, String currentDate) {
     'Ref Document2': _field7Controller.text.toString(),
     'Ref Document3': _field8Controller.text.toString(),
   });
-}
 
-retrieveFieldData(String depoName, String currentDate) {
-  FirebaseFirestore.instance
-      .collection('CivilChecklistField')
-      .doc(depoName)
-      .collection('userId')
-      .doc(userId)
-      .collection('${clntitle[_selectedIndex!]} TABLE')
-      .doc(currentDate)
-      .get()
-      .then((value) {
-    _field1Controller.text = value.data()!['Project'];
-    _field2Controller.text = value.data()!['PO No'];
-    _field3Controller.text = value.data()!['Contractor'];
-    _field4Controller.text = value.data()!['Description'];
-    _field5Controller.text = value.data()!['System'];
-    _field6Controller.text = value.data()!['Ref Document1'];
-    _field7Controller.text = value.data()!['Ref Document2'];
-    _field8Controller.text = value.data()!['Ref Document3'];
-  });
+  FirebaseApi()
+      .nestedKeyEventsField('CivilChecklistField', depoName, 'userId', userId);
 }

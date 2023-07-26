@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -15,8 +16,10 @@ import '../components/loading_page.dart';
 import '../datasource/depot_overviewdatasource.dart';
 import '../model/depot_overview.dart';
 import '../widget/chart_data.dart';
+import '../widget/cupertino_Dialog.dart';
 import '../widget/custom_appbar.dart';
 import '../widget/custom_textfield.dart';
+import '../widget/cupertino_Dialog.dart';
 import '../widget/style.dart';
 
 class DepotOverview extends StatefulWidget {
@@ -77,6 +80,7 @@ class _DepotOverviewState extends State<DepotOverview> {
   Uint8List? fileBytes2;
   dynamic userId;
   bool _isEdit = true;
+  bool isdialog = false;
 
   void initializeController() {
     _addressController = TextEditingController();
@@ -158,7 +162,8 @@ class _DepotOverviewState extends State<DepotOverview> {
                   'ElectricalManagerName': _elctricalManagerNameController.text,
                   'ElectricalEng': _electricalEngineerController.text,
                   'ElectricalVendor': _electricalVendorController.text,
-                });
+                }, SetOptions(merge: true));
+
                 FirebaseApi().defaultKeyEventsField(
                     'OverviewCollectionTable', widget.depoName!);
                 FirebaseApi().nestedKeyEventsField('OverviewCollectionTable',
@@ -1520,335 +1525,313 @@ class _DepotOverviewState extends State<DepotOverview> {
                         OverviewField('Civil Vendor', _civilVendorController),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 200,
-                                  height: 35,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'Details of Survey Report',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),
-                                        ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 200,
+                                height: 35,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Details of Survey Report',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            color: black),
                                       ),
-                                      const SizedBox(width: 10),
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            result = await FilePicker.platform
-                                                .pickFiles(
-                                              type: FileType.any,
-                                              withData: true,
-                                            );
+                                    ),
+                                    const SizedBox(width: 10),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          result = await FilePicker.platform
+                                              .pickFiles(
+                                            type: FileType.any,
+                                            withData: true,
+                                          );
 
-                                            fileBytes =
-                                                result!.files.first.bytes!;
-                                            if (result == null) {
-                                              print("No file selected");
-                                            } else {
-                                              setState(() {});
-                                              result!.files.forEach((element) {
-                                                print(element.name);
-                                                print(result!.files.first.name);
-                                              });
-                                            }
-                                          },
-                                          child: const Text(
-                                            'Pick file',
-                                            textAlign: TextAlign.end,
+                                          fileBytes =
+                                              result!.files.first.bytes!;
+                                          if (result == null) {
+                                            print("No file selected");
+                                          } else {
+                                            setState(() {});
+                                            result!.files.forEach((element) {
+                                              print(element.name);
+                                              print(result!.files.first.name);
+                                            });
+                                          }
+                                        },
+                                        child: const Text(
+                                          'Pick file',
+                                          textAlign: TextAlign.end,
+                                        )),
+                                    SizedBox(width: 10)
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                          width: 160,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              color: lightblue,
+                                              border: Border.all(color: grey),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Row(
+                                            children: [
+                                              if (result != null)
+                                                Expanded(
+                                                  child: Text(
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    result!.files.first.name,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: white),
+                                                  ),
+                                                )
+                                            ],
                                           )),
-                                      SizedBox(width: 10)
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                            width: 180,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                color: lightblue,
-                                                border: Border.all(color: grey),
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            child: Row(
-                                              children: [
-                                                if (result != null)
-                                                  Expanded(
-                                                    child: Text(
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      result!.files.first.name,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: white),
-                                                    ),
-                                                  )
-                                              ],
-                                            )),
-                                        IconButton(
-                                            alignment: Alignment.bottomRight,
-                                            padding: const EdgeInsets.only(
-                                                bottom: 5),
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ViewAllPdf(
-                                                              title:
-                                                                  '/BOQSurvey',
-                                                              cityName: widget
-                                                                  .cityName!,
-                                                              depoName: widget
-                                                                  .depoName!,
-                                                              userId: userId,
-                                                              docId:
-                                                                  'survey')));
-                                            },
-                                            icon: Icon(Icons.folder,
-                                                color: yellow))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ]),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 200,
-                                  height: 35,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'BOQ Electrical',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            result1 = await FilePicker.platform
-                                                .pickFiles(
-                                              type: FileType.any,
-                                              withData: true,
-                                            );
-
-                                            fileBytes1 =
-                                                result1!.files.first.bytes!;
-                                            if (result1 == null) {
-                                              print("No file selected");
-                                            } else {
-                                              setState(() {});
-                                              result1!.files.forEach((element) {
-                                                print(element.name);
-                                              });
-                                            }
+                                      IconButton(
+                                          alignment: Alignment.bottomRight,
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewAllPdf(
+                                                            title: '/BOQSurvey',
+                                                            cityName: widget
+                                                                .cityName!,
+                                                            depoName: widget
+                                                                .depoName!,
+                                                            userId: userId,
+                                                            docId: 'survey')));
                                           },
-                                          child: const Text(
-                                            'Pick file',
-                                            textAlign: TextAlign.end,
-                                          ))
+                                          icon:
+                                              Icon(Icons.folder, color: yellow))
                                     ],
                                   ),
-                                ),
-                                SizedBox(width: 10),
-                                Row(
+                                ],
+                              ),
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 200,
+                                height: 35,
+                                child: Row(
                                   children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                            width: 180,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                color: lightblue,
-                                                border: Border.all(color: grey),
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            child: Row(
-                                              children: [
-                                                if (result1 != null)
-                                                  Expanded(
-                                                    child: Text(
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      result1!.files.first.name,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: white),
-                                                    ),
-                                                  )
-                                              ],
-                                            )),
-                                        IconButton(
-                                            alignment: Alignment.bottomRight,
-                                            padding: const EdgeInsets.only(
-                                                bottom: 5),
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ViewAllPdf(
-                                                              title:
-                                                                  '/BOQElectrical',
-                                                              cityName: widget
-                                                                  .cityName!,
-                                                              depoName: widget
-                                                                  .depoName!,
-                                                              userId: userId,
-                                                              docId:
-                                                                  'electrical')));
-                                            },
-                                            icon: Icon(Icons.folder,
-                                                color: yellow))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ]),
-                          SizedBox(width: 10),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 170,
-                                  height: 35,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'BOQ Civil',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),
-                                        ),
+                                    Expanded(
+                                      child: Text(
+                                        'BOQ Electrical',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            color: black),
                                       ),
-                                      const SizedBox(width: 10),
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            result2 = await FilePicker.platform
-                                                .pickFiles(
-                                              type: FileType.any,
-                                              withData: true,
-                                            );
-
-                                            fileBytes2 =
-                                                result2!.files.first.bytes!;
-                                            if (result == null) {
-                                              print("No file selected");
-                                            } else {
-                                              setState(() {});
-                                              result2!.files.forEach((element) {
-                                                print(element.name);
-                                                print(result!.files.first.name);
-                                              });
-                                            }
-                                          },
-                                          child: const Text(
-                                            'Pick file',
-                                            textAlign: TextAlign.end,
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Row(
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                            width: 180,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                                color: lightblue,
-                                                border: Border.all(color: grey),
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            child: Row(
-                                              children: [
-                                                if (result2 != null)
-                                                  Expanded(
-                                                    child: Text(
-                                                      result2!.files.first.name,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: white),
-                                                    ),
-                                                  )
-                                              ],
-                                            )),
-                                        IconButton(
-                                            alignment: Alignment.bottomRight,
-                                            padding: const EdgeInsets.only(
-                                                bottom: 5),
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ViewAllPdf(
-                                                              title:
-                                                                  '/BOQCivil',
-                                                              cityName: widget
-                                                                  .cityName!,
-                                                              depoName: widget
-                                                                  .depoName!,
-                                                              userId: userId,
-                                                              docId: 'civil')));
-                                            },
-                                            icon: Icon(Icons.folder,
-                                                color: yellow))
-                                      ],
                                     ),
+                                    const SizedBox(width: 10),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          result1 = await FilePicker.platform
+                                              .pickFiles(
+                                            type: FileType.any,
+                                            withData: true,
+                                          );
+
+                                          fileBytes1 =
+                                              result1!.files.first.bytes!;
+                                          if (result1 == null) {
+                                            print("No file selected");
+                                          } else {
+                                            setState(() {});
+                                            result1!.files.forEach((element) {
+                                              print(element.name);
+                                            });
+                                          }
+                                        },
+                                        child: const Text(
+                                          'Pick file',
+                                          textAlign: TextAlign.end,
+                                        )),
+                                    const SizedBox(width: 10),
                                   ],
                                 ),
-                              ]),
+                              ),
+                              Row(
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                          width: 160,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              color: lightblue,
+                                              border: Border.all(color: grey),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Row(
+                                            children: [
+                                              if (result1 != null)
+                                                Expanded(
+                                                  child: Text(
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    result1!.files.first.name,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: white),
+                                                  ),
+                                                )
+                                            ],
+                                          )),
+                                      IconButton(
+                                          alignment: Alignment.bottomRight,
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewAllPdf(
+                                                            title:
+                                                                '/BOQElectrical',
+                                                            cityName: widget
+                                                                .cityName!,
+                                                            depoName: widget
+                                                                .depoName!,
+                                                            userId: userId,
+                                                            docId:
+                                                                'electrical')));
+                                          },
+                                          icon:
+                                              Icon(Icons.folder, color: yellow))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 200,
+                                height: 35,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'BOQ Civil',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            color: black),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          result2 = await FilePicker.platform
+                                              .pickFiles(
+                                            type: FileType.any,
+                                            withData: true,
+                                          );
 
-                          // overviewFieldbutton(
-                          //     'BOQ Civil  ',
-                          //     fileBytes1,
-                          //     result1,
-                          //     result1 != null ? result1!.files.first.name : ''),
-                          // overviewFieldbutton(
-                          //     'Details of Survey Report  ',
-                          //     fileBytes2,
-                          //     result2,
-                          //     result2 != null ? result2!.files.first.name : ''),
-                        ],
-                      ),
+                                          fileBytes2 =
+                                              result2!.files.first.bytes!;
+                                          if (result2 == null) {
+                                            print("No file selected");
+                                          } else {
+                                            setState(() {});
+                                            result2!.files.forEach((element) {
+                                              print(element.name);
+                                              print(result!.files.first.name);
+                                            });
+                                          }
+                                        },
+                                        child: const Text(
+                                          'Pick file',
+                                          textAlign: TextAlign.end,
+                                        )),
+                                    SizedBox(width: 10),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                          width: 160,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                              color: lightblue,
+                                              border: Border.all(color: grey),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Row(
+                                            children: [
+                                              if (result2 != null)
+                                                Expanded(
+                                                  child: Text(
+                                                    result2!.files.first.name,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: white),
+                                                  ),
+                                                )
+                                            ],
+                                          )),
+                                      IconButton(
+                                          alignment: Alignment.bottomRight,
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewAllPdf(
+                                                            title: '/BOQCivil',
+                                                            cityName: widget
+                                                                .cityName!,
+                                                            depoName: widget
+                                                                .depoName!,
+                                                            userId: userId,
+                                                            docId: 'civil')));
+                                          },
+                                          icon:
+                                              Icon(Icons.folder, color: yellow))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ]),
+                      ],
                     )
                   ]));
             }
@@ -1915,30 +1898,32 @@ class _DepotOverviewState extends State<DepotOverview> {
       'data': tabledata2,
     }).whenComplete(() async {
       tabledata2.clear();
-      if (fileBytes != null || fileBytes1 != null || fileBytes2 != null) {
+      if (fileBytes != null) {
         await FirebaseStorage.instance
             .ref(
-                'BOQElectrical/${widget.cityName}/${widget.depoName}/$userId/electrical/${result!.files.first.name}')
+                'BOQSurvey/${widget.cityName}/${widget.depoName}/$userId/survey/${result!.files.first.name}')
             .putData(
               fileBytes!,
-            );
-        await FirebaseStorage.instance
-            .ref(
-                'BOQCivil/${widget.cityName}/${widget.depoName}/$userId/civil/${result1!.files.first.name}')
-            .putData(
-              fileBytes1!,
               //  SettableMetadata(contentType: 'application/pdf')
             );
-
+      } else if (fileBytes1 != null) {
         await FirebaseStorage.instance
             .ref(
-                'BOQSurvey/${widget.cityName}/${widget.depoName}/$userId/survey/${result1!.files.first.name}')
+                'BOQElectrical/${widget.cityName}/${widget.depoName}/$userId/electrical/${result1!.files.first.name}')
+            .putData(
+              fileBytes1!,
+            );
+      } else if (fileBytes2 != null) {
+        await FirebaseStorage.instance
+            .ref(
+                'BOQCivil/${widget.cityName}/${widget.depoName}/$userId/civil/${result2!.files.first.name}')
             .putData(
               fileBytes2!,
               //  SettableMetadata(contentType: 'application/pdf')
             );
       }
     });
+
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: const Text('Data are synced'),
       backgroundColor: blue,
