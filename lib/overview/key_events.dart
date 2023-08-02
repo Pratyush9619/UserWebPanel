@@ -8,11 +8,13 @@ import 'package:assingment/KeysEvents/Grid_DataTableA6.dart';
 import 'package:assingment/KeysEvents/viewFIle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gantt_chart/gantt_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../Authentication/auth_service.dart';
+import '../KeysEvents/Grid_DataTable51.dart';
 import '../KeysEvents/Grid_DataTableA10.dart';
 import '../KeysEvents/Grid_DataTableA7.dart';
 import '../KeysEvents/Grid_DataTableA8.dart';
@@ -50,7 +52,6 @@ class _KeyEventsState extends State<KeyEvents> {
   DataGridRow? dataGridRow;
   RowColumnIndex? rowColumnIndex;
   GridColumn? column;
-
   List<dynamic> tabledata2 = [];
   Stream? yourstream;
   Stream? yourstream1;
@@ -72,6 +73,7 @@ class _KeyEventsState extends State<KeyEvents> {
   bool _isLoading = false;
   bool _isInit = true;
   int? length;
+  final scrollController = ScrollController();
 
   String? sdate2,
       sdate3,
@@ -169,6 +171,52 @@ class _KeyEventsState extends State<KeyEvents> {
       actualstartdate9,
       actualenddate9;
 
+  double? perc2 = 0,
+      perc3 = 0,
+      perc4 = 0,
+      perc5 = 0,
+      perc6 = 0,
+      perc7 = 0,
+      perc8 = 0,
+      perc9 = 0,
+      perc10 = 0;
+  int balanceQty2 = 0,
+      balanceQty3 = 0,
+      balanceQty4 = 0,
+      balanceQty5 = 0,
+      balanceQty6 = 0,
+      balanceQty7 = 0,
+      balanceQty8 = 0,
+      balanceQty9 = 0,
+      balanceQty10 = 0;
+  int scope2 = 0,
+      scope3 = 0,
+      scope4 = 0,
+      scope5 = 0,
+      scope6 = 0,
+      scope7 = 0,
+      scope8 = 0,
+      scope9 = 0,
+      scope10 = 0;
+  int totalBalanceQty2 = 0,
+      totalBalanceQty3 = 0,
+      totalBalanceQty4 = 0,
+      totalBalanceQty5 = 0,
+      totalBalanceQty6 = 0,
+      totalBalanceQty7 = 0,
+      totalBalanceQty8 = 0,
+      totalBalanceQty9 = 0,
+      totalBalanceQty10 = 0;
+  int totalscope2 = 0,
+      totalscope3 = 0,
+      totalscope4 = 0,
+      totalscope5 = 0,
+      totalscope6 = 0,
+      totalscope7 = 0,
+      totalscope8 = 0,
+      totalscope9 = 0,
+      totalscope10 = 0;
+
   dynamic userId;
   bool _isloading = true;
   @override
@@ -211,11 +259,16 @@ class _KeyEventsState extends State<KeyEvents> {
         depoName: widget.depoName,
         cityName: widget.cityName,
       ),
-      StatutoryAprovalA5(
+      StatutoryAproval(
         userid: userId,
         cityName: widget.cityName,
         depoName: widget.depoName,
       ),
+      // StatutoryAprovalA5(
+      //   userid: userId,
+      //   cityName: widget.cityName,
+      //   depoName: widget.depoName,
+      // ),
       StatutoryAprovalA6(
         userid: userId,
         cityName: widget.cityName,
@@ -261,6 +314,9 @@ class _KeyEventsState extends State<KeyEvents> {
             body: StreamBuilder(
                 stream: yourstream,
                 builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return LoadingPage();
+                  }
                   if (snapshot.hasData) {
                     if (snapshot.data.docs.length != 0) {
                       int length = snapshot.data.docs.length;
@@ -271,6 +327,9 @@ class _KeyEventsState extends State<KeyEvents> {
                       weight.clear();
                       for (int i = 0; i < length; i++) {
                         for (int j = 0; j < length; j++) {
+                          totalscope10 = 0;
+                          totalBalanceQty10 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A10') {
                             var alldataA10 =
@@ -283,14 +342,26 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA10[alldataA10.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA10.length; i++) {
+                              perc10 = 0;
+                              scope10 = alldataA10[i]['QtyScope'];
+                              balanceQty10 = alldataA10[i]['QtyScope'] -
+                                  alldataA10[i]['QtyExecuted'];
                               var weightage = alldataA10[i]['Weightage'];
+                              totalscope10 = scope10 + totalscope10;
+                              totalBalanceQty10 =
+                                  balanceQty10 + totalBalanceQty10;
                               totalweightage = totalweightage + weightage;
                             }
+                            perc10 = ((totalBalanceQty10 / totalscope10) *
+                                totalweightage);
                             weight10.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope2 = 0;
+                          totalBalanceQty2 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A2') {
                             var alldataA2 =
@@ -302,14 +373,27 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA2[alldataA2.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA2.length; i++) {
+                              perc2 = 0;
+                              scope2 = alldataA2[i]['QtyScope'];
+                              balanceQty2 = alldataA2[i]['QtyScope'] -
+                                  alldataA2[i]['QtyExecuted'];
+
                               var weightage = alldataA2[i]['Weightage'];
                               totalweightage = totalweightage + weightage;
+                              totalscope2 = scope2 + totalscope2;
+                              totalBalanceQty2 = balanceQty2 + totalBalanceQty2;
                             }
+                            perc2 = ((totalBalanceQty2 / totalscope2) *
+                                totalweightage);
+                            print(perc2);
                             weight2.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope3 = 0;
+                          totalBalanceQty3 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A3') {
                             var alldataA3 =
@@ -321,14 +405,26 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA3[alldataA3.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA3.length; i++) {
+                              perc3 = 0;
+                              scope3 = alldataA3[i]['QtyScope'];
+                              balanceQty3 = alldataA3[i]['QtyScope'] -
+                                  alldataA3[i]['QtyExecuted'];
                               var weightage = alldataA3[i]['Weightage'];
                               totalweightage = totalweightage + weightage;
+                              totalscope3 = scope3 + totalscope3;
+                              totalBalanceQty3 = balanceQty3 + totalBalanceQty3;
                             }
+                            perc3 = ((totalBalanceQty3 / totalscope3) *
+                                totalweightage);
+                            print(perc3);
                             weight3.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope4 = 0;
+                          totalBalanceQty4 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A4') {
                             var alldataA4 =
@@ -340,14 +436,25 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA4[alldataA4.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA4.length; i++) {
+                              perc4 = 0;
+                              scope4 = alldataA4[i]['QtyScope'];
+                              balanceQty4 = alldataA4[i]['QtyScope'] -
+                                  alldataA4[i]['QtyExecuted'];
                               var weightage = alldataA4[i]['Weightage'];
                               totalweightage = totalweightage + weightage;
+                              totalscope4 = scope4 + totalscope4;
+                              totalBalanceQty4 = balanceQty4 + totalBalanceQty4;
                             }
+                            perc4 = ((totalBalanceQty4 / totalscope4) *
+                                totalweightage);
                             weight4.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope5 = 0;
+                          totalBalanceQty5 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A5') {
                             var alldataA5 =
@@ -359,14 +466,25 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA5[alldataA5.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA5.length; i++) {
+                              perc5 = 0;
+                              scope5 = alldataA5[i]['QtyScope'];
+                              balanceQty5 = alldataA5[i]['QtyScope'] -
+                                  alldataA5[i]['QtyExecuted'];
                               var weightage = alldataA5[i]['Weightage'];
+                              totalscope5 = scope5 + totalscope5;
+                              totalBalanceQty5 = balanceQty5 + totalBalanceQty5;
                               totalweightage = totalweightage + weightage;
                             }
+                            perc5 = ((totalBalanceQty5 / totalscope5) *
+                                totalweightage);
                             weight5.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope6 = 0;
+                          totalBalanceQty6 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A6') {
                             var alldataA6 =
@@ -378,14 +496,25 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA6[alldataA6.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA6.length; i++) {
+                              perc6 = 0;
+                              scope6 = alldataA6[i]['QtyScope'];
+                              balanceQty6 = alldataA6[i]['QtyScope'] -
+                                  alldataA6[i]['QtyExecuted'];
+                              totalscope6 = scope6 + totalscope6;
+                              totalBalanceQty6 = balanceQty6 + totalBalanceQty6;
                               var weightage = alldataA6[i]['Weightage'];
                               totalweightage = totalweightage + weightage;
                             }
+                            perc6 = ((totalBalanceQty6 / totalscope6) *
+                                totalweightage);
                             weight6.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope7 = 0;
+                          totalBalanceQty7 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A7') {
                             var alldataA7 =
@@ -397,14 +526,25 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA7[alldataA7.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA7.length; i++) {
+                              perc7 = 0;
+                              scope7 = alldataA7[i]['QtyScope'];
+                              balanceQty7 = alldataA7[i]['QtyScope'] -
+                                  alldataA7[i]['QtyExecuted'];
+                              totalscope7 = scope7 + totalscope7;
+                              totalBalanceQty7 = balanceQty7 + totalBalanceQty7;
                               var weightage = alldataA7[i]['Weightage'];
                               totalweightage = totalweightage + weightage;
                             }
+                            perc7 = ((totalBalanceQty7 / totalscope7) *
+                                totalweightage);
                             weight7.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope8 = 0;
+                          totalBalanceQty8 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A8') {
                             var alldataA8 =
@@ -416,14 +556,25 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA8[alldataA8.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA8.length; i++) {
+                              perc8 = 0;
+                              scope8 = alldataA8[i]['QtyScope'];
+                              balanceQty8 = alldataA8[i]['QtyScope'] -
+                                  alldataA8[i]['QtyExecuted'];
                               var weightage = alldataA8[i]['Weightage'];
+                              totalscope8 = scope8 + totalscope8;
+                              totalBalanceQty8 = balanceQty8 + totalBalanceQty8;
                               totalweightage = totalweightage + weightage;
                             }
+                            perc8 = ((totalBalanceQty8 / totalscope8) *
+                                totalweightage);
                             weight8.add(totalweightage);
                           }
                         }
 
                         for (int j = 0; j < length; j++) {
+                          totalscope9 = 0;
+                          totalBalanceQty9 = 0;
+                          totalweightage = 0;
                           if (snapshot.data.docs[j].reference.id.toString() ==
                               '${widget.depoName}A9') {
                             var alldataA9 =
@@ -435,10 +586,18 @@ class _KeyEventsState extends State<KeyEvents> {
                                 alldataA9[alldataA9.length - 1]['ActualEnd'];
 
                             for (int i = 0; i < alldataA9.length; i++) {
+                              perc9 = 0;
+                              scope9 = alldataA9[i]['QtyScope'];
+                              balanceQty9 = alldataA9[i]['QtyScope'] -
+                                  alldataA9[i]['QtyExecuted'];
+                              totalscope9 = scope9 + totalscope9;
+                              totalBalanceQty9 = balanceQty9 + totalBalanceQty9;
                               var weightage = alldataA9[i]['Weightage'];
                               totalweightage = totalweightage + weightage;
                             }
                           }
+                          perc9 = ((totalBalanceQty9 / totalscope9) *
+                              totalweightage);
                           weight9.add(totalweightage);
                         }
                       }
@@ -481,84 +640,75 @@ class _KeyEventsState extends State<KeyEvents> {
                       // }
 
                       // weight.add(totalweightage);
-                      chartData = [
-                        ChartData(
-                            'A10',
-                            weight.asMap().containsKey(8) ? weight[8] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A9',
-                            weight.asMap().containsKey(7) ? weight[7] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A8',
-                            weight.asMap().containsKey(6) ? weight[6] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A7',
-                            weight.asMap().containsKey(5) ? weight[5] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A6',
-                            weight.asMap().containsKey(4) ? weight[4] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A5',
-                            weight.asMap().containsKey(3) ? weight[3] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A4',
-                            weight.asMap().containsKey(2) ? weight[2] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A3',
-                            weight.asMap().containsKey(1) ? weight[1] : 0,
-                            Colors.yellow),
-                        ChartData(
-                            'A2',
-                            weight.asMap().containsKey(0) ? weight[0] : 0,
-                            Colors.yellow),
-                        ChartData('A1', 5, Colors.yellow),
-                      ];
-                      chartData2 = [
-                        ChartData(
-                            'A10',
-                            weight.asMap().containsKey(8) ? weight[8] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A9',
-                            weight.asMap().containsKey(7) ? weight[7] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A8',
-                            weight.asMap().containsKey(6) ? weight[6] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A7',
-                            weight.asMap().containsKey(5) ? weight[5] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A6',
-                            weight.asMap().containsKey(4) ? weight[4] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A5',
-                            weight.asMap().containsKey(3) ? weight[3] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A4',
-                            weight.asMap().containsKey(2) ? weight[2] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A3',
-                            weight.asMap().containsKey(1) ? weight[1] : 0,
-                            Colors.red),
-                        ChartData(
-                            'A2',
-                            weight.asMap().containsKey(0) ? weight[0] : 0,
-                            Colors.red),
-                        ChartData('A1', 5, Colors.red),
-                      ];
+                      // chartData = [
+                      //   ChartData(
+                      //       'A10',
+                      //       weight.asMap().containsKey(8) ? weight[8] : 0,
+                      //       Colors.yellow),
+                      //   ChartData(
+                      //       'A9',
+                      //       weight.asMap().containsKey(7) ? weight[7] : 0,
+                      //       Colors.yellow),
+                      //   ChartData(
+                      //       'A8',
+                      //       weight.asMap().containsKey(6) ? weight[6] : 0,
+                      //       Colors.yellow),
+                      //   ChartData(
+                      //       'A7',
+                      //       weight.asMap().containsKey(5) ? weight[5] : 0,
+                      //       Colors.yellow),
+                      //   ChartData(
+                      //       'A6',
+                      //       weight.asMap().containsKey(4) ? weight[4] : 0,
+                      //       Colors.yellow),
+                      //   ChartData(
+                      //       'A5',
+                      //       weight.asMap().containsKey(3) ? weight[3] : 0,
+                      //       Colors.yellow),
+                      //   ChartData(
+                      //       'A4',
+                      //       weight.asMap().containsKey(2) ? weight[2] : 0,
+                      //       Colors.yellow),
+                      //   ChartData(
+                      //       'A3',
+                      //       weight.asMap().containsKey(1) ? weight[1] : 0,
+                      //       Colors.yellow),
+                      //   ChartData('A2', weight2[0], Colors.yellow),
+                      //   ChartData('A1', 5, Colors.yellow),
+                      // ];
+                      // chartData2 = [
+                      //   ChartData(
+                      //       'A10',
+                      //       weight.asMap().containsKey(8) ? weight[8] : 0,
+                      //       Colors.red),
+                      //   ChartData(
+                      //       'A9',
+                      //       weight.asMap().containsKey(7) ? weight[7] : 0,
+                      //       Colors.red),
+                      //   ChartData(
+                      //       'A8',
+                      //       weight.asMap().containsKey(6) ? weight[6] : 0,
+                      //       Colors.red),
+                      //   ChartData(
+                      //       'A7',
+                      //       weight.asMap().containsKey(5) ? weight[5] : 0,
+                      //       Colors.red),
+                      //   ChartData(
+                      //       'A6',
+                      //       weight.asMap().containsKey(4) ? weight[4] : 0,
+                      //       Colors.red),
+                      //   ChartData(
+                      //       'A5',
+                      //       weight.asMap().containsKey(3) ? weight[3] : 0,
+                      //       Colors.red),
+                      //   ChartData(
+                      //       'A4',
+                      //       weight.asMap().containsKey(2) ? weight[2] : 0,
+                      //       Colors.red),
+                      //   ChartData('A3', weight3[0], Colors.red),
+                      //   ChartData('A2', weight2[0], Colors.red),
+                      //   ChartData('A1', 5, Colors.red),
+                      // ];
 
                       _employees = getEmployeeData();
                       _KeyDataSourceKeyEvents =
@@ -823,43 +973,99 @@ class _KeyEventsState extends State<KeyEvents> {
                             Container(
                                 width: 300,
                                 margin: EdgeInsets.only(top: 10),
-                                child: SfCartesianChart(
-                                    title: ChartTitle(
-                                        text: 'All Events Wightage Graph'),
-                                    primaryXAxis: CategoryAxis(
-                                        // title: AxisTitle(text: 'Key Events')
-                                        ),
-                                    primaryYAxis: NumericAxis(
-                                        // title: AxisTitle(text: 'Weightage')
-                                        ),
-                                    series: <ChartSeries>[
-                                      // Renders column chart
-                                      BarSeries<ChartData, String>(
-                                          dataSource: chartData2,
-                                          xValueMapper: (ChartData data, _) =>
-                                              data.x,
-                                          yValueMapper: (ChartData data, _) =>
-                                              data.y,
-                                          pointColorMapper:
-                                              (ChartData data, _) => data.y1),
+                                child: GanttChartView(
+                                  scrollController: scrollController,
+                                  scrollPhysics: const BouncingScrollPhysics(),
+                                  maxDuration: null,
+                                  // const Duration(days: 30 * 2),
+                                  // optional, set to null for infinite horizontal scroll
+                                  startDate: DateTime(2023, 8, 1), //required
+                                  dayWidth: 40, //column width for each day
+                                  dayHeaderHeight: 35,
+                                  eventHeight: 45, //row height for events
 
-                                      BarSeries<ChartData, String>(
-                                          dataSource: chartData,
-                                          dataLabelSettings: DataLabelSettings(
-                                              isVisible: true),
-                                          xValueMapper: (ChartData data, _) =>
-                                              data.x,
-                                          yValueMapper: (ChartData data, _) =>
-                                              data.y,
-                                          pointColorMapper:
-                                              (ChartData data, _) => data.y1)
-                                    ]))
+                                  stickyAreaWidth: 80, //sticky area width
+                                  showStickyArea:
+                                      true, //show sticky area or not
+                                  showDays: true, //show days or not
+                                  startOfTheWeek:
+                                      WeekDay.monday, //custom start of the week
+                                  weekHeaderHeight: 30,
+                                  weekEnds: const {
+                                    // WeekDay.saturday,
+                                    // WeekDay.sunday
+                                  }, //custom weekends
+                                  isExtraHoliday: (context, day) {
+                                    //define custom holiday logic for each day
+                                    return DateUtils.isSameDay(
+                                        DateTime(2023, 7, 1), day);
+                                  },
+                                  events:
+                                      // ganttdata
+                                      [
+                                    //event relative to startDate
+                                    // GanttRelativeEvent(
+                                    //   relativeToStart:
+                                    //       const Duration(days: 0),
+                                    //   duration: const Duration(days: 5),
+                                    //   displayName: '1',
+                                    // ),
+                                    //event with absolute start and end
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 2),
+                                      endDate: DateTime(2022, 8, 4),
+                                      displayName: '1',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 3),
+                                      endDate: DateTime(2022, 8, 5),
+                                      displayName: '2',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '3',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '4',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '5',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '6',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '7',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '8',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '9',
+                                    ),
+                                    GanttAbsoluteEvent(
+                                      startDate: DateTime(2022, 8, 4),
+                                      endDate: DateTime(2022, 8, 6),
+                                      displayName: '10',
+                                    ),
+                                  ],
+                                ))
                           ]));
                     }
-                  } else {
-                    return LoadingPage();
                   }
-
                   _employees = getDefaultEmployeeData();
                   _KeyDataSourceKeyEvents =
                       KeyDataSourceKeyEvents(_employees, context);
@@ -1119,7 +1325,7 @@ class _KeyEventsState extends State<KeyEvents> {
                           ),
                         )
                       ]));
-                })); //  _isLoading
+                }));
 
     //     ? LoadingPage()
     //     :
@@ -1360,7 +1566,7 @@ class _KeyEventsState extends State<KeyEvents> {
           scope: 0,
           qtyExecuted: 0,
           balanceQty: 0,
-          percProgress: 0,
+          percProgress: perc2!.toStringAsFixed(2),
           weightage: weight2.isNotEmpty
               ? double.parse(weight2[0].toStringAsFixed(4))
               : 0.0),
@@ -1388,7 +1594,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc3!.toStringAsFixed(2),
         weightage: weight3.isNotEmpty
             ? double.parse(weight3[0].toStringAsFixed(4))
             : 0.0,
@@ -1416,7 +1622,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc4!.toStringAsFixed(2),
         weightage: weight4.isNotEmpty
             ? double.parse(weight4[0].toStringAsFixed(4))
             : 0.0,
@@ -1444,7 +1650,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc5!.toStringAsFixed(2),
         weightage: weight5.isNotEmpty
             ? double.parse(weight5[0].toStringAsFixed(4))
             : 0.0,
@@ -1472,7 +1678,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc6!.toStringAsFixed(2),
         weightage: weight6.isNotEmpty
             ? double.parse(weight6[0].toStringAsFixed(4))
             : 0.0,
@@ -1500,7 +1706,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc7!.toStringAsFixed(2),
         weightage: weight7.isNotEmpty
             ? double.parse(weight7[0].toStringAsFixed(4))
             : 0.0,
@@ -1526,7 +1732,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc8!.toStringAsFixed(2),
         weightage: weight8.isNotEmpty
             ? double.parse(weight8[0].toStringAsFixed(4))
             : 0.0,
@@ -1554,7 +1760,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc9!.toStringAsFixed(2),
         weightage: weight9.isNotEmpty
             ? double.parse(weight9[0].toStringAsFixed(4))
             : 0.0,
@@ -1582,7 +1788,7 @@ class _KeyEventsState extends State<KeyEvents> {
         scope: 0,
         qtyExecuted: 0,
         balanceQty: 0,
-        percProgress: 0,
+        percProgress: perc10!.toStringAsFixed(2),
         weightage: weight10.isNotEmpty
             ? double.parse(weight10[0].toStringAsFixed(4))
             : 0.0,

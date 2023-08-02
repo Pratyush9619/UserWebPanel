@@ -46,6 +46,7 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   flutter_slider_indicator: ^1.0.0
   flutter_svg: any
+  gantt_chart: ^0.3.0
   get: ^4.6.5
   google_fonts: ^3.0.1
   image_picker: ^0.8.6

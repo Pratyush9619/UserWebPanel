@@ -38,7 +38,7 @@ class Employee {
   int scope;
   int qtyExecuted;
   int balanceQty;
-  int percProgress;
+  dynamic percProgress;
   double weightage;
 
   factory Employee.fromJson(Map<String, dynamic> json) {
@@ -65,8 +65,8 @@ class Employee {
     return DataGridRow(cells: <DataGridCell>[
       DataGridCell<dynamic>(columnName: 'srNo', value: srNo),
       DataGridCell<String>(columnName: 'Activity', value: activity),
-      const DataGridCell<Widget>(columnName: 'viewbutton', value: null),
-      const DataGridCell<Widget>(columnName: 'uploadbutton', value: null),
+      // const DataGridCell<Widget>(columnName: 'viewbutton', value: null),
+      // const DataGridCell<Widget>(columnName: 'uploadbutton', value: null),
       DataGridCell<int>(
           columnName: 'OriginalDuration', value: originalDuration),
       DataGridCell<String>(columnName: 'StartDate', value: startDate),
@@ -80,7 +80,7 @@ class Employee {
       DataGridCell<int>(columnName: 'QtyScope', value: scope),
       DataGridCell<int>(columnName: 'QtyExecuted', value: qtyExecuted),
       DataGridCell<int>(columnName: 'BalancedQty', value: balanceQty),
-      DataGridCell<int>(columnName: 'Progress', value: percProgress),
+      DataGridCell<dynamic>(columnName: 'Progress', value: percProgress),
       DataGridCell<double>(columnName: 'Weightage', value: weightage),
     ]);
   }
@@ -103,7 +103,7 @@ class Employee {
       // DataGridCell<int>(columnName: 'QtyScope', value: scope),
       // DataGridCell<int>(columnName: 'QtyExecuted', value: qtyExecuted),
       // DataGridCell<int>(columnName: 'BalancedQty', value: balanceQty),
-      DataGridCell<int>(columnName: 'Progress', value: percProgress),
+      DataGridCell<dynamic>(columnName: 'Progress', value: percProgress),
       DataGridCell<double>(columnName: 'Weightage', value: weightage),
     ]);
   }

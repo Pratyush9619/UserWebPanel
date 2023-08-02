@@ -170,32 +170,32 @@ class _StatutoryAprovalA5State extends State<StatutoryAprovalA5> {
                                           fontSize: 16)),
                                 ),
                               ),
-                              GridColumn(
-                                columnName: 'viewbutton',
-                                width: 130,
-                                allowEditing: false,
-                                label: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  alignment: Alignment.center,
-                                  child: const Text('View File',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                ),
-                              ),
-                              GridColumn(
-                                columnName: 'uploadbutton',
-                                width: 130,
-                                allowEditing: false,
-                                label: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  alignment: Alignment.center,
-                                  child: const Text('Upload File',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                ),
-                              ),
+                              // GridColumn(
+                              //   columnName: 'viewbutton',
+                              //   width: 130,
+                              //   allowEditing: false,
+                              //   label: Container(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     alignment: Alignment.center,
+                              //     child: const Text('View File',
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.bold,
+                              //             fontSize: 16)),
+                              //   ),
+                              // ),
+                              // GridColumn(
+                              //   columnName: 'uploadbutton',
+                              //   width: 130,
+                              //   allowEditing: false,
+                              //   label: Container(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     alignment: Alignment.center,
+                              //     child: const Text('Upload File',
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.bold,
+                              //             fontSize: 16)),
+                              //   ),
+                              // ),
                               GridColumn(
                                 columnName: 'StartDate',
                                 allowEditing: false,
@@ -409,32 +409,33 @@ class _StatutoryAprovalA5State extends State<StatutoryAprovalA5> {
                                           fontSize: 16)),
                                 ),
                               ),
-                              GridColumn(
-                                columnName: 'viewbutton',
-                                width: 130,
-                                allowEditing: false,
-                                label: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  alignment: Alignment.center,
-                                  child: const Text('View File',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                ),
-                              ),
-                              GridColumn(
-                                columnName: 'uploadbutton',
-                                width: 130,
-                                allowEditing: false,
-                                label: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  alignment: Alignment.center,
-                                  child: const Text('Upload File',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
-                                ),
-                              ),
+                              // GridColumn(
+                              //   columnName: 'viewbutton',
+                              //   width: 130,
+                              //   allowEditing: false,
+                              //   label: Container(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     alignment: Alignment.center,
+                              //     child: const Text('View File',
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.bold,
+                              //             fontSize: 16)),
+                              //   ),
+                              // ),
+                              // GridColumn(
+                              //   columnName: 'uploadbutton',
+                              //   width: 130,
+                              //   allowEditing: false,
+                              //   label: Container(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     alignment: Alignment.center,
+                              //     child: const Text('Upload File',
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.bold,
+                              //             fontSize: 16)),
+                              //   ),
+                              // ),
+
                               GridColumn(
                                 columnName: 'StartDate',
                                 allowEditing: false,

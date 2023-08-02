@@ -1,5 +1,6 @@
 import 'package:assingment/Splash/splash_screen.dart';
 import 'package:assingment/provider/summary_provider.dart';
+import 'package:assingment/screen/gantt.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // OverviewPage(
         //   depoName: 'sdsa',
         // );
+        // GanttChart();
         const SplashScreen();
   }
 }
