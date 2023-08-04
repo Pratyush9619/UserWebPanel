@@ -51,6 +51,8 @@ class _StatutoryAprovalA3State extends State<StatutoryAprovalA3> {
   bool specificUser = true;
   QuerySnapshot? snap;
   dynamic companyId;
+  List<String> startDate = [];
+  List<String> endDate = [];
   List<String> actualstart = [];
   List<String> actualend = [];
   List<int> srNo = [];
@@ -514,6 +516,12 @@ class _StatutoryAprovalA3State extends State<StatutoryAprovalA3> {
                   } else {
                     alldata = snapshot.data['data'] as List<dynamic>;
                     _employees.clear();
+                    weight.clear();
+                    startDate.clear();
+                    endDate.clear();
+                    actualstart.clear();
+                    actualend.clear();
+                    yAxis.clear();
                     alldata.forEach((element) {
                       _employees.add(Employee.fromJson(element));
                       _employeeDataSource = EmployeeDataSource(
@@ -528,19 +536,35 @@ class _StatutoryAprovalA3State extends State<StatutoryAprovalA3> {
                       var weightdata = alldata[i]['Weightage'];
                       var yaxisdata = alldata[i]['srNo'];
 
+                      var start = alldata[i]['StartDate'];
+                      var end = alldata[i]['EndDate'];
                       var actualStart = alldata[i]['ActualStart'];
                       var actualEnd = alldata[i]['ActualEnd'];
                       weight.add(weightdata);
                       yAxis.add(yaxisdata);
+                      startDate.add(start);
+                      endDate.add(end);
                       actualstart.add(actualStart);
                       actualend.add(actualEnd);
                     }
                     for (int i = 0; i <= weight.length - 1; i++) {
                       ganttdata.add(GanttAbsoluteEvent(
-                          startDate:
-                              DateFormat('dd-MM-yyyy').parse(actualstart[i]),
-                          endDate: DateFormat('dd-MM-yyyy').parse(actualend[i]),
-                          displayName: yAxis[i].toString()));
+                        displayNameBuilder: (context) {
+                          return yAxis[i].toString();
+                        },
+                        startDate: DateFormat('dd-MM-yyyy').parse(startDate[i]),
+                        endDate: DateFormat('dd-MM-yyyy').parse(endDate[i]),
+                        //displayName: yAxis[i].toString()
+                      ));
+
+                      ganttdata.add(GanttAbsoluteEvent(
+                        displayNameBuilder: (context) {
+                          return '';
+                        },
+                        startDate:
+                            DateFormat('dd-MM-yyyy').parse(actualstart[i]),
+                        endDate: DateFormat('dd-MM-yyyy').parse(actualend[i]),
+                      ));
                     }
 
                     return SingleChildScrollView(
@@ -843,7 +867,6 @@ class _StatutoryAprovalA3State extends State<StatutoryAprovalA3> {
                                 ),
                                 Container(
                                     width: 450,
-                                    margin: EdgeInsets.only(top: 10),
                                     child: GanttChartView(
                                         scrollController: scrollController,
                                         scrollPhysics:
@@ -856,7 +879,7 @@ class _StatutoryAprovalA3State extends State<StatutoryAprovalA3> {
                                         dayWidth:
                                             40, //column width for each day
                                         dayHeaderHeight: 35,
-                                        eventHeight: 45, //row height for events
+                                        eventHeight: 25, //row height for events
 
                                         stickyAreaWidth: 80, //sticky area width
                                         showStickyArea:

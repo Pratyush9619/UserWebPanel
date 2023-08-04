@@ -433,11 +433,13 @@ class KeyDataSourceKeyEvents extends DataGridSource {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<int>(columnName: 'Delay', value: newCellValue as int);
       _employees[dataRowIndex].delay = newCellValue;
-    } else if (column.columnName == 'Dependency') {
-      dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<String>(columnName: 'Dependency', value: newCellValue);
-      _employees[dataRowIndex].dependency = newCellValue;
-    } else if (column.columnName == 'Progress') {
+    }
+    // else if (column.columnName == 'Dependency') {
+    //   dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
+    //       DataGridCell<String>(columnName: 'Dependency', value: newCellValue);
+    //   _employees[dataRowIndex].dependency = newCellValue;
+    // }
+    else if (column.columnName == 'Progress') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<int>(columnName: 'Progress', value: newCellValue as int);
       _employees[dataRowIndex].percProgress = newCellValue;

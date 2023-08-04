@@ -43,6 +43,8 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
   bool _isInit = true;
   List<double> weight = [];
   List<int> yAxis = [];
+  List<String> startDate = [];
+  List<String> endDate = [];
   List<String> actualstart = [];
   List<String> actualend = [];
   List<int> srNo = [];
@@ -544,6 +546,8 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                       _employees.clear();
                       // ganttdata.clear();
                       weight.clear();
+                      startDate.clear();
+                      endDate.clear();
                       actualstart.clear();
                       actualend.clear();
                       yAxis.clear();
@@ -561,23 +565,41 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                       for (int i = 0; i < alldata.length; i++) {
                         var weightdata = alldata[i]['Weightage'];
                         var yaxisdata = alldata[i]['srNo'];
+                        var Start = alldata[i]['StartDate'];
+                        var End = alldata[i]['EndDate'];
                         var actualStart = alldata[i]['ActualStart'];
                         var actualEnd = alldata[i]['ActualEnd'];
 
                         weight.add(weightdata);
                         yAxis.add(yaxisdata);
+                        startDate.add(Start);
+                        endDate.add(End);
                         actualstart.add(actualStart);
                         actualend.add(actualEnd);
                       }
                       for (int i = 0; i <= weight.length - 1; i++) {
                         chartData.add(ChartData(
                             yAxis[i].toString(), weight[i], Colors.green));
+
                         ganttdata.add(GanttAbsoluteEvent(
-                            startDate:
-                                DateFormat('dd-MM-yyyy').parse(actualstart[i]),
-                            endDate:
-                                DateFormat('dd-MM-yyyy').parse(actualend[i]),
-                            displayName: yAxis[i].toString()));
+                          displayNameBuilder: (context) {
+                            return yAxis[i].toString();
+                          },
+                          startDate:
+                              DateFormat('dd-MM-yyyy').parse(startDate[i]),
+                          endDate: DateFormat('dd-MM-yyyy').parse(endDate[i]),
+                          //displayName: yAxis[i].toString()
+                        ));
+
+                        ganttdata.add(GanttAbsoluteEvent(
+                          displayNameBuilder: (context) {
+                            return '';
+                          },
+                          startDate:
+                              DateFormat('dd-MM-yyyy').parse(actualstart[i]),
+                          endDate: DateFormat('dd-MM-yyyy').parse(actualend[i]),
+                          //displayName: yAxis[i].toString()
+                        ));
                       }
 
                       return SingleChildScrollView(
@@ -898,7 +920,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                                               40, //column width for each day
                                           dayHeaderHeight: 35,
                                           eventHeight:
-                                              45, //row height for events
+                                              25, //row height for events
 
                                           stickyAreaWidth:
                                               80, //sticky area width

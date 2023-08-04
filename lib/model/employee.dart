@@ -14,7 +14,7 @@ class Employee {
     required this.actualDuration,
     required this.delay,
     required this.reasonDelay,
-    this.dependency,
+    // this.dependency,
     required this.unit,
     required this.scope,
     required this.qtyExecuted,
@@ -33,7 +33,7 @@ class Employee {
   int actualDuration;
   String? reasonDelay;
   int delay;
-  String? dependency;
+  // String? dependency;
   int unit;
   int scope;
   int qtyExecuted;
@@ -98,7 +98,7 @@ class Employee {
       DataGridCell<String>(columnName: 'ActualEnd', value: actualendDate),
       DataGridCell<int>(columnName: 'ActuaslDuration', value: actualDuration),
       DataGridCell<int>(columnName: 'Delay', value: delay),
-      DataGridCell<String>(columnName: 'Dependency', value: dependency),
+      // DataGridCell<String>(columnName: 'Dependency', value: dependency),
       // DataGridCell<int>(columnName: 'Unit', value: unit),
       // DataGridCell<int>(columnName: 'QtyScope', value: scope),
       // DataGridCell<int>(columnName: 'QtyExecuted', value: qtyExecuted),
