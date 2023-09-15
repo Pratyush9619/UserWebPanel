@@ -1,6 +1,5 @@
 import 'package:assingment/Splash/splash_screen.dart';
 import 'package:assingment/provider/summary_provider.dart';
-import 'package:assingment/screen/gantt.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +24,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SummaryProvider>(
-      create: (context) => SummaryProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SummaryProvider()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'TP-EV-PMIS',
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // OverviewPage(
         //   depoName: 'sdsa',
         // );
-        // GanttChart();
+
         const SplashScreen();
   }
 }

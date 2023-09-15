@@ -11,8 +11,6 @@ import '../Authentication/auth_service.dart';
 import '../FirebaseApi/firebase_api.dart';
 import '../components/loading_page.dart';
 import '../datasource/safetychecklist_datasource.dart';
-import '../overview/daily_project.dart';
-import '../widget/appbar_back_date.dart';
 import '../widget/style.dart';
 
 class SafetyChecklist extends StatefulWidget {
@@ -52,7 +50,6 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
   @override
   void initState() {
     // _fetchSafetyField();
-    selectedDate = DateFormat.yMMMMd().format(DateTime.now());
     getUserId().whenComplete(() {
       safetylisttable = getData();
       _safetyChecklistDataSource = SafetyChecklistDataSource(
@@ -60,11 +57,9 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
       _dataGridController = DataGridController();
 
       _stream = FirebaseFirestore.instance
-          .collection('SafetyChecklistTable2')
+          .collection('SafetyChecklistTable')
           .doc(widget.depoName!)
-          .collection('userId')
-          .doc(userId)
-          .collection('date')
+          .collection(userId)
           .doc(DateFormat.yMMMMd().format(DateTime.now()))
           .snapshots();
 
@@ -79,9 +74,12 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
     return Scaffold(
       appBar: PreferredSize(
         // ignore: sort_child_properties_last
-        child: CustomAppBarBackDate(
-            text: '${widget.cityName} / ${widget.depoName} / SafetyChecklist ',
-            // / ${DateFormat.yMMMMd().format(DateTime.now() )}',
+        child: CustomAppBar(
+            toSafety: true,
+            showDepoBar: true,
+            cityname: widget.cityName,
+            text:
+                '${widget.cityName} / ${widget.depoName} / SafetyChecklist / ${DateFormat.yMMMMd().format(DateTime.now())}',
             haveSummary: true,
             onTap: () => Navigator.push(
                 context,
@@ -94,17 +92,12 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                   ),
                 )),
             haveSynced: true,
-            choosedate: () {
-              chooseDate(context);
-            },
             store: () {
               FirebaseFirestore.instance
-                  .collection('SafetyFieldData2')
+                  .collection('SafetyFieldData')
                   .doc('${widget.depoName}')
-                  .collection('userId')
-                  .doc(userId)
-                  .collection('date')
-                  .doc(selectedDate)
+                  .collection(userId)
+                  .doc(DateFormat.yMMMMd().format(DateTime.now()))
                   .set({
                 'TPNo': tpNo ?? '',
                 'Rev': rev ?? '',
@@ -120,22 +113,18 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                 'EnegizationDate': date1,
                 'BoardingDate': date2,
               });
-              FirebaseApi().nestedKeyEventsField(
-                  'SafetyFieldData2', widget.depoName!, 'userId', userId);
+
               store();
             }),
-
         preferredSize: const Size.fromHeight(50),
       ),
       body: _isloading
           ? LoadingPage()
           : StreamBuilder(
               stream: FirebaseFirestore.instance
-                  .collection('SafetyFieldData2')
-                  .doc('${widget.depoName}')
-                  .collection('userId')
-                  .doc(userId)
-                  .collection('date')
+                  .collection('SafetyFieldData')
+                  .doc(widget.depoName!)
+                  .collection(userId)
                   .doc(DateFormat.yMMMMd().format(DateTime.now()))
                   .snapshots(),
               builder: (context, snapshot) {
@@ -181,8 +170,6 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                                               width: 250,
                                               height: 30,
                                               child: TextFormField(
-                                                textInputAction:
-                                                    TextInputAction.next,
                                                 decoration:
                                                     const InputDecoration(
                                                         hintText: 'TPNO',
@@ -215,8 +202,6 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                                               width: 250,
                                               height: 30,
                                               child: TextFormField(
-                                                textInputAction:
-                                                    TextInputAction.next,
                                                 decoration: const InputDecoration(
                                                     hintText:
                                                         "Rev:0 Date: 29.11.2022",
@@ -567,9 +552,6 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                                                       child: Container(
                                                           height: 30,
                                                           child: TextFormField(
-                                                            textInputAction:
-                                                                TextInputAction
-                                                                    .next,
                                                             decoration: const InputDecoration(
                                                                 hintText:
                                                                     'Depot Location',
@@ -630,9 +612,6 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                                                       child: Container(
                                                           height: 30,
                                                           child: TextFormField(
-                                                            textInputAction:
-                                                                TextInputAction
-                                                                    .next,
                                                             decoration: const InputDecoration(
                                                                 hintText:
                                                                     'Address',
@@ -1289,18 +1268,14 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
     }
 
     FirebaseFirestore.instance
-        .collection('SafetyChecklistTable2')
+        .collection('SafetyChecklistTable')
         .doc(widget.depoName!)
-        .collection('userId')
-        .doc(userId)
-        .collection('date')
-        .doc(selectedDate)
+        .collection(userId)
+        .doc(DateFormat.yMMMMd().format(DateTime.now()))
         .set(
       {'data': tabledata2},
       SetOptions(merge: true),
     ).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'SafetyChecklistTable2', widget.depoName!, 'userId', userId);
       tabledata2.clear();
       // Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1625,61 +1600,29 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
         // photo: ' ',
       ),
     ];
-
-    // void _fetchSafetyField() async {
-    //   await FirebaseFirestore.instance
-    //       .collection('SafetyFieldData')
-    //       .doc('${widget.depoName}')
-    //       .collection(userId)
-    //       .doc(DateFormat.yMMMMd().format(DateTime.now()))
-    //       .get()
-    //       .then((ds) {
-    //     setState(() {
-    //       tpNo = ds.data()!['TPNo'] ?? '';
-    //       rev = ds.data()!['Rev'] ?? '';
-    //       date = ds.data()!['InstallationDate'] ?? '';
-    //       date1 = ds.data()!['EnegizationDate'] ?? '';
-    //       date2 = ds.data()!['BoardingDate'] ?? '';
-    //       depotname = ds.data()!['DepotName'] ?? '';
-    //       address = ds.data()!['address'] ?? '';
-    //       latitude = ds.data()!['Latitude'] ?? '';
-    //       state = ds.data()!['State'] ?? '';
-    //       chargertype = ds.data()!['ChargerType'] ?? '';
-    //       conductedby = ds.data()!['ConductedBy'] ?? '';
-    //     });
-    //   });
-    // }
   }
 
-  void chooseDate(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: const Text('All Date'),
-              content: Container(
-                  height: 400,
-                  width: 500,
-                  child: SfDateRangePicker(
-                    view: DateRangePickerView.month,
-                    showTodayButton: true,
-                    onSelectionChanged:
-                        (DateRangePickerSelectionChangedArgs args) {
-                      // if (args.value is PickerDateRange) {
-                      //   // rangeStartDate = args.value.startDate;
-                      //   // rangeEndDate = args.value.endDate;
-                      // } else {
-                      //   final List<PickerDateRange> selectedRanges = args.value;
-                      // }
-                    },
-                    selectionMode: DateRangePickerSelectionMode.single,
-                    showActionButtons: true,
-                    onSubmit: ((value) {
-                      selectedDate = DateFormat.yMMMMd()
-                          .format(DateTime.parse(value.toString()));
-                      Navigator.pop(context);
-                      setState(() {});
-                    }),
-                  )),
-            ));
-  }
+  // void _fetchSafetyField() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('SafetyFieldData')
+  //       .doc('${widget.depoName}')
+  //       .collection(userId)
+  //       .doc(DateFormat.yMMMMd().format(DateTime.now()))
+  //       .get()
+  //       .then((ds) {
+  //     setState(() {
+  //       tpNo = ds.data()!['TPNo'] ?? '';
+  //       rev = ds.data()!['Rev'] ?? '';
+  //       date = ds.data()!['InstallationDate'] ?? '';
+  //       date1 = ds.data()!['EnegizationDate'] ?? '';
+  //       date2 = ds.data()!['BoardingDate'] ?? '';
+  //       depotname = ds.data()!['DepotName'] ?? '';
+  //       address = ds.data()!['address'] ?? '';
+  //       latitude = ds.data()!['Latitude'] ?? '';
+  //       state = ds.data()!['State'] ?? '';
+  //       chargertype = ds.data()!['ChargerType'] ?? '';
+  //       conductedby = ds.data()!['ConductedBy'] ?? '';
+  //     });
+  //   });
+  // }
 }

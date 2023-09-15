@@ -308,12 +308,15 @@ class _KeyEventsState extends State<KeyEvents> {
             scrollController: scrollController,
             myScaffold: Scaffold(
                 appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(50),
                     child: CustomAppBar(
+                      showDepoBar: true,
+                      toPlanning: true,
+                      cityname: widget.cityName,
                       text:
                           '${widget.cityName} / ${widget.depoName} / Key Events',
                       haveSynced: false,
-                    ),
-                    preferredSize: const Size.fromHeight(50)),
+                    )),
 
                 //  AppBar(
                 //   title: Text(
