@@ -3,15 +3,17 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 import '../model/jmr.dart';
+import '../provider/summary_provider.dart';
 import '../widget/style.dart';
 
 class JmrDataSource extends DataGridSource {
-  // BuildContext mainContext;
-  JmrDataSource(this._JMRModels) {
+  Function deleteRow;
+  BuildContext mainContext;
+  JmrDataSource(this._JMRModels, this.deleteRow, this.mainContext) {
     buildDataGridRows();
   }
   void buildDataGridRows() {
@@ -38,6 +40,7 @@ class JmrDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    final int dataIndex = dataGridRows.indexOf(row);
     DateTime? rangeStartDate = DateTime.now();
     DateTime? rangeEndDate = DateTime.now();
     DateTime? date;
@@ -46,370 +49,24 @@ class JmrDataSource extends DataGridSource {
     DateTime? rangeEndDate1 = DateTime.now();
     DateTime? date1;
     DateTime? endDate1;
+
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
-          alignment:
-              //  (dataGridCell.columnName == 'srNo' ||
-              //         dataGridCell.columnName == 'Activity' ||
-              //         dataGridCell.columnName == 'OriginalDuration' ||
-              // dataGridCell.columnName == 'StartDate' ||
-              //         dataGridCell.columnName == 'EndDate' ||
-              //         dataGridCell.columnName == 'ActualStart' ||
-              //         dataGridCell.columnName == 'ActualEnd' ||
-              //         dataGridCell.columnName == 'ActualDuration' ||
-              //         dataGridCell.columnName == 'Delay' ||
-              //         dataGridCell.columnName == 'Unit' ||
-              //         dataGridCell.columnName == 'QtyScope' ||
-              //         dataGridCell.columnName == 'QtyExecuted' ||
-              //         dataGridCell.columnName == 'BalancedQty' ||
-              //         dataGridCell.columnName == 'Progress' ||
-              //         dataGridCell.columnName == 'Weightage')
-              Alignment.center,
+          alignment: Alignment.center,
           // : Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: (dataGridCell.columnName == 'Delete')
               ? IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     dataGridRows.remove(row);
                     notifyListeners();
+                    deleteRow(dataIndex);
                   },
                   icon: Icon(
                     Icons.delete,
                     color: red,
                   ))
-              // dataGridCell.columnName == 'button'
-              //     ? LayoutBuilder(
-              //         builder: (BuildContext context, BoxConstraints constraints) {
-              //         return ElevatedButton(
-              //             onPressed: () {
-              //               Navigator.of(context).push(MaterialPageRoute(
-              //                 builder: (context) => UploadDocument(
-              //                     activity:
-              //                         '${row.getCells()[1].value.toString()}'),
-              //               ));
-              //               // showDialog(
-              //               //     context: context,
-              //               //     builder: (context) => AlertDialog(
-              //               //         content: SizedBox(
-              //               //             height: 100,
-              //               //             child: Column(
-              //               //               mainAxisAlignment:
-              //               //                   MainAxisAlignment.spaceBetween,
-              //               //               children: [
-              //               //                 Text(
-              //               //                     'JMRModel ID: ${row.getCells()[0].value.toString()}'),
-              //               //                 Text(
-              //               //                     'JMRModel Name: ${row.getCells()[1].value.toString()}'),
-              //               //                 Text(
-              //               //                     'JMRModel Designation: ${row.getCells()[2].value.toString()}'),
-              //               //               ],
-              //               //             ))));
-              //             },
-              //             child: const Text('Upload'));
-              //       })
-              //     : dataGridCell.columnName == 'ActualStart' ||
-              //             dataGridCell.columnName == 'ActualEnd'
-              //         ? Row(
-              //             children: [
-              //               IconButton(
-              //                 onPressed: () {
-              //                   showDialog(
-              //                     context: mainContext,
-              //                     builder: (context) => AlertDialog(
-              //                         title: const Text('All Date'),
-              //                         content: Container(
-              //                           height: 400,
-              //                           width: 500,
-              //                           child: SfDateRangePicker(
-              //                             view: DateRangePickerView.month,
-              //                             showTodayButton: true,
-              //                             onSelectionChanged:
-              //                                 (DateRangePickerSelectionChangedArgs
-              //                                     args) {
-              //                               if (args.value is PickerDateRange) {
-              //                                 rangeStartDate = args.value.startDate;
-              //                                 rangeEndDate = args.value.endDate;
-              //                               } else {
-              //                                 final List<PickerDateRange>
-              //                                     selectedRanges = args.value;
-              //                               }
-              //                             },
-              //                             selectionMode:
-              //                                 DateRangePickerSelectionMode.range,
-              //                             showActionButtons: true,
-              //                             onSubmit: ((value) {
-              //                               date = DateTime.parse(
-              //                                   rangeStartDate.toString());
-
-              //                               endDate = DateTime.parse(
-              //                                   rangeEndDate.toString());
-
-              //                               Duration diff =
-              //                                   endDate!.difference(date!);
-
-              //                               print('Difference' +
-              //                                   diff.inDays.toString());
-
-              //                               final int dataRowIndex =
-              //                                   dataGridRows.indexOf(row);
-              //                               if (dataRowIndex != null) {
-              //                                 _JMRModels[dataRowIndex]
-              //                                         .actualstartDate =
-              //                                     DateFormat('dd-MM-yyyy')
-              //                                         .format(date!);
-
-              //                                 dataGridRows[dataRowIndex] =
-              //                                     DataGridRow(cells: [
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .srNo,
-              //                                       columnName: 'srNo'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .activity,
-              //                                       columnName: 'Activity'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex],
-              //                                       columnName: 'button'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .originalDuration,
-              //                                       columnName: 'OriginalDuration'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .startDate,
-              //                                       columnName: 'StartDate'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .endDate,
-              //                                       columnName: 'EndDate'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualstartDate,
-              //                                       columnName: 'ActualStart'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualendDate,
-              //                                       columnName: 'ActualEnd'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualDuration,
-              //                                       columnName: 'ActualDuration'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .delay,
-              //                                       columnName: 'Delay'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .unit,
-              //                                       columnName: 'Unit'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .scope,
-              //                                       columnName: 'QtyScope'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .qtyExecuted,
-              //                                       columnName: 'QtyExecuted'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .balanceQty,
-              //                                       columnName: 'BalancedQty'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .percProgress,
-              //                                       columnName: 'Progress'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .weightage,
-              //                                       columnName: 'Weightage'),
-              //                                 ]);
-
-              //                                 updateDataGrid(
-              //                                     rowColumnIndex: RowColumnIndex(
-              //                                         dataRowIndex, 6));
-              //                                 notifyListeners();
-              //                                 print('state$date');
-              //                                 print('valuedata$value');
-
-              //                                 print('start $rangeStartDate');
-              //                                 print('End $rangeEndDate');
-              //                                 // date = rangeStartDate;
-              //                                 print('object$date');
-
-              //                                 Navigator.pop(context);
-              //                               }
-              //                               if (dataRowIndex != null) {
-              //                                 _JMRModels[dataRowIndex]
-              //                                         .actualendDate =
-              //                                     DateFormat('dd-MM-yyyy')
-              //                                         .format(endDate!);
-
-              //                                 dataGridRows[dataRowIndex] =
-              //                                     DataGridRow(cells: [
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .srNo,
-              //                                       columnName: 'srNo'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .activity,
-              //                                       columnName: 'Activity'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex],
-              //                                       columnName: 'button'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .originalDuration,
-              //                                       columnName: 'OriginalDuration'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .startDate,
-              //                                       columnName: 'StartDate'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .endDate,
-              //                                       columnName: 'EndDate'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualstartDate,
-              //                                       columnName: 'ActualStart'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualendDate,
-              //                                       columnName: 'ActualEnd'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualDuration,
-              //                                       columnName: 'ActualDuration'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .delay,
-              //                                       columnName: 'Delay'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .unit,
-              //                                       columnName: 'Unit'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .scope,
-              //                                       columnName: 'QtyScope'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .qtyExecuted,
-              //                                       columnName: 'QtyExecuted'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .balanceQty,
-              //                                       columnName: 'BalancedQty'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .percProgress,
-              //                                       columnName: 'Progress'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .weightage,
-              //                                       columnName: 'Weightage'),
-              //                                 ]);
-
-              //                                 updateDataGrid(
-              //                                     rowColumnIndex: RowColumnIndex(
-              //                                         dataRowIndex, 7));
-
-              //                                 notifyListeners();
-              //                               }
-              //                               if (dataRowIndex != null) {
-              //                                 _JMRModels[dataRowIndex]
-              //                                         .actualDuration =
-              //                                     int.parse(diff.inDays.toString());
-
-              //                                 dataGridRows[dataRowIndex] =
-              //                                     DataGridRow(cells: [
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .srNo,
-              //                                       columnName: 'srNo'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .activity,
-              //                                       columnName: 'Activity'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex],
-              //                                       columnName: 'button'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .originalDuration,
-              //                                       columnName: 'OriginalDuration'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .startDate,
-              //                                       columnName: 'StartDate'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .endDate,
-              //                                       columnName: 'EndDate'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualstartDate,
-              //                                       columnName: 'ActualStart'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualendDate,
-              //                                       columnName: 'ActualEnd'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .actualDuration,
-              //                                       columnName: 'ActualDuration'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .delay,
-              //                                       columnName: 'Delay'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .unit,
-              //                                       columnName: 'Unit'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .scope,
-              //                                       columnName: 'QtyScope'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .qtyExecuted,
-              //                                       columnName: 'QtyExecuted'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .balanceQty,
-              //                                       columnName: 'BalancedQty'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .percProgress,
-              //                                       columnName: 'Progress'),
-              //                                   DataGridCell(
-              //                                       value: _JMRModels[dataRowIndex]
-              //                                           .weightage,
-              //                                       columnName: 'Weightage'),
-              //                                 ]);
-
-              //                                 updateDataGrid(
-              //                                     rowColumnIndex: RowColumnIndex(
-              //                                         dataRowIndex, 8));
-              //                                 notifyListeners();
-              //                               }
-              //                             }),
-              //                             onCancel: () {
-              //                               _controller.selectedRanges = null;
-              //                             },
-              //                           ),
-              //                         )),
-              //                   );
-              //                 },
-              //                 icon: const Icon(Icons.calendar_today),
-              //               ),
-              //               Text(dataGridCell.value.toString()),
-              //             ],
-              //           )
-              //         :
               : Text(
                   dataGridCell.value.toString(),
                 ));
@@ -565,5 +222,9 @@ class JmrDataSource extends DataGridSource {
         : isDateTimeBoard
             ? RegExp('[0-9/]')
             : RegExp('[a-zA-Z0-9.@!#^&*(){+-}%|<>?_=+,/ )]');
+  }
+
+  int getIndex(int rowIndex) {
+    return rowIndex;
   }
 }

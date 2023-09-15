@@ -72,6 +72,8 @@ class _DailyProjectState extends State<DailyProject> {
       appBar: PreferredSize(
           // ignore: sort_child_properties_last
           child: CustomAppBarBackDate(
+              toDaily: true,
+              cityName: widget.cityName,
               text: ' ${widget.cityName}/ ${widget.depoName} / Daily Report',
               //  ${DateFormat.yMMMMd().format(DateTime.now())}',
               haveSynced: true,
