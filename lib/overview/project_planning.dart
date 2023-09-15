@@ -113,6 +113,9 @@ class _PlanningPageState extends State<PlanningPage> {
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: CustomAppBar(
+              showDepoBar: true,
+              toPlanning: true,
+              cityname: widget.cityName,
               text: ' ${widget.cityName} / ${widget.depoName} / Keys Events',
               haveSynced: false,
             )),

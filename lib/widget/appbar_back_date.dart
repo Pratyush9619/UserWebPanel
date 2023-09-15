@@ -1,15 +1,16 @@
-import 'package:assingment/Planning_Pages/safety_checklist.dart';
 import 'package:assingment/overview/daily_project.dart';
 import 'package:assingment/widget/style.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
-
 import '../Authentication/auth_service.dart';
 import '../Authentication/login_register.dart';
 
 class CustomAppBarBackDate extends StatefulWidget {
   String? text;
+  String? cityName;
   // final IconData? icon;
   final bool haveSynced;
   final bool haveSummary;
@@ -19,6 +20,7 @@ class CustomAppBarBackDate extends StatefulWidget {
   bool havebottom;
   bool havedropdown;
   bool isdetailedTab;
+  bool toDaily;
 
   TabBar? tabBar;
 
@@ -33,14 +35,18 @@ class CustomAppBarBackDate extends StatefulWidget {
       this.havedropdown = false,
       this.havebottom = false,
       this.isdetailedTab = false,
-      this.tabBar});
+      this.tabBar,
+      this.cityName,
+      this.toDaily = false});
 
   @override
   State<CustomAppBarBackDate> createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBarBackDate> {
+  TextEditingController selectedDepoController = TextEditingController();
   dynamic userId;
+
   String? rangeStartDate = DateFormat.yMMMMd().format(DateTime.now());
 
   @override
@@ -60,6 +66,49 @@ class _CustomAppBarState extends State<CustomAppBarBackDate> {
               widget.text.toString(),
             ),
             actions: [
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                width: 200,
+                height: 30,
+                child: TypeAheadField(
+                    animationStart: BorderSide.strokeAlignCenter,
+                    hideOnLoading: true,
+                    suggestionsCallback: (pattern) async {
+                      return await getDepoList(pattern, widget.cityName!);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(
+                          suggestion.toString(),
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      );
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      selectedDepoController.text = suggestion.toString();
+                      widget.toDaily
+                          ? Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DailyProject(
+                                  cityName: widget.cityName,
+                                  depoName: suggestion.toString(),
+                                ),
+                              ))
+                          : Container();
+                    },
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding: EdgeInsets.all(5.0),
+                          hintText: 'Go To Depot'),
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                      controller: selectedDepoController,
+                    )),
+              ),
               Row(
                 children: [
                   IconButton(
@@ -73,7 +122,7 @@ class _CustomAppBarState extends State<CustomAppBarBackDate> {
                   )
                 ],
               ),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 30)),
+              const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
               widget.haveSummary
                   ? Padding(
                       padding:
@@ -278,5 +327,27 @@ class _CustomAppBarState extends State<CustomAppBarBackDate> {
     await AuthService().getCurrentUserId().then((value) {
       userId = value;
     });
+  }
+
+  Future<List<dynamic>> getDepoList(String pattern, String cityName) async {
+    List<dynamic> depoList = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('DepoName')
+        .doc(cityName)
+        .collection('AllDepots')
+        .get();
+
+    depoList = querySnapshot.docs.map((deponame) => deponame.id).toList();
+
+    if (pattern.isNotEmpty) {
+      depoList = depoList
+          .where((element) => element
+              .toString()
+              .toUpperCase()
+              .startsWith(pattern.toUpperCase()))
+          .toList();
+    }
+
+    return depoList;
   }
 }

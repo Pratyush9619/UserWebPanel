@@ -3,6 +3,7 @@ import 'package:assingment/datasource/detailedeng_datasource.dart';
 import 'package:assingment/model/detailed_engModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -42,6 +43,7 @@ class _DetailedEngtState extends State<DetailedEng>
   var alldata;
   bool _isloading = true;
   dynamic userId;
+  TextEditingController selectedDepoController = TextEditingController();
 
   @override
   void initState() {
@@ -114,6 +116,45 @@ class _DetailedEngtState extends State<DetailedEng>
               '${widget.cityName} / ${widget.depoName} / Detailed Engineering',
             ),
             actions: [
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                width: 200,
+                height: 30,
+                child: TypeAheadField(
+                    animationStart: BorderSide.strokeAlignCenter,
+                    hideOnLoading: true,
+                    suggestionsCallback: (pattern) async {
+                      return await getDepoList(pattern);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        title: Text(suggestion.toString()),
+                      );
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      selectedDepoController.text = suggestion.toString();
+
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailedEng(
+                              cityName: widget.cityName,
+                              depoName: suggestion.toString(),
+                            ),
+                          ));
+                    },
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding: EdgeInsets.all(5.0),
+                          hintText: 'Go To Depot'),
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                      controller: selectedDepoController,
+                    )),
+              ),
               Padding(
                 padding: const EdgeInsets.only(right: 20, top: 10, bottom: 10),
                 child: Container(
@@ -1790,5 +1831,27 @@ class _DetailedEngtState extends State<DetailedEng>
       //   }),
       // )
     );
+  }
+
+  Future<List<dynamic>> getDepoList(String pattern) async {
+    List<dynamic> depoList = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('DepoName')
+        .doc(widget.cityName)
+        .collection('AllDepots')
+        .get();
+
+    depoList = querySnapshot.docs.map((deponame) => deponame.id).toList();
+
+    if (pattern.isNotEmpty) {
+      depoList = depoList
+          .where((element) => element
+              .toString()
+              .toUpperCase()
+              .startsWith(pattern.toUpperCase()))
+          .toList();
+    }
+
+    return depoList;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'package:assingment/components/loading_page.dart';
+import 'package:assingment/model/jmr.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:excel/excel.dart';
@@ -8,7 +9,6 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../Authentication/auth_service.dart';
 import '../datasource/jmr_datasource.dart';
-import '../model/jmr.dart';
 import '../widget/custom_appbar.dart';
 import '../widget/nodata_available.dart';
 import 'package:intl/intl.dart';
@@ -20,31 +20,30 @@ class JMRPage extends StatefulWidget {
   String? jmrTab;
   int? jmrIndex;
   String? tabName;
-  bool? showTable;
+  bool showTable;
   int? dataFetchingIndex;
-  bool? isLoadLmr;
-  JMRPage(
-      {super.key,
-      this.title,
-      // this.img,
-      this.cityName,
-      this.depoName,
-      this.jmrTab,
-      this.jmrIndex,
-      this.tabName,
-      this.showTable,
-      this.dataFetchingIndex,
-      this.isLoadLmr});
+
+  JMRPage({
+    super.key,
+    this.title,
+    // this.img,
+    this.cityName,
+    this.depoName,
+    this.jmrTab,
+    this.jmrIndex,
+    this.tabName,
+    required this.showTable,
+    this.dataFetchingIndex,
+  });
 
   @override
   State<JMRPage> createState() => _JMRPageState();
 }
 
 class _JMRPageState extends State<JMRPage> {
-  final projectName = TextEditingController();
+  final TextEditingController projectName = TextEditingController();
   final loiRefNum = TextEditingController();
   final siteLocation = TextEditingController();
-  final workingDates = TextEditingController();
   final refNo = TextEditingController();
   final date = TextEditingController();
   final note = TextEditingController();
@@ -54,23 +53,24 @@ class _JMRPageState extends State<JMRPage> {
   List nextJmrIndex = [];
   List<List<dynamic>> data = [
     [
-      1,
+      '1',
       'Supply and Laying',
       'onboarding one no. of EV charger of 200kw',
-      '8.31',
+      '8.31 (Additional)',
       'abstract of JMR sheet No 1 & Item Sr No 1',
       'Mtr',
-      500,
-      300,
-      25000
+      500.00,
+      110,
+      55000.00
     ],
   ];
 
   List<JMRModel> jmrtable = <JMRModel>[];
+  int _excelRowNextIndex = 0;
   late JmrDataSource _jmrDataSource;
   late List<dynamic> jmrSyncList;
   late DataGridController _dataGridController;
-  bool _isloading = true;
+  bool _isLoading = true;
   List<dynamic> tabledata2 = [];
   Stream? _stream;
   var alldata;
@@ -85,49 +85,38 @@ class _JMRPageState extends State<JMRPage> {
           .collection('userId')
           .doc(userId)
           .snapshots();
-      _isloading = false;
-      setState(() {
-        if (widget.showTable == true) {
-          _fetchDataFromFirestore().then((value) => {
-                setState(() {
-                  for (dynamic item in jmrSyncList) {
-                    List<dynamic> tempData = [];
-                    if (item is List<dynamic>) {
-                      for (dynamic innerItem in item) {
-                        if (innerItem is Map<String, dynamic>) {
-                          tempData = [
-                            innerItem['srNo'],
-                            innerItem['Description'],
-                            innerItem['Activity'],
-                            innerItem['RefNo'],
-                            innerItem['Abstract'],
-                            innerItem['Uom'],
-                            innerItem['Rate'],
-                            innerItem['TotalQty'],
-                            innerItem['TotalAmount']
-                          ];
-                        }
-                        data.add(tempData);
+      if (widget.showTable == true) {
+        _fetchDataFromFirestore().then((value) => {
+              setState(() {
+                for (dynamic item in jmrSyncList) {
+                  List<dynamic> tempData = [];
+                  if (item is List<dynamic>) {
+                    for (dynamic innerItem in item) {
+                      if (innerItem is Map<String, dynamic>) {
+                        tempData = [
+                          innerItem['srNo'],
+                          innerItem['Description'],
+                          innerItem['Activity'],
+                          innerItem['RefNo'],
+                          innerItem['Abstract'],
+                          innerItem['Uom'],
+                          innerItem['Rate'],
+                          innerItem['TotalQty'],
+                          innerItem['TotalAmount']
+                        ];
                       }
+                      data.add(tempData);
                     }
                   }
-                })
-              });
-        }
-      });
+                }
+                _isLoading = false;
+              })
+            });
+      } else {
+        _isLoading = false;
+        setState(() {});
+      }
     });
-  }
-
-  void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    loiRefNum.dispose();
-    note.dispose();
-    date.dispose();
-    projectName.dispose();
-    refNo.dispose();
-    siteLocation.dispose();
-    workingDates.dispose();
-    super.dispose();
   }
 
   @override
@@ -137,22 +126,22 @@ class _JMRPageState extends State<JMRPage> {
         Navigator.pop(context);
         return true;
       },
-      child: Scaffold(
-        appBar: PreferredSize(
-          // ignore: sort_child_properties_last
-          child: CustomAppBar(
-              text:
-                  '${widget.cityName} / ${widget.depoName} / ${widget.title.toString()}',
-              // icon: Icons.logout,
-              haveSynced: true,
-              store: () {
-                nextIndex().then((value) => StoreData());
-              }),
-          preferredSize: const Size.fromHeight(50),
-        ),
-        body: _isloading
-            ? LoadingPage()
-            : Column(
+      child: _isLoading
+          ? LoadingPage()
+          : Scaffold(
+              appBar: PreferredSize(
+                // ignore: sort_child_properties_last
+                child: CustomAppBar(
+                    text:
+                        '${widget.cityName} / ${widget.depoName} / ${widget.title.toString()}',
+                    // icon: Icons.logout,
+                    haveSynced: widget.showTable ? false : true,
+                    store: () {
+                      nextIndex().then((value) => StoreData());
+                    }),
+                preferredSize: const Size.fromHeight(50),
+              ),
+              body: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
@@ -182,26 +171,27 @@ class _JMRPageState extends State<JMRPage> {
                                   const SizedBox(
                                       width: 110, child: Text('Working Dates')),
                                   Expanded(
-                                    child: TextFormField(
-                                      onChanged: (value) {
-                                        startDate.text = value;
-                                      },
-                                      scrollPadding: const EdgeInsets.all(0),
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.all(5.0),
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: TextFormField(
+                                        controller: startDate,
+                                        decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.all(5.0),
+                                            labelText: 'Start Date'),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
-                                    child: TextFormField(
-                                      onChanged: (value) {
-                                        endDate.text = value;
-                                      },
-                                      scrollPadding: const EdgeInsets.all(0),
-                                      decoration: const InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              top: 0, bottom: 0)),
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: TextFormField(
+                                        controller: endDate,
+                                        decoration: const InputDecoration(
+                                            labelText: 'End Date',
+                                            contentPadding:
+                                                EdgeInsets.all(5.0)),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -240,14 +230,15 @@ class _JMRPageState extends State<JMRPage> {
                         }
                         if (!snapshot.hasData) {
                           jmrtable = getData();
-                          _jmrDataSource = JmrDataSource(jmrtable);
+                          _jmrDataSource =
+                              JmrDataSource(jmrtable, deleteRow, context);
                           _dataGridController = DataGridController();
                           return SfDataGridTheme(
                             data: SfDataGridThemeData(headerColor: blue),
                             child: SfDataGrid(
                               source: _jmrDataSource,
                               //key: key,
-                              allowEditing: true,
+                              allowEditing: widget.showTable ? false : true,
                               frozenColumnsCount: 2,
                               gridLinesVisibility: GridLinesVisibility.both,
                               headerGridLinesVisibility:
@@ -424,7 +415,8 @@ class _JMRPageState extends State<JMRPage> {
                           );
                         } else if (snapshot.hasData) {
                           jmrtable = convertListToJmrModel(data);
-                          _jmrDataSource = JmrDataSource(jmrtable);
+                          _jmrDataSource =
+                              JmrDataSource(jmrtable, deleteRow, context);
                           _dataGridController = DataGridController();
 
                           return SfDataGridTheme(
@@ -617,48 +609,58 @@ class _JMRPageState extends State<JMRPage> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 80, right: 20),
-                    child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: FloatingActionButton(
-                          heroTag: "btn1",
-                          onPressed: () {
-                            JMRModel(
-                                srNo: 1,
-                                Description: 'Supply and Laying',
-                                Activity:
-                                    'onboarding one no. of EV charger of 200kw',
-                                RefNo: '8.31 (Additional)',
-                                JmrAbstract:
-                                    'abstract of JMR sheet No 1 & Item Sr No 1',
-                                Uom: 'Mtr',
-                                rate: 500.00,
-                                TotalQty: 110,
-                                TotalAmount: 55000.00);
-
-                            _jmrDataSource.buildDataGridRows();
-                            _jmrDataSource.updateDatagridSource();
-                          },
-                          child: const Icon(Icons.add),
-                        )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Visibility(
+                          visible: widget.showTable ? false : true,
+                          child: FloatingActionButton(
+                            hoverColor: Colors.blue[900],
+                            heroTag: "btn1",
+                            onPressed: () {
+                              data.add([
+                                data.length + 1,
+                                'Supply and Laying',
+                                'onboarding one no. of EV charger of 200kw',
+                                '8.31 (Additional)',
+                                'abstract of JMR sheet No 1 & Item Sr No 1',
+                                'Mtr',
+                                500.00,
+                                110,
+                                55000.00
+                              ]);
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.add),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Visibility(
+                          visible: widget.showTable ? false : true,
+                          child: FloatingActionButton.extended(
+                            hoverColor: Colors.blue[900],
+                            heroTag: "btn2",
+                            isExtended: true,
+                            onPressed: () {
+                              selectExcelFile().then((value) {
+                                setState(() {});
+                              });
+                            },
+                            label: const Text('Upload Excel'),
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
-        floatingActionButton: FloatingActionButton.extended(
-          heroTag: "btn2",
-          isExtended: true,
-          onPressed: () {
-            selectExcelFile().then((value) {
-              setState(() {});
-            });
-          },
-          label: const Text('Upload Excel For Data'),
-        ),
-
-        //   Center(
-        // child: Image.asset(widget.img.toString()),
-      ),
+              //   Center(
+              // child: Image.asset(widget.img.toString()),
+            ),
     );
   }
 
@@ -683,26 +685,13 @@ class _JMRPageState extends State<JMRPage> {
         for (var rows in sheet!.rows.skip(1)) {
           List<dynamic> rowData = [];
           for (var cell in rows) {
-            rowData.add(cell?.value);
+            rowData.add(cell?.value.toString());
           }
           data.add(rowData);
         }
       }
-      data = convertSubstringsToStrings(data);
     }
     return data;
-  }
-
-  List<List<dynamic>> convertSubstringsToStrings(
-      List<List<dynamic>> listOfLists) {
-    List<List<dynamic>> result = [];
-
-    for (List<dynamic> sublist in listOfLists) {
-      List<dynamic> convertedSublist =
-          sublist.map((item) => item.toString()).toList();
-      result.add(convertedSublist);
-    }
-    return result;
   }
 
   List<JMRModel> convertListToJmrModel(List<List<dynamic>> data) {
@@ -741,10 +730,10 @@ class _JMRPageState extends State<JMRPage> {
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -765,19 +754,19 @@ class _JMRPageState extends State<JMRPage> {
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
+        .collection('userId')
+        .doc(userId)
         .set({'deponame': widget.depoName});
 
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .set({'deponame': widget.depoName});
@@ -785,10 +774,10 @@ class _JMRPageState extends State<JMRPage> {
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -802,10 +791,10 @@ class _JMRPageState extends State<JMRPage> {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -815,14 +804,14 @@ class _JMRPageState extends State<JMRPage> {
   }
 
   Future<void> storeDataInJmrField() async {
-    //Adding Field Data in CivilJmrField
+    //Adding Field Data
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrField')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -833,7 +822,6 @@ class _JMRPageState extends State<JMRPage> {
       'project': projectName.text,
       'loiRefNum': loiRefNum.text,
       'siteLocation': siteLocation.text,
-      'workingDates': workingDates.text,
       'refNo': refNo.text,
       'date': date.text,
       'note': note.text,
@@ -844,19 +832,19 @@ class _JMRPageState extends State<JMRPage> {
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrField')
+        .collection('userId')
+        .doc(userId)
         .set({'deponame': widget.depoName});
 
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrField')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .set({'deponame': widget.depoName});
@@ -864,10 +852,10 @@ class _JMRPageState extends State<JMRPage> {
     FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrField')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -879,13 +867,14 @@ class _JMRPageState extends State<JMRPage> {
 
   Future<List<dynamic>> _fetchDataFromFirestore() async {
     data.clear();
+    getFieldData();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
+        .collection('userId')
+        .doc(userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -893,16 +882,16 @@ class _JMRPageState extends State<JMRPage> {
         .collection('date')
         .get();
 
-    List<dynamic> tempList = querySnapshot.docs.map((e) => e.id).toList();
+    List<dynamic> tempList = querySnapshot.docs.map((date) => date.id).toList();
 
     for (int i = 0; i < tempList.length; i++) {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('JMRCollection')
           .doc(widget.depoName)
-          .collection('userId')
-          .doc(userId)
           .collection('Table')
           .doc('${widget.tabName}JmrTable')
+          .collection('userId')
+          .doc(userId)
           .collection('jmrTabName')
           .doc(widget.jmrTab)
           .collection('jmrTabIndex')
@@ -914,14 +903,69 @@ class _JMRPageState extends State<JMRPage> {
       if (documentSnapshot.exists) {
         Map<String, dynamic>? data1 =
             documentSnapshot.data() as Map<String, dynamic>?;
-        setState(() {
-          jmrSyncList = data1!.entries.map((entry) => entry.value).toList();
-        });
+
+        jmrSyncList = data1!.entries.map((entry) => entry.value).toList();
+
         return jmrSyncList;
       }
     }
 
     return jmrSyncList;
+  }
+
+  Future<void> getFieldData() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('JMRCollection')
+        .doc(widget.depoName)
+        .collection('Table')
+        .doc('${widget.tabName}JmrField')
+        .collection('userId')
+        .doc(userId)
+        .collection('jmrTabName')
+        .doc(widget.jmrTab)
+        .collection('jmrTabIndex')
+        .doc('jmr${widget.dataFetchingIndex}')
+        .collection('date')
+        .get();
+
+    List<dynamic> tempList = querySnapshot.docs.map((date) => date.id).toList();
+
+    for (int i = 0; i < tempList.length; i++) {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('JMRCollection')
+          .doc(widget.depoName)
+          .collection('Table')
+          .doc('${widget.tabName}JmrField')
+          .collection('userId')
+          .doc(userId)
+          .collection('jmrTabName')
+          .doc(widget.jmrTab)
+          .collection('jmrTabIndex')
+          .doc('jmr${widget.dataFetchingIndex}')
+          .collection('date')
+          .doc(tempList[i])
+          .get();
+
+      Map<String, dynamic> fieldData =
+          documentSnapshot.data() as Map<String, dynamic>;
+
+      projectName.text = fieldData['project'];
+      loiRefNum.text = fieldData['loiRefNum'];
+      siteLocation.text = fieldData['siteLocation'];
+      refNo.text = fieldData['refNo'];
+      date.text = fieldData['date'];
+      note.text = fieldData['note'];
+      startDate.text = fieldData['startDate'];
+      endDate.text = fieldData['endDate'];
+
+      print(
+          'FieldData - ${projectName.text},${loiRefNum.text},${siteLocation.text},${refNo.text},${endDate.text}');
+    }
+  }
+
+  void deleteRow(dynamic removeIndex) async {
+    data.removeAt(removeIndex);
+    print('Row Removed $removeIndex');
   }
 }
 
@@ -942,8 +986,9 @@ List<JMRModel> getData() {
 
 HeaderValue(String title, String hintValue, TextEditingController fieldData) {
   return Container(
-    padding: const EdgeInsets.only(bottom: 5, top: 5),
+    padding: const EdgeInsets.only(bottom: 4, top: 4),
     width: 400,
+    height: 40,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -955,13 +1000,11 @@ HeaderValue(String title, String hintValue, TextEditingController fieldData) {
         const SizedBox(width: 10),
         Expanded(
           child: TextFormField(
-            onChanged: (value) {
-              fieldData.text = value;
-            },
-            decoration: const InputDecoration(
-              contentPadding: EdgeInsets.all(4),
+            controller: fieldData,
+            decoration: InputDecoration(
+              hintText: title,
+              contentPadding: const EdgeInsets.all(4),
             ),
-            initialValue: hintValue,
             style: const TextStyle(fontSize: 14),
           ),
         ),

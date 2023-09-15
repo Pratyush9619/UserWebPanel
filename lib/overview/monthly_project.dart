@@ -60,6 +60,9 @@ class _MonthlyProjectState extends State<MonthlyProject> {
       appBar: PreferredSize(
           // ignore: sort_child_properties_last
           child: CustomAppBar(
+            showDepoBar: true,
+            toMonthly: true,
+            cityname: widget.cityName,
             text:
                 ' ${widget.cityName}/ ${widget.depoName} / Monthly Report / ${DateFormat('MMMM').format(DateTime.now())}',
             haveSummary: true,
