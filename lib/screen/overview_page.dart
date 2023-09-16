@@ -146,6 +146,9 @@ class _OverviewPageState extends State<OverviewPage> {
           child: CustomAppBar(
             text: '${widget.cityName} / ${widget.depoName} / Overview Page ',
             haveSynced: false,
+            showDepoBar: true,
+            cityname: widget.cityName,
+            toOverviewPage: true,
           )),
       body: GridView.count(
         crossAxisCount: 6,

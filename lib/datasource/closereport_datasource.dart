@@ -48,6 +48,7 @@ class CloseReportDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    String Pagetitle = 'Closure Report';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
@@ -66,6 +67,7 @@ class CloseReportDataSource extends DataGridSource {
                             depoName: depoName,
                             fldrName: row.getCells()[0].value.toString(),
                             userId: userId,
+                            pagetitle: Pagetitle,
                           ),
                         ));
                         // showDialog(

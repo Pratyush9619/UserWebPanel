@@ -1,7 +1,5 @@
 import 'package:assingment/model/detailed_engModel.dart';
-import 'package:assingment/model/employee.dart';
 import 'package:assingment/KeysEvents/upload.dart';
-import 'package:assingment/model/monthly_projectModel.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +103,7 @@ class DetailedEngSourceShed extends DataGridSource {
     DateTime? date2;
     DateTime? endDate1;
     final int dataRowIndex = dataGridRows.indexOf(row);
+    String Pagetitle = 'Detailed Engineering';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       void addRowAtIndex(int index, DetailedEngModel rowData) {
@@ -195,12 +194,14 @@ class DetailedEngSourceShed extends DataGridSource {
                               } else {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => UploadDocument(
-                                      userId: userId,
-                                      title: 'DetailedEngShed',
-                                      cityName: cityName,
-                                      depoName: depoName,
-                                      fldrName:
-                                          '${row.getCells()[4].value.toString()}'),
+                                    userId: userId,
+                                    title: 'DetailedEngShed',
+                                    cityName: cityName,
+                                    depoName: depoName,
+                                    fldrName:
+                                        '${row.getCells()[4].value.toString()}',
+                                    pagetitle: Pagetitle,
+                                  ),
                                 ));
                               }
 

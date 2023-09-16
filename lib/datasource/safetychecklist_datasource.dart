@@ -61,6 +61,7 @@ class SafetyChecklistDataSource extends DataGridSource {
     // DateTime? rangeEndDate1 = DateTime.now();
     // DateTime? date1;
     // DateTime? endDate1;
+    String Pagetitle = 'Safety Checklist';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
@@ -95,6 +96,7 @@ class SafetyChecklistDataSource extends DataGridSource {
                               title: 'SafetyChecklist',
                               fldrName: row.getCells()[0].value.toString(),
                               userId: userId,
+                              pagetitle: Pagetitle,
                             ),
                           ));
                         },

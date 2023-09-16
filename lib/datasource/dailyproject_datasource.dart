@@ -65,6 +65,8 @@ class DailyDataSource extends DataGridSource {
         // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
       }
 
+      String Pagetitle = 'Daily Report';
+
       return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -95,6 +97,7 @@ class DailyDataSource extends DataGridSource {
                                 userId: userId,
                                 cityName: cityName,
                                 depoName: depoName,
+                                pagetitle: Pagetitle,
                               ),
                             ));
                       },
