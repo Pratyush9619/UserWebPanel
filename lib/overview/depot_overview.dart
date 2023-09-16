@@ -106,10 +106,10 @@ class _DepotOverviewState extends State<DepotOverview> {
       // ignore: use_build_context_synchronously
       _employeeDataSource = DepotOverviewDatasource(_employees, context);
       _dataGridController = DataGridController();
-      verifyProjectManager();
-
-      setState(() {
-        _isloading = false;
+      verifyProjectManager().whenComplete(() {
+        setState(() {
+          _isloading = false;
+        });
       });
     });
 
@@ -1925,14 +1925,16 @@ class _DepotOverviewState extends State<DepotOverview> {
               fileBytes!,
               //  SettableMetadata(contentType: 'application/pdf')
             );
-      } else if (fileBytes1 != null) {
+      }
+      if (fileBytes1 != null) {
         await FirebaseStorage.instance
             .ref(
                 'BOQElectrical/${widget.cityName}/${widget.depoName}/$userId/electrical/${result1!.files.first.name}')
             .putData(
               fileBytes1!,
             );
-      } else if (fileBytes2 != null) {
+      }
+      if (fileBytes2 != null) {
         await FirebaseStorage.instance
             .ref(
                 'BOQCivil/${widget.cityName}/${widget.depoName}/$userId/civil/${result2!.files.first.name}')

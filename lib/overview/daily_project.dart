@@ -35,6 +35,7 @@ class _DailyProjectState extends State<DailyProject> {
   var alldata;
   dynamic userId;
   bool _isloading = true;
+  String pagetitle = 'Daily Report';
 
   @override
   void initState() {
@@ -384,8 +385,13 @@ class _DailyProjectState extends State<DailyProject> {
                     dailyproject.clear();
                     alldata.forEach((element) {
                       dailyproject.add(DailyProjectModel.fromjson(element));
-                      _dailyDataSource = DailyDataSource(dailyproject, context,
-                          widget.cityName!, widget.depoName!, userId);
+                      _dailyDataSource = DailyDataSource(
+                        dailyproject,
+                        context,
+                        widget.cityName!,
+                        widget.depoName!,
+                        userId,
+                      );
                       _dataGridController = DataGridController();
                     });
                     return SfDataGridTheme(
@@ -595,21 +601,21 @@ class _DailyProjectState extends State<DailyProject> {
                 },
               ))
             ]),
-      // floatingActionButton: FloatingActionButton(
-      //     child: Icon(Icons.add),
-      //     onPressed: (() {
-      //       dailyproject.add(DailyProjectModel(
-      //           siNo: 1,
-      //           // date: DateFormat().add_yMd(storeData()).format(DateTime.now()),
-      //           // state: "Maharashtra",
-      //           // depotName: 'depotName',
-      //           typeOfActivity: 'Electrical Infra',
-      //           activityDetails: "Initial Survey of DEpot",
-      //           progress: '',
-      //           status: ''));
-      //       _dailyDataSource.buildDataGridRows();
-      //       _dailyDataSource.updateDatagridSource();
-      //     })),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: (() {
+            dailyproject.add(DailyProjectModel(
+                siNo: 1,
+                // date: DateFormat().add_yMd(storeData()).format(DateTime.now()),
+                // state: "Maharashtra",
+                // depotName: 'depotName',
+                typeOfActivity: '',
+                activityDetails: "",
+                progress: '',
+                status: ''));
+            _dailyDataSource.buildDataGridRows();
+            _dailyDataSource.updateDatagridSource();
+          })),
     );
   }
 

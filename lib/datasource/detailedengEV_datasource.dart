@@ -105,6 +105,7 @@ class DetailedEngSourceEV extends DataGridSource {
     DateTime? date2;
     DateTime? endDate1;
     final int dataRowIndex = dataGridRows.indexOf(row);
+    String Pagetitle = 'Detailed Engineering';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       void addRowAtIndex(int index, DetailedEngModel rowData) {
@@ -194,11 +195,13 @@ class DetailedEngSourceEV extends DataGridSource {
                               } else {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => UploadDocument(
-                                      userId: userId,
-                                      title: 'DetailedEngEV',
-                                      cityName: cityName,
-                                      depoName: depoName,
-                                      fldrName: activitydata),
+                                    userId: userId,
+                                    title: 'DetailedEngEV',
+                                    cityName: cityName,
+                                    depoName: depoName,
+                                    fldrName: activitydata,
+                                    pagetitle: Pagetitle,
+                                  ),
                                 ));
                               }
                               // showDialog(
