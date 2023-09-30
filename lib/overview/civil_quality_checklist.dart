@@ -1245,7 +1245,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
   }
 }
 
-CivilstoreData(BuildContext context, String depoName, String currentDate) {
+CivilstoreData(BuildContext context, String depoName, String currentDate, List<bool> listToSelectTab) {
   Map<String, dynamic> excavationTableData = Map();
   Map<String, dynamic> backfillingTableData = Map();
   Map<String, dynamic> massonaryTableData = Map();
