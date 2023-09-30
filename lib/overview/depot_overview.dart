@@ -3,11 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../Authentication/auth_service.dart';
 import '../FirebaseApi/firebase_api.dart';
@@ -45,6 +43,8 @@ class _DepotOverviewState extends State<DepotOverview> {
   // TextEditingController _addressController = TextEditingController();
   bool _isloading = true;
   List fileNames = [];
+   Stream? _stream;
+
   late TextEditingController _addressController,
       _scopeController,
       _chargerController,
@@ -74,7 +74,8 @@ class _DepotOverviewState extends State<DepotOverview> {
   //     civilEng,
   //     civilVendor;
 
-  Stream? _stream, _stream1;
+  
+ 
   var alldata;
   Uint8List? fileBytes;
   Uint8List? fileBytes1;
@@ -101,6 +102,12 @@ class _DepotOverviewState extends State<DepotOverview> {
   @override
   void initState() {
     initializeController();
+     _stream = FirebaseFirestore.instance
+        .collection('OverviewCollectionTable')
+        .doc(widget.depoName)
+        .collection("OverviewTabledData")
+        .doc(userId)
+        .snapshots();
     getUserId().whenComplete(() {
       _employees = getEmployeeData();
       // ignore: use_build_context_synchronously
@@ -208,7 +215,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                         stream: _stream,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData ||
-                              snapshot.data.exists == false) {
+                              snapshot.data!.exists == false) {
                             return SfDataGrid(
                               source: _employeeDataSource,
                               allowEditing: true,
@@ -467,7 +474,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                               ],
                             );
                           } else {
-                            alldata = snapshot.data['data'] as List<dynamic>;
+                            alldata = snapshot.data!['data'] as List<dynamic>;
                             _employees.clear();
                             alldata.forEach((element) {
                               _employees

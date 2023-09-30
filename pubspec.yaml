@@ -68,6 +68,7 @@ dependencies:
   syncfusion_flutter_xlsio: null
   tab_indicator_styler: ^2.0.0
   table_calendar: ^3.0.8
+  flutter_widget_from_html:
 
 dev_dependencies:
   flutter_lints: ^2.0.0
