@@ -40,16 +40,16 @@ class _DailyProjectState extends State<DailyProject> {
   @override
   void initState() {
     selectedDate = DateFormat.yMMMMd().format(DateTime.now());
-    dailyproject = getmonthlyReport();
+    // dailyproject = getmonthlyReport();
     // _dailyDataSource = DailyDataSource(
     //     dailyproject, context, widget.cityName!, widget.depoName!, userId);
     // _dataGridController = DataGridController();
 
     getUserId().whenComplete(() {
       getmonthlyReport();
-      dailyproject = getmonthlyReport();
-      _dailyDataSource = DailyDataSource(
-          dailyproject, context, widget.cityName!, widget.depoName!, userId);
+      // dailyproject = getmonthlyReport();
+      _dailyDataSource = DailyDataSource(dailyproject, context,
+          widget.cityName!, widget.depoName!, selectedDate!, userId);
       _dataGridController = DataGridController();
 
       _isloading = false;
@@ -61,6 +61,7 @@ class _DailyProjectState extends State<DailyProject> {
 
   @override
   Widget build(BuildContext context) {
+    dailyproject.clear();
     _stream = FirebaseFirestore.instance
         .collection('DailyProjectReport2')
         .doc('${widget.depoName}')
@@ -110,9 +111,15 @@ class _DailyProjectState extends State<DailyProject> {
                     return LoadingPage();
                   } else if (!snapshot.hasData ||
                       snapshot.data.exists == false) {
-                    dailyproject = getmonthlyReport();
-                    _dailyDataSource = DailyDataSource(dailyproject, context,
-                        widget.cityName!, widget.depoName!, userId);
+                    // dailyproject = getmonthlyReport();
+                    _dailyDataSource = DailyDataSource(
+                      dailyproject,
+                      context,
+                      widget.cityName!,
+                      widget.depoName!,
+                      selectedDate!,
+                      userId,
+                    );
                     _dataGridController = DataGridController();
                     return SfDataGridTheme(
                       data: SfDataGridThemeData(headerColor: lightblue),
@@ -390,6 +397,7 @@ class _DailyProjectState extends State<DailyProject> {
                         context,
                         widget.cityName!,
                         widget.depoName!,
+                        selectedDate!,
                         userId,
                       );
                       _dataGridController = DataGridController();

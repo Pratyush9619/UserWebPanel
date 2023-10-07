@@ -16,11 +16,12 @@ class DailyDataSource extends DataGridSource {
   String cityName;
   String depoName;
   String userId;
+  String selectedDate;
   BuildContext mainContext;
 
   List data = [];
   DailyDataSource(this._dailyproject, this.mainContext, this.cityName,
-      this.depoName, this.userId) {
+      this.depoName, this.selectedDate, this.userId) {
     buildDataGridRows();
   }
   void buildDataGridRows() {
@@ -77,11 +78,13 @@ class DailyDataSource extends DataGridSource {
                         mainContext,
                         MaterialPageRoute(
                           builder: (context) => ViewAllPdf(
-                              title: 'Data Image',
-                              cityName: cityName,
-                              depoName: depoName,
-                              docId: row.getCells()[1].value.toString(),
-                              userId: userId),
+                            title: Pagetitle,
+                            cityName: cityName,
+                            depoName: depoName,
+                            userId: userId,
+                            date: row.getCells()[0].value.toString(),
+                            docId: row.getCells()[1].value.toString(),
+                          ),
                         ));
                   },
                   child: const Text('View'))
@@ -92,12 +95,12 @@ class DailyDataSource extends DataGridSource {
                             mainContext,
                             MaterialPageRoute(
                               builder: (context) => UploadDocument(
-                                title: 'Data Image',
-                                fldrName: row.getCells()[1].value.toString(),
-                                userId: userId,
+                                pagetitle: Pagetitle,
                                 cityName: cityName,
                                 depoName: depoName,
-                                pagetitle: Pagetitle,
+                                userId: userId,
+                                date: selectedDate,
+                                fldrName: row.getCells()[1].value.toString(),
                               ),
                             ));
                       },

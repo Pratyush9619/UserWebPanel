@@ -57,9 +57,11 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
       _dataGridController = DataGridController();
 
       _stream = FirebaseFirestore.instance
-          .collection('SafetyChecklistTable')
+          .collection('SafetyChecklistTable2')
           .doc(widget.depoName!)
-          .collection(userId)
+          .collection('userId')
+          .doc(userId)
+          .collection('date')
           .doc(DateFormat.yMMMMd().format(DateTime.now()))
           .snapshots();
 
@@ -94,9 +96,11 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
             haveSynced: true,
             store: () {
               FirebaseFirestore.instance
-                  .collection('SafetyFieldData')
+                  .collection('SafetyFieldData2')
                   .doc('${widget.depoName}')
-                  .collection(userId)
+                  .collection('userId')
+                  .doc(userId)
+                  .collection('date')
                   .doc(DateFormat.yMMMMd().format(DateTime.now()))
                   .set({
                 'TPNo': tpNo ?? '',
@@ -114,6 +118,9 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                 'BoardingDate': date2,
               });
 
+              FirebaseApi().nestedKeyEventsField(
+                  'SafetyFieldData2', widget.depoName!, 'userId', userId);
+
               store();
             }),
         preferredSize: const Size.fromHeight(50),
@@ -122,9 +129,11 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
           ? LoadingPage()
           : StreamBuilder(
               stream: FirebaseFirestore.instance
-                  .collection('SafetyFieldData')
-                  .doc(widget.depoName!)
-                  .collection(userId)
+                  .collection('SafetyFieldData2')
+                  .doc('${widget.depoName}')
+                  .collection('userId')
+                  .doc(userId)
+                  .collection('date')
                   .doc(DateFormat.yMMMMd().format(DateTime.now()))
                   .snapshots(),
               builder: (context, snapshot) {
@@ -1268,14 +1277,18 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
     }
 
     FirebaseFirestore.instance
-        .collection('SafetyChecklistTable')
+        .collection('SafetyChecklistTable2')
         .doc(widget.depoName!)
-        .collection(userId)
+        .collection('userId')
+        .doc(userId)
+        .collection('date')
         .doc(DateFormat.yMMMMd().format(DateTime.now()))
         .set(
       {'data': tabledata2},
       SetOptions(merge: true),
     ).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'SafetyChecklistTable2', widget.depoName!, 'userId', userId);
       tabledata2.clear();
       // Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1604,7 +1617,7 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
 
   // void _fetchSafetyField() async {
   //   await FirebaseFirestore.instance
-  //       .collection('SafetyFieldData')
+  //       .collection('SafetyFieldData2')
   //       .doc('${widget.depoName}')
   //       .collection(userId)
   //       .doc(DateFormat.yMMMMd().format(DateTime.now()))

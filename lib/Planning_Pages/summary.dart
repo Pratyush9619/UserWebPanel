@@ -1,4 +1,5 @@
 import 'package:assingment/Planning_Pages/quality_checklist.dart';
+import 'package:assingment/overview/daily_project.dart';
 import 'package:assingment/widget/custom_appbar.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -535,6 +536,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                     context,
                                     widget.cityName!,
                                     widget.depoName!,
+                                    selectedDate!,
                                     widget.userId,
                                   );
                                   _dataGridController = DataGridController();
@@ -565,7 +567,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                             columnName: 'Date',
                                             visible: true,
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 150,
                                             label: Container(
                                               padding:
@@ -589,7 +591,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                             visible: false,
                                             columnName: 'SiNo',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 70,
                                             label: Container(
                                               padding:
@@ -612,7 +614,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'TypeOfActivity',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 200,
                                             label: Container(
                                               padding:
@@ -634,7 +636,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'ActivityDetails',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 220,
                                             label: Container(
                                               padding:
@@ -656,7 +658,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'Progress',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 320,
                                             label: Container(
                                               padding:
@@ -678,7 +680,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'Status',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 320,
                                             label: Container(
                                               padding:
@@ -768,7 +770,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'Delete',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             visible: false,
                                             width: 120,
                                             label: Container(

@@ -1010,6 +1010,7 @@ class _KeyEventsState extends State<KeyEvents> {
                                 ),
                                 Container(
                                     width: 450,
+                                    height: MediaQuery.of(context).size.height,
                                     child: GanttChartView(
                                         scrollController: scrollController,
                                         scrollPhysics:

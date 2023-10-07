@@ -43,7 +43,7 @@ class _DepotOverviewState extends State<DepotOverview> {
   // TextEditingController _addressController = TextEditingController();
   bool _isloading = true;
   List fileNames = [];
-   Stream? _stream;
+  Stream? _stream;
 
   late TextEditingController _addressController,
       _scopeController,
@@ -74,8 +74,6 @@ class _DepotOverviewState extends State<DepotOverview> {
   //     civilEng,
   //     civilVendor;
 
-  
- 
   var alldata;
   Uint8List? fileBytes;
   Uint8List? fileBytes1;
@@ -102,13 +100,14 @@ class _DepotOverviewState extends State<DepotOverview> {
   @override
   void initState() {
     initializeController();
-     _stream = FirebaseFirestore.instance
-        .collection('OverviewCollectionTable')
-        .doc(widget.depoName)
-        .collection("OverviewTabledData")
-        .doc(userId)
-        .snapshots();
+
     getUserId().whenComplete(() {
+      _stream = FirebaseFirestore.instance
+          .collection('OverviewCollectionTable')
+          .doc(widget.depoName)
+          .collection("OverviewTabledData")
+          .doc(userId)
+          .snapshots();
       _employees = getEmployeeData();
       // ignore: use_build_context_synchronously
       _employeeDataSource = DepotOverviewDatasource(_employees, context);
@@ -162,7 +161,6 @@ class _DepotOverviewState extends State<DepotOverview> {
                   'ElectricalEng': _electricalEngineerController.text,
                   'ElectricalVendor': _electricalVendorController.text,
                 }, SetOptions(merge: true));
-
                 FirebaseApi().defaultKeyEventsField(
                     'OverviewCollectionTable', widget.depoName!);
                 FirebaseApi().nestedKeyEventsField('OverviewCollectionTable',

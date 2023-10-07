@@ -144,6 +144,7 @@ class _OverviewPageState extends State<OverviewPage> {
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: CustomAppBar(
+            havedropdown: true,
             text: '${widget.cityName} / ${widget.depoName} / Overview Page ',
             haveSynced: false,
             showDepoBar: true,

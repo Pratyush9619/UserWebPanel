@@ -458,7 +458,7 @@ class QualityPSSDataSource extends DataGridSource {
     } else if (column.columnName == 'reference') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<dynamic>(
-              columnName: 'reference', value: newCellValue as int);
+              columnName: 'reference', value: newCellValue);
       _checklistModel[dataRowIndex].reference = newCellValue as dynamic;
     } else {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -552,6 +552,6 @@ class QualityPSSDataSource extends DataGridSource {
         ? RegExp('[0-9]')
         : isDateTimeBoard
             ? RegExp('[0-9/]')
-            : RegExp('[a-zA-Z ]');
+            : RegExp('[a-zA-Z0-9/ ]');
   }
 }

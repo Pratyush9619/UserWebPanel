@@ -52,6 +52,15 @@ class AuthService {
       "ConfirmPassword": confirmpassword,
       'Employee Id': id
     });
+
+    FirebaseFirestore.instance
+        .collection('TotalUsers')
+        .doc("$firstname $lastname")
+        .set({
+      'alphabet': firstname[0].trim().toUpperCase(),
+      'position': 'unAssigned'
+    });
+
     return true;
   }
 
