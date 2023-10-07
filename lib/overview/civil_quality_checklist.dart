@@ -946,7 +946,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                           ),
                                         ),
                                         GridColumn(
-                                          columnName: 'Reference',
+                                          columnName: 'reference',
                                           allowEditing: true,
                                           width: 250,
                                           label: Container(
@@ -1161,7 +1161,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                     ),
                                   ),
                                   GridColumn(
-                                    columnName: 'Reference',
+                                    columnName: 'reference',
                                     allowEditing: true,
                                     width: 250,
                                     label: Container(
@@ -1245,7 +1245,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
   }
 }
 
-CivilstoreData(BuildContext context, String depoName, String currentDate, List<bool> listToSelectTab) {
+CivilstoreData(BuildContext context, String depoName, String currentDate,
+    List<bool> listToSelectTab) {
   Map<String, dynamic> excavationTableData = Map();
   Map<String, dynamic> backfillingTableData = Map();
   Map<String, dynamic> massonaryTableData = Map();

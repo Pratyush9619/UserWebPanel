@@ -41,8 +41,16 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
     futureFiles = widget.title == 'QualityChecklist'
         ? FirebaseApi.listAll(
             '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}')
-        : FirebaseApi.listAll(
-            '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+        : widget.title == 'ClosureReport'
+            ? FirebaseApi.listAll(
+                '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}')
+            : widget.title == '/BOQSurvey' ||
+                    widget.title == '/BOQElectrical' ||
+                    widget.title == '/BOQCivil'
+                ? FirebaseApi.listAll(
+                    '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}')
+                : FirebaseApi.listAll(
+                    '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
     super.initState();
   }
 

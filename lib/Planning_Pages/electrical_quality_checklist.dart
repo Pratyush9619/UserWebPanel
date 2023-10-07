@@ -7,6 +7,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import '../Authentication/auth_service.dart';
+import '../FirebaseApi/firebase_api.dart';
 import '../QualityDatasource/qualityElectricalDatasource/quality_EP.dart';
 import '../QualityDatasource/qualityElectricalDatasource/quality_acdb.dart';
 import '../QualityDatasource/qualityElectricalDatasource/quality_cdi.dart';
@@ -44,7 +45,7 @@ List<dynamic> msptabledatalist = [];
 List<dynamic> chargertabledatalist = [];
 List<dynamic> eptabledatalist = [];
 
-String selectedDate = DateFormat('MMMM dd, yyyy').format(DateTime.now());
+String selectedDate = DateFormat.yMMMMd().format(DateTime.now());
 DateTime currentDate = DateTime.now();
 
 List tabForElec = [
@@ -219,8 +220,7 @@ class _ElectricalQualityChecklistState
               onTap: (value) async {
                 _selectedIndex = value;
                 checkTable = true;
-                selectedDate =
-                    DateFormat('MMMM dd, yyyy').format(DateTime.now());
+                selectedDate = DateFormat.yMMMMd().format(DateTime.now());
                 currentDate = DateTime.now();
                 setBoolean();
                 getControllersData();
@@ -1196,7 +1196,7 @@ class _ElectricalQualityChecklistState
     if (picked != null && picked != currentDate) {
       checkTable = true;
       currentDate = picked;
-      selectedDate = DateFormat('MMMM dd, yyyy').format(currentDate);
+      selectedDate = DateFormat.yMMMMd().format(currentDate);
       getControllersData();
       getTableData();
     }
@@ -1358,6 +1358,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': psstabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1423,6 +1427,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': rmutabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       eptabledatalist.clear();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
@@ -1488,6 +1496,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': cttabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       eptabledatalist.clear();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
@@ -1552,6 +1564,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': cmutabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       eptabledatalist.clear();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
@@ -1612,6 +1628,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': acdbtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       eptabledatalist.clear();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
@@ -1674,6 +1694,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': citabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1736,6 +1760,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': cditabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1767,6 +1795,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': msptabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       eptabledatalist.clear();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
@@ -1830,6 +1862,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': chargertabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       eptabledatalist.clear();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
@@ -1893,6 +1929,10 @@ storeData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': eptabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'ElectricalChecklistField', depoName, 'userId', userId);
       eptabledatalist.clear();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),

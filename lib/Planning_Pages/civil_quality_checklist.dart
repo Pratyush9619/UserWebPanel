@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import '../Authentication/auth_service.dart';
+import '../FirebaseApi/firebase_api.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_Ironite_flooring.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_backfilling.dart';
 import '../QualityDatasource/qualityCivilDatasource/quality_ceiling.dart';
@@ -38,7 +39,7 @@ List<dynamic> pavingtabledatalist = [];
 List<dynamic> roofingtabledatalist = [];
 List<dynamic> proofingtabledatalist = [];
 
-String selectedDate = DateFormat('MMMM dd, yyyy').format(DateTime.now());
+String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
 DateTime currentDate = DateTime.now();
 
 late QualityExcavationDataSource _qualityExcavationDataSource;
@@ -979,7 +980,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                               ),
                             ),
                             GridColumn(
-                              columnName: 'Reference',
+                              columnName: 'reference',
                               allowEditing: true,
                               width: 250,
                               label: Container(
@@ -1085,7 +1086,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
 
     if (picked != null && picked != currentDate) {
       currentDate = picked;
-      selectedDate = DateFormat('MMMM dd, yyyy').format(currentDate);
+      selectedDate = DateFormat.yMMMMd().format(currentDate);
       getControllersData();
       getTableData();
     }
@@ -1256,6 +1257,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': excavationtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1295,7 +1300,7 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         if (data.columnName != 'button' ||
             data.columnName == 'View' ||
             data.columnName != 'Delete') {
-          backfillingTableData[data.columnName] = data.value;
+          backfillingTableData[data.columnName] = data.value ?? '';
         }
       }
       backfillingtabledatalist.add(backfillingTableData);
@@ -1311,6 +1316,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': backfillingtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1368,6 +1377,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': massonarytabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1423,6 +1436,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': doorstabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1476,6 +1493,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': ceillingtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1531,6 +1552,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': flooringtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1587,6 +1612,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': inspectiontabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1643,6 +1672,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': flooringtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1698,6 +1731,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': paintingtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1753,6 +1790,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': pavingtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1809,6 +1850,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': roofingtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1864,6 +1909,10 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .set({
       'data': proofingtabledatalist,
     }).whenComplete(() {
+      FirebaseApi().nestedKeyEventsField(
+          'CivilQualityChecklist', depoName, 'userId', userId);
+      FirebaseApi().nestedKeyEventsField(
+          'CivilChecklistField', depoName, 'userId', userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,

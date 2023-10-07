@@ -14,9 +14,11 @@ class SummaryProvider extends ChangeNotifier {
   fetchdailydata(
       String depoName, String userId, DateTime date, DateTime endDate) async {
     final List<DailyProjectModel> loadeddata = [];
-    for (DateTime initialdate = date;
-        initialdate.isBefore(endDate.add(const Duration(days: 1)));
-        initialdate = initialdate.add(const Duration(days: 1))) {
+    _dailydata.clear();
+    for (DateTime initialdate = endDate;
+        initialdate.isAfter(date.subtract(Duration(days: 1)));
+        initialdate = initialdate.subtract(const Duration(days: 1))) {
+      print(date.add(const Duration(days: 1)));
       print(DateFormat.yMMMMd().format(initialdate));
       FirebaseFirestore.instance
           .collection('DailyProjectReport2')

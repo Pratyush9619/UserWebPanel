@@ -20,9 +20,10 @@ class UploadDocument extends StatefulWidget {
   String? date;
   int? srNo;
   String? pagetitle;
+
   UploadDocument({
     super.key,
-    required this.title,
+    this.title,
     this.subtitle,
     required this.cityName,
     required this.depoName,
@@ -140,7 +141,9 @@ class _UploadDocumentState extends State<UploadDocument> {
                               String refname = (widget.title ==
                                       'QualityChecklist'
                                   ? '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}/${result!.files.first.name}'
-                                  : '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName!}/${result!.files.first.name}');
+                                  : widget.pagetitle == 'ClosureReport'
+                                      ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${result!.files.first.name}'
+                                      : '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.fldrName}/${result!.files.first.name}');
 
                               // String? fileName = result!.files.first.name;
 

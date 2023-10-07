@@ -1,4 +1,6 @@
 import 'dart:developer';
+
+import 'package:assingment/Planning_Pages/electrical_quality_checklist.dart';
 import 'package:assingment/Planning_Pages/summary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,6 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import '../Authentication/auth_service.dart';
 import '../widget/style.dart';
 import 'civil_quality_checklist.dart';
-import 'electrical_quality_checklist.dart';
 
 class QualityChecklist extends StatefulWidget {
   String? userId;
@@ -93,8 +94,8 @@ class _QualityChecklistState extends State<QualityChecklist> {
 
   @override
   Widget build(BuildContext context) {
-    widget.currentDate =
-        widget.currentDate ?? DateFormat.yMMMMd().format(DateTime.now());
+    widget.currentDate = widget.currentDate ??
+        DateFormat('MMMM dd, yyyy').format(DateTime.now());
 
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return SafeArea(
@@ -248,7 +249,7 @@ class _QualityChecklistState extends State<QualityChecklist> {
                                     'assets/logout.png',
                                     height: 20,
                                     width: 20,
-                                  )))
+                                  ))),
                         ],
                       )
                     : Container(),

@@ -127,7 +127,7 @@ class DetailedEngSourceShed extends DataGridSource {
       return Container(
         // color: getcolor(),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: (dataGridCell.columnName == 'Add')
             ? ElevatedButton(
                 onPressed: () {
@@ -138,16 +138,16 @@ class DetailedEngSourceShed extends DataGridSource {
                         title: '',
                         number: null,
                         preparationDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         submissionDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         approveDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         releaseDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       ));
                 },
-                child: Text('Add'))
+                child: const Text('Add'))
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () {
@@ -182,7 +182,7 @@ class DetailedEngSourceShed extends DataGridSource {
                                         //   },
                                         // ),
                                         TextButton(
-                                          child: const Text('Yes'),
+                                          child: const Text('Ok'),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -194,13 +194,13 @@ class DetailedEngSourceShed extends DataGridSource {
                               } else {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => UploadDocument(
-                                    userId: userId,
-                                    title: 'DetailedEngShed',
+                                    pagetitle: 'DetailedEngShed',
                                     cityName: cityName,
                                     depoName: depoName,
+                                    userId: userId,
+                                    date: activitydata,
                                     fldrName:
-                                        '${row.getCells()[4].value.toString()}',
-                                    pagetitle: Pagetitle,
+                                        row.getCells()[0].value.toString(),
                                   ),
                                 ));
                               }
@@ -234,12 +234,19 @@ class DetailedEngSourceShed extends DataGridSource {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ViewAllPdf(
-                                          title: 'DetailedEngShed',
-                                          cityName: cityName,
-                                          depoName: depoName,
-                                          userId: userId,
-                                          docId:
-                                              '${row.getCells()[4].value.toString()}')
+                                            title: 'DetailedEngShed',
+                                            cityName: cityName,
+                                            depoName: depoName,
+                                            userId: userId,
+                                            date: row
+                                                .getCells()[4]
+                                                .value
+                                                .toString(),
+                                            docId: row
+                                                .getCells()[0]
+                                                .value
+                                                .toString(),
+                                          )
                                       // UploadDocument(
                                       //     title: 'DetailedEngRFC',
                                       //     cityName: cityName,
@@ -300,12 +307,13 @@ class DetailedEngSourceShed extends DataGridSource {
                                                               rangeEndDate =
                                                                   args.value
                                                                       .endDate;
-                                                            } else {
-                                                              final List<
-                                                                      PickerDateRange>
-                                                                  selectedRanges =
-                                                                  args.value;
                                                             }
+                                                            // else {
+                                                            //   final List<
+                                                            //           PickerDateRange>
+                                                            //       selectedRanges =
+                                                            //       args.value;
+                                                            // }
                                                           },
                                                           selectionMode:
                                                               DateRangePickerSelectionMode
@@ -400,12 +408,13 @@ class DetailedEngSourceShed extends DataGridSource {
                                                                       rangeEndDate = args
                                                                           .value
                                                                           .endDate;
-                                                                    } else {
-                                                                      final List<
-                                                                              PickerDateRange>
-                                                                          selectedRanges =
-                                                                          args.value;
                                                                     }
+                                                                    // else {
+                                                                    //   final List<
+                                                                    //           PickerDateRange>
+                                                                    //       selectedRanges =
+                                                                    //       args.value;
+                                                                    // }
                                                                   },
                                                                   selectionMode:
                                                                       DateRangePickerSelectionMode
