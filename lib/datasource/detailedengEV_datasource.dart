@@ -4,6 +4,7 @@ import 'package:assingment/KeysEvents/upload.dart';
 import 'package:assingment/model/monthly_projectModel.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -114,6 +115,11 @@ class DetailedEngSourceEV extends DataGridSource {
         notifyListeners();
         // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
       }
+         void removeRowAtIndex(int index) {
+        _detailedengev.removeAt(index);
+        buildDataGridRowsEV();
+        notifyListeners();
+      }
       // Color getcolor() {
       //   if (dataGridCell.columnName == 'Title' &&
       //           dataGridCell.value == 'RFC Drawings of Civil Activities' ||
@@ -151,9 +157,20 @@ class DetailedEngSourceEV extends DataGridSource {
                 child: Text('Add'))
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
-                    onPressed: () {
-                      dataGridRows.remove(row);
-                      notifyListeners();
+                    onPressed: () async {
+                   removeRowAtIndex(dataRowIndex);
+                      await FirebaseStorage.instance
+                          .ref(
+                              "DetailedEngEV/$cityName/$depoName/$userId/${row.getCells()[4].value}/${row.getCells()[0].value}")
+                          .listAll()
+                          .then((value) {
+                        value.items.forEach((element) {
+                          print('path${element.fullPath}');
+                          FirebaseStorage.instance
+                              .ref(element.fullPath)
+                              .delete();
+                        });
+                      });
                     },
                     icon: Icon(
                       Icons.delete,

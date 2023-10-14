@@ -112,6 +112,7 @@ class _DailyProjectState extends State<DailyProject> {
                   } else if (!snapshot.hasData ||
                       snapshot.data.exists == false) {
                     // dailyproject = getmonthlyReport();
+
                     _dailyDataSource = DailyDataSource(
                       dailyproject,
                       context,
@@ -390,6 +391,8 @@ class _DailyProjectState extends State<DailyProject> {
                     alldata = '';
                     alldata = snapshot.data['data'] as List<dynamic>;
                     dailyproject.clear();
+                    _dailyDataSource.buildDataGridRows();
+                    _dailyDataSource.updateDatagridSource();
                     alldata.forEach((element) {
                       dailyproject.add(DailyProjectModel.fromjson(element));
                       _dailyDataSource = DailyDataSource(
@@ -401,6 +404,8 @@ class _DailyProjectState extends State<DailyProject> {
                         userId,
                       );
                       _dataGridController = DataGridController();
+                      _dailyDataSource.buildDataGridRows();
+                      _dailyDataSource.updateDatagridSource();
                     });
                     return SfDataGridTheme(
                       data: SfDataGridThemeData(headerColor: lightblue),

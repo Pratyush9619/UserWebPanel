@@ -417,6 +417,7 @@ class _DetailedEngtState extends State<DetailedEng>
                   child: StreamBuilder(
                     stream: _stream,
                     builder: (context, snapshot) {
+                      DetailedProject.clear();
                       if (!snapshot.hasData || snapshot.data.exists == false) {
                         return SfDataGrid(
                             source: _selectedIndex == 0
@@ -629,8 +630,9 @@ class _DetailedEngtState extends State<DetailedEng>
                             ]);
                       } else {
                         alldata = '';
+                        _detailedDataSource.buildDataGridRows();
+                        _detailedDataSource.updateDatagridSource();
                         alldata = snapshot.data['data'] as List<dynamic>;
-                        DetailedProject.clear();
                         alldata.forEach((element) {
                           DetailedProject.add(
                               DetailedEngModel.fromjsaon(element));
@@ -640,8 +642,8 @@ class _DetailedEngtState extends State<DetailedEng>
                               widget.cityName.toString(),
                               widget.depoName.toString(),
                               userId);
-                          _dataGridController = DataGridController();
                         });
+                        _dataGridController = DataGridController();
 
                         return SfDataGrid(
                             source: _selectedIndex == 0
@@ -860,7 +862,7 @@ class _DetailedEngtState extends State<DetailedEng>
           onPressed: (() {
             DetailedProject.add(DetailedEngModel(
               siNo: 1,
-              title: 'EV Layout',
+              title: '',
               number: null,
               preparationDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
               submissionDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
@@ -1102,6 +1104,8 @@ class _DetailedEngtState extends State<DetailedEng>
                       alldata = '';
                       alldata = snapshot.data['data'] as List<dynamic>;
                       DetailedProjectev.clear();
+                      _detailedEngSourceev.buildDataGridRowsEV();
+                      _detailedEngSourceev.updateDatagridSource();
                       alldata.forEach((element) {
                         DetailedProjectev.add(
                             DetailedEngModel.fromjsaon(element));
@@ -1589,6 +1593,8 @@ class _DetailedEngtState extends State<DetailedEng>
                         alldata = '';
                         alldata = snapshot.data['data'] as List<dynamic>;
                         DetailedProjectshed.clear();
+                        _detailedEngSourceShed.buildDataGridRowsShed();
+                        _detailedEngSourceShed.updateDatagridSource();
                         alldata.forEach((element) {
                           DetailedProjectshed.add(
                               DetailedEngModel.fromjsaon(element));
@@ -1825,7 +1831,7 @@ class _DetailedEngtState extends State<DetailedEng>
               approveDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
               releaseDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
             ));
-            _detailedEngSourceShed.buildDataGridRowsEV();
+            _detailedEngSourceShed.buildDataGridRowsShed();
             _detailedEngSourceShed.updateDatagridSource();
           }),
         ));

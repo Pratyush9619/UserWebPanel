@@ -387,6 +387,8 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                         alldata = snapshot.data['data'] as List<dynamic>;
 
                         _materialprocurement.clear();
+                        _materialDatasource.buildDataGridRows();
+                        _materialDatasource.updateDatagridSource();
                         alldata.forEach((element) {
                           _materialprocurement
                               .add(MaterialProcurementModel.fromjsaon(element));

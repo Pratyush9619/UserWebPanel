@@ -49,7 +49,7 @@ class _DepotsPageState extends State<DepotsPage> {
               text: ' ${widget.cityName} / Depots ',
               haveSynced: false,
             ),
-            preferredSize: Size.fromHeight(50)),
+            preferredSize: const Size.fromHeight(50)),
         body: getDepots()
         // GridView.count(
         //     crossAxisCount: 2,
