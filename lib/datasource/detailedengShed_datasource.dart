@@ -2,6 +2,7 @@ import 'package:assingment/model/detailed_engModel.dart';
 import 'package:assingment/KeysEvents/upload.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -19,9 +20,9 @@ class DetailedEngSourceShed extends DataGridSource {
   BuildContext mainContext;
   DetailedEngSourceShed(this._detailedengev, this.mainContext, this.cityName,
       this.depoName, this.userId) {
-    buildDataGridRowsEV();
+    buildDataGridRowsShed();
   }
-  void buildDataGridRowsEV() {
+  void buildDataGridRowsShed() {
     dataGridRows = _detailedengev
         .map<DataGridRow>((dataGridRow) => dataGridRow.dataGridRow())
         .toList();
@@ -108,9 +109,15 @@ class DetailedEngSourceShed extends DataGridSource {
         cells: row.getCells().map<Widget>((dataGridCell) {
       void addRowAtIndex(int index, DetailedEngModel rowData) {
         _detailedengev.insert(index, rowData);
-        buildDataGridRowsEV();
+        buildDataGridRowsShed();
         notifyListeners();
         // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
+      }
+
+      void removeRowAtIndex(int index) {
+        _detailedengev.removeAt(index);
+        buildDataGridRowsShed();
+        notifyListeners();
       }
       // Color getcolor() {
       //   if (dataGridCell.columnName == 'Title' &&
@@ -150,9 +157,20 @@ class DetailedEngSourceShed extends DataGridSource {
                 child: const Text('Add'))
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
-                    onPressed: () {
-                      dataGridRows.remove(row);
-                      notifyListeners();
+                    onPressed: () async {
+                      removeRowAtIndex(dataRowIndex);
+                      await FirebaseStorage.instance
+                          .ref(
+                              "DetailedEngShed/$cityName/$depoName/$userId/${row.getCells()[4].value}/${row.getCells()[0].value}")
+                          .listAll()
+                          .then((value) {
+                        value.items.forEach((element) {
+                          print('path${element.fullPath}');
+                          FirebaseStorage.instance
+                              .ref(element.fullPath)
+                              .delete();
+                        });
+                      });
                     },
                     icon: Icon(
                       Icons.delete,

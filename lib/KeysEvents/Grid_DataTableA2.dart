@@ -23,9 +23,10 @@ class StatutoryAprovalA2 extends StatefulWidget {
   String? userid;
   String? depoName;
   String? cityName;
+  String? keyEvents;
 
   StatutoryAprovalA2(
-      {Key? key, required this.userid, this.depoName, this.cityName})
+      {Key? key, required this.userid, this.depoName, this.cityName ,required this.keyEvents})
       : super(key: key);
 
   @override
@@ -69,7 +70,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
         .collection('KeyDataTable')
         .doc(widget.userid)
         .collection('KeyAllEvents')
-        .doc('${widget.depoName}A2')
+        .doc('${widget.depoName}${widget.keyEvents}')
         .snapshots();
 
     // _employeeDataSource = EmployeeDataSource(
@@ -140,7 +141,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
           appBar: PreferredSize(
             // ignore: sort_child_properties_last
             child: CustomAppBar(
-              text: 'Key Events / ${widget.depoName!} /A2',
+              text: 'Key Events/${widget.depoName!}/${widget.keyEvents}',
               haveSynced: specificUser ? true : false,
               store: () {
                 FirebaseApi()
@@ -1043,7 +1044,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
         .collection('KeyDataTable')
         .doc(widget.userid)
         .collection('KeyAllEvents')
-        .doc('${widget.depoName}A2')
+        .doc('${widget.depoName}${widget.keyEvents}')
         .get();
     var data = snapshot.data() as Map;
     alldata = data['data'] as List<dynamic>;
@@ -1180,9 +1181,9 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
         .collection('KeyDataTable')
         .doc(widget.userid)
         .collection('KeyAllEvents')
-        .doc('${widget.depoName}A2')
+        .doc('${widget.depoName}${widget.keyEvents}')
         // .collection(widget.userid!)
-        // .doc('${widget.depoName}A2')
+        // .doc('${widget.depoName}${widget.keyEvents}')
         .set({
       'data': tabledata2,
     }).whenComplete(() {
@@ -1240,7 +1241,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
           .then((value) {
         value.docs.forEach((element) {
           print('after');
-          if (element.id == '${widget.depoName}A2') {
+          if (element.id == '${widget.depoName}${widget.keyEvents}') {
             for (int i = 0; i < element.data()['data'].length; i++) {
               _employees.add(Employee.fromJson(element.data()['data'][i]));
               print(_employees);

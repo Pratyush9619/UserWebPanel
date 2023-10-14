@@ -66,6 +66,12 @@ class DailyDataSource extends DataGridSource {
         // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
       }
 
+      void removeRowAtIndex(int index) {
+        _dailyproject.removeAt(index);
+        buildDataGridRows();
+        notifyListeners();
+      }
+
       String Pagetitle = 'Daily Report';
 
       return Container(
@@ -129,9 +135,7 @@ class DailyDataSource extends DataGridSource {
                                 //     .update({
                                 //   'data': FieldValue.arrayRemove([0])
                                 // });
-
-                                dataGridRows.remove(row);
-                                notifyListeners();
+                                removeRowAtIndex(dataRowIndex);
                               },
                               icon: Icon(
                                 Icons.delete,
