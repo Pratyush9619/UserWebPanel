@@ -1,4 +1,6 @@
 import 'package:assingment/Planning_Pages/quality_checklist.dart';
+import 'package:assingment/overview/daily_project.dart';
+import 'package:assingment/widget/custom_appbar.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +19,6 @@ import '../model/monthly_projectModel.dart';
 import '../model/safety_checklistModel.dart';
 import '../provider/summary_provider.dart';
 import '../widget/nodata_available.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 class ViewSummary extends StatefulWidget {
   String? depoName;
@@ -70,6 +69,16 @@ class _ViewSummaryState extends State<ViewSummary> {
     super.initState();
     _summaryProvider = Provider.of<SummaryProvider>(context, listen: false);
 
+    Stream _stream = FirebaseFirestore.instance
+        .collection('MonthlyProjectReport2')
+        .doc('${widget.depoName}')
+        // .collection('AllMonthData')
+        .collection('userId')
+        .doc(userId)
+        .collection('Monthly Data')
+        // .collection('MonthData')
+        .doc(DateFormat.yMMM().format(startdate!))
+        .snapshots();
     getUserId().then((value) {
       _isloading = false;
     });
@@ -81,11 +90,17 @@ class _ViewSummaryState extends State<ViewSummary> {
         .fetchdailydata(widget.depoName!, widget.userId, startdate!, enddate!);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-              ' ${widget.cityName} / ${widget.depoName} / ${widget.id} / View Summary'),
-          backgroundColor: blue,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: CustomAppBar(
+              text:
+                  ' ${widget.cityName} / ${widget.depoName} / ${widget.id} / View Summary'),
         ),
+        // AppBar(
+        //   title: Text(
+        //       ' ${widget.cityName} / ${widget.depoName} / ${widget.id} / View Summary'),
+        //   backgroundColor: blue,
+        // ),
         body: Column(
           children: [
             Padding(
@@ -262,21 +277,21 @@ class _ViewSummaryState extends State<ViewSummary> {
                         stream: FirebaseFirestore.instance
                             .collection('MonthlyProjectReport2')
                             .doc('${widget.depoName}')
-                            // .collection('AllMonthData')
                             .collection('userId')
-                            .doc(userId)
+                            .doc(widget.userId)
                             .collection('Monthly Data')
-                            // .collection('MonthData')
                             .doc(DateFormat.yMMM().format(startdate!))
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return LoadingPage();
-                          } else if (!snapshot.hasData ||
+                          }
+                          if (!snapshot.hasData ||
                               snapshot.data!.exists == false) {
                             return const NodataAvailable();
                           } else {
+                            alldata = '';
                             alldata = snapshot.data!['data'] as List<dynamic>;
                             monthlyProject.clear();
                             alldata.forEach((element) {
@@ -517,11 +532,13 @@ class _ViewSummaryState extends State<ViewSummary> {
                                 } else {
                                   dailyproject = value.dailydata;
                                   _dailyDataSource = DailyDataSource(
-                                      dailyproject,
-                                      context,
-                                      widget.cityName!,
-                                      widget.depoName!,
-                                      widget.userId);
+                                    dailyproject,
+                                    context,
+                                    widget.cityName!,
+                                    widget.depoName!,
+                                    selectedDate!,
+                                    widget.userId,
+                                  );
                                   _dataGridController = DataGridController();
 
                                   return SfDataGridTheme(
@@ -550,7 +567,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                             columnName: 'Date',
                                             visible: true,
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 150,
                                             label: Container(
                                               padding:
@@ -574,7 +591,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                             visible: false,
                                             columnName: 'SiNo',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 70,
                                             label: Container(
                                               padding:
@@ -597,7 +614,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'TypeOfActivity',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 200,
                                             label: Container(
                                               padding:
@@ -619,7 +636,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'ActivityDetails',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 220,
                                             label: Container(
                                               padding:
@@ -641,7 +658,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'Progress',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 320,
                                             label: Container(
                                               padding:
@@ -663,7 +680,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'Status',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             width: 320,
                                             label: Container(
                                               padding:
@@ -753,7 +770,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                           GridColumn(
                                             columnName: 'Delete',
                                             autoFitPadding: tablepadding,
-                                            allowEditing: true,
+                                            allowEditing: false,
                                             visible: false,
                                             width: 120,
                                             label: Container(

@@ -111,8 +111,8 @@ class MaterialDatasource extends DataGridSource {
                       removeRowAtIndex(dataIndex);
                       // removeRow(dataIndex);
                       print(dataIndex);
-                      dataGridRows.remove(row);
-                      notifyListeners();
+                      // dataGridRows.remove(row);
+                      // notifyListeners();
                     },
                     icon: Icon(
                       Icons.delete,

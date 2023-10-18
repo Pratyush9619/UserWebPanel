@@ -116,7 +116,7 @@ class _PlanningPageState extends State<PlanningPage> {
               showDepoBar: true,
               toPlanning: true,
               cityname: widget.cityName,
-              text: ' ${widget.cityName} / ${widget.depoName} / Keys Events',
+              text: ' ${widget.cityName}/${widget.depoName}/Keys Events',
               haveSynced: false,
             )),
         body: GridView.count(

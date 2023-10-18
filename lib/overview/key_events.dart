@@ -1,16 +1,13 @@
-import 'dart:html';
-import 'package:assingment/KeysEvents/Grid_DataTable.dart';
 import 'package:assingment/KeysEvents/Grid_DataTableA2.dart';
 import 'package:assingment/KeysEvents/Grid_DataTableA3.dart';
 import 'package:assingment/KeysEvents/Grid_DataTableA4.dart';
-import 'package:assingment/KeysEvents/Grid_DataTableA5.dart';
 import 'package:assingment/KeysEvents/Grid_DataTableA6.dart';
 import 'package:assingment/KeysEvents/viewFIle.dart';
+import 'package:assingment/KeysEvents/view_AllFiles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gantt_chart/gantt_chart.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../Authentication/auth_service.dart';
@@ -19,13 +16,11 @@ import '../KeysEvents/Grid_DataTableA10.dart';
 import '../KeysEvents/Grid_DataTableA7.dart';
 import '../KeysEvents/Grid_DataTableA8.dart';
 import '../KeysEvents/Grid_DataTableA9.dart';
-import '../KeysEvents/upload.dart';
 import '../components/loading_page.dart';
 import '../datasource/key_datasource.dart';
 import '../model/employee.dart';
 import '../widget/custom_appbar.dart';
 import '../widget/keyboard_listener.dart';
-import '../widget/style.dart';
 
 void main() {
   runApp(KeyEvents());
@@ -250,11 +245,11 @@ class _KeyEventsState extends State<KeyEvents> {
   @override
   Widget build(BuildContext context) {
     menuwidget = [
-      ViewFile(),
       StatutoryAprovalA2(
         userid: userId,
         depoName: widget.depoName,
         cityName: widget.cityName,
+        keyEvents: '',
       ),
       StatutoryAprovalA3(
         userid: userId,
@@ -761,11 +756,27 @@ class _KeyEventsState extends State<KeyEvents> {
                                                   1];
 
                                       Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => menuwidget[
-                                                  details.rowColumnIndex
-                                                          .rowIndex -
-                                                      1]));
+                                          MaterialPageRoute(builder: (context) {
+                                        if (row.getCells().first.value ==
+                                            'A1') {
+                                          return ViewAllPdf(
+                                              userId: userId,
+                                              cityName: widget.cityName,
+                                              depoName: widget.depoName,
+                                              title: 'Key Events',
+                                              docId: row.getCells()[1].value);
+                                        } else {
+                                          return StatutoryAprovalA2(
+                                            userid: userId,
+                                            cityName: widget.cityName,
+                                            depoName: widget.depoName,
+                                            keyEvents: row.getCells()[0].value,
+                                          );
+                                          // menuwidget[
+                                          //     details.rowColumnIndex.rowIndex -
+                                          //         1];
+                                        }
+                                      }));
                                     },
                                     allowEditing: true,
                                     frozenColumnsCount: 2,
@@ -1014,6 +1025,7 @@ class _KeyEventsState extends State<KeyEvents> {
                                 ),
                                 Container(
                                     width: 450,
+                                    height: MediaQuery.of(context).size.height,
                                     child: GanttChartView(
                                         scrollController: scrollController,
                                         scrollPhysics:
@@ -1064,10 +1076,24 @@ class _KeyEventsState extends State<KeyEvents> {
                                       _KeyDataSourceKeyEvents.effectiveRows[
                                           details.rowColumnIndex.rowIndex - 1];
 
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => menuwidget[
-                                          details.rowColumnIndex.rowIndex -
-                                              1]));
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    if (row.getCells().first.value == 'A1') {
+                                      return ViewAllPdf(
+                                          userId: userId,
+                                          cityName: widget.cityName,
+                                          depoName: widget.depoName,
+                                          title: 'Key Events',
+                                          docId: row.getCells()[0]);
+                                    } else {
+                                      return StatutoryAprovalA2(
+                                        userid: userId,
+                                        keyEvents: row.getCells()[1].value,
+                                      );
+                                      // menuwidget[
+                                      //     details.rowColumnIndex.rowIndex - 1];
+                                    }
+                                  }));
                                 },
                                 allowEditing: true,
                                 frozenColumnsCount: 2,

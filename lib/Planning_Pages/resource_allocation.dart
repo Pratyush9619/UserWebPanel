@@ -4,7 +4,6 @@ import 'package:pdf/pdf.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
-
 import '../widget/custom_appbar.dart';
 
 class ResourceAllocation extends StatefulWidget {

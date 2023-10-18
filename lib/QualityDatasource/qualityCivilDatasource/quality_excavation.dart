@@ -71,7 +71,7 @@ class QualityExcavationDataSource extends DataGridSource {
               //         dataGridCell.columnName == 'Weightage')
               Alignment.center,
           // : Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: dataGridCell.columnName == 'Upload'
               ? LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
@@ -581,6 +581,6 @@ class QualityExcavationDataSource extends DataGridSource {
         ? RegExp('[0-9]')
         : isDateTimeBoard
             ? RegExp('[0-9/]')
-            : RegExp('[a-zA-Z ]');
+            : RegExp('[a-zA-Z0-9/ ]');
   }
 }

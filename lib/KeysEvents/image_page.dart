@@ -66,10 +66,12 @@ class _ImagePageState extends State<ImagePage> {
         ],
       ),
       body: isImage
-          ? Image.network(
-              widget.file.url,
-              height: double.infinity,
-              fit: BoxFit.cover,
+          ? Center(
+              child: Image.network(
+                widget.file.url,
+                height: double.infinity,
+                fit: BoxFit.cover,
+              ),
             )
           : isPdf
               ? ViewFile(path: widget.file.url)

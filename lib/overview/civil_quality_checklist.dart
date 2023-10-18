@@ -1,116 +1,83 @@
 import 'package:assingment/Planning_Pages/quality_checklist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
-import '../Authentication/auth_service.dart';
-import '../FirebaseApi/firebase_api.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_EP.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_acdb.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_cdi.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_charger.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_ci.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_cmu.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_ct.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_msp.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_pss.dart';
-import '../QualityDatasource/qualityElectricalDatasource/quality_rmu.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_Ironite_flooring.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_backfilling.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_ceiling.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_excavation.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_flooring.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_glazzing.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_inspection.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_massonary.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_painting.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_paving.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_proofing.dart';
+import '../QualityDatasource/qualityCivilDatasource/quality_roofing.dart';
 import '../components/loading_page.dart';
 import '../model/quality_checklistModel.dart';
 import '../widget/quality_list.dart';
 import '../widget/style.dart';
 
-late QualityPSSDataSource _qualityPSSDataSource;
-late QualityrmuDataSource _qualityrmuDataSource;
-late QualityctDataSource _qualityctDataSource;
-late QualitycmuDataSource _qualitycmuDataSource;
-late QualityacdDataSource _qualityacdDataSource;
-late QualityCIDataSource _qualityCIDataSource;
-late QualityCDIDataSource _qualityCDIDataSource;
-late QualityMSPDataSource _qualityMSPDataSource;
-late QualityChargerDataSource _qualityChargerDataSource;
-late QualityEPDataSource _qualityEPDataSource;
+List<dynamic> excavationtabledatalist = [];
+List<dynamic> backfillingtabledatalist = [];
+List<dynamic> massonarytabledatalist = [];
+List<dynamic> doorstabledatalist = [];
+List<dynamic> ceillingtabledatalist = [];
+List<dynamic> flooringtabledatalist = [];
+List<dynamic> inspectiontabledatalist = [];
+List<dynamic> inronitetabledatalist = [];
+List<dynamic> paintingtabledatalist = [];
+List<dynamic> pavingtabledatalist = [];
+List<dynamic> roofingtabledatalist = [];
+List<dynamic> proofingtabledatalist = [];
 
-List<dynamic> psstabledatalist = [];
-List<dynamic> rmutabledatalist = [];
-List<dynamic> cttabledatalist = [];
-List<dynamic> cmutabledatalist = [];
-List<dynamic> acdbtabledatalist = [];
-List<dynamic> citabledatalist = [];
-List<dynamic> cditabledatalist = [];
-List<dynamic> msptabledatalist = [];
-List<dynamic> chargertabledatalist = [];
-List<dynamic> eptabledatalist = [];
+late QualityExcavationDataSource _qualityExcavationDataSource;
+late QualityBackFillingDataSource _qualityBackFillingDataSource;
+late QualityMassonaryDataSource _qualityMassonaryDataSource;
+late QualityGlazzingDataSource _qualityGlazzingDataSource;
+late QualityCeillingDataSource _qualityCeillingDataSource;
+late QualityIroniteflooringDataSource _qualityIroniteflooringDataSource;
+late QualityflooringDataSource _qualityflooringDataSource;
+late QualityInspectionDataSource _qualityInspectionDataSource;
+late QualityPaintingDataSource _qualityPaintingDataSource;
+late QualityPavingDataSource _qualityPavingDataSource;
+late QualityRoofingDataSource _qualityRoofingDataSource;
+late QualityProofingDataSource _qualityProofingDataSource;
 
-String selectedDate = DateFormat.yMMMMd().format(DateTime.now());
-DateTime currentDate = DateTime.now();
+List<QualitychecklistModel> qualitylisttable1 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable2 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable3 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable4 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable5 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable6 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable7 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable8 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable9 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable10 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable11 = <QualitychecklistModel>[];
+List<QualitychecklistModel> qualitylisttable12 = <QualitychecklistModel>[];
 
-List tabForElec = [
-  'PSS',
-  'RMU',
-  'CT',
-  'CMU',
-  'ACDB',
-  'CI',
-  'CDI',
-  'MSP',
-  'CHARGER',
-  'EARTH PIT'
-];
-
-int? _selectedIndex = 0;
-
-TextEditingController employeeNameController = TextEditingController();
-TextEditingController olaNumberController = TextEditingController();
-TextEditingController docNoController = TextEditingController();
-TextEditingController panelSrController = TextEditingController();
-TextEditingController vendorNoController = TextEditingController();
-TextEditingController depotNameController = TextEditingController();
-TextEditingController dateController = TextEditingController();
-TextEditingController customerNameController = TextEditingController();
-
-class ElectricalQualityChecklist extends StatefulWidget {
+class CivilQualityChecklist extends StatefulWidget {
   String? cityName;
   String? depoName;
   String? currentDate;
-  String? userId;
   bool? isHeader;
-  Function? getBoolList;
 
-  ElectricalQualityChecklist(
+  CivilQualityChecklist(
       {super.key,
       required this.cityName,
       required this.depoName,
       this.currentDate,
-      required this.userId,
-      this.isHeader = true,
-      this.getBoolList});
+      this.isHeader = true});
 
   @override
-  State<ElectricalQualityChecklist> createState() =>
-      _ElectricalQualityChecklistState();
+  State<CivilQualityChecklist> createState() => _CivilQualityChecklistState();
 }
 
-class _ElectricalQualityChecklistState
-    extends State<ElectricalQualityChecklist> {
-  List<QualitychecklistModel> qualitylisttable1 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable2 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable3 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable4 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable5 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable6 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable7 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable8 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable9 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable10 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable11 = <QualitychecklistModel>[];
-  List<QualitychecklistModel> qualitylisttable12 = <QualitychecklistModel>[];
-
-// late QualityChecklistDataSource _checklistDataSource;
-
+class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
   Stream? _stream;
   Stream? _stream1;
   Stream? _stream2;
@@ -122,84 +89,82 @@ class _ElectricalQualityChecklistState
   Stream? _stream8;
   Stream? _stream9;
   Stream? _stream10;
-  Stream? _stream11;
   late DataGridController _dataGridController;
   bool _isloading = true;
-  List<QualitychecklistModel> data = [];
-  bool checkTable = true;
-
-  List<bool> electricalBoolList = [];
+  int? _selectedIndex = 0;
 
   @override
   void initState() {
-    setBoolean();
-    if (_selectedIndex == 0) {
-      electricalBoolList[0] = true;
-      print(electricalBoolList);
-      widget.getBoolList!(electricalBoolList, tabForElec[_selectedIndex!]);
-    }
     super.initState();
 
-    getUserId().whenComplete(() => {
-          getControllersData(),
-          getTableData().whenComplete(() => {
-                qualitylisttable1 = checkTable ? getData() : data,
-                _qualityPSSDataSource = QualityPSSDataSource(
-                    qualitylisttable1, widget.depoName!, widget.cityName!),
-                _dataGridController = DataGridController(),
-              }),
-        });
+    qualitylisttable1 = excavation_getData();
+    _qualityExcavationDataSource = QualityExcavationDataSource(
+        qualitylisttable1, widget.depoName!, widget.cityName!);
+    _dataGridController = DataGridController();
 
-    qualitylisttable2 = rmu_getData();
-    _qualityrmuDataSource = QualityrmuDataSource(
+    qualitylisttable2 = backfilling_getData();
+    _qualityBackFillingDataSource = QualityBackFillingDataSource(
         qualitylisttable2, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable3 = ct_getData();
-    _qualityctDataSource = QualityctDataSource(
+    qualitylisttable3 = massonary_getData();
+    _qualityMassonaryDataSource = QualityMassonaryDataSource(
         qualitylisttable3, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable4 = cmu_getData();
-    _qualitycmuDataSource = QualitycmuDataSource(
+    qualitylisttable4 = glazzing_getData();
+    _qualityGlazzingDataSource = QualityGlazzingDataSource(
         qualitylisttable4, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable5 = acdb_getData();
-    _qualityacdDataSource = QualityacdDataSource(
+    qualitylisttable5 = ceilling_getData();
+    _qualityCeillingDataSource = QualityCeillingDataSource(
         qualitylisttable5, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable6 = ci_getData();
-    _qualityCIDataSource = QualityCIDataSource(
+    qualitylisttable6 = florring_getData();
+    _qualityflooringDataSource = QualityflooringDataSource(
         qualitylisttable6, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable7 = cdi_getData();
-    _qualityCDIDataSource = QualityCDIDataSource(
+    qualitylisttable7 = inspection_getData();
+    _qualityInspectionDataSource = QualityInspectionDataSource(
         qualitylisttable7, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable8 = msp_getData();
-    _qualityMSPDataSource = QualityMSPDataSource(
+    qualitylisttable8 = ironite_florring_getData();
+    _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
         qualitylisttable8, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable9 = charger_getData();
-    _qualityChargerDataSource = QualityChargerDataSource(
+    qualitylisttable9 = painting_getData();
+    _qualityPaintingDataSource = QualityPaintingDataSource(
         qualitylisttable9, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
 
-    qualitylisttable10 = earth_pit_getData();
-    _qualityEPDataSource = QualityEPDataSource(
+    qualitylisttable10 = paving_getData();
+    _qualityPavingDataSource = QualityPavingDataSource(
         qualitylisttable10, widget.depoName!, widget.cityName!);
     _dataGridController = DataGridController();
+
+    qualitylisttable11 = roofing_getData();
+    _qualityRoofingDataSource = QualityRoofingDataSource(
+        qualitylisttable11, widget.depoName!, widget.cityName!);
+    _dataGridController = DataGridController();
+
+    qualitylisttable12 = proofing_getData();
+    _qualityProofingDataSource = QualityProofingDataSource(
+        qualitylisttable12, widget.depoName!, widget.cityName!);
+    _dataGridController = DataGridController();
+
+    _isloading = false;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 10,
+        length: 12,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -210,6 +175,7 @@ class _ElectricalQualityChecklistState
               unselectedLabelColor: white,
 
               //indicatorSize: TabBarIndicatorSize.label,
+
               indicator: MaterialIndicator(
                 horizontalPadding: 24,
                 bottomLeftRadius: 8,
@@ -217,55 +183,51 @@ class _ElectricalQualityChecklistState
                 color: almostblack,
                 paintingStyle: PaintingStyle.fill,
               ),
-              onTap: (value) async {
+              onTap: (value) {
                 _selectedIndex = value;
-                checkTable = true;
-                selectedDate = DateFormat.yMMMMd().format(DateTime.now());
-                currentDate = DateTime.now();
-                setBoolean();
-                getControllersData();
-                await getTableData();
-
-                electricalBoolList[value] = true;
-                widget.getBoolList!(electricalBoolList, tabForElec[value]);
+                setState(() {});
               },
               tabs: const [
-                Tab(text: "PSS"),
-                Tab(text: "RMU"),
-                Tab(text: "CT"),
-                Tab(text: "CMU"),
-                Tab(text: "ACDB"),
-                Tab(text: "CI"),
-                Tab(text: "CDI"),
-                Tab(text: "MSP"),
-                Tab(text: "CHARGER"),
-                Tab(text: "EARTH PIT"),
+                Tab(text: "Exc"),
+                Tab(text: "B.F"),
+                Tab(text: "Mass"),
+                Tab(text: "D.W.G"),
+                Tab(text: "F.C"),
+                Tab(text: "F&T"),
+                Tab(text: "G.I"),
+                Tab(text: "I.F"),
+                Tab(text: "Painting"),
+                Tab(text: "Paving"),
+                Tab(text: "WC&R"),
+                Tab(text: "Proofing"),
               ],
             ),
           ),
           body: TabBarView(children: [
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
-            upperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
+            civilupperScreen(),
           ]),
         ));
   }
 
-  upperScreen() {
+  civilupperScreen() {
     return _isloading
         ? LoadingPage()
         : StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection('ElectricalQualityChecklistCollection')
+                .collection('CivilQualityChecklistCollection')
                 .doc('${widget.depoName}')
-                .collection('widget.userId!')
+                .collection('userId')
                 .doc(widget.currentDate)
                 .snapshots(),
             builder: (context, snapshot) {
@@ -287,20 +249,10 @@ class _ElectricalQualityChecklistState
                             ],
                           ),
                           Text(
-                            title[int.parse(_selectedIndex.toString())],
+                            civil_title[int.parse(_selectedIndex.toString())],
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                          ElevatedButton(
-                              style: const ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.white)),
-                              onPressed: () => _selectDate(context),
-                              child: Text(
-                                DateFormat('MMMM dd, yyyy').format(currentDate),
-                                style: GoogleFonts.aBeeZee(
-                                    fontSize: 15, color: Colors.black),
-                              )),
                           const Text('TPCL /DIST/EV/CHECKLIST ')
                         ],
                       ),
@@ -308,21 +260,25 @@ class _ElectricalQualityChecklistState
                     Container(
                         decoration: BoxDecoration(color: lightblue),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      const SizedBox(
+                                      Container(
                                           width: 150,
                                           child: Text(
-                                            'Employee Name',
+                                            'Project',
                                           )),
                                       const SizedBox(width: 5),
                                       Expanded(
@@ -330,8 +286,6 @@ class _ElectricalQualityChecklistState
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          employeeNameController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -339,8 +293,24 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'EmployeeName')
+                                                          ? snapshot.data!.get(
+                                                              'EmployeeName')
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
+                                                      onChanged: (value) {
+                                                        empName = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        empName =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -359,23 +329,23 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'EmployeeName') ??
                                                                 ''
-                                                            : 'Employee Name',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
                                 ),
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      const SizedBox(
+                                      Container(
                                           width: 150,
                                           child: Text(
-                                            'Doc No.:TPCL/ DIST-EV',
+                                            'Location',
                                           )),
                                       SizedBox(width: 5),
                                       Expanded(
@@ -383,8 +353,6 @@ class _ElectricalQualityChecklistState
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          docNoController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -392,8 +360,25 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'Dist EV')
+                                                          ? snapshot.data!.get(
+                                                                  'Dist EV') ??
+                                                              ''
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
+                                                      onChanged: (value) {
+                                                        distev = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        distev =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -411,13 +396,13 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'Dist EV') ??
                                                               ''
-                                                          : 'Dist EV')))),
+                                                          : '')))),
                                     ],
                                   ),
                                 ),
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -425,17 +410,15 @@ class _ElectricalQualityChecklistState
                                     children: [
                                       Container(
                                           width: 150,
-                                          child: Text(
-                                            ' VENDOR NAME',
+                                          child: const Text(
+                                            'Vendor / Sub Vendor',
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          vendorNoController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -443,8 +426,25 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'VendorName')
+                                                          ? snapshot.data!.get(
+                                                                  'VendorName') ??
+                                                              ''
+                                                          : '',
                                                       style: const TextStyle(
                                                           fontSize: 15),
+                                                      onChanged: (value) {
+                                                        vendorname = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        vendorname =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -462,13 +462,13 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'VendorName') ??
                                                               ''
-                                                          : 'VendorName')))),
+                                                          : '')))),
                                     ],
                                   ),
                                 ),
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -477,7 +477,7 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' DATE',
+                                            'Drawing No:',
                                           )),
                                       SizedBox(width: 5),
                                       Expanded(
@@ -485,8 +485,6 @@ class _ElectricalQualityChecklistState
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          dateController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -494,6 +492,24 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains('Date')
+                                                          ? snapshot.data!.get(
+                                                                  'Date') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        date = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        date =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -512,32 +528,18 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'Date') ??
                                                                 ''
-                                                            : 'Date',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
                                 )
                               ],
-                              //   children: [
-                              //     HeaderValue('Employee Name', '', empName ?? ''),
-                              //     HeaderValue('Doc No.:TPCL/ DIST-EV', '', distev ?? ''),
-                              //     HeaderValue('VENDOR NAME', '', vendorname ?? ''),
-                              //     HeaderValue('DATE', '', date ?? ''),
-                              //   ],
-                              // ),
-                              // Column(
-                              //   children: [
-                              //     HeaderValue('OLA NUMBER', '', olano ?? ''),
-                              //     HeaderValue('PANEL SR NO.', '', panel ?? ''),
-                              //     HeaderValue('DepotName', '', depotname ?? ''),
-                              //     HeaderValue('CUSTOMER NAME', '', customername ?? ''),
-                              //   ],
                             ),
                             Column(
                               children: [
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -546,7 +548,7 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' OLA NUMBER',
+                                            'Date',
                                           )),
                                       SizedBox(width: 5),
                                       Expanded(
@@ -554,8 +556,6 @@ class _ElectricalQualityChecklistState
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          olaNumberController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -563,6 +563,24 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains('OlaNo')
+                                                          ? snapshot.data!.get(
+                                                                  'OlaNo') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        olano = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        olano =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -579,13 +597,13 @@ class _ElectricalQualityChecklistState
                                                           ? snapshot.data!.get(
                                                                   'OlaNo') ??
                                                               ''
-                                                          : 'OlaNo')))),
+                                                          : '')))),
                                     ],
                                   ),
                                 ),
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -594,7 +612,7 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' PANEL SR NO.',
+                                            'Component of the Structure',
                                           )),
                                       SizedBox(width: 5),
                                       Expanded(
@@ -602,8 +620,6 @@ class _ElectricalQualityChecklistState
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          panelSrController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -611,6 +627,25 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'PanelNo')
+                                                          ? snapshot.data!.get(
+                                                                  'PanelNo') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        panel = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        panel =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -629,14 +664,14 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'PanelNo') ??
                                                                 ''
-                                                            : 'PanelNo',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
                                 ),
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -645,7 +680,7 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' Depot Name',
+                                            'Grid / Axis & Level',
                                           )),
                                       SizedBox(width: 5),
                                       Expanded(
@@ -653,8 +688,6 @@ class _ElectricalQualityChecklistState
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          depotNameController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -662,6 +695,25 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'DepotName')
+                                                          ? snapshot.data!.get(
+                                                                  'DepotName') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        depotname = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        depotname =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -680,14 +732,14 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'DepotName') ??
                                                                 ''
-                                                            : 'DepotName',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
                                 ),
                                 Container(
                                   color: lightblue,
-                                  width: 625,
+                                  width: 600,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -696,7 +748,7 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            'CustomerName',
+                                            'Type of Filling',
                                           )),
                                       SizedBox(width: 5),
                                       Expanded(
@@ -704,8 +756,6 @@ class _ElectricalQualityChecklistState
                                               height: 30,
                                               child: widget.isHeader!
                                                   ? TextFormField(
-                                                      controller:
-                                                          customerNameController,
                                                       decoration:
                                                           const InputDecoration(
                                                               contentPadding:
@@ -713,6 +763,25 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'CustomerName')
+                                                          ? snapshot.data!.get(
+                                                                  'CustomerName') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        customername = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        customername =
+                                                            newValue.toString();
+                                                      },
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -731,7 +800,7 @@ class _ElectricalQualityChecklistState
                                                             ? snapshot.data!.get(
                                                                     'CustomerName') ??
                                                                 ''
-                                                            : 'CustomerName',
+                                                            : '',
                                                       )))),
                                     ],
                                   ),
@@ -763,10 +832,7 @@ class _ElectricalQualityChecklistState
                                                             : _selectedIndex ==
                                                                     9
                                                                 ? _stream9
-                                                                : _selectedIndex ==
-                                                                        10
-                                                                    ? _stream10
-                                                                    : _stream11,
+                                                                : _stream10,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -780,27 +846,29 @@ class _ElectricalQualityChecklistState
                                         SfDataGridThemeData(headerColor: blue),
                                     child: SfDataGrid(
                                       source: _selectedIndex == 0
-                                          ? _qualityPSSDataSource
+                                          ? _qualityExcavationDataSource
                                           : _selectedIndex == 1
-                                              ? _qualityrmuDataSource
+                                              ? _qualityBackFillingDataSource
                                               : _selectedIndex == 2
-                                                  ? _qualityctDataSource
+                                                  ? _qualityMassonaryDataSource
                                                   : _selectedIndex == 3
-                                                      ? _qualitycmuDataSource
+                                                      ? _qualityGlazzingDataSource
                                                       : _selectedIndex == 4
-                                                          ? _qualityacdDataSource
+                                                          ? _qualityCeillingDataSource
                                                           : _selectedIndex == 5
-                                                              ? _qualityCIDataSource
+                                                              ? _qualityflooringDataSource
                                                               : _selectedIndex ==
                                                                       6
-                                                                  ? _qualityCDIDataSource
+                                                                  ? _qualityInspectionDataSource
                                                                   : _selectedIndex ==
                                                                           7
-                                                                      ? _qualityMSPDataSource
+                                                                      ? _qualityIroniteflooringDataSource
                                                                       : _selectedIndex ==
                                                                               8
-                                                                          ? _qualityChargerDataSource
-                                                                          : _qualityEPDataSource,
+                                                                          ? _qualityPaintingDataSource
+                                                                          : _selectedIndex == 9
+                                                                              ? _qualityPavingDataSource
+                                                                              : _qualityInspectionDataSource,
                                       // _selectedIndex == 10
                                       //     ? _qualityRoofingDataSource
                                       //     : _qualityPROOFINGDataSource,
@@ -851,7 +919,8 @@ class _ElectricalQualityChecklistState
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 8.0),
                                             alignment: Alignment.center,
-                                            child: Text('ACTIVITY',
+                                            child: Text(
+                                                'Checks(Before Start of Backfill Activity)',
                                                 overflow:
                                                     TextOverflow.values.first,
                                                 style: TextStyle(
@@ -867,7 +936,8 @@ class _ElectricalQualityChecklistState
                                           label: Container(
                                             padding: const EdgeInsets.all(8.0),
                                             alignment: Alignment.center,
-                                            child: Text('RESPONSIBILITY',
+                                            child: Text(
+                                                "Contractor’s Site Engineer",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16,
@@ -883,7 +953,7 @@ class _ElectricalQualityChecklistState
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 8.0),
                                             alignment: Alignment.center,
-                                            child: Text('DOCUMENT REFERENCE',
+                                            child: Text("Owner’s Site Engineer",
                                                 overflow:
                                                     TextOverflow.values.first,
                                                 style: TextStyle(
@@ -900,7 +970,8 @@ class _ElectricalQualityChecklistState
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 8.0),
                                             alignment: Alignment.center,
-                                            child: Text('OBSERVATION',
+                                            child: Text(
+                                                "Observation Comments by  Owner’s Engineer",
                                                 overflow:
                                                     TextOverflow.values.first,
                                                 style: TextStyle(
@@ -944,29 +1015,6 @@ class _ElectricalQualityChecklistState
                                                     color: white)),
                                           ),
                                         ),
-                                        // GridColumn(
-                                        //   columnName: 'Delete',
-                                        //   autoFitPadding:
-                                        //       const EdgeInsets.symmetric(
-                                        //           horizontal: 16),
-                                        //   allowEditing: false,
-                                        //   visible: true,
-                                        //   width: 120,
-                                        //   label: Container(
-                                        //     padding: const EdgeInsets.symmetric(
-                                        //         horizontal: 8.0),
-                                        //     alignment: Alignment.center,
-                                        //     child: Text('Delete Row',
-                                        //         overflow:
-                                        //             TextOverflow.values.first,
-                                        //         style: TextStyle(
-                                        //             fontWeight: FontWeight.bold,
-                                        //             fontSize: 16,
-                                        //             color: white)
-                                        //         //    textAlign: TextAlign.center,
-                                        //         ),
-                                        //   ),
-                                        // ),
                                       ],
 
                                       // stackedHeaderRows: [
@@ -994,31 +1042,60 @@ class _ElectricalQualityChecklistState
                                     ),
                                   );
                           } else if (snapshot.hasData) {
+                            alldata = '';
+                            alldata = snapshot.data['data'] as List<dynamic>;
+                            qualitylisttable1.clear();
+                            alldata.forEach((element) {
+                              qualitylisttable1
+                                  .add(QualitychecklistModel.fromJson(element));
+
+                              //  else if (_selectedIndex == 10) {
+                              //   _qualityRoofingDataSource = QualityWCRDataSource(
+                              //       qualitylisttable1,
+                              //       widget.depoName!,
+                              //       widget.cityName!);
+                              //   _dataGridController = DataGridController();
+                              // } else if (_selectedIndex == 11) {
+                              //   _qualityPROOFINGDataSource =
+                              //       QualityPROOFINGDataSource(qualitylisttable1,
+                              //           widget.depoName!, widget.cityName!);
+                              //   _dataGridController = DataGridController();
+                              // }
+                            });
                             return SfDataGridTheme(
                               data: SfDataGridThemeData(headerColor: blue),
                               child: SfDataGrid(
                                 source: _selectedIndex == 0
-                                    ? _qualityPSSDataSource
+                                    ? _qualityExcavationDataSource
                                     : _selectedIndex == 1
-                                        ? _qualityrmuDataSource
+                                        ? _qualityBackFillingDataSource
                                         : _selectedIndex == 2
-                                            ? _qualityctDataSource
+                                            ? _qualityMassonaryDataSource
                                             : _selectedIndex == 3
-                                                ? _qualitycmuDataSource
+                                                ? _qualityGlazzingDataSource
                                                 : _selectedIndex == 4
-                                                    ? _qualityacdDataSource
+                                                    ? _qualityCeillingDataSource
                                                     : _selectedIndex == 5
-                                                        ? _qualityCIDataSource
+                                                        ? _qualityflooringDataSource
                                                         : _selectedIndex == 6
-                                                            ? _qualityCDIDataSource
+                                                            ? _qualityInspectionDataSource
                                                             : _selectedIndex ==
                                                                     7
-                                                                ? _qualityMSPDataSource
+                                                                ? _qualityIroniteflooringDataSource
                                                                 : _selectedIndex ==
                                                                         8
-                                                                    ? _qualityChargerDataSource
-                                                                    : _qualityEPDataSource,
+                                                                    ? _qualityPaintingDataSource
+                                                                    :
+                                                                    // _selectedIndex ==
+                                                                    //         9
+                                                                    //     ?
+                                                                    _qualityPavingDataSource,
+                                // _selectedIndex ==
+                                //         10
+                                //     ? _qualityRoofingDataSource
+                                //     : _qualityPROOFINGDataSource,
 
+                                //key: key,
                                 allowEditing: true,
                                 frozenColumnsCount: 2,
                                 gridLinesVisibility: GridLinesVisibility.both,
@@ -1124,14 +1201,12 @@ class _ElectricalQualityChecklistState
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8.0),
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        'Upload.',
-                                        overflow: TextOverflow.values.first,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: white),
-                                      ),
+                                      child: Text('Upload.',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: white)),
                                     ),
                                   ),
                                   GridColumn(
@@ -1142,14 +1217,12 @@ class _ElectricalQualityChecklistState
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8.0),
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        'View',
-                                        overflow: TextOverflow.values.first,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: white),
-                                      ),
+                                      child: Text('View',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: white)),
                                     ),
                                   ),
                                 ],
@@ -1170,808 +1243,311 @@ class _ElectricalQualityChecklistState
             },
           );
   }
-
-  Future<void> setBoolean() async {
-    List<bool> tempList = [];
-    for (int i = 0; i < tabForElec.length; i++) {
-      tempList.add(false);
-    }
-    electricalBoolList = tempList;
-  }
-
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
-    });
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: currentDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-
-    if (picked != null && picked != currentDate) {
-      checkTable = true;
-      currentDate = picked;
-      selectedDate = DateFormat.yMMMMd().format(currentDate);
-      getControllersData();
-      getTableData();
-    }
-  }
-
-  Future<void> getControllersData() async {
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(selectedDate)
-        .get();
-
-    if (documentSnapshot.exists) {
-      Map<String, dynamic> controllerData =
-          documentSnapshot.data() as Map<String, dynamic>;
-
-      employeeNameController.text = controllerData['employeeName'] ?? '';
-      olaNumberController.text = controllerData['olaNumber'] ?? '';
-      docNoController.text = controllerData['docNo'] ?? '';
-      dateController.text = controllerData['date'] ?? '';
-      panelSrController.text = controllerData['panelNumber'] ?? '';
-      vendorNoController.text = controllerData['vendor'] ?? '';
-      customerNameController.text = controllerData['customerName'] ?? '';
-      depotNameController.text = controllerData['depotName'] ?? '';
-
-      print('Data - $controllerData');
-    } else {
-      employeeNameController.clear();
-      olaNumberController.clear();
-      docNoController.clear();
-      dateController.clear();
-      panelSrController.clear();
-      vendorNoController.clear();
-      customerNameController.clear();
-      depotNameController.clear();
-    }
-  }
-
-  Future<void> getTableData() async {
-    if (_isloading == false) {
-      setState(() {
-        _isloading = true;
-      });
-    }
-
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(widget.depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(selectedDate)
-        .get();
-
-    if (documentSnapshot.exists) {
-      Map<String, dynamic> tempData =
-          documentSnapshot.data() as Map<String, dynamic>;
-
-      List<dynamic> mapData = tempData['data'];
-
-      data = mapData.map((map) => QualitychecklistModel.fromJson(map)).toList();
-      checkTable = false;
-    }
-
-    if (_selectedIndex == 0) {
-      qualitylisttable1 = checkTable ? getData() : data;
-      _qualityPSSDataSource = QualityPSSDataSource(
-          qualitylisttable1, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 1) {
-      qualitylisttable2 = checkTable ? rmu_getData() : data;
-      _qualityrmuDataSource = QualityrmuDataSource(
-          qualitylisttable2, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 2) {
-      qualitylisttable3 = checkTable ? ct_getData() : data;
-      _qualityctDataSource = QualityctDataSource(
-          qualitylisttable3, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 3) {
-      qualitylisttable4 = checkTable ? cmu_getData() : data;
-      _qualitycmuDataSource = QualitycmuDataSource(
-          qualitylisttable4, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 4) {
-      qualitylisttable5 = checkTable ? acdb_getData() : data;
-      _qualityacdDataSource = QualityacdDataSource(
-          qualitylisttable5, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 5) {
-      qualitylisttable6 = checkTable ? ci_getData() : data;
-      _qualityCIDataSource = QualityCIDataSource(
-          qualitylisttable6, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 6) {
-      qualitylisttable7 = checkTable ? cdi_getData() : data;
-      _qualityCDIDataSource = QualityCDIDataSource(
-          qualitylisttable7, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 7) {
-      qualitylisttable8 = checkTable ? msp_getData() : data;
-      _qualityMSPDataSource = QualityMSPDataSource(
-          qualitylisttable8, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 8) {
-      qualitylisttable9 = checkTable ? charger_getData() : data;
-      _qualityChargerDataSource = QualityChargerDataSource(
-          qualitylisttable9, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 9) {
-      qualitylisttable10 = checkTable ? earth_pit_getData() : data;
-      _qualityEPDataSource = QualityEPDataSource(
-          qualitylisttable10, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    }
-
-    _isloading = false;
-    setState(() {});
-  }
 }
 
-storeData(BuildContext context, String depoName, String currentDate,
-    List<bool> isTabSelected) {
-  Map<String, dynamic> pssTableData = Map();
-  Map<String, dynamic> rmuTableData = Map();
-  Map<String, dynamic> ctTableData = Map();
-  Map<String, dynamic> cmuTableData = Map();
-  Map<String, dynamic> acdbTableData = Map();
-  Map<String, dynamic> ciTableData = Map();
-  Map<String, dynamic> cdiTableData = Map();
-  Map<String, dynamic> mspTableData = Map();
-  Map<String, dynamic> chargerTableData = Map();
-  Map<String, dynamic> epTableData = Map();
+CivilstoreData(BuildContext context, String depoName, String currentDate,
+    List<bool> listToSelectTab) {
+  Map<String, dynamic> excavationTableData = Map();
+  Map<String, dynamic> backfillingTableData = Map();
+  Map<String, dynamic> massonaryTableData = Map();
+  Map<String, dynamic> doorsTableData = Map();
+  Map<String, dynamic> ceillingTableData = Map();
+  Map<String, dynamic> flooringTableData = Map();
+  Map<String, dynamic> inspectionTableData = Map();
+  Map<String, dynamic> paintingTableData = Map();
+  Map<String, dynamic> pavingTableData = Map();
+  Map<String, dynamic> roofingTableData = Map();
+  Map<String, dynamic> proofingTableData = Map();
 
-  if (isTabSelected[0]) {
-    for (var i in _qualityPSSDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          pssTableData[data.columnName] = data.value;
-        }
+  for (var i in _qualityExcavationDataSource.dataGridRows) {
+    for (var data in i.getCells()) {
+      if (data.columnName != 'button' ||
+          data.columnName == 'View' ||
+          data.columnName != 'Delete') {
+        excavationTableData[data.columnName] = data.value;
       }
-
-      psstabledatalist.add(pssTableData);
-      pssTableData = {};
     }
 
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': psstabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    psstabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
+    excavationtabledatalist.add(excavationTableData);
+    excavationTableData = {};
   }
 
-  if (isTabSelected[1]) {
-    psstabledatalist.clear();
-    for (var i in _qualityrmuDataSource.dataGridRows) {
+  FirebaseFirestore.instance
+      .collection('QualityChecklist')
+      .doc(depoName)
+      .collection('Excavation TABLE DATA')
+      .doc('Excavation')
+      .collection(userId)
+      .doc(currentDate)
+      .set({
+    'data': excavationtabledatalist,
+  }).whenComplete(() {
+    excavationTableData.clear();
+    for (var i in _qualityBackFillingDataSource.dataGridRows) {
       for (var data in i.getCells()) {
         if (data.columnName != 'button' ||
             data.columnName == 'View' ||
             data.columnName != 'Delete') {
-          rmuTableData[data.columnName] = data.value;
+          backfillingTableData[data.columnName] = data.value;
         }
       }
-      rmutabledatalist.add(rmuTableData);
-      rmuTableData = {};
+      backfillingtabledatalist.add(backfillingTableData);
+      backfillingTableData = {};
     }
 
     FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
+        .collection('QualityChecklist')
         .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
+        .collection('BackFilling TABLE DATA')
+        .doc('BackFilling')
+        .collection(userId)
         .doc(currentDate)
         .set({
-      'data': rmutabledatalist,
+      'data': backfillingtabledatalist,
     }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      eptabledatalist.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    rmutabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  } else if (isTabSelected[2]) {
-    rmutabledatalist.clear();
-    for (var i in _qualityctDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          ctTableData[data.columnName] = data.value;
+      backfillingTableData.clear();
+      for (var i in _qualityMassonaryDataSource.dataGridRows) {
+        for (var data in i.getCells()) {
+          if (data.columnName != 'button' ||
+              data.columnName == 'View' ||
+              data.columnName != 'Delete') {
+            massonaryTableData[data.columnName] = data.value;
+          }
         }
+
+        massonarytabledatalist.add(massonaryTableData);
+        massonaryTableData = {};
       }
 
-      cttabledatalist.add(ctTableData);
-      ctTableData = {};
-    }
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': cttabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      eptabledatalist.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    cttabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  } else if (isTabSelected[3]) {
-    cttabledatalist.clear();
-    for (var i in _qualitycmuDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          cmuTableData[data.columnName] = data.value;
+      FirebaseFirestore.instance
+          .collection('QualityChecklist')
+          .doc(depoName)
+          .collection('Massonary TABLE DATA')
+          .doc('Massonary')
+          .collection(userId)
+          .doc(currentDate)
+          .set({
+        'data': backfillingtabledatalist,
+      }).whenComplete(() {
+        massonaryTableData.clear();
+        for (var i in _qualityGlazzingDataSource.dataGridRows) {
+          for (var data in i.getCells()) {
+            if (data.columnName != 'button' ||
+                data.columnName == 'View' ||
+                data.columnName != 'Delete') {
+              doorsTableData[data.columnName] = data.value;
+            }
+          }
+          doorstabledatalist.add(doorsTableData);
+          doorsTableData = {};
         }
-      }
-      cmutabledatalist.add(cmuTableData);
-      cmuTableData = {};
-    }
 
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': cmutabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      eptabledatalist.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
+        FirebaseFirestore.instance
+            .collection('QualityChecklist')
+            .doc(depoName)
+            .collection('Glazzing TABLE DATA')
+            .doc('Glazzing')
+            .collection(userId)
+            .doc(currentDate)
+            .set({
+          'data': doorstabledatalist,
+        }).whenComplete(() {
+          doorsTableData.clear();
+          for (var i in _qualityCeillingDataSource.dataGridRows) {
+            for (var data in i.getCells()) {
+              if (data.columnName != 'button' || data.columnName != 'Delete') {
+                ceillingTableData[data.columnName] = data.value;
+              }
+            }
+            ceillingtabledatalist.add(ceillingTableData);
+            ceillingTableData = {};
+          }
+
+          FirebaseFirestore.instance
+              .collection('QualityChecklist')
+              .doc(depoName)
+              .collection('CEILLING TABLE DATA')
+              .doc('CEILLING DATA')
+              .collection(userId)
+              .doc(currentDate)
+              .set({
+            'data': ceillingtabledatalist,
+          }).whenComplete(() {
+            ceillingTableData.clear();
+            for (var i in _qualityflooringDataSource.dataGridRows) {
+              for (var data in i.getCells()) {
+                if (data.columnName != 'button' ||
+                    data.columnName == 'View' ||
+                    data.columnName != 'Delete') {
+                  flooringTableData[data.columnName] = data.value;
+                }
+              }
+              flooringtabledatalist.add(flooringTableData);
+              flooringTableData = {};
+            }
+
+            FirebaseFirestore.instance
+                .collection('QualityChecklist')
+                .doc(depoName)
+                .collection('FLOORING TABLE DATA')
+                .doc('FLOORING DATA')
+                .collection(userId)
+                .doc(currentDate)
+                .set({
+              'data': flooringtabledatalist,
+            }).whenComplete(() {
+              flooringTableData.clear();
+              for (var i in _qualityInspectionDataSource.dataGridRows) {
+                for (var data in i.getCells()) {
+                  if (data.columnName != 'button' ||
+                      data.columnName == 'View' ||
+                      data.columnName != 'Delete') {
+                    inspectionTableData[data.columnName] = data.value;
+                  }
+                }
+                inspectiontabledatalist.add(inspectionTableData);
+                inspectionTableData = {};
+              }
+
+              FirebaseFirestore.instance
+                  .collection('QualityChecklist')
+                  .doc(depoName)
+                  .collection('INSPECTION TABLE DATA')
+                  .doc('INSPECTION DATA')
+                  .collection(userId)
+                  .doc(currentDate)
+                  .set({
+                'data': inspectiontabledatalist,
+              }).whenComplete(() {
+                inspectionTableData.clear();
+                for (var i in _qualityflooringDataSource.dataGridRows) {
+                  for (var data in i.getCells()) {
+                    if (data.columnName != 'button' ||
+                        data.columnName == 'View' ||
+                        data.columnName != 'Delete') {
+                      flooringTableData[data.columnName] = data.value;
+                    }
+                  }
+                  flooringtabledatalist.add(flooringTableData);
+                  flooringTableData = {};
+                }
+
+                FirebaseFirestore.instance
+                    .collection('QualityChecklist')
+                    .doc(depoName)
+                    .collection('FLOORING TABLE DATA')
+                    .doc('FLOORING DATA')
+                    .collection(userId)
+                    .doc(currentDate)
+                    .set({
+                  'data': flooringtabledatalist,
+                }).whenComplete(() {
+                  flooringTableData.clear();
+                  for (var i in _qualityPaintingDataSource.dataGridRows) {
+                    for (var data in i.getCells()) {
+                      if (data.columnName != 'button' ||
+                          data.columnName == 'View' ||
+                          data.columnName != 'Delete') {
+                        flooringTableData[data.columnName] = data.value;
+                      }
+                    }
+                    paintingtabledatalist.add(paintingTableData);
+                    paintingTableData = {};
+                  }
+
+                  FirebaseFirestore.instance
+                      .collection('QualityChecklist')
+                      .doc(depoName)
+                      .collection('PAINTING TABLE DATA')
+                      .doc('PAINTING DATA')
+                      .collection(userId)
+                      .doc(currentDate)
+                      .set({
+                    'data': paintingtabledatalist,
+                  }).whenComplete(() {
+                    paintingTableData.clear();
+                    for (var i in _qualityPavingDataSource.dataGridRows) {
+                      for (var data in i.getCells()) {
+                        if (data.columnName != 'button' ||
+                            data.columnName == 'View' ||
+                            data.columnName != 'Delete') {
+                          pavingTableData[data.columnName] = data.value;
+                        }
+                      }
+                      pavingtabledatalist.add(pavingTableData);
+                      pavingTableData = {};
+                    }
+
+                    FirebaseFirestore.instance
+                        .collection('QualityChecklist')
+                        .doc(depoName)
+                        .collection('PAVING TABLE DATA')
+                        .doc('PAVING DATA')
+                        .collection(userId)
+                        .doc(currentDate)
+                        .set({
+                      'data': pavingtabledatalist,
+                    }).whenComplete(() {
+                      pavingtabledatalist.clear();
+                      for (var i in _qualityRoofingDataSource.dataGridRows) {
+                        for (var data in i.getCells()) {
+                          if (data.columnName != 'button' ||
+                              data.columnName == 'View' ||
+                              data.columnName != 'Delete') {
+                            roofingTableData[data.columnName] = data.value;
+                          }
+                        }
+                        roofingtabledatalist.add(roofingTableData);
+                        roofingTableData = {};
+                      }
+
+                      FirebaseFirestore.instance
+                          .collection('QualityChecklist')
+                          .doc(depoName)
+                          .collection('ROOFING TABLE DATA')
+                          .doc('ROOFING DATA')
+                          .collection(userId)
+                          .doc(currentDate)
+                          .set({
+                        'data': roofingtabledatalist,
+                      }).whenComplete(() {
+                        roofingTableData.clear();
+                        for (var i in _qualityProofingDataSource.dataGridRows) {
+                          for (var data in i.getCells()) {
+                            if (data.columnName != 'button' ||
+                                data.columnName == 'View' ||
+                                data.columnName != 'Delete') {
+                              roofingTableData[data.columnName] = data.value;
+                            }
+                          }
+                          roofingtabledatalist.add(roofingTableData);
+                          roofingTableData = {};
+                        }
+
+                        FirebaseFirestore.instance
+                            .collection('QualityChecklist')
+                            .doc(depoName)
+                            .collection('PROOFING TABLE DATA')
+                            .doc('PROOFING DATA')
+                            .collection(userId)
+                            .doc(currentDate)
+                            .set({
+                          'data': proofingtabledatalist,
+                        }).whenComplete(() {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text('Data are synced'),
+                            backgroundColor: blue,
+                          ));
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
     });
-
-    cmutabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  } else if (isTabSelected[4]) {
-    for (var i in _qualityacdDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' || data.columnName != 'Delete') {
-          acdbTableData[data.columnName] = data.value;
-        }
-      }
-      acdbtabledatalist.add(acdbTableData);
-      acdbTableData = {};
-    }
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': acdbtabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      eptabledatalist.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    acdbtabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  } else if (isTabSelected[5]) {
-    for (var i in _qualityCIDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          ciTableData[data.columnName] = data.value;
-        }
-      }
-      citabledatalist.add(ciTableData);
-      ciTableData = {};
-    }
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': citabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    citabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  } else if (isTabSelected[6]) {
-    citabledatalist.clear();
-    for (var i in _qualityCDIDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          cdiTableData[data.columnName] = data.value;
-        }
-      }
-      cditabledatalist.add(cdiTableData);
-      cdiTableData = {};
-    }
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': cditabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    cditabledatalist.clear();
-  } else if (isTabSelected[7]) {
-    cditabledatalist.clear();
-    for (var i in _qualityMSPDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          mspTableData[data.columnName] = data.value;
-        }
-      }
-      msptabledatalist.add(mspTableData);
-      mspTableData = {};
-    }
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': msptabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      eptabledatalist.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    msptabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  } else if (isTabSelected[8]) {
-    msptabledatalist.clear();
-    for (var i in _qualityChargerDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          chargerTableData[data.columnName] = data.value;
-        }
-      }
-      chargertabledatalist.add(chargerTableData);
-      chargerTableData = {};
-    }
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': chargertabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      eptabledatalist.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    chargertabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  } else if (isTabSelected[9]) {
-    chargertabledatalist.clear();
-    for (var i in _qualityEPDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button' ||
-            data.columnName == 'View' ||
-            data.columnName != 'Delete') {
-          epTableData[data.columnName] = data.value;
-        }
-      }
-      eptabledatalist.add(epTableData);
-      epTableData = {};
-    }
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'data': eptabledatalist,
-    }).whenComplete(() {
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApi().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      eptabledatalist.clear();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
-
-    eptabledatalist.clear();
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'deponame': depoName});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalQualityChecklist')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .set({'userId': userId});
-
-    FirebaseFirestore.instance
-        .collection('ElectricalChecklistField')
-        .doc(depoName)
-        .collection('userId')
-        .doc(userId)
-        .collection(tabForElec[_selectedIndex!])
-        .doc(currentDate)
-        .set({
-      'employeeName': employeeNameController.text,
-      'olaNumber': olaNumberController.text,
-      'docNo': docNoController.text,
-      'panelNumber': panelSrController.text,
-      'vendor': vendorNoController.text,
-      'depotName': depotNameController.text,
-      'date': dateController.text,
-      'customerName': customerNameController.text
-    });
-  }
+  });
 }

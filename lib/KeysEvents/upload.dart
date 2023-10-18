@@ -19,9 +19,11 @@ class UploadDocument extends StatefulWidget {
   String? fldrName;
   String? date;
   int? srNo;
+  String? pagetitle;
+
   UploadDocument({
     super.key,
-    required this.title,
+    this.title,
     this.subtitle,
     required this.cityName,
     required this.depoName,
@@ -29,6 +31,7 @@ class UploadDocument extends StatefulWidget {
     required this.fldrName,
     this.date,
     this.srNo,
+    this.pagetitle,
   });
 
   @override
@@ -42,7 +45,7 @@ class _UploadDocumentState extends State<UploadDocument> {
     return Scaffold(
         appBar: PreferredSize(
             child: CustomAppBar(
-              text: 'Upload Checklist',
+              text: '${widget.cityName}/${widget.depoName}/Upload Checklist',
               haveSynced: false,
             ),
             preferredSize: const Size.fromHeight(50)),
@@ -138,7 +141,9 @@ class _UploadDocumentState extends State<UploadDocument> {
                               String refname = (widget.title ==
                                       'QualityChecklist'
                                   ? '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}/${result!.files.first.name}'
-                                  : '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName!}/${result!.files.first.name}');
+                                  : widget.pagetitle == 'ClosureReport'
+                                      ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${result!.files.first.name}'
+                                      : '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.fldrName}/${result!.files.first.name}');
 
                               // String? fileName = result!.files.first.name;
 
@@ -163,6 +168,19 @@ class _UploadDocumentState extends State<UploadDocument> {
                           )),
                     ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: 250,
+                  height: 50,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                          'Back to ${widget.title == 'QualityChecklist' ? 'Quality Checklist' : widget.pagetitle}')),
                 ),
               )
             ],

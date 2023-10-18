@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:assingment/Planning_Pages/electrical_quality_checklist.dart';
 import 'package:assingment/Planning_Pages/summary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,6 +31,8 @@ class QualityChecklist extends StatefulWidget {
 }
 
 TextEditingController ename = TextEditingController();
+String selectedTabName = '';
+String currentTabName = '';
 String selectedDepot = '';
 dynamic empName,
     distev,
@@ -44,6 +48,13 @@ dynamic alldata;
 int? _selectedIndex = 0;
 dynamic userId;
 TextEditingController selectedDepoController = TextEditingController();
+
+List<bool> listToSelectTab = [];
+List<String> qualityFields = [
+  'CivilChecklistField',
+  'ElectricalChecklistField'
+];
+
 List<String> title = [
   'CHECKLIST FOR INSTALLATION OF PSS',
   'CHECKLIST FOR INSTALLATION OF RMU',
@@ -56,6 +67,7 @@ List<String> title = [
   'CHECKLIST FOR CHARGER PANEL',
   'CHECKLIST FOR INSTALLATION OF  EARTH PIT',
 ];
+
 // ignore: non_constant_identifier_names
 List<String> civil_title = [
   'CHECKLIST FOR INSTALLATION OF EXCAVATION WORK',
@@ -82,8 +94,8 @@ class _QualityChecklistState extends State<QualityChecklist> {
 
   @override
   Widget build(BuildContext context) {
-    widget.currentDate =
-        widget.currentDate ?? DateFormat.yMMMMd().format(DateTime.now());
+    widget.currentDate = widget.currentDate ??
+        DateFormat('MMMM dd, yyyy').format(DateTime.now());
 
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return SafeArea(
@@ -186,33 +198,39 @@ class _QualityChecklistState extends State<QualityChecklist> {
                                   color: lightblue),
                               child: TextButton(
                                   onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection(
-                                            'QualityChecklistCollection')
-                                        .doc('${widget.depoName}')
-                                        .collection('ChecklistData')
-                                        .doc(widget.currentDate)
-                                        .set({
-                                      'EmployeeName':
-                                          empName ?? 'Enter Employee Name',
-                                      'Dist EV': distev ?? 'Enter Dist EV',
-                                      'VendorName':
-                                          vendorname ?? 'Enter Vendor Name',
-                                      'Date': date ?? 'Enter Date',
-                                      'OlaNo': olano ?? 'Enter Ola No',
-                                      'PanelNo': panel ?? 'Enter Panel',
-                                      'DepotName':
-                                          depotname ?? 'Enter depot Name Name',
-                                      'CustomerName':
-                                          customername ?? 'Enter Customer Name'
-                                    });
+                                    // FirebaseFirestore.instance
+                                    //     .collection('CivilChecklistField')
+                                    //     .doc('${widget.depoName}')
+                                    //     .collection('userId')
+                                    //     .doc(userId)
+                                    //     .collection(currentTabName)
+                                    //     .doc(widget.currentDate)
+                                    //     .set({
+                                    //   'EmployeeName':
+                                    //       empName ?? 'Enter Employee Name',
+                                    //   'Dist EV': distev ?? 'Enter Dist EV',
+                                    //   'VendorName':
+                                    //       vendorname ?? 'Enter Vendor Name',
+                                    //   'Date': date ?? 'Enter Date',
+                                    //   'OlaNo': olano ?? 'Enter Ola No',
+                                    //   'PanelNo': panel ?? 'Enter Panel',
+                                    //   'DepotName':
+                                    //       depotname ?? 'Enter depot Name Name',
+                                    //   'CustomerName':
+                                    //       customername ?? 'Enter Customer Name'
+                                    // });
                                     _selectedIndex == 0
                                         ? CivilstoreData(
                                             context,
                                             widget.depoName!,
-                                            widget.currentDate!)
-                                        : storeData(context, widget.depoName!,
-                                            widget.currentDate!);
+                                            widget.currentDate!,
+                                            listToSelectTab,
+                                            selectedTabName)
+                                        : storeData(
+                                            context,
+                                            widget.depoName!,
+                                            widget.currentDate!,
+                                            listToSelectTab);
                                   },
                                   child: Text(
                                     'Sync Data',
@@ -231,7 +249,7 @@ class _QualityChecklistState extends State<QualityChecklist> {
                                     'assets/logout.png',
                                     height: 20,
                                     width: 20,
-                                  )))
+                                  ))),
                         ],
                       )
                     : Container(),
@@ -266,11 +284,15 @@ class _QualityChecklistState extends State<QualityChecklist> {
             ),
             body: TabBarView(children: [
               CivilQualityChecklist(
-                  cityName: widget.cityName, depoName: widget.depoName),
+                cityName: widget.cityName,
+                depoName: widget.depoName,
+                getBoolList: getBoolList,
+              ),
               ElectricalQualityChecklist(
                   cityName: widget.cityName,
                   depoName: widget.depoName,
-                  userId: userId)
+                  userId: userId,
+                  getBoolList: getBoolList),
             ]),
           )),
     );
@@ -280,6 +302,12 @@ class _QualityChecklistState extends State<QualityChecklist> {
     await AuthService().getCurrentUserId().then((value) {
       userId = value;
     });
+  }
+
+  void getBoolList(List<bool> boolList, String tabName) {
+    listToSelectTab = boolList;
+    selectedTabName = tabName;
+    print(listToSelectTab);
   }
 
   Future<List<dynamic>> getDepoList(String pattern) async {
