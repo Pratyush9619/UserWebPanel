@@ -1,7 +1,5 @@
 import 'package:assingment/model/close_report.dart';
-
 import 'package:assingment/widget/style.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,9 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../KeysEvents/upload.dart';
-import '../KeysEvents/viewFIle.dart';
 import '../KeysEvents/view_AllFiles.dart';
-import '../model/daily_projectModel.dart';
 
 class CloseReportDataSource extends DataGridSource {
   String cityName;
@@ -48,6 +44,7 @@ class CloseReportDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    String Pagetitle = 'Closure Report';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
@@ -61,11 +58,12 @@ class CloseReportDataSource extends DataGridSource {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => UploadDocument(
-                            title: 'ClosureReport',
+                            pagetitle: 'ClosureReport',
                             cityName: cityName,
                             depoName: depoName,
                             fldrName: row.getCells()[0].value.toString(),
                             userId: userId,
+                            // pagetitle: Pagetitle,
                           ),
                         ));
                         // showDialog(
@@ -101,8 +99,7 @@ class CloseReportDataSource extends DataGridSource {
                                     cityName: cityName,
                                     depoName: depoName,
                                     userId: userId,
-                                    docId:
-                                        '${row.getCells()[0].value.toString()}')
+                                    docId: row.getCells()[0].value.toString())
                                 // UploadDocument(
                                 //     title: 'DetailedEngRFC',
                                 //     cityName: cityName,

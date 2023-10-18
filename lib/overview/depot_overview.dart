@@ -3,11 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../Authentication/auth_service.dart';
 import '../FirebaseApi/firebase_api.dart';
@@ -45,6 +43,8 @@ class _DepotOverviewState extends State<DepotOverview> {
   // TextEditingController _addressController = TextEditingController();
   bool _isloading = true;
   List fileNames = [];
+  Stream? _stream;
+
   late TextEditingController _addressController,
       _scopeController,
       _chargerController,
@@ -74,7 +74,6 @@ class _DepotOverviewState extends State<DepotOverview> {
   //     civilEng,
   //     civilVendor;
 
-  Stream? _stream, _stream1;
   var alldata;
   Uint8List? fileBytes;
   Uint8List? fileBytes1;
@@ -101,15 +100,22 @@ class _DepotOverviewState extends State<DepotOverview> {
   @override
   void initState() {
     initializeController();
+
     getUserId().whenComplete(() {
+      _stream = FirebaseFirestore.instance
+          .collection('OverviewCollectionTable')
+          .doc(widget.depoName)
+          .collection("OverviewTabledData")
+          .doc(userId)
+          .snapshots();
       _employees = getEmployeeData();
       // ignore: use_build_context_synchronously
       _employeeDataSource = DepotOverviewDatasource(_employees, context);
       _dataGridController = DataGridController();
-      verifyProjectManager();
-
-      setState(() {
-        _isloading = false;
+      verifyProjectManager().whenComplete(() {
+        setState(() {
+          _isloading = false;
+        });
       });
     });
 
@@ -155,7 +161,6 @@ class _DepotOverviewState extends State<DepotOverview> {
                   'ElectricalEng': _electricalEngineerController.text,
                   'ElectricalVendor': _electricalVendorController.text,
                 }, SetOptions(merge: true));
-
                 FirebaseApi().defaultKeyEventsField(
                     'OverviewCollectionTable', widget.depoName!);
                 FirebaseApi().nestedKeyEventsField('OverviewCollectionTable',
@@ -208,7 +213,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                         stream: _stream,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData ||
-                              snapshot.data.exists == false) {
+                              snapshot.data!.exists == false) {
                             return SfDataGrid(
                               source: _employeeDataSource,
                               allowEditing: true,
@@ -467,7 +472,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                               ],
                             );
                           } else {
-                            alldata = snapshot.data['data'] as List<dynamic>;
+                            alldata = snapshot.data!['data'] as List<dynamic>;
                             _employees.clear();
                             alldata.forEach((element) {
                               _employees
@@ -1925,14 +1930,16 @@ class _DepotOverviewState extends State<DepotOverview> {
               fileBytes!,
               //  SettableMetadata(contentType: 'application/pdf')
             );
-      } else if (fileBytes1 != null) {
+      }
+      if (fileBytes1 != null) {
         await FirebaseStorage.instance
             .ref(
                 'BOQElectrical/${widget.cityName}/${widget.depoName}/$userId/electrical/${result1!.files.first.name}')
             .putData(
               fileBytes1!,
             );
-      } else if (fileBytes2 != null) {
+      }
+      if (fileBytes2 != null) {
         await FirebaseStorage.instance
             .ref(
                 'BOQCivil/${widget.cityName}/${widget.depoName}/$userId/civil/${result2!.files.first.name}')

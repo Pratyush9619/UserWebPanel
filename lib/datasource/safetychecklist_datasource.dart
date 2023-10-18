@@ -53,6 +53,7 @@ class SafetyChecklistDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
     // DateTime? rangeStartDate = DateTime.now();
     // DateTime? rangeEndDate = DateTime.now();
     // DateTime? date;
@@ -61,6 +62,7 @@ class SafetyChecklistDataSource extends DataGridSource {
     // DateTime? rangeEndDate1 = DateTime.now();
     // DateTime? date1;
     // DateTime? endDate1;
+    String Pagetitle = 'Safety Checklist';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
@@ -90,11 +92,12 @@ class SafetyChecklistDataSource extends DataGridSource {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => UploadDocument(
+                              pagetitle: 'SafetyChecklist',
                               cityName: cityName,
                               depoName: depoName,
-                              title: 'SafetyChecklist',
                               fldrName: row.getCells()[0].value.toString(),
                               userId: userId,
+                              date: selectedDate,
                             ),
                           ));
                         },
@@ -113,8 +116,9 @@ class SafetyChecklistDataSource extends DataGridSource {
                                       cityName: cityName,
                                       depoName: depoName,
                                       userId: userId,
+                                      date: selectedDate,
                                       docId:
-                                          '${row.getCells()[0].value.toString()}')));
+                                          row.getCells()[0].value.toString())));
                               //     // ViewFile()
                               //     // UploadDocument(
                               //     //     title: 'SafetyChecklist',

@@ -35,20 +35,21 @@ class _DailyProjectState extends State<DailyProject> {
   var alldata;
   dynamic userId;
   bool _isloading = true;
+  String pagetitle = 'Daily Report';
 
   @override
   void initState() {
     selectedDate = DateFormat.yMMMMd().format(DateTime.now());
-    dailyproject = getmonthlyReport();
+    // dailyproject = getmonthlyReport();
     // _dailyDataSource = DailyDataSource(
     //     dailyproject, context, widget.cityName!, widget.depoName!, userId);
     // _dataGridController = DataGridController();
 
     getUserId().whenComplete(() {
       getmonthlyReport();
-      dailyproject = getmonthlyReport();
-      _dailyDataSource = DailyDataSource(
-          dailyproject, context, widget.cityName!, widget.depoName!, userId);
+      // dailyproject = getmonthlyReport();
+      _dailyDataSource = DailyDataSource(dailyproject, context,
+          widget.cityName!, widget.depoName!, selectedDate!, userId);
       _dataGridController = DataGridController();
 
       _isloading = false;
@@ -60,6 +61,7 @@ class _DailyProjectState extends State<DailyProject> {
 
   @override
   Widget build(BuildContext context) {
+    dailyproject.clear();
     _stream = FirebaseFirestore.instance
         .collection('DailyProjectReport2')
         .doc('${widget.depoName}')
@@ -109,9 +111,16 @@ class _DailyProjectState extends State<DailyProject> {
                     return LoadingPage();
                   } else if (!snapshot.hasData ||
                       snapshot.data.exists == false) {
-                    dailyproject = getmonthlyReport();
-                    _dailyDataSource = DailyDataSource(dailyproject, context,
-                        widget.cityName!, widget.depoName!, userId);
+                    // dailyproject = getmonthlyReport();
+
+                    _dailyDataSource = DailyDataSource(
+                      dailyproject,
+                      context,
+                      widget.cityName!,
+                      widget.depoName!,
+                      selectedDate!,
+                      userId,
+                    );
                     _dataGridController = DataGridController();
                     return SfDataGridTheme(
                       data: SfDataGridThemeData(headerColor: lightblue),
@@ -382,11 +391,21 @@ class _DailyProjectState extends State<DailyProject> {
                     alldata = '';
                     alldata = snapshot.data['data'] as List<dynamic>;
                     dailyproject.clear();
+                    _dailyDataSource.buildDataGridRows();
+                    _dailyDataSource.updateDatagridSource();
                     alldata.forEach((element) {
                       dailyproject.add(DailyProjectModel.fromjson(element));
-                      _dailyDataSource = DailyDataSource(dailyproject, context,
-                          widget.cityName!, widget.depoName!, userId);
+                      _dailyDataSource = DailyDataSource(
+                        dailyproject,
+                        context,
+                        widget.cityName!,
+                        widget.depoName!,
+                        selectedDate!,
+                        userId,
+                      );
                       _dataGridController = DataGridController();
+                      _dailyDataSource.buildDataGridRows();
+                      _dailyDataSource.updateDatagridSource();
                     });
                     return SfDataGridTheme(
                       data: SfDataGridThemeData(headerColor: lightblue),
@@ -595,21 +614,21 @@ class _DailyProjectState extends State<DailyProject> {
                 },
               ))
             ]),
-      // floatingActionButton: FloatingActionButton(
-      //     child: Icon(Icons.add),
-      //     onPressed: (() {
-      //       dailyproject.add(DailyProjectModel(
-      //           siNo: 1,
-      //           // date: DateFormat().add_yMd(storeData()).format(DateTime.now()),
-      //           // state: "Maharashtra",
-      //           // depotName: 'depotName',
-      //           typeOfActivity: 'Electrical Infra',
-      //           activityDetails: "Initial Survey of DEpot",
-      //           progress: '',
-      //           status: ''));
-      //       _dailyDataSource.buildDataGridRows();
-      //       _dailyDataSource.updateDatagridSource();
-      //     })),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: (() {
+            dailyproject.add(DailyProjectModel(
+                siNo: 1,
+                // date: DateFormat().add_yMd(storeData()).format(DateTime.now()),
+                // state: "Maharashtra",
+                // depotName: 'depotName',
+                typeOfActivity: '',
+                activityDetails: "",
+                progress: '',
+                status: ''));
+            _dailyDataSource.buildDataGridRows();
+            _dailyDataSource.updateDatagridSource();
+          })),
     );
   }
 

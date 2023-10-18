@@ -56,6 +56,9 @@ class EmployeeDataSource extends DataGridSource {
     DateTime? date1;
     DateTime? endDate1;
     DateRangePickerController _datecontroller = DateRangePickerController();
+    DateTime? getActualEnddate;
+    DateTime? getEndDate;
+    Duration? calculateDelay;
 
     final int dataIndex = dataGridRows.indexOf(row);
     if (dataIndex != null) {
@@ -64,6 +67,12 @@ class EmployeeDataSource extends DataGridSource {
 
       perc = ((_employees[dataIndex].balanceQty / _employees[dataIndex].scope) *
           _employees[dataIndex].weightage);
+
+      getActualEnddate = DateFormat("dd-MM-yyyy")
+          .parse(_employees[dataIndex].actualendDate.toString());
+      getEndDate = DateFormat("dd-MM-yyyy")
+          .parse(_employees[dataIndex].endDate.toString());
+      calculateDelay = getActualEnddate.difference(getEndDate);
     }
 
     return DataGridRowAdapter(
@@ -88,7 +97,9 @@ class EmployeeDataSource extends DataGridSource {
               Alignment.center,
           // : Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child:
+          child: dataGridCell.columnName == 'Delay'
+              ? Text(calculateDelay!.inDays.toString())
+              :
               // dataGridCell.columnName == 'uploadbutton'
               //     ? LayoutBuilder(
               //         builder: (BuildContext ctx, BoxConstraints constraints) {
@@ -162,10 +173,11 @@ class EmployeeDataSource extends DataGridSource {
                                         if (args.value is PickerDateRange) {
                                           rangeStartDate = args.value.startDate;
                                           rangeEndDate = args.value.endDate;
-                                        } else {
-                                          final List<PickerDateRange>
-                                              selectedRanges = args.value;
                                         }
+                                        // else {
+                                        //   final List<PickerDateRange>
+                                        //       selectedRanges = args.value;
+                                        // }
                                       },
                                       selectionMode:
                                           DateRangePickerSelectionMode.range,
@@ -180,6 +192,9 @@ class EmployeeDataSource extends DataGridSource {
                                         Duration diff =
                                             endDate!.difference(date!);
 
+                                        Duration calcDelay = getActualEnddate!
+                                            .difference(getEndDate!);
+
                                         print('Difference' +
                                             diff.inDays.toString());
 
@@ -190,6 +205,10 @@ class EmployeeDataSource extends DataGridSource {
                                                   .actualstartDate =
                                               DateFormat('dd-MM-yyyy')
                                                   .format(date!);
+
+                                          _employees[dataRowIndex].delay =
+                                              int.parse(
+                                                  calcDelay.inDays.toString());
 
                                           dataGridRows[dataRowIndex] =
                                               DataGridRow(cells: [
@@ -236,7 +255,8 @@ class EmployeeDataSource extends DataGridSource {
                                             DataGridCell(
                                                 value: _employees[dataRowIndex]
                                                     .delay,
-                                                columnName: 'Delay'),
+                                                columnName:
+                                                    calcDelay.toString()),
                                             DataGridCell(
                                                 value: _employees[dataRowIndex]
                                                     .reasonDelay,

@@ -781,7 +781,7 @@ class _ClosureReportState extends State<ClosureReport> {
   List<CloseReportModel> getcloseReport() {
     return [
       CloseReportModel(
-        siNo: 1,
+        siNo: 1.0,
         content: 'Introduction of Project',
       ),
       CloseReportModel(

@@ -4,8 +4,10 @@ import 'package:assingment/model/detailed_engModel.dart';
 import 'package:assingment/model/employee.dart';
 import 'package:assingment/KeysEvents/upload.dart';
 import 'package:assingment/model/monthly_projectModel.dart';
+import 'package:assingment/overview/daily_project.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -105,6 +107,7 @@ class DetailedEngSource extends DataGridSource {
     DateTime? date2;
     DateTime? endDate1;
     final int dataRowIndex = dataGridRows.indexOf(row);
+    String pagetitle = 'DetailedEngRFC';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       void addRowAtIndex(int index, DetailedEngModel rowData) {
@@ -112,6 +115,12 @@ class DetailedEngSource extends DataGridSource {
         buildDataGridRows();
         notifyListeners();
         // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
+      }
+
+      void removeRowAtIndex(int index) {
+        _detailedeng.removeAt(index);
+        buildDataGridRows();
+        notifyListeners();
       }
       // Color getcolor() {
       //   if (dataGridCell.columnName == 'Title' &&
@@ -139,21 +148,34 @@ class DetailedEngSource extends DataGridSource {
                         title: '',
                         number: null,
                         preparationDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         submissionDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         approveDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         releaseDate:
-                            DateFormat().add_yMd().format(DateTime.now()),
+                            DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       ));
                 },
                 child: const Text('Add'))
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () {
-                      dataGridRows.remove(row);
+                      print('/DetailedEngRFC/BMTC KR Puram-29');
+                      removeRowAtIndex(dataRowIndex);
                       notifyListeners();
+                      FirebaseStorage.instance
+                          .ref(
+                              "$pagetitle/$cityName/$depoName/$userId/${row.getCells()[4].value}/${row.getCells()[0].value}")
+                          .listAll()
+                          .then((value) {
+                        value.items.forEach((element) {
+                          print('path${element.fullPath}');
+                          FirebaseStorage.instance
+                              .ref(element.fullPath)
+                              .delete();
+                        });
+                      });
                     },
                     icon: Icon(
                       Icons.delete,
@@ -183,7 +205,7 @@ class DetailedEngSource extends DataGridSource {
                                         //   },
                                         // ),
                                         TextButton(
-                                          child: const Text('Yes'),
+                                          child: const Text('Ok'),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -195,11 +217,14 @@ class DetailedEngSource extends DataGridSource {
                               } else {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => UploadDocument(
-                                      userId: userId,
-                                      title: 'DetailedEngRFC',
-                                      cityName: cityName,
-                                      depoName: depoName,
-                                      fldrName: activitydata),
+                                    pagetitle: pagetitle,
+                                    cityName: cityName,
+                                    depoName: depoName,
+                                    userId: userId,
+                                    date: activitydata,
+                                    fldrName:
+                                        row.getCells()[0].value.toString(),
+                                  ),
                                 ));
                               }
 
@@ -232,12 +257,19 @@ class DetailedEngSource extends DataGridSource {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ViewAllPdf(
-                                          title: 'DetailedEngRFC',
-                                          cityName: cityName,
-                                          depoName: depoName,
-                                          userId: userId,
-                                          docId:
-                                              '${row.getCells()[4].value.toString()}')
+                                            title: 'DetailedEngRFC',
+                                            cityName: cityName,
+                                            depoName: depoName,
+                                            userId: userId,
+                                            date: row
+                                                .getCells()[4]
+                                                .value
+                                                .toString(),
+                                            docId: row
+                                                .getCells()[0]
+                                                .value
+                                                .toString(),
+                                          )
                                       // ViewFile()
                                       // UploadDocument(
                                       //     title: 'DetailedEngRFC',
@@ -399,12 +431,13 @@ class DetailedEngSource extends DataGridSource {
                                                                       rangeEndDate = args
                                                                           .value
                                                                           .endDate;
-                                                                    } else {
-                                                                      final List<
-                                                                              PickerDateRange>
-                                                                          selectedRanges =
-                                                                          args.value;
                                                                     }
+                                                                    // else {
+                                                                    //   final List<
+                                                                    //           PickerDateRange>
+                                                                    //       selectedRanges =
+                                                                    //       args.value;
+                                                                    // }
                                                                   },
                                                                   selectionMode:
                                                                       DateRangePickerSelectionMode
@@ -494,9 +527,10 @@ class DetailedEngSource extends DataGridSource {
                                                                                 is PickerDateRange) {
                                                                               rangeStartDate = args.value.startDate;
                                                                               rangeEndDate = args.value.endDate;
-                                                                            } else {
-                                                                              final List<PickerDateRange> selectedRanges = args.value;
                                                                             }
+                                                                            // else {
+                                                                            //   final List<PickerDateRange> selectedRanges = args.value;
+                                                                            // }
                                                                           },
                                                                           selectionMode:
                                                                               DateRangePickerSelectionMode.single,
@@ -562,9 +596,10 @@ class DetailedEngSource extends DataGridSource {
                                                                                 is PickerDateRange) {
                                                                               rangeStartDate = args.value.startDate;
                                                                               rangeEndDate = args.value.endDate;
-                                                                            } else {
-                                                                              final List<PickerDateRange> selectedRanges = args.value;
                                                                             }
+                                                                            // else {
+                                                                            //   final List<PickerDateRange> selectedRanges = args.value;
+                                                                            // }
                                                                           },
                                                                           selectionMode:
                                                                               DateRangePickerSelectionMode.single,

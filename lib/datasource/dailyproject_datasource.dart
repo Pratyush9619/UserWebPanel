@@ -16,11 +16,12 @@ class DailyDataSource extends DataGridSource {
   String cityName;
   String depoName;
   String userId;
+  String selectedDate;
   BuildContext mainContext;
 
   List data = [];
   DailyDataSource(this._dailyproject, this.mainContext, this.cityName,
-      this.depoName, this.userId) {
+      this.depoName, this.selectedDate, this.userId) {
     buildDataGridRows();
   }
   void buildDataGridRows() {
@@ -65,6 +66,14 @@ class DailyDataSource extends DataGridSource {
         // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
       }
 
+      void removeRowAtIndex(int index) {
+        _dailyproject.removeAt(index);
+        buildDataGridRows();
+        notifyListeners();
+      }
+
+      String Pagetitle = 'Daily Report';
+
       return Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -75,11 +84,13 @@ class DailyDataSource extends DataGridSource {
                         mainContext,
                         MaterialPageRoute(
                           builder: (context) => ViewAllPdf(
-                              title: 'Data Image',
-                              cityName: cityName,
-                              depoName: depoName,
-                              docId: row.getCells()[1].value.toString(),
-                              userId: userId),
+                            title: Pagetitle,
+                            cityName: cityName,
+                            depoName: depoName,
+                            userId: userId,
+                            date: row.getCells()[0].value.toString(),
+                            docId: row.getCells()[1].value.toString(),
+                          ),
                         ));
                   },
                   child: const Text('View'))
@@ -90,11 +101,12 @@ class DailyDataSource extends DataGridSource {
                             mainContext,
                             MaterialPageRoute(
                               builder: (context) => UploadDocument(
-                                title: 'Data Image',
-                                fldrName: row.getCells()[1].value.toString(),
-                                userId: userId,
+                                pagetitle: Pagetitle,
                                 cityName: cityName,
                                 depoName: depoName,
+                                userId: userId,
+                                date: selectedDate,
+                                fldrName: row.getCells()[1].value.toString(),
                               ),
                             ));
                       },
@@ -123,9 +135,7 @@ class DailyDataSource extends DataGridSource {
                                 //     .update({
                                 //   'data': FieldValue.arrayRemove([0])
                                 // });
-
-                                dataGridRows.remove(row);
-                                notifyListeners();
+                                removeRowAtIndex(dataRowIndex);
                               },
                               icon: Icon(
                                 Icons.delete,
