@@ -173,27 +173,25 @@ class _DetailedEngtState extends State<DetailedEng>
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(right: 150),
+                  padding: const EdgeInsets.only(right: 40),
                   child: GestureDetector(
                       onTap: () {
                         onWillPop(context);
                       },
-                      child: Image.asset(
-                        'assets/logout.png',
-                        height: 20,
-                        width: 20,
-                      ))
-                  //  IconButton(
-                  //   icon: Icon(
-                  //     Icons.logout_rounded,
-                  //     size: 25,
-                  //     color: white,
-                  //   ),
-                  //   onPressed: () {
-                  //     onWillPop(context);
-                  //   },
-                  // )
-                  )
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/logout.png',
+                            height: 20,
+                            width: 20,
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            userId ?? '',
+                            style: const TextStyle(fontSize: 18),
+                          )
+                        ],
+                      ))),
             ],
             bottom: TabBar(
               onTap: (value) {

@@ -206,7 +206,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            toolbarHeight: 20,
+            toolbarHeight: 5,
             bottom: TabBar(
               labelColor: Colors.yellow,
               labelStyle: buttonWhite,
@@ -284,42 +284,60 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
           return Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
-                height: 80,
-                decoration: BoxDecoration(color: lightblue),
+                padding: const EdgeInsets.only(top: 8),
+                height: 50,
+                // decoration: BoxDecoration(color: lightblue),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    // Row(
+                    //   children: [
+                    //     Image.asset('assets/Tata-Power.jpeg',
+                    //         height: 50, width: 100),
+                    //     const Text('TATA POWER'),
+                    //   ],
+                    // ),
+                    Text(
+                      civil_title[int.parse(_selectedIndex.toString())],
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: blue),
+                    ),
                     Row(
                       children: [
-                        Image.asset('assets/Tata-Power.jpeg',
-                            height: 50, width: 100),
-                        const Text('TATA POWER'),
+                        Text(
+                          'Choose Date : ',
+                          style: TextStyle(
+                            color: blue,
+                            fontSize: 17,
+                          ),
+                        ),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(blue)),
+                            onPressed: () => _selectDate(context),
+                            child: Text(
+                              DateFormat('MMMM dd, yyyy').format(currentDate),
+                              style: GoogleFonts.aBeeZee(
+                                  fontSize: 15, color: white),
+                            )),
                       ],
                     ),
                     Text(
-                      civil_title[int.parse(_selectedIndex.toString())],
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.white)),
-                        onPressed: () => _selectDate(context),
-                        child: Text(
-                          DateFormat('MMMM dd, yyyy').format(currentDate),
-                          style: GoogleFonts.aBeeZee(
-                              fontSize: 15, color: Colors.black),
-                        )),
-                    const Text('TPCL /DIST/EV/CHECKLIST ')
+                      'TPCL/DIST/EV/CHECKLIST',
+                      style: TextStyle(color: blue, fontSize: 17),
+                    )
                   ],
                 ),
               ),
               Container(
-                  decoration: BoxDecoration(color: lightblue),
+                  padding:
+                      const EdgeInsets.only(left: 50, right: 50, bottom: 10),
+                  // decoration: BoxDecoration(color: lightblue),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Column(
@@ -327,16 +345,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const SizedBox(
+                                SizedBox(
                                     width: 150,
                                     child: Text(
-                                      'Project',
+                                      'Project : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -346,16 +365,14 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                             ? TextFormField(
                                                 controller:
                                                     projectNameController,
-                                                decoration:
-                                                    const InputDecoration(
+                                                decoration: InputDecoration(
+                                                  labelStyle:
+                                                      TextStyle(color: black),
                                                   contentPadding:
-                                                      EdgeInsets.only(
-                                                          top: 0,
-                                                          bottom: 0,
-                                                          left: 5),
+                                                      const EdgeInsets.all(3),
                                                 ),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -370,16 +387,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                const SizedBox(
+                                SizedBox(
                                     width: 150,
                                     child: Text(
-                                      'Location',
+                                      'Location : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -396,8 +414,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -412,16 +430,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Vendor / Sub Vendor',
+                                    child: Text(
+                                      'Vendor / Sub Vendor : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -437,8 +456,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -453,16 +472,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Drawing No:',
+                                    child: Text(
+                                      'Drawing No :',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -478,8 +498,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -498,8 +518,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                       Column(
                         children: [
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -507,9 +527,10 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                 Container(
                                     width: 150,
                                     child: Text(
-                                      'Date',
+                                      'Date : ',
+                                      style: TextStyle(color: blue),
                                     )),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
@@ -523,8 +544,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -539,16 +560,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Component of the Structure',
+                                    child: Text(
+                                      'Component of the Structure : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -565,8 +587,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -581,16 +603,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Grid / Axis & Level',
+                                    child: Text(
+                                      'Grid / Axis & Level : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -606,8 +629,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -622,16 +645,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Type of Filling',
+                                    child: Text(
+                                      'Type of Filling : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -647,8 +671,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
