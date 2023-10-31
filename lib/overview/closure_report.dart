@@ -2,7 +2,6 @@ import 'package:assingment/Authentication/auth_service.dart';
 import 'package:assingment/widget/custom_appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../components/loading_page.dart';
