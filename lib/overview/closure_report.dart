@@ -428,7 +428,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                             GridColumn(
                               columnName: 'Content',
-                              width: 700,
+                              width: 1000,
                               allowEditing: false,
                               label: Container(
                                 padding: const EdgeInsets.all(8.0),
@@ -446,7 +446,7 @@ class _ClosureReportState extends State<ClosureReport> {
                               columnName: 'Upload',
                               allowEditing: false,
                               visible: true,
-                              width: 250,
+                              width: 150,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
@@ -462,7 +462,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             GridColumn(
                               columnName: 'View',
                               allowEditing: false,
-                              width: 250,
+                              width: 150,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
@@ -476,29 +476,13 @@ class _ClosureReportState extends State<ClosureReport> {
                               ),
                             ),
                           ],
-
-                          // stackedHeaderRows: [
-                          //   StackedHeaderRow(cells: [
-                          //     StackedHeaderCell(
-                          //         columnNames: ['Upload', 'View'],
-                          //         child: Container(
-                          //           padding: EdgeInsets.all(10),
-                          //           child: Text(
-                          //             'Attachment Details',
-                          //             style:
-                          //                 TextStyle(color: white, fontSize: 18),
-                          //             textAlign: TextAlign.center,
-                          //           ),
-                          //         ))
-                          //   ])
-                          // ],
                         ),
                       );
                     } else if (snapshot.hasData) {
                       // alldata = '';
                       // alldata = snapshot.data['data'] as List<dynamic>;
                       // qualitylisttable1.clear();
-                      alldata.forEach((element) {});
+                      // alldata.forEach((element) {});
                       return SfDataGridTheme(
                         data: SfDataGridThemeData(headerColor: blue),
                         child: SfDataGrid(
@@ -535,7 +519,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                             GridColumn(
                               columnName: 'Content',
-                              width: 450,
+                              width: 1000,
                               allowEditing: false,
                               label: Container(
                                 padding: const EdgeInsets.all(8.0),
@@ -583,22 +567,6 @@ class _ClosureReportState extends State<ClosureReport> {
                               ),
                             ),
                           ],
-
-                          // stackedHeaderRows: [
-                          //   StackedHeaderRow(cells: [
-                          //     StackedHeaderCell(
-                          //         columnNames: ['Upload', 'View'],
-                          //         child: Container(
-                          //           padding: EdgeInsets.all(10),
-                          //           child: Text(
-                          //             'Attachment Details',
-                          //             style:
-                          //                 TextStyle(color: white, fontSize: 18),
-                          //             textAlign: TextAlign.center,
-                          //           ),
-                          //         ))
-                          //   ])
-                          // ],
                         ),
                       );
                     } else {

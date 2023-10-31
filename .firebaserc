@@ -1,12 +1,17 @@
 {
   "projects": {
     "target": "tr",
-    "default": "tp-zap-solz"
+    "default": "tp-zap-solz",
+    " ": "tp-zap-solz",
+    "N": "tp-zap-solz"
   },
   "targets": {
     "tp-zap-solz": {
       "hosting": {
-        "tr": [
+        "myApp": [
+          "N"
+        ],
+        "app": [
           "userwebapp"
         ]
       }
