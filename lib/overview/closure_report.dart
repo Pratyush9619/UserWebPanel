@@ -107,54 +107,62 @@ class _ClosureReportState extends State<ClosureReport> {
         if (snapshot.hasData) {
           return Column(
             children: [
+              // Container(
+              //   padding: const EdgeInsets.all(8),
+              //   height: 80,
+              //   decoration: BoxDecoration(color: lightblue),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       // Row(
+              //       //   children: [
+              //       //     Image.asset('assets/Tata-Power.jpeg',
+              //       //         height: 50, width: 100),
+              //       //     const Text('TATA POWER'),
+              //       //   ],
+              //       // ),
+              //       // const Text(
+              //       //   '',
+              //       //   style:
+              //       //       TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              //       // ),
+              //       // const Text('TPCL /DIST/EV/CHECKLIST ')
+              //     ],
+              //   ),
+              // ),
               Container(
-                padding: const EdgeInsets.all(8),
-                height: 80,
-                decoration: BoxDecoration(color: lightblue),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset('assets/Tata-Power.jpeg',
-                            height: 50, width: 100),
-                        const Text('TATA POWER'),
-                      ],
-                    ),
-                    const Text(
-                      '',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    const Text('TPCL /DIST/EV/CHECKLIST ')
-                  ],
-                ),
-              ),
-              Container(
-                  decoration: BoxDecoration(color: lightblue),
+                  padding: const EdgeInsets.only(
+                      left: 50, right: 50.0, top: 15, bottom: 25),
+                  // decoration: BoxDecoration(color: lightblue),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         children: [
                           Container(
-                            color: lightblue,
-                            width: 625,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: Text('Depot Name', style: formtext)),
+                                    child: Text('Depot Name',
+                                        style: closureTextStyle)),
                                 SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
                                         child: TextFormField(
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                               hintText: 'Depot Name',
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 0, bottom: 0, left: 5)),
+                                              hintStyle: closureTextStyle,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      top: 0,
+                                                      bottom: 0,
+                                                      left: 5)),
                                           initialValue: snapshot.data!
                                                   .data()
                                                   .toString()
@@ -175,8 +183,8 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 625,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -185,17 +193,21 @@ class _ClosureReportState extends State<ClosureReport> {
                                     width: 150,
                                     child: Text(
                                       'Longitude',
-                                      style: formtext,
+                                      style: closureTextStyle,
                                     )),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
                                         child: TextFormField(
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                               hintText: 'Longitude',
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 0, bottom: 0, left: 5)),
+                                              hintStyle: closureTextStyle,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      top: 0,
+                                                      bottom: 0,
+                                                      left: 5)),
                                           initialValue: snapshot.data!
                                                   .data()
                                                   .toString()
@@ -204,7 +216,7 @@ class _ClosureReportState extends State<ClosureReport> {
                                                       .get('Longitude') ??
                                                   ''
                                               : '',
-                                          style: formtext,
+                                          style: closureTextStyle,
                                           onChanged: (value) {
                                             longitude = value;
                                           },
@@ -216,24 +228,29 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 625,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: Text('Latitude', style: formtext)),
-                                SizedBox(width: 5),
+                                    child: Text('Latitude',
+                                        style: closureTextStyle)),
+                                const SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
                                         child: TextFormField(
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                               hintText: 'Latitude',
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 0, bottom: 0, left: 5)),
+                                              hintStyle: closureTextStyle,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      top: 0,
+                                                      bottom: 0,
+                                                      left: 5)),
                                           initialValue: snapshot.data!
                                                   .data()
                                                   .toString()
@@ -259,8 +276,8 @@ class _ClosureReportState extends State<ClosureReport> {
                       Column(
                         children: [
                           Container(
-                            color: lightblue,
-                            width: 625,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -269,17 +286,21 @@ class _ClosureReportState extends State<ClosureReport> {
                                     width: 150,
                                     child: Text(
                                       ' State',
-                                      style: formtext,
+                                      style: closureTextStyle,
                                     )),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
                                         child: TextFormField(
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                               hintText: 'State',
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 0, bottom: 0, left: 5)),
+                                              hintStyle: closureTextStyle,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      top: 0,
+                                                      bottom: 0,
+                                                      left: 5)),
                                           initialValue: snapshot.data!
                                                   .data()
                                                   .toString()
@@ -299,8 +320,8 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 625,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -309,17 +330,21 @@ class _ClosureReportState extends State<ClosureReport> {
                                     width: 150,
                                     child: Text(
                                       ' No. Of Buses',
-                                      style: formtext,
+                                      style: closureTextStyle,
                                     )),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
                                         child: TextFormField(
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                               hintText: 'Buses',
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 0, bottom: 0, left: 5)),
+                                              hintStyle: closureTextStyle,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      top: 0,
+                                                      bottom: 0,
+                                                      left: 5)),
                                           initialValue: snapshot.data!
                                                   .data()
                                                   .toString()
@@ -339,8 +364,8 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 625,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -349,17 +374,21 @@ class _ClosureReportState extends State<ClosureReport> {
                                     width: 150,
                                     child: Text(
                                       ' LOA No.',
-                                      style: formtext,
+                                      style: closureTextStyle,
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
                                         child: TextFormField(
-                                          decoration: const InputDecoration(
+                                          decoration: InputDecoration(
                                               hintText: 'LOA No',
-                                              contentPadding: EdgeInsets.only(
-                                                  top: 0, bottom: 0, left: 5)),
+                                              hintStyle: closureTextStyle,
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      top: 0,
+                                                      bottom: 0,
+                                                      left: 5)),
                                           initialValue: snapshot.data!
                                                   .data()
                                                   .toString()

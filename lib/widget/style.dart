@@ -8,10 +8,11 @@ Color almostWhite = Color(0xffffffff).withOpacity(0.87);
 Color blue = Color.fromARGB(255, 9, 83, 161);
 Color lightblue = Color(0xff009eff);
 Color white = Color(0xffffffff);
-TextStyle formtext = const TextStyle(
-  fontSize: 13,
-  fontWeight: FontWeight.bold,
-);
+TextStyle formtext =
+    TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: blue);
+TextStyle closureTextStyle =
+    TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: blue);
+
 TextStyle tableheader = const TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 14,

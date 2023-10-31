@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:assingment/KeysEvents/Grid_DataTable.dart';
 import 'package:assingment/Planning_Pages/electrical_quality_checklist.dart';
 import 'package:assingment/Planning_Pages/summary.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -240,15 +241,24 @@ class _QualityChecklistState extends State<QualityChecklist> {
                             ),
                           ),
                           Padding(
-                              padding: const EdgeInsets.only(right: 150),
+                              padding: const EdgeInsets.only(right: 40),
                               child: GestureDetector(
                                   onTap: () {
-                                    // onWillPop(context);
+                                    onWillPop(context);
                                   },
-                                  child: Image.asset(
-                                    'assets/logout.png',
-                                    height: 20,
-                                    width: 20,
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/logout.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        userId ?? '',
+                                        style: const TextStyle(fontSize: 18),
+                                      )
+                                    ],
                                   ))),
                         ],
                       )

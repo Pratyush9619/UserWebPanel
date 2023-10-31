@@ -142,833 +142,808 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                     children: [
                       Container(
                         height: 310,
-                        color: lightblue,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                            color: blue,
-                          )),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        const Text(
-                                          "CHECK LIST FOR SITE SAFETY",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        const Divider(
-                                          color: Colors.red,
-                                          thickness: 2,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: 250,
-                                              height: 30,
-                                              child: TextFormField(
-                                                decoration:
-                                                    const InputDecoration(
-                                                        hintText: 'TPNO',
-                                                        hintStyle: TextStyle(
-                                                            fontSize: 15),
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                                top: 0,
-                                                                bottom: 0,
-                                                                left: 5)),
-                                                initialValue: snapshot.data!
-                                                        .data()
-                                                        .toString()
-                                                        .contains('TPNo')
-                                                    ? snapshot.data!
-                                                            .get('TPNo') ??
-                                                        ''
-                                                    : '',
-                                                textAlign: TextAlign.center,
-                                                onChanged: (value) {
-                                                  tpNo = value;
-                                                },
-                                                autofillHints: Characters.empty,
-                                              ),
+                        // color: lightblue,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 10, right: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "CHECK LIST FOR SITE SAFETY",
+                                        style: TextStyle(
+                                            fontSize: 17, color: blue),
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      const Divider(
+                                        color: Colors.red,
+                                        thickness: 2,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: 250,
+                                            height: 30,
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                  hintText: 'TPNO',
+                                                  hintStyle: TextStyle(
+                                                      fontSize: 15,
+                                                      color: blue),
+                                                  contentPadding:
+                                                      const EdgeInsets.only(
+                                                          top: 0,
+                                                          bottom: 0,
+                                                          left: 5)),
+                                              initialValue: snapshot.data!
+                                                      .data()
+                                                      .toString()
+                                                      .contains('TPNo')
+                                                  ? snapshot.data!
+                                                          .get('TPNo') ??
+                                                      ''
+                                                  : '',
+                                              textAlign: TextAlign.center,
+                                              onChanged: (value) {
+                                                tpNo = value;
+                                              },
+                                              autofillHints: Characters.empty,
                                             ),
-                                            const SizedBox(
-                                              width: 30,
+                                          ),
+                                          const SizedBox(
+                                            width: 30,
+                                          ),
+                                          SizedBox(
+                                            width: 250,
+                                            height: 30,
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                  hintText:
+                                                      "Rev:0 Date: 29.11.2022",
+                                                  hintStyle: TextStyle(
+                                                      fontSize: 15,
+                                                      color: blue),
+                                                  contentPadding:
+                                                      const EdgeInsets.only(
+                                                          top: 0,
+                                                          bottom: 0,
+                                                          left: 5)),
+                                              textAlign: TextAlign.center,
+                                              initialValue: snapshot.data!
+                                                      .data()
+                                                      .toString()
+                                                      .contains('Rev')
+                                                  ? snapshot.data!.get('Rev') ??
+                                                      ''
+                                                  : "",
+                                              onChanged: (value) {
+                                                rev = value;
+                                              },
+                                              autofillHints: Characters.empty,
                                             ),
-                                            SizedBox(
-                                              width: 250,
-                                              height: 30,
-                                              child: TextFormField(
-                                                decoration: const InputDecoration(
-                                                    hintText:
-                                                        "Rev:0 Date: 29.11.2022",
-                                                    hintStyle:
-                                                        TextStyle(fontSize: 15),
-                                                    contentPadding:
-                                                        EdgeInsets.only(
-                                                            top: 0,
-                                                            bottom: 0,
-                                                            left: 5)),
-                                                textAlign: TextAlign.center,
-                                                initialValue: snapshot.data!
-                                                        .data()
-                                                        .toString()
-                                                        .contains('Rev')
-                                                    ? snapshot.data!
-                                                            .get('Rev') ??
-                                                        ''
-                                                    : "",
-                                                onChanged: (value) {
-                                                  rev = value;
-                                                },
-                                                autofillHints: Characters.empty,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              "Installation Date:",
-                                            ),
-                                            Container(
-                                              width: 250,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  border:
-                                                      Border.all(color: blue)),
-                                              child: Row(
-                                                children: [
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              AlertDialog(
-                                                                  title:
-                                                                      const Text(
-                                                                          ''),
-                                                                  content:
-                                                                      Container(
-                                                                    height: 400,
-                                                                    width: 500,
-                                                                    child:
-                                                                        SfDateRangePicker(
-                                                                      view: DateRangePickerView
-                                                                          .month,
-                                                                      showTodayButton:
-                                                                          true,
-                                                                      onSelectionChanged:
-                                                                          (DateRangePickerSelectionChangedArgs
-                                                                              args) {
-                                                                        if (args.value
-                                                                            is PickerDateRange) {
-                                                                          date = args
-                                                                              .value
-                                                                              .startDate;
-                                                                        } else {
-                                                                          // final List<PickerDateRange>
-                                                                          //     selectedRanges =
-                                                                          //     args.value;
-                                                                        }
-                                                                      },
-                                                                      selectionMode:
-                                                                          DateRangePickerSelectionMode
-                                                                              .single,
-                                                                      showActionButtons:
-                                                                          true,
-                                                                      onCancel: () =>
-                                                                          Navigator.pop(
-                                                                              context),
-                                                                      onSubmit:
-                                                                          (value) {
-                                                                        date = DateTime.parse(
-                                                                            value.toString());
-
-                                                                        print(
-                                                                            date);
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Installation Date : ",
+                                            style: TextStyle(color: blue),
+                                          ),
+                                          Container(
+                                            width: 250,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                                color: blue,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                border:
+                                                    Border.all(color: blue)),
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                                title:
+                                                                    const Text(
+                                                                        ''),
+                                                                content:
+                                                                    Container(
+                                                                  height: 400,
+                                                                  width: 500,
+                                                                  child:
+                                                                      SfDateRangePicker(
+                                                                    view: DateRangePickerView
+                                                                        .month,
+                                                                    showTodayButton:
+                                                                        true,
+                                                                    onSelectionChanged:
+                                                                        (DateRangePickerSelectionChangedArgs
+                                                                            args) {
+                                                                      if (args.value
+                                                                          is PickerDateRange) {
+                                                                        date = args
+                                                                            .value
+                                                                            .startDate;
+                                                                      } else {
+                                                                        // final List<PickerDateRange>
+                                                                        //     selectedRanges =
+                                                                        //     args.value;
+                                                                      }
+                                                                    },
+                                                                    selectionMode:
+                                                                        DateRangePickerSelectionMode
+                                                                            .single,
+                                                                    showActionButtons:
+                                                                        true,
+                                                                    onCancel: () =>
                                                                         Navigator.pop(
-                                                                            context);
-                                                                        setState(
-                                                                            () {});
-                                                                      },
-                                                                    ),
-                                                                  )),
-                                                        );
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.calendar_month,
-                                                        size: 20,
-                                                      )),
-                                                  Text(
-                                                    DateFormat('dd-MM-yyyy')
-                                                        .format(date!),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
-                                              ),
+                                                                            context),
+                                                                    onSubmit:
+                                                                        (value) {
+                                                                      date = DateTime
+                                                                          .parse(
+                                                                              value.toString());
 
-                                              // child: TextFormField(
-                                              //   initialValue: 'Date',
-                                              //   textAlign: TextAlign.center,
-                                              //   // decoration: InputDecoration(
-                                              //   //     hintText: "contact no",
-                                              //   //     border: OutlineInputBorder(
-                                              //   //         borderRadius:
-                                              //   //             BorderRadius.circular(
-                                              //   //                 10))),
-                                              //   autofillHints: Characters.empty,
-                                              // ),
+                                                                      print(
+                                                                          date);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                  ),
+                                                                )),
+                                                      );
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.calendar_month,
+                                                      size: 20,
+                                                      color: white,
+                                                    )),
+                                                Text(
+                                                  DateFormat('dd-MM-yyyy')
+                                                      .format(date!),
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(color: white),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text("Enegization Date:"),
-                                            Container(
-                                              width: 250,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  border:
-                                                      Border.all(color: blue)),
-                                              child: Row(
-                                                children: [
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              AlertDialog(
-                                                                  title:
-                                                                      const Text(
-                                                                          ''),
-                                                                  content:
-                                                                      Container(
-                                                                    height: 400,
-                                                                    width: 500,
-                                                                    child:
-                                                                        SfDateRangePicker(
-                                                                      view: DateRangePickerView
-                                                                          .month,
-                                                                      showTodayButton:
-                                                                          true,
-                                                                      onSelectionChanged:
-                                                                          (DateRangePickerSelectionChangedArgs
-                                                                              args) {
-                                                                        if (args.value
-                                                                            is PickerDateRange) {
-                                                                          date = args
-                                                                              .value
-                                                                              .startDate;
-                                                                        } else {
-                                                                          // final List<PickerDateRange>
-                                                                          //     selectedRanges =
-                                                                          //     args.value;
-                                                                        }
-                                                                      },
-                                                                      selectionMode:
-                                                                          DateRangePickerSelectionMode
-                                                                              .single,
-                                                                      showActionButtons:
-                                                                          true,
-                                                                      onCancel: () =>
-                                                                          Navigator.pop(
-                                                                              context),
-                                                                      onSubmit:
-                                                                          (value) {
-                                                                        date1 =
-                                                                            DateTime.parse(value.toString());
 
-                                                                        print(
-                                                                            date1);
+                                            // child: TextFormField(
+                                            //   initialValue: 'Date',
+                                            //   textAlign: TextAlign.center,
+                                            //   // decoration: InputDecoration(
+                                            //   //     hintText: "contact no",
+                                            //   //     border: OutlineInputBorder(
+                                            //   //         borderRadius:
+                                            //   //             BorderRadius.circular(
+                                            //   //                 10))),
+                                            //   autofillHints: Characters.empty,
+                                            // ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Enegization Date : ",
+                                            style: TextStyle(color: blue),
+                                          ),
+                                          Container(
+                                            width: 250,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                                color: blue,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                border:
+                                                    Border.all(color: blue)),
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                                title:
+                                                                    const Text(
+                                                                        ''),
+                                                                content:
+                                                                    Container(
+                                                                  height: 400,
+                                                                  width: 500,
+                                                                  child:
+                                                                      SfDateRangePicker(
+                                                                    view: DateRangePickerView
+                                                                        .month,
+                                                                    showTodayButton:
+                                                                        true,
+                                                                    onSelectionChanged:
+                                                                        (DateRangePickerSelectionChangedArgs
+                                                                            args) {
+                                                                      if (args.value
+                                                                          is PickerDateRange) {
+                                                                        date = args
+                                                                            .value
+                                                                            .startDate;
+                                                                      } else {
+                                                                        // final List<PickerDateRange>
+                                                                        //     selectedRanges =
+                                                                        //     args.value;
+                                                                      }
+                                                                    },
+                                                                    selectionMode:
+                                                                        DateRangePickerSelectionMode
+                                                                            .single,
+                                                                    showActionButtons:
+                                                                        true,
+                                                                    onCancel: () =>
                                                                         Navigator.pop(
-                                                                            context);
-                                                                        setState(
-                                                                            () {});
-                                                                      },
-                                                                    ),
-                                                                  )),
-                                                        );
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.calendar_month,
-                                                        size: 20,
-                                                      )),
-                                                  Text(
-                                                    DateFormat('dd-MM-yyyy')
-                                                        .format(date1!),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
-                                              ),
+                                                                            context),
+                                                                    onSubmit:
+                                                                        (value) {
+                                                                      date1 = DateTime
+                                                                          .parse(
+                                                                              value.toString());
 
-                                              // child: TextFormField(
-                                              //   initialValue: 'Date',
-                                              //   textAlign: TextAlign.center,
-                                              //   // decoration: InputDecoration(
-                                              //   //     hintText: "contact no",
-                                              //   //     border: OutlineInputBorder(
-                                              //   //         borderRadius:
-                                              //   //             BorderRadius.circular(
-                                              //   //                 10))),
-                                              //   autofillHints: Characters.empty,
-                                              // ),
+                                                                      print(
+                                                                          date1);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                  ),
+                                                                )),
+                                                      );
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.calendar_month,
+                                                      size: 20,
+                                                      color: white,
+                                                    )),
+                                                Text(
+                                                  DateFormat('dd-MM-yyyy')
+                                                      .format(date1!),
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(color: white),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text("On Boarding Date:"),
-                                            Container(
-                                              width: 250,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  border:
-                                                      Border.all(color: blue)),
-                                              child: Row(
-                                                children: [
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              AlertDialog(
-                                                                  title:
-                                                                      const Text(
-                                                                          ''),
-                                                                  content:
-                                                                      Container(
-                                                                    height: 400,
-                                                                    width: 500,
-                                                                    child:
-                                                                        SfDateRangePicker(
-                                                                      view: DateRangePickerView
-                                                                          .month,
-                                                                      showTodayButton:
-                                                                          true,
-                                                                      onSelectionChanged:
-                                                                          (DateRangePickerSelectionChangedArgs
-                                                                              args) {
-                                                                        if (args.value
-                                                                            is PickerDateRange) {
-                                                                          date = args
-                                                                              .value
-                                                                              .startDate;
-                                                                        } else {
-                                                                          // final List<PickerDateRange>
-                                                                          //     selectedRanges =
-                                                                          //     args.value;
-                                                                        }
-                                                                      },
-                                                                      selectionMode:
-                                                                          DateRangePickerSelectionMode
-                                                                              .single,
-                                                                      showActionButtons:
-                                                                          true,
-                                                                      onCancel: () =>
-                                                                          Navigator.pop(
-                                                                              context),
-                                                                      onSubmit:
-                                                                          (value) {
-                                                                        date2 =
-                                                                            DateTime.parse(value.toString());
 
-                                                                        print(
-                                                                            date2);
+                                            // child: TextFormField(
+                                            //   initialValue: 'Date',
+                                            //   textAlign: TextAlign.center,
+                                            //   // decoration: InputDecoration(
+                                            //   //     hintText: "contact no",
+                                            //   //     border: OutlineInputBorder(
+                                            //   //         borderRadius:
+                                            //   //             BorderRadius.circular(
+                                            //   //                 10))),
+                                            //   autofillHints: Characters.empty,
+                                            // ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "On Boarding Date : ",
+                                            style: TextStyle(color: blue),
+                                          ),
+                                          Container(
+                                            width: 250,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                                color: blue,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                border:
+                                                    Border.all(color: blue)),
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                                title:
+                                                                    const Text(
+                                                                        ''),
+                                                                content:
+                                                                    Container(
+                                                                  height: 400,
+                                                                  width: 500,
+                                                                  child:
+                                                                      SfDateRangePicker(
+                                                                    view: DateRangePickerView
+                                                                        .month,
+                                                                    showTodayButton:
+                                                                        true,
+                                                                    onSelectionChanged:
+                                                                        (DateRangePickerSelectionChangedArgs
+                                                                            args) {
+                                                                      if (args.value
+                                                                          is PickerDateRange) {
+                                                                        date = args
+                                                                            .value
+                                                                            .startDate;
+                                                                      } else {
+                                                                        // final List<PickerDateRange>
+                                                                        //     selectedRanges =
+                                                                        //     args.value;
+                                                                      }
+                                                                    },
+                                                                    selectionMode:
+                                                                        DateRangePickerSelectionMode
+                                                                            .single,
+                                                                    showActionButtons:
+                                                                        true,
+                                                                    onCancel: () =>
                                                                         Navigator.pop(
-                                                                            context);
-                                                                        setState(
-                                                                            () {});
-                                                                      },
-                                                                    ),
-                                                                  )),
-                                                        );
+                                                                            context),
+                                                                    onSubmit:
+                                                                        (value) {
+                                                                      date2 = DateTime
+                                                                          .parse(
+                                                                              value.toString());
+
+                                                                      print(
+                                                                          date2);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                  ),
+                                                                )),
+                                                      );
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.calendar_month,
+                                                      size: 20,
+                                                      color: white,
+                                                    )),
+                                                Text(
+                                                  DateFormat('dd-MM-yyyy')
+                                                      .format(date2!),
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(color: white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                  // decoration: BoxDecoration(color: lightblue),
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Container(
+                                        // color: lightblue,
+                                        width: 550,
+                                        padding: const EdgeInsets.all(3),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                                width: 150,
+                                                child: Text(
+                                                  'Bus Depot Location',
+                                                  style: TextStyle(color: blue),
+                                                )),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                                child: Container(
+                                                    height: 30,
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                          hintText:
+                                                              'Depot Location',
+                                                          hintStyle: TextStyle(
+                                                              fontSize: 15,
+                                                              color: blue),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 0,
+                                                                  bottom: 0,
+                                                                  left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'DepotLocation')
+                                                          ? snapshot.data!.get(
+                                                                  'DepotLocation') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        depotlocation = value;
                                                       },
-                                                      icon: const Icon(
-                                                        Icons.calendar_month,
-                                                        size: 20,
-                                                      )),
-                                                  Text(
-                                                    DateFormat('dd-MM-yyyy')
-                                                        .format(date2!),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                                      onSaved: (newValue) {
+                                                        // empName = newValue.toString();
+                                                      },
+                                                    ))),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                    decoration: BoxDecoration(color: lightblue),
-                                    child: Row(
-                                      children: [
-                                        Column(
+                                      ),
+                                      Container(
+                                        // color: lightblue,
+                                        width: 550,
+                                        padding: const EdgeInsets.all(3),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             Container(
-                                              color: lightblue,
-                                              width: 625,
-                                              padding: const EdgeInsets.all(3),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Container(
-                                                      width: 150,
-                                                      child: const Text(
-                                                        'Bus Depot Location',
-                                                      )),
-                                                  const SizedBox(width: 5),
-                                                  Expanded(
-                                                      child: Container(
-                                                          height: 30,
-                                                          child: TextFormField(
-                                                            decoration: const InputDecoration(
-                                                                hintText:
-                                                                    'Depot Location',
-                                                                hintStyle:
-                                                                    TextStyle(
-                                                                        fontSize:
-                                                                            15),
-                                                                contentPadding:
-                                                                    EdgeInsets.only(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            5)),
-                                                            initialValue: snapshot
-                                                                    .data!
-                                                                    .data()
-                                                                    .toString()
-                                                                    .contains(
-                                                                        'DepotLocation')
-                                                                ? snapshot.data!
-                                                                        .get(
-                                                                            'DepotLocation') ??
-                                                                    ''
-                                                                : '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                            onChanged: (value) {
-                                                              depotlocation =
-                                                                  value;
-                                                            },
-                                                            onSaved:
-                                                                (newValue) {
-                                                              // empName = newValue.toString();
-                                                            },
-                                                          ))),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              color: lightblue,
-                                              width: 625,
-                                              padding: const EdgeInsets.all(3),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Container(
-                                                      width: 150,
-                                                      child: Text(
-                                                        'Address',
-                                                      )),
-                                                  const SizedBox(width: 5),
-                                                  Expanded(
-                                                      child: Container(
-                                                          height: 30,
-                                                          child: TextFormField(
-                                                            decoration: const InputDecoration(
-                                                                hintText:
-                                                                    'Address',
-                                                                hintStyle:
-                                                                    TextStyle(
-                                                                        fontSize:
-                                                                            15),
-                                                                contentPadding:
-                                                                    EdgeInsets.only(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            5)),
-                                                            initialValue: snapshot
-                                                                    .data!
-                                                                    .data()
-                                                                    .toString()
-                                                                    .contains(
-                                                                        'Address')
-                                                                ? snapshot.data!
-                                                                        .get(
-                                                                            'Address') ??
-                                                                    ''
-                                                                : '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                            onChanged: (value) {
-                                                              address = value;
-                                                            },
-                                                            onSaved:
-                                                                (newValue) {
-                                                              // distev = newValue.toString();
-                                                            },
-                                                          ))),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              color: lightblue,
-                                              width: 625,
-                                              padding: const EdgeInsets.all(3),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Container(
-                                                      width: 150,
-                                                      child: Text(
-                                                        'Contact no / Mail Id',
-                                                      )),
-                                                  SizedBox(width: 5),
-                                                  Expanded(
-                                                      child: Container(
-                                                          height: 30,
-                                                          child: TextFormField(
-                                                            decoration: const InputDecoration(
-                                                                hintText:
-                                                                    'Mail ID',
-                                                                hintStyle:
-                                                                    TextStyle(
-                                                                        fontSize:
-                                                                            15),
-                                                                contentPadding:
-                                                                    EdgeInsets.only(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            5)),
-                                                            initialValue: snapshot
-                                                                    .data!
-                                                                    .data()
-                                                                    .toString()
-                                                                    .contains(
-                                                                        'ContactNo')
-                                                                ? snapshot.data!
-                                                                        .get(
-                                                                            'ContactNo') ??
-                                                                    ''
-                                                                : '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                            onChanged: (value) {
-                                                              contact = value;
-                                                            },
-                                                            onSaved:
-                                                                (newValue) {
-                                                              // vendorname =
-                                                              //     newValue.toString();
-                                                            },
-                                                          ))),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              color: lightblue,
-                                              width: 625,
-                                              padding: const EdgeInsets.all(3),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Container(
-                                                      width: 150,
-                                                      child: Text(
-                                                        ' Latitude & Longitude',
-                                                      )),
-                                                  SizedBox(width: 5),
-                                                  Expanded(
-                                                      child: Container(
-                                                          height: 30,
-                                                          child: TextFormField(
-                                                            decoration: const InputDecoration(
-                                                                hintText:
-                                                                    'Longitude',
-                                                                hintStyle:
-                                                                    TextStyle(
-                                                                        fontSize:
-                                                                            15),
-                                                                contentPadding:
-                                                                    EdgeInsets.only(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            5)),
-                                                            initialValue: snapshot
-                                                                    .data!
-                                                                    .data()
-                                                                    .toString()
-                                                                    .contains(
-                                                                        'Latitude')
-                                                                ? snapshot.data!
-                                                                        .get(
-                                                                            'Latitude') ??
-                                                                    ''
-                                                                : '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                            onChanged: (value) {
-                                                              latitude = value;
-                                                            },
-                                                            onSaved:
-                                                                (newValue) {
-                                                              // vendorname =
-                                                              //     newValue.toString();
-                                                            },
-                                                          ))),
-                                                ],
-                                              ),
-                                            ),
+                                                width: 150,
+                                                child: Text(
+                                                  'Address',
+                                                  style: TextStyle(color: blue),
+                                                )),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                                child: Container(
+                                                    height: 30,
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                          hintText: 'Address',
+                                                          hintStyle: TextStyle(
+                                                              fontSize: 15,
+                                                              color: blue),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 0,
+                                                                  bottom: 0,
+                                                                  left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'Address')
+                                                          ? snapshot.data!.get(
+                                                                  'Address') ??
+                                                              ''
+                                                          : '',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: blue),
+                                                      onChanged: (value) {
+                                                        address = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        // distev = newValue.toString();
+                                                      },
+                                                    ))),
                                           ],
                                         ),
-                                        Column(
+                                      ),
+                                      Container(
+                                        // color: lightblue,
+                                        width: 550,
+                                        padding: const EdgeInsets.all(3),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             Container(
-                                              color: lightblue,
-                                              width: 625,
-                                              padding: const EdgeInsets.all(3),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Container(
-                                                      width: 150,
-                                                      child: Text(
-                                                        ' State',
-                                                      )),
-                                                  Expanded(
-                                                      child: Container(
-                                                          height: 30,
-                                                          child: TextFormField(
-                                                            decoration: const InputDecoration(
-                                                                hintText:
-                                                                    'Maharashtra',
-                                                                hintStyle:
-                                                                    TextStyle(
-                                                                        fontSize:
-                                                                            15),
-                                                                contentPadding:
-                                                                    EdgeInsets.only(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            5)),
-                                                            initialValue: snapshot
-                                                                    .data!
-                                                                    .data()
-                                                                    .toString()
-                                                                    .contains(
-                                                                        'State')
-                                                                ? snapshot.data!
-                                                                        .get(
-                                                                            'State') ??
-                                                                    ''
-                                                                : '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                            onChanged: (value) {
-                                                              state = value;
-                                                            },
-                                                            onSaved:
-                                                                (newValue) {
-                                                              // olano = newValue.toString();
-                                                            },
-                                                          ))),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              color: lightblue,
-                                              width: 625,
-                                              padding: const EdgeInsets.all(3),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Container(
-                                                      width: 150,
-                                                      child: Text(
-                                                        ' Charger Type',
-                                                      )),
-                                                  Expanded(
-                                                      child: Container(
-                                                          height: 30,
-                                                          child: TextFormField(
-                                                            decoration: const InputDecoration(
-                                                                hintText:
-                                                                    'Charger Type',
-                                                                hintStyle:
-                                                                    TextStyle(
-                                                                        fontSize:
-                                                                            15),
-                                                                contentPadding:
-                                                                    EdgeInsets.only(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            5)),
-                                                            initialValue: snapshot
-                                                                    .data!
-                                                                    .data()
-                                                                    .toString()
-                                                                    .contains(
-                                                                        'ChargerType')
-                                                                ? snapshot.data!
-                                                                        .get(
-                                                                            'ChargerType') ??
-                                                                    ''
-                                                                : '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                            onChanged: (value) {
-                                                              chargertype =
-                                                                  value;
-                                                            },
-                                                            onSaved:
-                                                                (newValue) {
-                                                              // panel = newValue.toString();
-                                                            },
-                                                          ))),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              color: lightblue,
-                                              width: 625,
-                                              padding: const EdgeInsets.all(3),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Container(
-                                                      width: 150,
-                                                      child: const Text(
-                                                        ' Conducted by',
-                                                      )),
-                                                  Expanded(
-                                                      child: Container(
-                                                          height: 30,
-                                                          child: TextFormField(
-                                                            decoration: const InputDecoration(
-                                                                hintText:
-                                                                    'Conducted By',
-                                                                hintStyle:
-                                                                    TextStyle(
-                                                                        fontSize:
-                                                                            15),
-                                                                contentPadding:
-                                                                    EdgeInsets.only(
-                                                                        top: 0,
-                                                                        bottom:
-                                                                            0,
-                                                                        left:
-                                                                            5)),
-                                                            initialValue: snapshot
-                                                                    .data!
-                                                                    .data()
-                                                                    .toString()
-                                                                    .contains(
-                                                                        'ConductedBy')
-                                                                ? snapshot.data!
-                                                                        .get(
-                                                                            'ConductedBy') ??
-                                                                    ''
-                                                                : '',
-                                                            style:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        15),
-                                                            onChanged: (value) {
-                                                              conductedby =
-                                                                  value;
-                                                              // loa = value;
-                                                            },
-                                                            onSaved:
-                                                                (newValue) {
-                                                              // depotname =
-                                                              //     newValue.toString();
-                                                            },
-                                                          ))),
-                                                ],
-                                              ),
-                                            ),
+                                                width: 150,
+                                                child: Text(
+                                                  'Contact no / Mail Id',
+                                                  style: TextStyle(color: blue),
+                                                )),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                                child: Container(
+                                                    height: 30,
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                          hintText: 'Mail ID',
+                                                          hintStyle: TextStyle(
+                                                              fontSize: 15,
+                                                              color: blue),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 0,
+                                                                  bottom: 0,
+                                                                  left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'ContactNo')
+                                                          ? snapshot.data!.get(
+                                                                  'ContactNo') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        contact = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        // vendorname =
+                                                        //     newValue.toString();
+                                                      },
+                                                    ))),
                                           ],
-                                        )
-                                      ],
-                                    )),
-                              ],
-                            ),
+                                        ),
+                                      ),
+                                      Container(
+                                        // color: lightblue,
+                                        width: 550,
+                                        padding: const EdgeInsets.all(3),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                                width: 150,
+                                                child: Text(
+                                                  ' Latitude & Longitude',
+                                                  style: TextStyle(color: blue),
+                                                )),
+                                            const SizedBox(width: 5),
+                                            Expanded(
+                                                child: Container(
+                                                    height: 30,
+                                                    child: TextFormField(
+                                                      decoration:
+                                                          InputDecoration(
+                                                              hintText:
+                                                                  'Longitude',
+                                                              hintStyle:
+                                                                  TextStyle(
+                                                                fontSize: 15,
+                                                                color: blue,
+                                                              ),
+                                                              contentPadding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 0,
+                                                                      bottom: 0,
+                                                                      left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'Latitude')
+                                                          ? snapshot.data!.get(
+                                                                  'Latitude') ??
+                                                              ''
+                                                          : '',
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: blue),
+                                                      onChanged: (value) {
+                                                        latitude = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        // vendorname =
+                                                        //     newValue.toString();
+                                                      },
+                                                    ))),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Container(
+                                        // color: lightblue,
+                                        width: 550,
+                                        padding: const EdgeInsets.all(3),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                                width: 150,
+                                                child: Text(
+                                                  ' State',
+                                                  style: TextStyle(color: blue),
+                                                )),
+                                            Expanded(
+                                                child: Container(
+                                                    height: 30,
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                          hintText:
+                                                              'Maharashtra',
+                                                          hintStyle: TextStyle(
+                                                              fontSize: 15,
+                                                              color: blue),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 0,
+                                                                  bottom: 0,
+                                                                  left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains('State')
+                                                          ? snapshot.data!.get(
+                                                                  'State') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        state = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        // olano = newValue.toString();
+                                                      },
+                                                    ))),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        // color: lightblue,
+                                        width: 550,
+                                        padding: const EdgeInsets.all(3),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                                width: 150,
+                                                child: Text(
+                                                  ' Charger Type',
+                                                  style: TextStyle(color: blue),
+                                                )),
+                                            Expanded(
+                                                child: Container(
+                                                    height: 30,
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                          hintText:
+                                                              'Charger Type',
+                                                          hintStyle: TextStyle(
+                                                              fontSize: 15,
+                                                              color: blue),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 0,
+                                                                  bottom: 0,
+                                                                  left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'ChargerType')
+                                                          ? snapshot.data!.get(
+                                                                  'ChargerType') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        chargertype = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        // panel = newValue.toString();
+                                                      },
+                                                    ))),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        // color: lightblue,
+                                        width: 550,
+                                        padding: const EdgeInsets.all(3),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                                width: 150,
+                                                child: Text(
+                                                  ' Conducted by',
+                                                  style: TextStyle(color: blue),
+                                                )),
+                                            Expanded(
+                                                child: Container(
+                                                    height: 30,
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                          hintText:
+                                                              'Conducted By',
+                                                          hintStyle: TextStyle(
+                                                              fontSize: 15,
+                                                              color: blue),
+                                                          contentPadding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 0,
+                                                                  bottom: 0,
+                                                                  left: 5)),
+                                                      initialValue: snapshot
+                                                              .data!
+                                                              .data()
+                                                              .toString()
+                                                              .contains(
+                                                                  'ConductedBy')
+                                                          ? snapshot.data!.get(
+                                                                  'ConductedBy') ??
+                                                              ''
+                                                          : '',
+                                                      style: const TextStyle(
+                                                          fontSize: 15),
+                                                      onChanged: (value) {
+                                                        conductedby = value;
+                                                        // loa = value;
+                                                      },
+                                                      onSaved: (newValue) {
+                                                        // depotname =
+                                                        //     newValue.toString();
+                                                      },
+                                                    ))),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )),
+                            ],
                           ),
                         ),
                       ),
