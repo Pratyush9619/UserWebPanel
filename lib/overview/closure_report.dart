@@ -42,9 +42,9 @@ class _ClosureReportState extends State<ClosureReport> {
           closereport, context, widget.depoName!, widget.cityName!, userId);
       _dataGridController = DataGridController();
       _stream = FirebaseFirestore.instance
-          .collection('ClosureProjectReport')
-          .doc('${widget.depoName}')
           .collection('ClosureReport')
+          .doc('${widget.depoName}')
+          .collection('userId')
           .doc(userId)
           .snapshots();
 
@@ -70,7 +70,7 @@ class _ClosureReportState extends State<ClosureReport> {
                 FirebaseFirestore.instance
                     .collection('ClosureReport')
                     .doc('${widget.depoName}')
-                    .collection("ClosureData")
+                    .collection("userId")
                     .doc(userId)
                     .set(
                   {
@@ -101,7 +101,7 @@ class _ClosureReportState extends State<ClosureReport> {
       stream: FirebaseFirestore.instance
           .collection('ClosureReport')
           .doc('${widget.depoName}')
-          .collection("ClosureData")
+          .collection("userId")
           .doc(userId)
           .snapshots(),
       builder: (context, snapshot) {
@@ -827,7 +827,7 @@ class _ClosureReportState extends State<ClosureReport> {
     FirebaseFirestore.instance
         .collection('ClosureReportTable')
         .doc(widget.depoName!)
-        .collection('Closure Report')
+        .collection('userId')
         .doc(userId)
         // .collection(userId)
         // .doc(DateFormat.yMMMMd().format(DateTime.now()))
