@@ -451,12 +451,14 @@ class _ClosureReportState extends State<ClosureReport> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 alignment: Alignment.center,
-                                child: Text('Upload',
-                                    overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)),
+                                child: Text(
+                                  'Upload',
+                                  overflow: TextOverflow.values.first,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: white),
+                                ),
                               ),
                             ),
                             GridColumn(
