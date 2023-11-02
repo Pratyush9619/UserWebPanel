@@ -20,19 +20,22 @@ class UploadDocument extends StatefulWidget {
   String? date;
   int? srNo;
   String? pagetitle;
+  FileType? type;
+  List<String>? customizetype;
 
-  UploadDocument({
-    super.key,
-    this.title,
-    this.subtitle,
-    required this.cityName,
-    required this.depoName,
-    required this.userId,
-    required this.fldrName,
-    this.date,
-    this.srNo,
-    this.pagetitle,
-  });
+  UploadDocument(
+      {super.key,
+      this.title,
+      this.subtitle,
+      required this.cityName,
+      required this.depoName,
+      required this.userId,
+      required this.fldrName,
+      this.date,
+      this.srNo,
+      this.pagetitle,
+      this.type,
+      this.customizetype});
 
   @override
   State<UploadDocument> createState() => _UploadDocumentState();
@@ -42,7 +45,9 @@ class _UploadDocumentState extends State<UploadDocument> {
   FilePickerResult? result;
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+        key: _scaffoldKey,
         appBar: PreferredSize(
             child: CustomAppBar(
               text: '${widget.cityName}/${widget.depoName}/Upload Checklist',
@@ -70,19 +75,66 @@ class _UploadDocumentState extends State<UploadDocument> {
                           shrinkWrap: true,
                           itemCount: result?.files.length ?? 0,
                           itemBuilder: (context, index) {
-                            return Center(
-                              child: Container(
-                                padding: EdgeInsets.all(5),
-                                margin: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: blue),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Text(result?.files[index].name ?? '',
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            );
+                            if (result!.files.first.name.contains('.pdf')) {
+                              return Center(
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: blue),
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Text(result?.files[index].name ?? '',
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              );
+                            } else if (widget.pagetitle != 'ClosureReport') {
+                              if (result!.files.first.name.contains('.jpg') ||
+                                  result!.files.first.name.contains('.jpeg') ||
+                                  result!.files.first.name.contains('.png') ||
+                                  result!.files.first.name.contains('.pdf')) {
+                                return Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    margin: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: blue),
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Text(result?.files[index].name ?? '',
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                );
+                              } else {
+                                WidgetsBinding.instance.addPostFrameCallback(
+                                    (_) => ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                            backgroundColor: red,
+                                            content: Text(
+                                              '! Invalid file format. Only JPEG,JPG, PNG and PDF are accepted.',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: white,
+                                                fontSize: 20,
+                                              ),
+                                            ))));
+                              }
+                            } else {
+                              WidgetsBinding.instance.addPostFrameCallback(
+                                  (_) => ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                          backgroundColor: red,
+                                          content: Text(
+                                            '! Invalid file format. Only PDF are accepted.',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: white,
+                                              fontSize: 20,
+                                            ),
+                                          ))));
+                            }
                           })
                     ],
                   ),
@@ -97,11 +149,15 @@ class _UploadDocumentState extends State<UploadDocument> {
                       child: ElevatedButton(
                           onPressed: () async {
                             result = await FilePicker.platform.pickFiles(
-                              withData: true,
-                              type: FileType.any,
-                              allowMultiple: true,
-                              // allowedExtensions: ['pdf']
-                            );
+                                withData: true,
+                                type: widget.pagetitle == 'ClosureReport'
+                                    ? FileType.custom
+                                    : FileType.any,
+                                allowMultiple: false,
+                                allowedExtensions:
+                                    widget.pagetitle == 'ClosureReport'
+                                        ? widget.customizetype!
+                                        : null);
                             if (result == null) {
                               print("No file selected");
                             } else {

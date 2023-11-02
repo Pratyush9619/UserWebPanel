@@ -225,10 +225,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (value!.isEmpty) {
                             return 'Password is required';
                           }
-                          if (!RegExp(
+                          if (!!RegExp(
                                   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                               .hasMatch(value)) {
-                            return 'Password should be 8 caharecter & contain alphabate , numbers & special character';
+                            return 'Password should be 8 caharecter & at least one upper case , contain alphabate , numbers & special character';
                           }
                           return null;
                         },
