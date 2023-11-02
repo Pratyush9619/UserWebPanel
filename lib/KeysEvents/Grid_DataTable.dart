@@ -48,10 +48,13 @@ class _KeyDataTableState extends State<KeyDataTable> {
     getUserId().whenComplete(() {
       _stream = FirebaseFirestore.instance
           .collection('KeyEventsTable')
-          .doc('OC 1-Kempekowda Bus Station')
-          .collection(userId)
-          .doc('${'OC 1-Kempekowda Bus Station'}${widget.keyEvents}')
+          .doc(widget.depoName!)
+          .collection('KeyDataTable')
+          .doc(userId)
+          .collection('KeyAllEvents')
+          .doc('${widget.depoName}${widget.keyEvents}')
           .snapshots();
+      ;
     });
 
     super.initState();

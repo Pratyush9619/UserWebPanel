@@ -1007,9 +1007,11 @@ class _ViewSummaryState extends State<ViewSummary> {
                         : Expanded(
                             child: StreamBuilder(
                               stream: FirebaseFirestore.instance
-                                  .collection('SafetyChecklistTable')
+                                  .collection('SafetyChecklistTable2')
                                   .doc(widget.depoName!)
-                                  .collection(widget.userId)
+                                  .collection('userId')
+                                  .doc(widget.userId)
+                                  .collection('date')
                                   .doc(DateFormat.yMMMMd().format(startdate!))
                                   .snapshots(),
                               builder: (context, snapshot) {

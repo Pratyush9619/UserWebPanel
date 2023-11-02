@@ -8,6 +8,7 @@ Color almostWhite = Color(0xffffffff).withOpacity(0.87);
 Color blue = Color.fromARGB(255, 9, 83, 161);
 Color lightblue = Color(0xff009eff);
 Color white = Color(0xffffffff);
+
 TextStyle formtext = const TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.bold,
@@ -138,7 +139,7 @@ TextStyle overlineWhite60 = GoogleFonts.ibmPlexSans(
     fontWeight: FontWeight.w400,
     letterSpacing: 1.5,
     color: white60);
-Color red = Color(0xffff2e50);
+Color red = Colors.red;
 
 //********************* */
 TextStyle title16 = GoogleFonts.ibmPlexSans(
@@ -192,7 +193,7 @@ Color white38 = const Color(0xffffffff).withOpacity(0.38);
 Color black38 = const Color(0xff0000000).withOpacity(0.38);
 Color white60 = const Color(0xff000000).withOpacity(0.60);
 Color white24 = const Color(0xffffffff).withOpacity(0.24);
-Color yellow = const Color(0xffFFB946);
+Color yellow = Colors.yellow;
 //*********************************** */
 TextStyle heading1profile = GoogleFonts.ibmPlexSans(
   fontSize: 16,

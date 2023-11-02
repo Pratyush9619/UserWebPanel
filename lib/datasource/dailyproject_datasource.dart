@@ -102,6 +102,12 @@ class DailyDataSource extends DataGridSource {
                             MaterialPageRoute(
                               builder: (context) => UploadDocument(
                                 pagetitle: Pagetitle,
+                                customizetype: const [
+                                  'jpg',
+                                  'jpeg',
+                                  'png',
+                                  'pdf'
+                                ],
                                 cityName: cityName,
                                 depoName: depoName,
                                 userId: userId,

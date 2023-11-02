@@ -12,6 +12,7 @@ import '../datasource/employee_datasource.dart';
 import '../model/employee.dart';
 import '../overview/key_events.dart';
 import '../widget/custom_appbar.dart';
+import '../widget/keyEvents_data.dart';
 import '../widget/keyboard_listener.dart';
 import '../widget/style.dart';
 
@@ -26,7 +27,11 @@ class StatutoryAprovalA2 extends StatefulWidget {
   String? keyEvents;
 
   StatutoryAprovalA2(
-      {Key? key, required this.userid, this.depoName, this.cityName ,required this.keyEvents})
+      {Key? key,
+      required this.userid,
+      this.depoName,
+      this.cityName,
+      required this.keyEvents})
       : super(key: key);
 
   @override
@@ -164,11 +169,43 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                   builder: (context, snapshot) {
                     chartData = [];
                     ganttdata = [];
+
+                    //displayName: yAxis[i].toString()
+
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return LoadingPage();
                     }
                     if (!snapshot.hasData || snapshot.data.exists == false) {
-                      _employees = getEmployeeData();
+                      switch (widget.keyEvents) {
+                        case 'A2':
+                          _employees = getEmployeeDataA2();
+                          break;
+                        case 'A3':
+                          _employees = getEmployeeDataA3();
+                          break;
+                        case 'A4':
+                          _employees = getEmployeeDataA4();
+                          break;
+                        case 'A5':
+                          _employees = getEmployeeDataA5();
+                          break;
+                        case 'A6':
+                          _employees = getEmployeeDataA6();
+                          break;
+                        case 'A7':
+                          _employees = getEmployeeDataA7();
+                          break;
+                        case 'A8':
+                          _employees = getEmployeeDataA8();
+                          break;
+                        case 'A9':
+                          _employees = getEmployeeDataA9();
+                          break;
+                        case 'A10':
+                          _employees = getEmployeeData10();
+                          break;
+                      }
+
                       _employeeDataSource = EmployeeDataSource(
                           _employees,
                           context,
@@ -583,6 +620,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                             yAxis[i].toString(), weight[i], Colors.green));
 
                         ganttdata.add(GanttAbsoluteEvent(
+                          suggestedColor: Colors.yellow,
                           displayNameBuilder: (context) {
                             return yAxis[i].toString();
                           },
@@ -593,6 +631,13 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
                         ));
 
                         ganttdata.add(GanttAbsoluteEvent(
+                          suggestedColor: DateFormat('dd-MM-yyyy')
+                                  .parse(actualend[i])
+                                  .isBefore(DateFormat('dd-MM-yyyy')
+                                      .parse(endDate[i])
+                                      .add(const Duration(days: 1)))
+                              ? green
+                              : red,
                           displayNameBuilder: (context) {
                             return '';
                           },
