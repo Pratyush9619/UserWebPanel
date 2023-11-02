@@ -213,6 +213,12 @@ class DetailedEngSourceShed extends DataGridSource {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => UploadDocument(
                                     pagetitle: 'DetailedEngShed',
+                                    customizetype: const [
+                                      'jpg',
+                                      'jpeg',
+                                      'png',
+                                      'pdf'
+                                    ],
                                     cityName: cityName,
                                     depoName: depoName,
                                     userId: userId,

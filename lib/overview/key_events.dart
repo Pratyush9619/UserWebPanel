@@ -2,8 +2,8 @@ import 'package:assingment/KeysEvents/Grid_DataTableA2.dart';
 import 'package:assingment/KeysEvents/Grid_DataTableA3.dart';
 import 'package:assingment/KeysEvents/Grid_DataTableA4.dart';
 import 'package:assingment/KeysEvents/Grid_DataTableA6.dart';
-import 'package:assingment/KeysEvents/viewFIle.dart';
 import 'package:assingment/KeysEvents/view_AllFiles.dart';
+import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gantt_chart/gantt_chart.dart';
@@ -642,30 +642,30 @@ class _KeyEventsState extends State<KeyEvents> {
                           for (int j = 0; j < length; j++) {
                             // if (snapshot.data.docs[j].reference.id.toString() ==
                             //     '${widget.depoName}A$j') {
-                            if (j != 0) {
-                              var startdate = '';
-                              var endDate = '';
-                              var actualDate = '';
-                              var actualEnd = '';
-                              var srno;
+                            // if (j != 0) {
+                            var startdate = '';
+                            var endDate = '';
+                            var actualDate = '';
+                            var actualEnd = '';
+                            var srno;
 
-                              var allchartdata = snapshot.data.docs[j]['data']
-                                  as List<dynamic>;
-                              startdate = allchartdata[0]['StartDate'];
-                              endDate = allchartdata[allchartdata.length - 1]
-                                  ['EndDate'];
-                              actualDate = allchartdata[0]['ActualStart'];
-                              actualEnd = allchartdata[allchartdata.length - 1]
-                                  ['ActualEnd'];
+                            var allchartdata =
+                                snapshot.data.docs[j]['data'] as List<dynamic>;
+                            startdate = allchartdata[0]['StartDate'];
+                            endDate = allchartdata[allchartdata.length - 1]
+                                ['EndDate'];
+                            actualDate = allchartdata[0]['ActualStart'];
+                            actualEnd = allchartdata[allchartdata.length - 1]
+                                ['ActualEnd'];
 
-                              srno = j;
+                            srno = j;
 
-                              startDate.add(startdate);
-                              enddate.add(endDate);
-                              actualstart.add(actualDate);
-                              actualend.add(actualEnd);
-                              srNo.add(srno);
-                            }
+                            startDate.add(startdate);
+                            enddate.add(endDate);
+                            actualstart.add(actualDate);
+                            actualend.add(actualEnd);
+                            srNo.add(srno);
+                            //  }
                           }
                           for (int j = 0; j < 1; j++) {
                             // if (snapshot.data.docs[j].reference.id.toString() ==
@@ -696,6 +696,7 @@ class _KeyEventsState extends State<KeyEvents> {
                           }
 
                           ganttdata.add(GanttAbsoluteEvent(
+                            suggestedColor: yellow,
                             displayNameBuilder: (context) {
                               int sr = 1;
                               return sr.toString();
@@ -705,6 +706,7 @@ class _KeyEventsState extends State<KeyEvents> {
                           ));
 
                           ganttdata.add(GanttAbsoluteEvent(
+                            suggestedColor: green,
                             displayNameBuilder: (context) {
                               return '';
                             },
@@ -715,6 +717,7 @@ class _KeyEventsState extends State<KeyEvents> {
 
                           for (int i = 0; i < length; i++) {
                             ganttdata.add(GanttAbsoluteEvent(
+                              suggestedColor: yellow,
                               displayNameBuilder: (context) {
                                 int sr = i + 2;
                                 // int ss = sr + 1;
@@ -727,6 +730,12 @@ class _KeyEventsState extends State<KeyEvents> {
                             ));
 
                             ganttdata.add(GanttAbsoluteEvent(
+                              suggestedColor: DateFormat('dd-MM-yyyy')
+                                      .parse(actualend[i])
+                                      .isBefore(DateFormat('dd-MM-yyyy')
+                                          .parse(enddate[i]))
+                                  ? green
+                                  : red,
                               displayNameBuilder: (context) {
                                 return '';
                               },
@@ -795,8 +804,9 @@ class _KeyEventsState extends State<KeyEvents> {
                                     columns: [
                                       GridColumn(
                                         columnName: 'srNo',
-                                        autoFitPadding: EdgeInsets.symmetric(
-                                            horizontal: 16),
+                                        autoFitPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 16),
                                         allowEditing: false,
                                         label: Container(
                                           alignment: Alignment.center,
@@ -1088,7 +1098,9 @@ class _KeyEventsState extends State<KeyEvents> {
                                     } else {
                                       return StatutoryAprovalA2(
                                         userid: userId,
-                                        keyEvents: row.getCells()[1].value,
+                                        cityName: widget.cityName,
+                                        depoName: widget.depoName,
+                                        keyEvents: row.getCells()[0].value,
                                       );
                                       // menuwidget[
                                       //     details.rowColumnIndex.rowIndex - 1];

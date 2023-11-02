@@ -115,7 +115,8 @@ class DetailedEngSourceEV extends DataGridSource {
         notifyListeners();
         // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
       }
-         void removeRowAtIndex(int index) {
+
+      void removeRowAtIndex(int index) {
         _detailedengev.removeAt(index);
         buildDataGridRowsEV();
         notifyListeners();
@@ -158,7 +159,7 @@ class DetailedEngSourceEV extends DataGridSource {
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () async {
-                   removeRowAtIndex(dataRowIndex);
+                      removeRowAtIndex(dataRowIndex);
                       await FirebaseStorage.instance
                           .ref(
                               "DetailedEngEV/$cityName/$depoName/$userId/${row.getCells()[4].value}/${row.getCells()[0].value}")
@@ -213,6 +214,12 @@ class DetailedEngSourceEV extends DataGridSource {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => UploadDocument(
                                     pagetitle: 'DetailedEngEV',
+                                    customizetype: const [
+                                      'jpg',
+                                      'jpeg',
+                                      'png',
+                                      'pdf'
+                                    ],
                                     cityName: cityName,
                                     depoName: depoName,
                                     userId: userId,
