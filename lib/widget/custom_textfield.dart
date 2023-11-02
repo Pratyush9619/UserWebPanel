@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
-  const CustomTextField({super.key, required this.controller});
+  bool isreadOnly = false;
+   CustomTextField({super.key, required this.controller ,required this.isreadOnly});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -15,6 +16,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Container(
       height: 35,
       child: TextField(
+        readOnly: widget.isreadOnly,
         controller: widget.controller,
         decoration: InputDecoration(
             contentPadding:

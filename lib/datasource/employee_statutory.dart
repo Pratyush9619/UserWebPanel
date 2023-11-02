@@ -97,6 +97,7 @@ class EmployeeDataStatutory extends DataGridSource {
                           Navigator.of(ctx).push(MaterialPageRoute(
                             builder: (context) => UploadDocument(
                               title: '',
+
                               userId: userId,
                               cityName: cityName,
                               depoName: depoName,
