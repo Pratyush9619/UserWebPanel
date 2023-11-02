@@ -1,4 +1,4 @@
-import 'package:assingment/Jmr/jmr_home.dart';
+import 'package:assingment/overview/Jmr/jmr_home.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class JMRModel {

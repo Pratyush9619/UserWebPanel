@@ -37,6 +37,8 @@ class CustomAppBar extends StatefulWidget {
   bool toTesting;
   bool toClosure;
   bool toEasyMonitoring;
+  bool isDownload;
+  VoidCallback? donwloadFunction;
 
   // final IconData? icon;
   final bool haveSynced;
@@ -50,33 +52,34 @@ class CustomAppBar extends StatefulWidget {
 
   TabBar? tabBar;
 
-  CustomAppBar({
-    this.cityname,
-    super.key,
-    this.text,
-    this.haveSynced = false,
-    this.haveSummary = false,
-    this.store,
-    this.onTap,
-    this.havedropdown = false,
-    this.havebottom = false,
-    this.isdetailedTab = false,
-    this.tabBar,
-    this.showDepoBar = false,
-    this.toChecklist = false,
-    this.toTesting = false,
-    this.toClosure = false,
-    this.toEasyMonitoring = false,
-    this.toSubmission = false,
-    this.toOverviewPage = false,
-    this.toOverview = false,
-    this.toPlanning = false,
-    this.toMaterial = false,
-    this.toMonthly = false,
-    this.toDetailEngineering = false,
-    this.toJmr = false,
-    this.toSafety = false,
-  });
+  CustomAppBar(
+      {this.cityname,
+      super.key,
+      this.text,
+      this.haveSynced = false,
+      this.haveSummary = false,
+      this.store,
+      this.onTap,
+      this.havedropdown = false,
+      this.havebottom = false,
+      this.isdetailedTab = false,
+      this.tabBar,
+      this.showDepoBar = false,
+      this.toChecklist = false,
+      this.toTesting = false,
+      this.toClosure = false,
+      this.toEasyMonitoring = false,
+      this.toSubmission = false,
+      this.toOverviewPage = false,
+      this.toOverview = false,
+      this.toPlanning = false,
+      this.toMaterial = false,
+      this.toMonthly = false,
+      this.toDetailEngineering = false,
+      this.toJmr = false,
+      this.toSafety = false,
+      this.isDownload = false,
+      this.donwloadFunction});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -322,6 +325,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             )),
                       ),
                     )
+                  : Container(),
+              widget.isDownload
+                  ? ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(blue)),
+                      onPressed: widget.donwloadFunction,
+                      child: const Icon(Icons.download))
                   : Container(),
               Padding(
                   padding: const EdgeInsets.only(right: 40),
