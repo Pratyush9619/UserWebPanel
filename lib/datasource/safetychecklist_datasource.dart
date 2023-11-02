@@ -93,6 +93,12 @@ class SafetyChecklistDataSource extends DataGridSource {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => UploadDocument(
                               pagetitle: 'SafetyChecklist',
+                              customizetype: const [
+                                '.jpg',
+                                '.jpeg',
+                                '.png',
+                                '.pdf'
+                              ],
                               cityName: cityName,
                               depoName: depoName,
                               fldrName: row.getCells()[0].value.toString(),

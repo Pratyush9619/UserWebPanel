@@ -218,6 +218,12 @@ class DetailedEngSource extends DataGridSource {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => UploadDocument(
                                     pagetitle: pagetitle,
+                                    customizetype: const [
+                                      'jpg',
+                                      'jpeg',
+                                      'png',
+                                      'pdf'
+                                    ],
                                     cityName: cityName,
                                     depoName: depoName,
                                     userId: userId,
