@@ -95,8 +95,7 @@ class _QualityChecklistState extends State<QualityChecklist> {
 
   @override
   Widget build(BuildContext context) {
-    widget.currentDate = widget.currentDate ??
-        DateFormat('MMMM dd, yyyy').format(DateTime.now());
+    widget.currentDate = DateFormat.yMMMMd().format(DateTime.now());
 
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return SafeArea(

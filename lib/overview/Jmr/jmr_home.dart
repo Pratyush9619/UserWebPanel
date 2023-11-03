@@ -121,12 +121,12 @@ class _JMRPageState extends State<JMRPage> {
                   }
                 }
 
-                for (int j = 0; j < totalAmountList.length; j++) {
-                  if (totalAmountList[j].toString().isNotEmpty) {
-                    totalAmount = totalAmount + totalAmountList[j];
-                  }
-                }
-                print(totalAmount);
+                // for (int j = 0; j < totalAmountList.length; j++) {
+                //   if (totalAmountList[j].toString().isNotEmpty) {
+                //     totalAmount = totalAmount + totalAmountList[j];
+                //   }
+                // }
+                // print(totalAmount);
                 _isLoading = false;
               })
             });
@@ -150,6 +150,8 @@ class _JMRPageState extends State<JMRPage> {
               appBar: PreferredSize(
                 // ignore: sort_child_properties_last
                 child: CustomAppBar(
+                    isDownload: true,
+                    donwloadFunction: _generatePDF,
                     text:
                         '${widget.cityName} / ${widget.depoName} / ${widget.title.toString()}',
                     // icon: Icons.logout,
@@ -726,8 +728,6 @@ class _JMRPageState extends State<JMRPage> {
       }
     }
 
-    print('data - $totalAmount');
-
     return data;
   }
 
@@ -1022,12 +1022,6 @@ class _JMRPageState extends State<JMRPage> {
 
     final profileImage = pw.MemoryImage(
       (await rootBundle.load('assets/Tata-Power.jpeg')).buffer.asUint8List(),
-    );
-
-    final white_background = pw.MemoryImage(
-      (await rootBundle.load('assets/white_background2.jpeg'))
-          .buffer
-          .asUint8List(),
     );
 
     List<pw.TableRow> rows = [];

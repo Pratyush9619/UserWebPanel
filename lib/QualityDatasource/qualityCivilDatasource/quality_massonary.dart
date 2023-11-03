@@ -84,7 +84,7 @@ class QualityMassonaryDataSource extends DataGridSource {
                             cityName: cityName,
                             depoName: depoName,
                             userId: userId,
-                            fldrName: 'Mass Table',
+                            fldrName: 'Massonary Table',
                             date: currentDate,
                             srNo: row.getCells()[0].value,
                           ),
@@ -104,7 +104,7 @@ class QualityMassonaryDataSource extends DataGridSource {
                                       cityName: cityName,
                                       depoName: depoName,
                                       userId: userId,
-                                      fldrName: 'Mass Table',
+                                      fldrName: 'Massonary Table',
                                       date: currentDate,
                                       srNo: row.getCells()[0].value,
                                     )));

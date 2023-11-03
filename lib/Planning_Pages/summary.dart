@@ -101,7 +101,7 @@ class _ViewSummaryState extends State<ViewSummary> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: CustomAppBar(
-              isDownload: true,
+              isDownload: false,
               donwloadFunction: _generatePDF,
               text:
                   ' ${widget.cityName} / ${widget.depoName} / ${widget.id} / View Summary'),
@@ -207,7 +207,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 20),
+                              const SizedBox(width: 20),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -1326,8 +1326,10 @@ class _ViewSummaryState extends State<ViewSummary> {
       List<pw.Widget> imageUrls = [];
 
       for (Map<String, dynamic> mapData in alldata) {
+        print(rangestartDate!.day);
+
         String images_Path =
-            '/SafetyChecklist/${widget.cityName}/${widget.depoName}/${widget.userId}/$date/${mapData['srNo']}';
+            '/SafetyChecklist/${widget.cityName}/${widget.depoName}/${widget.userId}/$rangestartDate/${mapData['srNo']}';
         ListResult result =
             await FirebaseStorage.instance.ref().child(images_Path).listAll();
 
