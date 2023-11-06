@@ -58,6 +58,12 @@ class _OverviewPageState extends State<OverviewPage> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<String> desription = [
       'Overview of Project Progress Status of ${widget.depoName} EV Bus Charging Infra',
