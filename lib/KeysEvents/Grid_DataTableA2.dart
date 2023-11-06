@@ -140,6 +140,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
 
   @override
   Widget build(BuildContext context) {
+    
     return keyBoardArrow(
         scrollController: scrollController,
         myScaffold: Scaffold(
@@ -1054,7 +1055,7 @@ class _StatutoryAprovalA2State extends State<StatutoryAprovalA2> {
               onPressed: (() {
                 _employees.add(
                   Employee(
-                    srNo: 1,
+                    srNo: _employeeDataSource.dataGridRows.length + 1,
                     activity: '',
                     originalDuration: 1,
                     startDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),

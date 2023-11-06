@@ -49,6 +49,7 @@ class _UploadDocumentState extends State<UploadDocument> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
+            // ignore: sort_child_properties_last
             child: CustomAppBar(
               text: '${widget.cityName}/${widget.depoName}/Upload Checklist',
               haveSynced: false,
