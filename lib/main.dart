@@ -1,4 +1,5 @@
 import 'package:assingment/Splash/splash_screen.dart';
+import 'package:assingment/provider/key_provider.dart';
 import 'package:assingment/provider/summary_provider.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => KeyProvider()),
         ChangeNotifierProvider(create: (context) => SummaryProvider()),
       ],
       child: MaterialApp(

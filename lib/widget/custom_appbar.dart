@@ -3,10 +3,9 @@ import 'package:assingment/screen/overview_page.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:provider/provider.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../Authentication/auth_service.dart';
@@ -21,6 +20,7 @@ import '../overview/detailed_Eng.dart';
 import '../overview/key_events.dart';
 import '../overview/monthly_project.dart';
 import '../overview/testing_report.dart';
+import '../provider/key_provider.dart';
 
 class CustomAppBar extends StatefulWidget {
   String? cityname;
@@ -94,7 +94,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   void initState() {
-    totalvalue = 0.0;
     getUserId().whenComplete(() {
       setState(() {});
     });
@@ -111,24 +110,28 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
             actions: [
               widget.isprogress
-                  ? Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: SizedBox(
-                        height: 18.0,
-                        width: 40.0,
-                        child: CircularPercentIndicator(
-                          radius: 20.0,
-                          lineWidth: 5.0,
-                          percent: (totalvalue.toInt()) / 100,
-                          center: Text(
-                            "${(totalvalue.toInt()) / 100 * 100}% ",
-                            textAlign: TextAlign.center,
-                            style: captionWhite,
+                  ? Consumer<KeyProvider>(
+                      builder: (context, value, child) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: SizedBox(
+                            height: 18.0,
+                            width: 40.0,
+                            child: CircularPercentIndicator(
+                              radius: 20.0,
+                              lineWidth: 5.0,
+                              percent: (value.totalvalue.toInt()) / 100,
+                              center: Text(
+                                "${(value.totalvalue.toInt()) / 100 * 100}% ",
+                                textAlign: TextAlign.center,
+                                style: captionWhite,
+                              ),
+                              progressColor: green,
+                              backgroundColor: red,
+                            ),
                           ),
-                          progressColor: green,
-                          backgroundColor: red,
-                        ),
-                      ),
+                        );
+                      },
                     )
                   : Container(),
               widget.showDepoBar

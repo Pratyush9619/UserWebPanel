@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gantt_chart/gantt_chart.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../Authentication/auth_service.dart';
@@ -19,6 +20,7 @@ import '../KeysEvents/Grid_DataTableA9.dart';
 import '../components/loading_page.dart';
 import '../datasource/key_datasource.dart';
 import '../model/employee.dart';
+import '../provider/key_provider.dart';
 import '../widget/custom_appbar.dart';
 import '../widget/keyboard_listener.dart';
 
@@ -28,8 +30,6 @@ void main() {
 }
 
 /// The application that contains datagrid on it.
-
-double totalvalue = 0.0;
 
 /// The home page of the application which hosts the datagrid.
 class KeyEvents extends StatefulWidget {
@@ -77,7 +77,13 @@ class _KeyEventsState extends State<KeyEvents> {
   List<String> endDate = [];
   List<String> actualstart = [];
   List<String> actualend = [];
+
+  String? sd;
+  String? ed;
+  String? as;
+  String? ae;
   List<int> srNo = [];
+  double totalvalue = 0.0;
 
   String? sdate2,
       sdate3,
@@ -649,6 +655,8 @@ class _KeyEventsState extends State<KeyEvents> {
                                 print(totalvalue);
                               }
                             }
+                            Provider.of<KeyProvider>(context, listen: false)
+                                .saveCities(totalvalue);
                           }
                           startDate.clear();
                           enddate.clear();
@@ -656,31 +664,54 @@ class _KeyEventsState extends State<KeyEvents> {
                           actualend.clear();
                           srNo.clear();
                           for (int j = 0; j < length; j++) {
+                            if (j == 0) {
+                              var allchartdata = snapshot.data.docs[j]['data']
+                                  as List<dynamic>;
+                              String startdate10 = allchartdata[0]['StartDate'];
+                              String endDate10 =
+                                  allchartdata[allchartdata.length - 1]
+                                      ['EndDate'];
+                              String actualDate10 =
+                                  allchartdata[0]['ActualStart'];
+                              String actualEnd10 =
+                                  allchartdata[allchartdata.length - 1]
+                                      ['ActualEnd'];
+
+                              var srno = j;
+
+                              sd = startdate10;
+                              ed = endDate10;
+                              as = actualDate10;
+                              ae = actualEnd10;
+                              srNo.add(srno);
+                            } else {
+                              var startdate = '';
+                              var endDate = '';
+                              var actualDate = '';
+                              var actualEnd = '';
+                              var srno;
+
+                              var allchartdata = snapshot.data.docs[j]['data']
+                                  as List<dynamic>;
+                              startdate = allchartdata[0]['StartDate'];
+                              endDate = allchartdata[allchartdata.length - 1]
+                                  ['EndDate'];
+                              actualDate = allchartdata[0]['ActualStart'];
+                              actualEnd = allchartdata[allchartdata.length - 1]
+                                  ['ActualEnd'];
+
+                              srno = j;
+
+                              startDate.add(startdate);
+                              enddate.add(endDate);
+                              actualstart.add(actualDate);
+                              actualend.add(actualEnd);
+                              srNo.add(srno);
+                            }
                             // if (snapshot.data.docs[j].reference.id.toString() ==
                             //     '${widget.depoName}A$j') {
                             // if (j != 0) {
-                            var startdate = '';
-                            var endDate = '';
-                            var actualDate = '';
-                            var actualEnd = '';
-                            var srno;
 
-                            var allchartdata =
-                                snapshot.data.docs[j]['data'] as List<dynamic>;
-                            startdate = allchartdata[0]['StartDate'];
-                            endDate = allchartdata[allchartdata.length - 1]
-                                ['EndDate'];
-                            actualDate = allchartdata[0]['ActualStart'];
-                            actualEnd = allchartdata[allchartdata.length - 1]
-                                ['ActualEnd'];
-
-                            srno = j;
-
-                            startDate.add(startdate);
-                            enddate.add(endDate);
-                            actualstart.add(actualDate);
-                            actualend.add(actualEnd);
-                            srNo.add(srno);
                             //  }
                           }
                           for (int j = 0; j < 1; j++) {
@@ -750,7 +781,8 @@ class _KeyEventsState extends State<KeyEvents> {
                               suggestedColor: DateFormat('dd-MM-yyyy')
                                       .parse(actualend[i])
                                       .isBefore(DateFormat('dd-MM-yyyy')
-                                          .parse(enddate[i]))
+                                          .parse(enddate[i])
+                                          .add(const Duration(days: 1)))
                                   ? green
                                   : red,
                               displayNameBuilder: (context) {
@@ -1079,19 +1111,7 @@ class _KeyEventsState extends State<KeyEvents> {
                                   ),
                                   Column(
                                     children: [
-                                      Container(
-                                        width: 450,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            legends(yellow, 'On Track'),
-                                            legends(green, 'On Time'),
-                                            legends(red, 'Delay'),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
+                                      SizedBox(
                                           width: 450,
                                           child: GanttChartView(
                                               scrollController:
@@ -1101,11 +1121,18 @@ class _KeyEventsState extends State<KeyEvents> {
                                               maxDuration: null,
                                               // const Duration(days: 30 * 2),
                                               // optional, set to null for infinite horizontal scroll
-                                              startDate: DateTime(
-                                                  2023, 8, 1), //required
+                                              startDate:
+                                                  // DateTime.parse(sdate2!),
+                                                  //  DateTime.parse(
+                                                  //     DateFormat('yyyy-MM-dd')
+                                                  //         .format(DateTime.parse(
+                                                  //             sdate2!))),
+                                                  //  DateTime(DateTime.parse(sdate2)),
+                                                  DateTime(
+                                                      2023, 8, 1), //required
                                               dayWidth:
                                                   40, //column width for each day
-                                              dayHeaderHeight: 35,
+                                              dayHeaderHeight: 33,
                                               eventHeight:
                                                   25, //row height for events
 
@@ -1127,6 +1154,18 @@ class _KeyEventsState extends State<KeyEvents> {
                                                     DateTime(2023, 7, 1), day);
                                               },
                                               events: ganttdata)),
+                                      Container(
+                                        width: 450,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            legends(yellow, 'On Track'),
+                                            legends(green, 'On Time'),
+                                            legends(red, 'Delay'),
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   )
                                 ])),
@@ -1422,7 +1461,8 @@ class _KeyEventsState extends State<KeyEvents> {
                                     maxDuration: null,
                                     // const Duration(days: 30 * 2),
                                     // optional, set to null for infinite horizontal scroll
-                                    startDate: DateTime(2023, 8, 1), //required
+                                    startDate:
+                                        DateTime.parse(sdate2 ?? ''), //required
                                     dayWidth: 40, //column width for each day
                                     dayHeaderHeight: 35,
                                     eventHeight: 25, //row height for events
