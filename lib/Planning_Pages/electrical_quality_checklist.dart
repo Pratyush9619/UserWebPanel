@@ -142,11 +142,21 @@ class _ElectricalQualityChecklistState
 
     getUserId().whenComplete(() => {
           getControllersData(),
+<<<<<<< HEAD
           getTableData().whenComplete(() {
             qualitylisttable1 = checkTable ? getData() : data;
             _qualityPSSDataSource = QualityPSSDataSource(
                 qualitylisttable1, widget.cityName!, widget.depoName!);
             _dataGridController = DataGridController();
+=======
+          getTableData().whenComplete(() => {
+                qualitylisttable1 = checkTable ? getData() : data,
+                _qualityPSSDataSource = QualityPSSDataSource(
+                    qualitylisttable1, widget.depoName!, widget.cityName!),
+                _dataGridController = DataGridController(),
+              }),
+        });
+>>>>>>> a896d1bdaebe41108a0cf5d81af5340d70d0c588
 
             qualitylisttable2 = checkTable ? rmu_getData() : data;
             _qualityrmuDataSource = QualityrmuDataSource(
@@ -192,8 +202,7 @@ class _ElectricalQualityChecklistState
             _qualityEPDataSource = QualityEPDataSource(
                 qualitylisttable10, widget.cityName!, widget.depoName!);
             _dataGridController = DataGridController();
-          }),
-        });
+          });
   }
 
   @override

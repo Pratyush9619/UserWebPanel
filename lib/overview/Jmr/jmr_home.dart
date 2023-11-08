@@ -59,15 +59,15 @@ class _JMRPageState extends State<JMRPage> {
   List nextJmrIndex = [];
   List<List<dynamic>> data = [
     [
-      '1',
-      'Supply and Laying',
-      'onboarding one no. of EV charger of 200kw',
-      '8.31 (Additional)',
-      'abstract of JMR sheet No 1 & Item Sr No 1',
-      'Mtr',
-      500.00,
-      110,
-      55000.00
+      '                ',
+      '                    ',
+      '                                                                ',
+      '                ',
+      '                                                               ',
+      '                 ',
+      '       ',
+      '       ',
+      '       '
     ],
   ];
 
@@ -135,6 +135,17 @@ class _JMRPageState extends State<JMRPage> {
         setState(() {});
       }
     });
+  }
+
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    loiRefNum.dispose();
+    note.dispose();
+    date.dispose();
+    projectName.dispose();
+    refNo.dispose();
+    siteLocation.dispose();
+    super.dispose();
   }
 
   @override
@@ -721,14 +732,27 @@ class _JMRPageState extends State<JMRPage> {
         for (var rows in sheet!.rows.skip(1)) {
           List<dynamic> rowData = [];
           for (var cell in rows) {
-            rowData.add(cell?.value.toString());
+            rowData.add(cell?.value);
           }
           data.add(rowData);
         }
       }
+      data = convertSubstringsToStrings(data);
     }
 
     return data;
+  }
+
+  List<List<dynamic>> convertSubstringsToStrings(
+      List<List<dynamic>> listOfLists) {
+    List<List<dynamic>> result = [];
+
+    for (List<dynamic> sublist in listOfLists) {
+      List<dynamic> convertedSublist =
+          sublist.map((item) => item.toString()).toList();
+      result.add(convertedSublist);
+    }
+    return result;
   }
 
   List<JMRModel> convertListToJmrModel(List<List<dynamic>> data) {

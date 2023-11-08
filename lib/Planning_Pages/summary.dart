@@ -23,10 +23,13 @@ import '../model/monthly_projectModel.dart';
 import '../model/safety_checklistModel.dart';
 import '../provider/summary_provider.dart';
 import '../widget/nodata_available.dart';
+<<<<<<< HEAD
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'dart:html' as html;
+=======
+>>>>>>> a896d1bdaebe41108a0cf5d81af5340d70d0c588
 
 class ViewSummary extends StatefulWidget {
   String? depoName;

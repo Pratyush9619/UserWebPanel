@@ -1,5 +1,6 @@
 {
   "projects": {
+    "target": "tr",
     "default": "tp-zap-solz"
   },
   "targets": {
