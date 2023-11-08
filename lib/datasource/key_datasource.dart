@@ -73,6 +73,7 @@ class KeyDataSourceKeyEvents extends DataGridSource {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: dataGridCell.columnName == 'Activity'
             ? Text(
+                textAlign: TextAlign.center,
                 dataGridCell.value.toString(),
                 style: TextStyle(color: white),
               )

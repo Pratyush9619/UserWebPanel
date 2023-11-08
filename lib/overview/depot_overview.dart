@@ -105,12 +105,6 @@ class _DepotOverviewState extends State<DepotOverview> {
     initializeController();
 
     getUserId().whenComplete(() {
-      _stream = FirebaseFirestore.instance
-          .collection('OverviewCollectionTable')
-          .doc(widget.depoName)
-          .collection("OverviewTabledData")
-          .doc(userId)
-          .snapshots();
       _employees = getEmployeeData();
       // ignore: use_build_context_synchronously
       _employeeDataSource = DepotOverviewDatasource(_employees, context);

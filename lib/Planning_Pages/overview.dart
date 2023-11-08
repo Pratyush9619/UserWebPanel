@@ -35,7 +35,7 @@ class _OverviewPagesState extends State<Overview> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blue,
-        title: Text('Overview'),
+        title:const Text('Overview'),
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

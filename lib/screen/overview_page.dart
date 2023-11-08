@@ -1,3 +1,4 @@
+import 'package:assingment/KeysEvents/upload.dart';
 import 'package:assingment/Planning_Pages/jmr.dart';
 import 'package:assingment/Planning_Pages/quality_checklist.dart';
 import 'package:assingment/Planning_Pages/safety_checklist.dart';
@@ -7,10 +8,11 @@ import 'package:assingment/overview/detailed_Eng.dart';
 import 'package:assingment/overview/key_events.dart';
 import 'package:assingment/overview/material_vendor.dart';
 import 'package:assingment/overview/testing_report.dart';
-
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../Authentication/auth_service.dart';
+import '../components/Loading_page.dart';
 import '../overview/depot_overview.dart';
 import '../overview/monthly_project.dart';
 import '../widget/custom_appbar.dart';
@@ -25,6 +27,8 @@ class OverviewPage extends StatefulWidget {
 }
 
 class _OverviewPageState extends State<OverviewPage> {
+  bool _isLoading = true;
+  dynamic userId;
   List<Widget> pages = [];
   // List<IconData> icondata = [
   //   Icons.search_off_outlined,
@@ -45,7 +49,6 @@ class _OverviewPageState extends State<OverviewPage> {
     'assets/overview_image/resource.png',
     'assets/overview_image/daily_progress.png',
     'assets/overview_image/monthly.png',
-
     'assets/overview_image/detailed_engineering.png',
     'assets/overview_image/jmr.png',
     // 'assets/overview_image/safety.png',
@@ -60,6 +63,10 @@ class _OverviewPageState extends State<OverviewPage> {
   @override
   void initState() {
     // TODO: implement initState
+    getUserId().whenComplete(() {
+      _isLoading = false;
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -79,7 +86,8 @@ class _OverviewPageState extends State<OverviewPage> {
       'FQP Checklist for Civil,Electrical work & Quality Checklist',
       // 'Quality check list & observation',
       // 'FQP Checklist for Civil & Electrical work',
-      'Testing & Commissioning Reports of Equipment',
+      'Depot Insides',
+      // 'Testing & Commissioning Reports of Equipment',
       'Closure Report',
       'Easy monitoring of O & M schedule for all the equipment of depots.',
     ];
@@ -133,10 +141,16 @@ class _OverviewPageState extends State<OverviewPage> {
       //   depoName: widget.depoName,
       //   cityName: widget.depoName,
       // ),
-      TestingReport(
-        cityName: widget.cityName,
-        depoName: widget.depoName,
-      ),
+      UploadDocument(
+          cityName: widget.cityName,
+          depoName: widget.depoName,
+          userId: userId,
+          pagetitle: 'Overview Page',
+          fldrName: 'OverviewepoImages'),
+      // TestingReport(
+      //   cityName: widget.cityName,
+      //   depoName: widget.depoName,
+      // ),
       ClosureReport(
         cityName: widget.cityName,
         depoName: widget.depoName,
@@ -151,20 +165,22 @@ class _OverviewPageState extends State<OverviewPage> {
           preferredSize: const Size.fromHeight(50),
           child: CustomAppBar(
             havedropdown: true,
-            text: '${widget.cityName} / ${widget.depoName} / Overview Page ',
+            text: '${widget.cityName}/${widget.depoName}/Overview Page ',
             haveSynced: false,
             showDepoBar: true,
             cityname: widget.cityName,
             toOverviewPage: true,
           )),
-      body: GridView.count(
-        crossAxisCount: 6,
-        mainAxisSpacing: 10,
-        childAspectRatio: 1.0,
-        children: List.generate(desription.length, (index) {
-          return cards(desription[index], imagedata[index], index);
-        }),
-      ),
+      body: _isLoading
+          ? LoadingPage()
+          : GridView.count(
+              crossAxisCount: 6,
+              mainAxisSpacing: 10,
+              childAspectRatio: 1.0,
+              children: List.generate(desription.length, (index) {
+                return cards(desription[index], imagedata[index], index);
+              }),
+            ),
     );
   }
 
@@ -206,5 +222,12 @@ class _OverviewPageState extends State<OverviewPage> {
         ),
       ),
     );
+  }
+
+  Future<void> getUserId() async {
+    await AuthService().getCurrentUserId().then((value) {
+      userId = value;
+      setState(() {});
+    });
   }
 }

@@ -226,7 +226,7 @@ List<Employee> getEmployeeDataA5() {
       qtyExecuted: 0,
       balanceQty: 0,
       percProgress: 0,
-      weightage: 0.5,
+      weightage: 1.5,
     ),
     Employee(
         srNo: 2,
@@ -244,7 +244,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 1.0),
+        weightage: 1.5),
     Employee(
         srNo: 3,
         activity: 'Fire NOC  for Electrical vehicle charging infrastructure',
@@ -261,7 +261,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.3),
+        weightage: 1.5),
     Employee(
         srNo: 4,
         activity: 'Chief Inspector of Factory /Director(DISH Approval)',
@@ -278,7 +278,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.5),
+        weightage: 1.5),
     Employee(
         srNo: 5,
         activity: 'CEIG/EI Approval',
@@ -295,7 +295,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.3),
+        weightage: 1.5),
     Employee(
         srNo: 6,
         activity: 'Charging Shed Errection Approval',
@@ -312,7 +312,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.3),
+        weightage: 1.5),
     Employee(
         srNo: 7,
         activity: 'Effluent treatment plant',
@@ -329,7 +329,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.3),
+        weightage: 1.5),
     Employee(
         srNo: 8,
         activity: 'Soild Waste Managent',
@@ -346,7 +346,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.3),
+        weightage: 1.5),
     Employee(
         srNo: 9,
         activity: 'ETP Plant',
@@ -363,7 +363,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.3),
+        weightage: 1.5),
     Employee(
         srNo: 10,
         activity: 'Hazardous waste approval ',
@@ -380,7 +380,7 @@ List<Employee> getEmployeeDataA5() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 0.3),
+        weightage: 1.5),
   ];
 }
 
@@ -1148,7 +1148,7 @@ List<Employee> getEmployeeDataA9() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 1),
+        weightage: 1.0),
     Employee(
         srNo: 10,
         activity: 'Commissioning & Testing  of Bus Depot ',
@@ -1165,7 +1165,7 @@ List<Employee> getEmployeeDataA9() {
         qtyExecuted: 0,
         balanceQty: 0,
         percProgress: 0,
-        weightage: 1)
+        weightage: 1.0)
   ];
 }
 
