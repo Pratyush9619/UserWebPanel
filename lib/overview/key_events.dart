@@ -1098,9 +1098,13 @@ class _KeyEventsState extends State<KeyEvents> {
                                     } else {
                                       return StatutoryAprovalA2(
                                         userid: userId,
+<<<<<<< HEAD
                                         cityName: widget.cityName,
                                         depoName: widget.depoName,
                                         keyEvents: row.getCells()[0].value,
+=======
+                                        keyEvents: row.getCells()[1].value,
+>>>>>>> a896d1bdaebe41108a0cf5d81af5340d70d0c588
                                       );
                                       // menuwidget[
                                       //     details.rowColumnIndex.rowIndex - 1];
