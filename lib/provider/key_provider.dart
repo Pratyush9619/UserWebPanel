@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class KeyProvider extends ChangeNotifier {
   double totalvalue = 0.0;
 
-  double get getName => totalvalue;
+  double get perProgress => totalvalue;
 
-  saveCities(double value) {
+  saveProgressValue(double value) {
     totalvalue = value;
     notifyListeners();
   }

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import '../Authentication/auth_service.dart';
 import '../components/Loading_page.dart';
 import '../overview/depot_overview.dart';
+import '../overview/key_events2.dart';
 import '../overview/monthly_project.dart';
 import '../widget/custom_appbar.dart';
 
@@ -95,7 +96,7 @@ class _OverviewPageState extends State<OverviewPage> {
         cityName: widget.cityName,
         depoName: widget.depoName,
       ),
-      KeyEvents(
+      KeyEvents2(
         depoName: widget.depoName,
         cityName: widget.cityName,
       ),
@@ -154,9 +155,9 @@ class _OverviewPageState extends State<OverviewPage> {
         cityName: widget.cityName,
         depoName: widget.depoName,
       ),
-      KeyEvents(
+      KeyEvents2(
         depoName: widget.depoName,
-        cityName: widget.depoName,
+        cityName: widget.cityName,
       ),
     ];
     return Scaffold(

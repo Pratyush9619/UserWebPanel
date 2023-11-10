@@ -87,6 +87,8 @@ class CustomAppBar extends StatefulWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  KeyProvider? _keyProvider;
+  bool isLoading = true;
   dynamic userId;
   TextEditingController selectedDepoController = TextEditingController();
   String? rangeStartDate = DateFormat.yMMMMd().format(DateTime.now());
@@ -94,6 +96,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   void initState() {
+    _keyProvider = Provider.of<KeyProvider>(context, listen: false);
     getUserId().whenComplete(() {
       setState(() {});
     });
@@ -120,9 +123,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             child: CircularPercentIndicator(
                               radius: 20.0,
                               lineWidth: 5.0,
-                              percent: (value.totalvalue.toInt()) / 100,
+                              percent: (value.perProgress.toInt()) / 100,
                               center: Text(
-                                "${(value.totalvalue.toInt()) / 100 * 100}% ",
+                                // value.getName.toString(),
+                                "${(value.perProgress.toInt())}% ",
                                 textAlign: TextAlign.center,
                                 style: captionWhite,
                               ),

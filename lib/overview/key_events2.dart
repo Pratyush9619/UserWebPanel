@@ -22,27 +22,28 @@ import '../datasource/key_datasource.dart';
 import '../model/employee.dart';
 import '../provider/key_provider.dart';
 import '../widget/custom_appbar.dart';
+import '../widget/keyEvents_data.dart';
 import '../widget/keyboard_listener.dart';
 
 void main() {
-  runApp(KeyEvents());
+  runApp(KeyEvents2());
   initializeDateFormatting();
 }
 
 /// The application that contains datagrid on it.
 
 /// The home page of the application which hosts the datagrid.
-class KeyEvents extends StatefulWidget {
+class KeyEvents2 extends StatefulWidget {
   /// Creates the home page.
   String? depoName;
   String? cityName;
-  KeyEvents({Key? key, this.depoName, this.cityName}) : super(key: key);
+  KeyEvents2({Key? key, this.depoName, this.cityName}) : super(key: key);
 
   @override
-  _KeyEventsState createState() => _KeyEventsState();
+  _KeyEvents2State createState() => _KeyEvents2State();
 }
 
-class _KeyEventsState extends State<KeyEvents> {
+class _KeyEvents2State extends State<KeyEvents2> {
   late KeyDataSourceKeyEvents _KeyDataSourceKeyEvents;
   List<Employee> _employees = <Employee>[];
   late DataGridController _dataGridController;
@@ -796,7 +797,7 @@ class _KeyEventsState extends State<KeyEvents> {
                               //displayName: yAxis[i].toString()
                             ));
                           }
-                          _employees = getEmployeeData();
+                          _employees = getKeyEventsData();
                           _KeyDataSourceKeyEvents =
                               KeyDataSourceKeyEvents(_employees, context);
                           _dataGridController = DataGridController();
@@ -861,250 +862,273 @@ class _KeyEventsState extends State<KeyEvents> {
                                           columnName: 'srNo',
                                           autoFitPadding:
                                               const EdgeInsets.symmetric(
-                                                  horizontal: 16),
-                                          allowEditing: false,
+                                                  horizontal: 8),
+                                          width: 80,
+                                          allowEditing: true,
                                           label: Container(
                                             alignment: Alignment.center,
                                             child: Text(
                                               'Sr No',
+                                              textAlign: TextAlign.center,
                                               overflow:
                                                   TextOverflow.values.first,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16),
-
                                               //    textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'Activity',
-                                          allowEditing: false,
-                                          width: 200,
+                                          width: 220,
+                                          allowEditing: true,
                                           label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16.0),
                                             alignment: Alignment.center,
                                             child: Text(
                                               'Activity',
                                               overflow:
                                                   TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 16),
                                             ),
                                           ),
                                         ),
+                                        // GridColumn(
+                                        //   columnName: 'viewbutton',
+                                        //   width: 130,
+                                        //   allowEditing: false,
+                                        //   label: Container(
+                                        //     padding: const EdgeInsets.all(8.0),
+                                        //     alignment: Alignment.center,
+                                        //     child: const Text('View File ',
+                                        //         style: TextStyle(
+                                        //             fontWeight: FontWeight.bold,
+                                        //             fontSize: 16)),
+                                        //   ),
+                                        // ),
+                                        // GridColumn(
+                                        //   columnName: 'uploadbutton',
+                                        //   width: 130,
+                                        //   allowEditing: false,
+                                        //   label: Container(
+                                        //     padding: const EdgeInsets.all(8.0),
+                                        //     alignment: Alignment.center,
+                                        //     child: const Text('View File ',
+                                        //         style: TextStyle(
+                                        //             fontWeight: FontWeight.bold,
+                                        //             fontSize: 16)),
+                                        //   ),
+                                        // ),
                                         GridColumn(
                                           columnName: 'OriginalDuration',
-                                          allowEditing: false,
-                                          width: 80,
+                                          allowEditing: true,
+                                          width: 100,
+                                          autoFitPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10),
                                           label: Container(
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              'Original Duration',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('Original Duration',
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'StartDate',
                                           allowEditing: false,
+                                          //   width: 180,
                                           label: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16.0),
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              'Start Date',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('Start Date',
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'EndDate',
                                           allowEditing: false,
+                                          //   width: 180,
                                           label: Container(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 16.0),
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              textAlign: TextAlign.center,
-                                              'End  Date',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('End Date',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'ActualStart',
                                           allowEditing: false,
+                                          width: 160,
                                           label: Container(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 16.0),
+                                                horizontal: 10.0),
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              'Actual Start',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('Actual Start',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'ActualEnd',
                                           allowEditing: false,
+                                          width: 140,
                                           label: Container(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 16.0),
+                                                horizontal: 10.0),
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              textAlign: TextAlign.center,
-                                              'Actual End',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('Actual End',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'ActualDuration',
-                                          allowEditing: false,
-                                          width: 80,
+                                          width: 100,
+                                          allowEditing: true,
                                           label: Container(
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              'Actual Duration',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('Actual Duration',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'Delay',
-                                          allowEditing: false,
+                                          allowEditing: true,
                                           label: Container(
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              'Delay',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('Delay',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
-                                        // GridColumn(
-                                        //   columnName: 'Dependency',
-                                        //   allowEditing: false,
-                                        //   label: Container(
-                                        //     alignment: Alignment.center,
-                                        //     child: Text(
-                                        //       'Dependency',
-                                        //       overflow: TextOverflow.values.first,
-                                        //       style: const TextStyle(
-                                        //           fontWeight: FontWeight.bold,
-                                        //           fontSize: 16),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // GridColumn(
-                                        //   columnName: 'QtyScope',
-                                        //   allowEditing: false,
-                                        //   label: Container(
-                                        //     alignment: Alignment.center,
-                                        //     child: Text(
-                                        //       'Oty as per scope',
-                                        //       overflow: TextOverflow.values.first,
-                                        //       style: const TextStyle(
-                                        //           fontWeight: FontWeight.bold,
-                                        //           fontSize: 16),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // GridColumn(
-                                        //   columnName: 'QtyExecuted',
-                                        //   allowEditing: false,
-                                        //   label: Container(
-                                        //     alignment: Alignment.center,
-                                        //     child: Text(
-                                        //       'Qty executed',
-                                        //       overflow: TextOverflow.values.first,
-                                        //       style: const TextStyle(
-                                        //           fontWeight: FontWeight.bold,
-                                        //           fontSize: 16),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // GridColumn(
-                                        //   columnName: 'BalancedQty',
-                                        //   allowEditing: false,
-                                        //   label: Container(
-                                        //     width: 150,
-                                        //     alignment: Alignment.center,
-                                        //     child: Text(
-                                        //       'Balanced Qty',
-                                        //       overflow: TextOverflow.values.first,
-                                        //       style: const TextStyle(
-                                        //           fontWeight: FontWeight.bold,
-                                        //           fontSize: 16),
-                                        //     ),
-                                        //   ),
-                                        // ),
+                                        GridColumn(
+                                          columnName: 'ReasonDelay',
+                                          allowEditing: true,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text('Reason For Delay',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'Unit',
+                                          allowEditing: true,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text('Unit',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'QtyScope',
+                                          allowEditing: true,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text('Oty as per scope',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'QtyExecuted',
+                                          allowEditing: true,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text('Qty executed',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'BalancedQty',
+                                          allowEditing: false,
+                                          label: Container(
+                                            width: 150,
+                                            alignment: Alignment.center,
+                                            child: Text('Balanced Qty',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
+                                          ),
+                                        ),
                                         GridColumn(
                                           columnName: 'Progress',
                                           allowEditing: false,
                                           label: Container(
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              '% of Progress',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('% of Progress',
+                                                textAlign: TextAlign.center,
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                         GridColumn(
                                           columnName: 'Weightage',
-                                          allowEditing: false,
+                                          allowEditing: true,
                                           label: Container(
                                             alignment: Alignment.center,
-                                            child: Text(
-                                              'Weightage',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
+                                            child: Text('Weightage',
+                                                overflow:
+                                                    TextOverflow.values.first,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
                                           ),
                                         ),
                                       ],
@@ -1233,15 +1257,15 @@ class _KeyEventsState extends State<KeyEvents> {
                                 columns: [
                                   GridColumn(
                                     columnName: 'srNo',
-                                    autoFitPadding:
-                                        EdgeInsets.symmetric(horizontal: 16),
+                                    autoFitPadding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     allowEditing: false,
+                                    width: 150,
                                     label: Container(
                                       alignment: Alignment.center,
                                       child: Text(
                                         'Sr No',
                                         overflow: TextOverflow.values.first,
-                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1253,7 +1277,7 @@ class _KeyEventsState extends State<KeyEvents> {
                                   GridColumn(
                                     columnName: 'Activity',
                                     allowEditing: false,
-                                    width: 220,
+                                    width: 200,
                                     label: Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16.0),
@@ -1261,6 +1285,7 @@ class _KeyEventsState extends State<KeyEvents> {
                                       child: Text(
                                         'Activity',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1270,12 +1295,13 @@ class _KeyEventsState extends State<KeyEvents> {
                                   GridColumn(
                                     columnName: 'OriginalDuration',
                                     allowEditing: false,
-                                    width: 100,
+                                    width: 80,
                                     label: Container(
                                       alignment: Alignment.center,
                                       child: Text(
                                         'Original Duration',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1286,10 +1312,13 @@ class _KeyEventsState extends State<KeyEvents> {
                                     columnName: 'StartDate',
                                     allowEditing: false,
                                     label: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
                                       alignment: Alignment.center,
                                       child: Text(
                                         'Start Date',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1300,9 +1329,12 @@ class _KeyEventsState extends State<KeyEvents> {
                                     columnName: 'EndDate',
                                     allowEditing: false,
                                     label: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        'End Date',
+                                        textAlign: TextAlign.center,
+                                        'End  Date',
                                         overflow: TextOverflow.values.first,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -1313,12 +1345,14 @@ class _KeyEventsState extends State<KeyEvents> {
                                   GridColumn(
                                     columnName: 'ActualStart',
                                     allowEditing: false,
-                                    width: 150,
                                     label: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
                                       alignment: Alignment.center,
                                       child: Text(
                                         'Actual Start',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1328,12 +1362,12 @@ class _KeyEventsState extends State<KeyEvents> {
                                   GridColumn(
                                     columnName: 'ActualEnd',
                                     allowEditing: false,
-                                    width: 150,
                                     label: Container(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16.0),
                                       alignment: Alignment.center,
                                       child: Text(
+                                        textAlign: TextAlign.center,
                                         'Actual End',
                                         overflow: TextOverflow.values.first,
                                         style: const TextStyle(
@@ -1345,11 +1379,13 @@ class _KeyEventsState extends State<KeyEvents> {
                                   GridColumn(
                                     columnName: 'ActualDuration',
                                     allowEditing: false,
+                                    width: 80,
                                     label: Container(
                                       alignment: Alignment.center,
                                       child: Text(
                                         'Actual Duration',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1364,6 +1400,7 @@ class _KeyEventsState extends State<KeyEvents> {
                                       child: Text(
                                         'Delay',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1430,12 +1467,12 @@ class _KeyEventsState extends State<KeyEvents> {
                                   GridColumn(
                                     columnName: 'Progress',
                                     allowEditing: false,
-                                    width: 150,
                                     label: Container(
                                       alignment: Alignment.center,
                                       child: Text(
                                         '% of Progress',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1450,6 +1487,7 @@ class _KeyEventsState extends State<KeyEvents> {
                                       child: Text(
                                         'Weightage',
                                         overflow: TextOverflow.values.first,
+                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
@@ -1505,6 +1543,29 @@ class _KeyEventsState extends State<KeyEvents> {
       userId = value;
       setState(() {});
     });
+  }
+
+  List<Employee> getDefaultData() {
+    return [
+      Employee(
+        srNo: 1,
+        activity: 'Initial Survey Of Depot With TML & STA Team.',
+        originalDuration: 1,
+        startDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        endDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        actualstartDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        actualendDate: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        actualDuration: 0,
+        delay: 0,
+        reasonDelay: '',
+        unit: 0,
+        scope: 0,
+        qtyExecuted: 0,
+        balanceQty: 0,
+        percProgress: 0,
+        weightage: 0.5,
+      ),
+    ];
   }
 
   List<Employee> getDefaultEmployeeData() {
