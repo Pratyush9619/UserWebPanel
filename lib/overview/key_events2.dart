@@ -809,40 +809,44 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   Expanded(
                                     child: SfDataGrid(
                                       source: _KeyDataSourceKeyEvents,
-                                      onCellTap:
-                                          (DataGridCellTapDetails details) {
-                                        final DataGridRow row =
-                                            _KeyDataSourceKeyEvents
-                                                .effectiveRows[details
-                                                    .rowColumnIndex.rowIndex -
-                                                1];
-
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          if (row.getCells().first.value ==
-                                              'A1') {
-                                            return ViewAllPdf(
-                                                userId: userId,
-                                                cityName: widget.cityName,
-                                                depoName: widget.depoName,
-                                                title: 'Key Events',
-                                                docId: row.getCells()[1].value);
-                                          } else {
-                                            return StatutoryAprovalA2(
-                                              userid: userId,
-                                              cityName: widget.cityName,
-                                              depoName: widget.depoName,
-                                              keyEvents:
-                                                  row.getCells()[0].value,
-                                            );
-                                            // menuwidget[
-                                            //     details.rowColumnIndex.rowIndex -
-                                            //         1];
-                                          }
-                                        }));
-                                      },
                                       allowEditing: true,
+                                      // onCellTap:
+                                      //     (DataGridCellTapDetails details) {
+                                      //   final DataGridRow row =
+                                      //       _KeyDataSourceKeyEvents
+                                      //           .effectiveRows[details
+                                      //               .rowColumnIndex.rowIndex -
+                                      //           1];
+
+                                      //   Navigator.of(context).push(
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) {
+                                      //     if (row.getCells().first.value ==
+                                      //         'A1') {
+                                      //       return ViewAllPdf(
+                                      //           userId: userId,
+                                      //           cityName: widget.cityName,
+                                      //           depoName: widget.depoName,
+                                      //           title: 'Key Events',
+                                      //           docId: row.getCells()[1].value);
+                                      //     } else {
+                                      //       return StatutoryAprovalA2(
+                                      //         userid: userId,
+                                      //         cityName: widget.cityName,
+                                      //         depoName: widget.depoName,
+                                      //         keyEvents:
+                                      //             row.getCells()[0].value,
+                                      //       );
+                                      //       // menuwidget[
+                                      //       //     details.rowColumnIndex.rowIndex -
+                                      //       //         1];
+                                      //     }
+                                      //   }));
+                                      // },
+                                      // allowEditing: _KeyDataSourceKeyEvents.effectiveRows,
+                                      //     // ? false
+                                      //     // : true,
+
                                       frozenColumnsCount: 2,
                                       editingGestureType:
                                           EditingGestureType.tap,
@@ -1215,32 +1219,32 @@ class _KeyEvents2State extends State<KeyEvents2> {
                             Expanded(
                               child: SfDataGrid(
                                 source: _KeyDataSourceKeyEvents,
-                                onCellTap: (DataGridCellTapDetails details) {
-                                  final DataGridRow row =
-                                      _KeyDataSourceKeyEvents.effectiveRows[
-                                          details.rowColumnIndex.rowIndex - 1];
+                                // onCellTap: (DataGridCellTapDetails details) {
+                                //   final DataGridRow row =
+                                //       _KeyDataSourceKeyEvents.effectiveRows[
+                                //           details.rowColumnIndex.rowIndex - 1];
 
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    if (row.getCells().first.value == 'A1') {
-                                      return ViewAllPdf(
-                                          userId: userId,
-                                          cityName: widget.cityName,
-                                          depoName: widget.depoName,
-                                          title: 'Key Events',
-                                          docId: row.getCells()[0]);
-                                    } else {
-                                      return StatutoryAprovalA2(
-                                        userid: userId,
-                                        cityName: widget.cityName,
-                                        depoName: widget.depoName,
-                                        keyEvents: row.getCells()[0].value,
-                                      );
-                                      // menuwidget[
-                                      //     details.rowColumnIndex.rowIndex - 1];
-                                    }
-                                  }));
-                                },
+                                //   Navigator.of(context).push(
+                                //       MaterialPageRoute(builder: (context) {
+                                //     if (row.getCells().first.value == 'A1') {
+                                //       return ViewAllPdf(
+                                //           userId: userId,
+                                //           cityName: widget.cityName,
+                                //           depoName: widget.depoName,
+                                //           title: 'Key Events',
+                                //           docId: row.getCells()[0]);
+                                //     } else {
+                                //       return StatutoryAprovalA2(
+                                //         userid: userId,
+                                //         cityName: widget.cityName,
+                                //         depoName: widget.depoName,
+                                //         keyEvents: row.getCells()[0].value,
+                                //       );
+                                //       // menuwidget[
+                                //       //     details.rowColumnIndex.rowIndex - 1];
+                                //     }
+                                //   }));
+                                // },
                                 allowEditing: true,
                                 frozenColumnsCount: 2,
                                 editingGestureType: EditingGestureType.tap,
