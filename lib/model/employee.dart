@@ -34,7 +34,7 @@ class Employee {
   String? reasonDelay;
   int delay;
   String? dependency;
-  int unit;
+  dynamic unit;
   int scope;
   int qtyExecuted;
   int balanceQty;
@@ -76,7 +76,7 @@ class Employee {
       DataGridCell<int>(columnName: 'ActualDuration', value: actualDuration),
       DataGridCell<int>(columnName: 'Delay', value: delay),
       DataGridCell<String>(columnName: 'ReasonDelay', value: reasonDelay),
-      DataGridCell<int>(columnName: 'Unit', value: unit),
+      DataGridCell<dynamic>(columnName: 'Unit', value: unit),
       DataGridCell<int>(columnName: 'QtyScope', value: scope),
       DataGridCell<int>(columnName: 'QtyExecuted', value: qtyExecuted),
       DataGridCell<int>(columnName: 'BalancedQty', value: balanceQty),

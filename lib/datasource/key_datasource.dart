@@ -944,7 +944,7 @@ class KeyDataSourceKeyEvents extends DataGridSource {
       _employees[dataRowIndex].reasonDelay = newCellValue;
     } else if (column.columnName == 'Unit') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<int>(columnName: 'Unit', value: newCellValue as int);
+          DataGridCell<dynamic>(columnName: 'Unit', value: newCellValue);
       _employees[dataRowIndex].unit = newCellValue;
     } else if (column.columnName == 'QtyScope') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -1047,9 +1047,9 @@ class KeyDataSourceKeyEvents extends DataGridSource {
         column.columnName == 'ActualDuration' ||
         column.columnName == 'Delay' ||
         // column.columnName == 'Unit' ||
-        // column.columnName == 'QtyScope' ||
-        // column.columnName == 'QtyExecuted' ||
-        // column.columnName == 'BalancedQty' ||
+        column.columnName == 'QtyScope' ||
+        column.columnName == 'QtyExecuted' ||
+        column.columnName == 'BalancedQty' ||
         column.columnName == 'Progress' ||
         column.columnName == 'Weightage';
 
