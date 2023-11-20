@@ -55,7 +55,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
   List<dynamic> tabledata2 = [];
   Stream? yourstream;
   Stream? yourstream1;
-  double totalweightage = 0;
+
   List<String> startdate = [];
   List<String> enddate = [];
   List<String> asstartdate = [];
@@ -243,6 +243,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
   dynamic userId;
   String? activity;
+  List<String> allstartDate = [];
+  List<String> allendDate = [];
+  List<String> allactualstart = [];
+  List<String> allactualEnd = [];
+  List<String> allsrNo = [];
+  double? totalPecProgress = 0.0;
   List<int> indicesToSkip = [0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
 
   @override
@@ -367,6 +373,13 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         // int year = int.parse(dateParts[2]);
 
                         // dateTime = DateTime(year, month, day);
+                        int durationParse(String fromtime, String todate) {
+                          DateTime startdate =
+                              DateFormat('dd-MM-yyyy').parse(fromtime);
+                          DateTime enddate =
+                              DateFormat('dd-MM-yyyy').parse(todate);
+                          return enddate.difference(startdate).inDays;
+                        }
 
                         _employees = getKeyEventsData();
                         _KeyDataSourceKeyEvents =
@@ -681,9 +694,37 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
                         for (int i = 0; i < alldata.length; i++) {
                           _employees.clear();
+                          allstartDate.clear();
+                          allactualEnd.clear();
+                          allsrNo.clear();
                           alldata.asMap().forEach((index, element) {
+                            double totalWeightage = 0.0;
+                            int totalScope = 0;
+                            int totalbalanceQty = 0;
                             if (!indicesToSkip.contains(index)) {
                               _employees.add(Employee.fromJson(element));
+                              allstartDate.add(alldata[index]['StartDate']);
+                              allendDate.add(alldata[index]['EndDate']);
+                              allactualstart.add(alldata[index]['ActualStart']);
+                              allactualEnd.add(alldata[index]['ActualEnd']!);
+                              allsrNo.add(alldata[index]['srNo']);
+
+                              double weightage = alldata[index]['Weightage'];
+                              totalWeightage = totalWeightage + weightage;
+
+                              int scope = alldata[index]['QtyScope'];
+                              totalScope = totalScope + scope;
+
+                              int balncQty = alldata[index]['BalancedQty'];
+                              totalbalanceQty = totalbalanceQty + balncQty;
+                              totalWeightage = totalWeightage + weightage;
+                      
+                              totalPecProgress =
+                                  totalbalanceQty / totalScope * totalWeightage;
+
+                              print('total+$totalPecProgress');
+                              Provider.of<KeyProvider>(context, listen: false)
+                                  .saveProgressValue(totalPecProgress!);
                             } else if (index == 0) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[1]['StartDate'];
@@ -692,23 +733,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               aedate1 = alldata[1]['ActualEnd'];
                               activity = alldata[index]['Activity'];
 
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 1; i < 2; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: activity!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
+                                  scope: 5,
+                                  qtyExecuted: 2,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 2) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[3]['StartDate'];
@@ -716,23 +769,43 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[3]['ActualStart'];
                               aedate1 = alldata[7]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
+                              for (int i = 3; i < 8; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 8) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[9]['StartDate'];
@@ -740,16 +813,28 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[9]['ActualStart'];
                               aedate1 = alldata[11]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 9; i < 12; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
@@ -764,23 +849,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[13]['ActualStart'];
                               aedate1 = alldata[15]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 13; i < 16; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
                                   qtyExecuted: 5,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 16) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[17]['StartDate'];
@@ -788,23 +885,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[17]['ActualStart'];
                               aedate1 = alldata[26]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 17; i < 27; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
                                   qtyExecuted: 5,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 27) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[28]['StartDate'];
@@ -812,23 +921,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[28]['ActualStart'];
                               aedate1 = alldata[32]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 28; i < 33; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
                                   qtyExecuted: 5,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 33) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[34]['StartDate'];
@@ -836,23 +957,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[34]['ActualStart'];
                               aedate1 = alldata[38]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 34; i < 39; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
                                   qtyExecuted: 5,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 39) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[40]['StartDate'];
@@ -860,23 +993,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[40]['ActualStart'];
                               aedate1 = alldata[64]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 40; i < 65; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
                                   qtyExecuted: 5,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 65) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[66]['StartDate'];
@@ -884,23 +1029,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[66]['ActualStart'];
                               aedate1 = alldata[75]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 66; i < 76; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
                                   qtyExecuted: 5,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 76) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[77]['StartDate'];
@@ -908,23 +1065,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               asdate1 = alldata[77]['ActualStart'];
                               aedate1 = alldata[78]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
+                              allstartDate.add(sdate1!);
+                              allendDate.add(edate1!);
+                              allactualstart.add(asdate1!);
+                              allactualEnd.add(aedate1!);
+                              allsrNo.add(srNo);
+                              double totalweightage = 0;
+                              for (int i = 77; i < 79; i++) {
+                                double weightage = alldata[i]['Weightage'];
+                                totalweightage = totalweightage + weightage;
+                              }
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration: 0,
+                                  originalDuration:
+                                      durationParse(sdate1!, edate1!),
                                   startDate: sdate1,
                                   endDate: edate1,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
-                                  actualDuration: 1,
-                                  delay: 2,
+                                  actualDuration:
+                                      durationParse(asdate1!, aedate1!),
+                                  delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
                                   scope: 2,
                                   qtyExecuted: 5,
                                   balanceQty: 2,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             }
                           });
                         }
@@ -956,65 +1125,66 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         //         KeyDataSourceKeyEvents(_employees, context);
                         //     _dataGridController = DataGridController();
 
-                        // List<String> dateParts = sdate1!.split('-');
-                        // int day = int.parse(dateParts[0]);
-                        // int month = int.parse(dateParts[1]);
-                        // int year = int.parse(dateParts[2]);
+                        List<String> dateParts = sdate1!.split('-');
+                        int day = int.parse(dateParts[0]);
+                        int month = int.parse(dateParts[1]);
+                        int year = int.parse(dateParts[2]);
 
-                        // dateTime = DateTime(year, month, day);
+                        dateTime = DateTime(year, month, day);
 
-                        ganttdata.add(GanttAbsoluteEvent(
-                          extra: 'hd',
-                          suggestedColor: yellow,
-                          displayNameBuilder: (context) {
-                            int sr = 1;
-                            return sr.toString();
-                          },
-                          startDate: DateTime.now(),
-                          endDate: DateTime.now(),
-                        ));
+                        // ganttdata.add(GanttAbsoluteEvent(
+                        //   extra: 'hd',
+                        //   suggestedColor: yellow,
+                        //   displayNameBuilder: (context) {
+                        //     int sr = 1;
+                        //     return sr.toString();
+                        //   },
+                        //   startDate: DateTime.now(),
+                        //   endDate: DateTime.now(),
+                        // ));
 
-                        ganttdata.add(GanttAbsoluteEvent(
-                          suggestedColor: green,
-                          displayNameBuilder: (context) {
-                            return '';
-                          },
-                          startDate: DateTime.now(),
-                          endDate: DateTime.now(),
-                          //displayName: yAxis[i].toString()
-                        ));
+                        // ganttdata.add(GanttAbsoluteEvent(
+                        //   suggestedColor: green,
+                        //   displayNameBuilder: (context) {
+                        //     return '';
+                        //   },
+                        //   startDate: DateTime.now(),
+                        //   endDate: DateTime.now(),
+                        //   //displayName: yAxis[i].toString()
+                        // ));
 
-                        // for (int i = 0; i < alldata.length; i++) {
-                        //   ganttdata.add(GanttAbsoluteEvent(
-                        //     suggestedColor: yellow,
-                        //     displayNameBuilder: (context) {
-                        //       int sr = i + 2;
-                        //       // int ss = sr + 1;
-                        //       return sr.toString();
-                        //     },
-                        //     startDate:
-                        //         DateFormat('dd-MM-yyyy').parse(startDate[i]),
-                        //     endDate: DateFormat('dd-MM-yyyy').parse(enddate[i]),
-                        //   ));
+                        for (int i = 0; i < allstartDate.length; i++) {
+                          ganttdata.add(GanttAbsoluteEvent(
+                            suggestedColor: yellow,
+                            displayNameBuilder: (context) {
+                              // int sr = i + 2;
+                              // int ss = sr + 1;
+                              return allsrNo[i];
+                            },
+                            startDate:
+                                DateFormat('dd-MM-yyyy').parse(allstartDate[i]),
+                            endDate:
+                                DateFormat('dd-MM-yyyy').parse(allendDate[i]),
+                          ));
 
-                        //   ganttdata.add(GanttAbsoluteEvent(
-                        //     suggestedColor: DateFormat('dd-MM-yyyy')
-                        //             .parse(actualend[i])
-                        //             .isBefore(DateFormat('dd-MM-yyyy')
-                        //                 .parse(enddate[i])
-                        //                 .add(const Duration(days: 1)))
-                        //         ? green
-                        //         : red,
-                        //     displayNameBuilder: (context) {
-                        //       return '';
-                        //     },
-                        //     startDate:
-                        //         DateFormat('dd-MM-yyyy').parse(actualstart[i]),
-                        //     endDate:
-                        //         DateFormat('dd-MM-yyyy').parse(actualend[i]),
-                        //     //displayName: yAxis[i].toString()
-                        //   ));
-                        // }
+                          ganttdata.add(GanttAbsoluteEvent(
+                            suggestedColor: DateFormat('dd-MM-yyyy')
+                                    .parse(allactualEnd[i])
+                                    .isBefore(DateFormat('dd-MM-yyyy')
+                                        .parse(allendDate[i])
+                                        .add(const Duration(days: 1)))
+                                ? green
+                                : red,
+                            displayNameBuilder: (context) {
+                              return '';
+                            },
+                            startDate: DateFormat('dd-MM-yyyy')
+                                .parse(allactualstart[i]),
+                            endDate:
+                                DateFormat('dd-MM-yyyy').parse(allactualEnd[i]),
+                            //displayName: yAxis[i].toString()
+                          ));
+                        }
 
                         return SizedBox(
                             // height: 580,
@@ -1219,6 +1389,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                     alignment: Alignment.center,
                                     child: Text(
                                       'Oty as per scope',
+                                      textAlign: TextAlign.center,
                                       overflow: TextOverflow.values.first,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -1285,36 +1456,39 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               ],
                             ),
                           ),
-                          Container(
-                              width: 450,
-                              child: GanttChartView(
-                                  scrollController: scrollController,
-                                  scrollPhysics: const BouncingScrollPhysics(),
-                                  maxDuration: null,
-                                  // const Duration(days: 30 * 2),
-                                  // optional, set to null for infinite horizontal scroll
-                                  startDate: dateTime, //required
-                                  dayWidth: 40, //column width for each day
-                                  dayHeaderHeight: 35,
-                                  eventHeight: 25, //row height for events
+                          SingleChildScrollView(
+                            child: Container(
+                                width: 450,
+                                child: GanttChartView(
+                                    scrollController: scrollController,
+                                    scrollPhysics:
+                                        const BouncingScrollPhysics(),
+                                    maxDuration: null,
+                                    // const Duration(days: 30 * 2),
+                                    // optional, set to null for infinite horizontal scroll
+                                    startDate: dateTime, //required
+                                    dayWidth: 40, //column width for each day
+                                    dayHeaderHeight: 35,
+                                    eventHeight: 25, //row height for events
 
-                                  stickyAreaWidth: 80, //sticky area width
-                                  showStickyArea:
-                                      true, //show sticky area or not
-                                  showDays: true, //show days or not
-                                  startOfTheWeek:
-                                      WeekDay.monday, //custom start of the week
-                                  weekHeaderHeight: 30,
-                                  weekEnds: const {
-                                    // WeekDay.saturday,
-                                    // WeekDay.sunday
-                                  }, //custom weekends
-                                  isExtraHoliday: (context, day) {
-                                    //define custom holiday logic for each day
-                                    return DateUtils.isSameDay(
-                                        DateTime(2023, 7, 1), day);
-                                  },
-                                  events: ganttdata))
+                                    stickyAreaWidth: 80, //sticky area width
+                                    showStickyArea:
+                                        true, //show sticky area or not
+                                    showDays: true, //show days or not
+                                    startOfTheWeek: WeekDay
+                                        .monday, //custom start of the week
+                                    weekHeaderHeight: 30,
+                                    weekEnds: const {
+                                      // WeekDay.saturday,
+                                      // WeekDay.sunday
+                                    }, //custom weekends
+                                    isExtraHoliday: (context, day) {
+                                      //define custom holiday logic for each day
+                                      return DateUtils.isSameDay(
+                                          DateTime(2023, 7, 1), day);
+                                    },
+                                    events: ganttdata)),
+                          )
                         ]));
                       }
                     })));
