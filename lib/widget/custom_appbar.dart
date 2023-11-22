@@ -112,32 +112,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
               widget.text.toString(),
             ),
             actions: [
-              widget.isprogress
-                  ? Consumer<KeyProvider>(
-                      builder: (context, value, child) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: SizedBox(
-                            height: 18.0,
-                            width: 40.0,
-                            child: CircularPercentIndicator(
-                              radius: 20.0,
-                              lineWidth: 5.0,
-                              percent: (value.perProgress.toInt()) / 100,
-                              center: Text(
-                                // value.getName.toString(),
-                                "${(value.perProgress.toInt())}% ",
-                                textAlign: TextAlign.center,
-                                style: captionWhite,
-                              ),
-                              progressColor: green,
-                              backgroundColor: red,
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  : Container(),
               widget.showDepoBar
                   ? Container(
                       padding: const EdgeInsets.all(5.0),
@@ -318,6 +292,55 @@ class _CustomAppBarState extends State<CustomAppBar> {
               const SizedBox(
                 width: 10,
               ),
+              widget.isprogress
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width: 300,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                legends(yellow, 'On Track'),
+                                legends(green, 'On Time'),
+                                legends(red, 'Delay'),
+                              ],
+                            )),
+                        Consumer<KeyProvider>(
+                          builder: (context, value, child) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 5, right: 10, left: 10),
+                              child: Row(
+                                children: [
+                                  Text('% Of Progress is '),
+                                  SizedBox(
+                                    height: 50.0,
+                                    width: 40.0,
+                                    child: CircularPercentIndicator(
+                                      radius: 20.0,
+                                      lineWidth: 5.0,
+                                      percent:
+                                          (value.perProgress.toInt()) / 100,
+                                      center: Text(
+                                        // value.getName.toString(),
+                                        "${(value.perProgress.toInt())}% ",
+                                        textAlign: TextAlign.center,
+                                        style: captionWhite,
+                                      ),
+                                      progressColor: green,
+                                      backgroundColor: red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  : Container(),
               widget.haveSummary
                   ? Padding(
                       padding:
@@ -534,4 +557,25 @@ class _CustomAppBarState extends State<CustomAppBar> {
       userId = value;
     });
   }
+}
+
+legends(Color color, String title) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 5, bottom: 5),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+            width: 70,
+            height: 28,
+            color: color,
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.w900),
+            )),
+      ],
+    ),
+  );
 }

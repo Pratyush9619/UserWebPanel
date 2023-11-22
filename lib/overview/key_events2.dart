@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:gantt_chart/gantt_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../Authentication/auth_service.dart';
@@ -73,7 +74,6 @@ class _KeyEvents2State extends State<KeyEvents2> {
   bool _isLoading = true;
   bool _isInit = true;
   int? length;
-  final scrollController = ScrollController();
   List<GanttEventBase> ganttdata = [];
   List<String> startDate = [];
   List<String> endDate = [];
@@ -250,6 +250,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
   List<String> allsrNo = [];
   double? totalPecProgress = 0.0;
   List<int> indicesToSkip = [0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -331,7 +332,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
     return _isLoading
         ? LoadingPage()
         : keyBoardArrow(
-            scrollController: scrollController,
+            scrollController: _scrollController,
             myScaffold: Scaffold(
                 appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(50),
@@ -373,322 +374,331 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         // int year = int.parse(dateParts[2]);
 
                         // dateTime = DateTime(year, month, day);
-                        int durationParse(String fromtime, String todate) {
-                          DateTime startdate =
-                              DateFormat('dd-MM-yyyy').parse(fromtime);
-                          DateTime enddate =
-                              DateFormat('dd-MM-yyyy').parse(todate);
-                          return enddate.difference(startdate).inDays;
-                        }
 
                         _employees = getKeyEventsData();
                         _KeyDataSourceKeyEvents =
                             KeyDataSourceKeyEvents(_employees, context);
                         _dataGridController = DataGridController();
 
-                        return SizedBox(
-                            height: 580,
-                            child: Row(children: [
-                              Expanded(
-                                child: SfDataGrid(
-                                  source: _KeyDataSourceKeyEvents,
-                                  allowEditing: true,
-                                  frozenColumnsCount: 2,
-                                  editingGestureType: EditingGestureType.tap,
-                                  headerGridLinesVisibility:
-                                      GridLinesVisibility.both,
-                                  gridLinesVisibility: GridLinesVisibility.both,
-                                  selectionMode: SelectionMode.single,
-                                  navigationMode: GridNavigationMode.cell,
-                                  columnWidthMode: ColumnWidthMode.auto,
-                                  controller: _dataGridController,
-                                  // onQueryRowHeight: (details) {
-                                  //   return details.rowIndex == 0 ? 60.0 : 49.0;
-                                  // },
-                                  columns: [
-                                    GridColumn(
-                                      columnName: 'srNo',
-                                      autoFitPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                      allowEditing: false,
-                                      width: 60,
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Sr No',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                        return SingleChildScrollView(
+                          child: SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              child: Row(children: [
+                                Expanded(
+                                  child: SfDataGridTheme(
+                                    data: SfDataGridThemeData(
+                                        rowHoverColor: yellow,
+                                        rowHoverTextStyle: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                        )),
+                                    child: SfDataGrid(
+                                      source: _KeyDataSourceKeyEvents,
+                                      allowEditing: true,
+                                      frozenColumnsCount: 2,
+                                      editingGestureType:
+                                          EditingGestureType.tap,
+                                      headerGridLinesVisibility:
+                                          GridLinesVisibility.both,
+                                      gridLinesVisibility:
+                                          GridLinesVisibility.both,
+                                      selectionMode: SelectionMode.single,
+                                      navigationMode: GridNavigationMode.cell,
+                                      columnWidthMode: ColumnWidthMode.auto,
+                                      controller: _dataGridController,
+                                      columns: [
+                                        GridColumn(
+                                          columnName: 'srNo',
+                                          autoFitPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 16),
+                                          allowEditing: false,
+                                          width: 60,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Sr No',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
 
-                                          //    textAlign: TextAlign.center,
+                                              //    textAlign: TextAlign.center,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'Activity',
-                                      width: 200,
-                                      label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Activity',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'Activity',
+                                          width: 250,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Activity',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'OriginalDuration',
-                                      width: 80,
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Original Duration',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'OriginalDuration',
+                                          width: 80,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Original Duration',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'StartDate',
-                                      allowEditing: false,
-                                      label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Start Date',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'StartDate',
+                                          allowEditing: false,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Start Date',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'EndDate',
-                                      allowEditing: false,
-                                      label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          textAlign: TextAlign.center,
-                                          'End  Date',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'EndDate',
+                                          allowEditing: false,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              textAlign: TextAlign.center,
+                                              'End  Date',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'ActualStart',
-                                      allowEditing: false,
-                                      width: 150,
-                                      label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Actual Start',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'ActualStart',
+                                          allowEditing: false,
+                                          width: 150,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Actual Start',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'ActualEnd',
-                                      allowEditing: false,
-                                      label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          textAlign: TextAlign.center,
-                                          'Actual End',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'ActualEnd',
+                                          allowEditing: false,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              textAlign: TextAlign.center,
+                                              'Actual End',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'ActualDuration',
-                                      allowEditing: false,
-                                      width: 80,
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Actual Duration',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'ActualDuration',
+                                          allowEditing: false,
+                                          width: 80,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Actual Duration',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'Delay',
-                                      allowEditing: false,
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Delay',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'Delay',
+                                          allowEditing: false,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Delay',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'ReasonDelay',
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'ReasonDelay',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'ReasonDelay',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'ReasonDelay',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'Unit',
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Unit',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'Unit',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Unit',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'QtyScope',
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Oty as per scope',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'QtyScope',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Oty as per scope',
+                                              textAlign: TextAlign.center,
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'QtyExecuted',
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Qty executed',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'QtyExecuted',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Qty executed',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'BalancedQty',
-                                      label: Container(
-                                        width: 150,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Balanced Qty',
-                                          overflow: TextOverflow.values.first,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'BalancedQty',
+                                          label: Container(
+                                            width: 150,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Balanced Qty',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'Progress',
-                                      allowEditing: false,
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          '% of Progress',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'Progress',
+                                          allowEditing: false,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              '% of Progress',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    GridColumn(
-                                      columnName: 'Weightage',
-                                      label: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Weightage',
-                                          overflow: TextOverflow.values.first,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                        GridColumn(
+                                          columnName: 'Weightage',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Weightage',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                  width: 450,
-                                  child: GanttChartView(
-                                      scrollController: scrollController,
-                                      scrollPhysics:
-                                          const BouncingScrollPhysics(),
-                                      maxDuration: null,
-                                      // const Duration(days: 30 * 2),
-                                      // optional, set to null for infinite horizontal scroll
-                                      startDate:
-                                          DateTime(2023, 8, 1), //required
-                                      dayWidth: 40, //column width for each day
-                                      dayHeaderHeight: 35,
-                                      eventHeight: 25, //row height for events
-
-                                      stickyAreaWidth: 80, //sticky area width
-                                      showStickyArea:
-                                          true, //show sticky area or not
-                                      showDays: true, //show days or not
-                                      startOfTheWeek: WeekDay
-                                          .monday, //custom start of the week
-                                      weekHeaderHeight: 30,
-                                      weekEnds: const {
-                                        // WeekDay.saturday,
-                                        // WeekDay.sunday
-                                      }, //custom weekends
-                                      isExtraHoliday: (context, day) {
-                                        //define custom holiday logic for each day
-                                        return DateUtils.isSameDay(
-                                            DateTime(2023, 7, 1), day);
-                                      },
-                                      events: ganttdata))
-                            ]));
+                                SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                          width: 450,
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          child: GanttChartView(
+                                              scrollController:
+                                                  _scrollController,
+                                              maxDuration: null,
+                                              // const Duration(days: 30 * 2),
+                                              // optional, set to null for infinite horizontal scroll
+                                              startDate: dateTime, //required
+                                              dayWidth:
+                                                  35, //column width for each day
+                                              dayHeaderHeight: 35,
+                                              eventHeight:
+                                                  24, //row height for events
+                                              stickyAreaWidth:
+                                                  70, //sticky area width
+                                              showStickyArea:
+                                                  true, //show sticky area or not
+                                              showDays: true, //show days or not
+                                              startOfTheWeek: WeekDay
+                                                  .monday, //custom start of the week
+                                              weekHeaderHeight: 23,
+                                              weekEnds: const {
+                                                // WeekDay.saturday,
+                                                // WeekDay.sunday
+                                              }, //custom weekends
+                                              isExtraHoliday: (context, day) {
+                                                //define custom holiday logic for each day
+                                                return DateUtils.isSameDay(
+                                                    DateTime(2023, 7, 1), day);
+                                              },
+                                              events: ganttdata)),
+                                      SizedBox(
+                                        width: 450,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            legends(yellow, 'On Track'),
+                                            legends(green, 'On Time'),
+                                            legends(red, 'Delay'),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ])),
+                        );
                       } else {
                         alldata = snapshot.data['data'] as List<dynamic>;
 
@@ -697,10 +707,11 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           allstartDate.clear();
                           allactualEnd.clear();
                           allsrNo.clear();
+                          double totalWeightage = 0.0;
+                          int totalScope = 0;
+                          int totalbalanceQty = 0;
+                          int totalExecuted = 0;
                           alldata.asMap().forEach((index, element) {
-                            double totalWeightage = 0.0;
-                            int totalScope = 0;
-                            int totalbalanceQty = 0;
                             if (!indicesToSkip.contains(index)) {
                               _employees.add(Employee.fromJson(element));
                               allstartDate.add(alldata[index]['StartDate']);
@@ -715,16 +726,33 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               int scope = alldata[index]['QtyScope'];
                               totalScope = totalScope + scope;
 
-                              int balncQty = alldata[index]['BalancedQty'];
-                              totalbalanceQty = totalbalanceQty + balncQty;
-                              totalWeightage = totalWeightage + weightage;
-                      
-                              totalPecProgress =
-                                  totalbalanceQty / totalScope * totalWeightage;
+                              // int balncQty = alldata[index]['BalancedQty'];
 
-                              print('total+$totalPecProgress');
-                              Provider.of<KeyProvider>(context, listen: false)
-                                  .saveProgressValue(totalPecProgress!);
+                              int qtyExecuted = alldata[index]['QtyExecuted'];
+                              totalExecuted = totalExecuted + qtyExecuted;
+
+                              totalPecProgress =
+                                  totalExecuted / totalScope * totalWeightage;
+
+                              // totalbalanceQty = totalScope - totalExecuted;
+
+                              // totalWeightage = totalWeightage + weightage;
+                              // print('balanceQty$totalbalanceQty');
+                              // print('totalScope$totalScope');
+
+                              if (totalPecProgress!.isNaN) {
+                                Future.delayed(Duration.zero, () {
+                                  Provider.of<KeyProvider>(context,
+                                          listen: false)
+                                      .saveProgressValue(0);
+                                });
+                              } else {
+                                Future.delayed(Duration.zero, () {
+                                  Provider.of<KeyProvider>(context,
+                                          listen: false)
+                                      .saveProgressValue(totalPecProgress!);
+                                });
+                              }
                             } else if (index == 0) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[1]['StartDate'];
@@ -739,9 +767,18 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
                               double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 1; i < 2; i++) {
                                 double weightage = alldata[i]['Weightage'];
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
+
                                 totalweightage = totalweightage + weightage;
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -757,9 +794,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 5,
-                                  qtyExecuted: 2,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             } else if (index == 2) {
@@ -818,10 +855,19 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualstart.add(asdate1!);
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
+
                               double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 9; i < 12; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -837,9 +883,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: 2));
                             } else if (index == 12) {
@@ -854,10 +900,20 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualstart.add(asdate1!);
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
+
                               double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 13; i < 16; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
+
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -873,9 +929,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             } else if (index == 16) {
@@ -891,9 +947,18 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
                               double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 17; i < 27; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
+
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -909,9 +974,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             } else if (index == 27) {
@@ -927,9 +992,18 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
                               double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 28; i < 33; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
+
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -945,9 +1019,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             } else if (index == 33) {
@@ -962,10 +1036,21 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualstart.add(asdate1!);
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
+
                               double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 34; i < 39; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
+
                                 totalweightage = totalweightage + weightage;
+
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -981,9 +1066,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             } else if (index == 39) {
@@ -999,9 +1084,19 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
                               double totalweightage = 0;
+
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 40; i < 65; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
+
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -1017,9 +1112,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             } else if (index == 65) {
@@ -1035,9 +1130,18 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
                               double totalweightage = 0;
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 66; i < 76; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
+
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -1053,9 +1157,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             } else if (index == 76) {
@@ -1071,9 +1175,19 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
                               double totalweightage = 0;
+
+                              int totalScope = 0;
+                              int totalExecuted = 0;
+                              int totalbalanceQty = 0;
                               for (int i = 77; i < 79; i++) {
+                                int scope = alldata[i]['QtyScope'];
+                                int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
+
+                                totalScope = totalScope + scope;
+                                totalExecuted = totalExecuted + executed;
+                                totalbalanceQty = totalScope - totalExecuted;
                               }
                               _employees.add(Employee(
                                   srNo: srNo,
@@ -1089,9 +1203,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
                                   unit: 1,
-                                  scope: 2,
-                                  qtyExecuted: 5,
-                                  balanceQty: 2,
+                                  scope: totalScope,
+                                  qtyExecuted: totalExecuted,
+                                  balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
                             }
@@ -1186,310 +1300,322 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           ));
                         }
 
-                        return SizedBox(
-                            // height: 580,
-                            child: Row(children: [
-                          Expanded(
-                            child: SfDataGrid(
-                              source: _KeyDataSourceKeyEvents,
-                              allowEditing: true,
-                              frozenColumnsCount: 2,
-                              editingGestureType: EditingGestureType.tap,
-                              headerGridLinesVisibility:
-                                  GridLinesVisibility.both,
-                              gridLinesVisibility: GridLinesVisibility.both,
-                              selectionMode: SelectionMode.single,
-                              navigationMode: GridNavigationMode.cell,
-                              columnWidthMode: ColumnWidthMode.auto,
-                              controller: _dataGridController,
-                              // onQueryRowHeight: (details) {
-                              //   return details.rowIndex == 0 ? 60.0 : 49.0;
-                              // },
-                              columns: [
-                                GridColumn(
-                                  columnName: 'srNo',
-                                  autoFitPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  allowEditing: false,
-                                  width: 60,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Sr No',
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
+                        return SingleChildScrollView(
+                          child: SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              child: Row(children: [
+                                Expanded(
+                                  child: SfDataGridTheme(
+                                    data: SfDataGridThemeData(
+                                        rowHoverColor: yellow,
+                                        rowHoverTextStyle: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                        )),
+                                    child: SfDataGrid(
+                                      source: _KeyDataSourceKeyEvents,
+                                      allowEditing: true,
+                                      frozenRowsCount: 0,
+                                      frozenColumnsCount: 2,
+                                      editingGestureType:
+                                          EditingGestureType.tap,
+                                      headerGridLinesVisibility:
+                                          GridLinesVisibility.both,
+                                      gridLinesVisibility:
+                                          GridLinesVisibility.both,
+                                      selectionMode: SelectionMode.single,
+                                      navigationMode: GridNavigationMode.cell,
+                                      columnWidthMode: ColumnWidthMode.auto,
+                                      controller: _dataGridController,
+                                      columns: [
+                                        GridColumn(
+                                          columnName: 'srNo',
+                                          autoFitPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 16),
+                                          allowEditing: false,
+                                          width: 60,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Sr No',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
 
-                                      //    textAlign: TextAlign.center,
+                                              //    textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'Activity',
+                                          width: 250,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Activity',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'OriginalDuration',
+                                          width: 80,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Original Duration',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'StartDate',
+                                          allowEditing: false,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Start Date',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'EndDate',
+                                          allowEditing: false,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              textAlign: TextAlign.center,
+                                              'End  Date',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'ActualStart',
+                                          allowEditing: false,
+                                          width: 150,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Actual Start',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'ActualEnd',
+                                          allowEditing: false,
+                                          label: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              textAlign: TextAlign.center,
+                                              'Actual End',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'ActualDuration',
+                                          allowEditing: false,
+                                          width: 80,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Actual Duration',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'Delay',
+                                          allowEditing: false,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Delay',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'ReasonDelay',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'ReasonDelay',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'Unit',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Unit',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'QtyScope',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Oty as per scope',
+                                              textAlign: TextAlign.center,
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'QtyExecuted',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Qty executed',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'BalancedQty',
+                                          label: Container(
+                                            width: 150,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Balanced Qty',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'Progress',
+                                          allowEditing: false,
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              '% of Progress',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                        GridColumn(
+                                          columnName: 'Weightage',
+                                          label: Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Weightage',
+                                              overflow:
+                                                  TextOverflow.values.first,
+                                              textAlign: TextAlign.center,
+                                              style: tableheader,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                GridColumn(
-                                  columnName: 'Activity',
-                                  width: 200,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Activity',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
+                                SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                          width: 450,
+                                          child: GanttChartView(
+                                              scrollController:
+                                                  _scrollController,
+                                              maxDuration: null,
+                                              // const Duration(days: 30 * 2),
+                                              // optional, set to null for infinite horizontal scroll
+                                              startDate: dateTime, //required
+                                              dayWidth:
+                                                  35, //column width for each day
+                                              dayHeaderHeight: 35,
+                                              eventHeight:
+                                                  24, //row height for events
+                                              stickyAreaWidth:
+                                                  70, //sticky area width
+                                              showStickyArea:
+                                                  true, //show sticky area or not
+                                              showDays: true, //show days or not
+                                              startOfTheWeek: WeekDay
+                                                  .monday, //custom start of the week
+                                              weekHeaderHeight: 23,
+                                              weekEnds: const {
+                                                // WeekDay.saturday,
+                                                // WeekDay.sunday
+                                              }, //custom weekends
+                                              isExtraHoliday: (context, day) {
+                                                //define custom holiday logic for each day
+                                                return DateUtils.isSameDay(
+                                                    DateTime(2023, 7, 1), day);
+                                              },
+                                              events: ganttdata)),
+                                      SizedBox(
+                                        width: 450,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            legends(yellow, 'On Track'),
+                                            legends(green, 'On Time'),
+                                            legends(red, 'Delay'),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                GridColumn(
-                                  columnName: 'OriginalDuration',
-                                  width: 80,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Original Duration',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'StartDate',
-                                  allowEditing: false,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Start Date',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'EndDate',
-                                  allowEditing: false,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      textAlign: TextAlign.center,
-                                      'End  Date',
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'ActualStart',
-                                  allowEditing: false,
-                                  width: 150,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Actual Start',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'ActualEnd',
-                                  allowEditing: false,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      textAlign: TextAlign.center,
-                                      'Actual End',
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'ActualDuration',
-                                  allowEditing: false,
-                                  width: 80,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Actual Duration',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'Delay',
-                                  allowEditing: false,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Delay',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'ReasonDelay',
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'ReasonDelay',
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'Unit',
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Unit',
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'QtyScope',
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Oty as per scope',
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'QtyExecuted',
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Qty executed',
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'BalancedQty',
-                                  label: Container(
-                                    width: 150,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Balanced Qty',
-                                      overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'Progress',
-                                  allowEditing: false,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '% of Progress',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'Weightage',
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Weightage',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SingleChildScrollView(
-                            child: Container(
-                                width: 450,
-                                child: GanttChartView(
-                                    scrollController: scrollController,
-                                    scrollPhysics:
-                                        const BouncingScrollPhysics(),
-                                    maxDuration: null,
-                                    // const Duration(days: 30 * 2),
-                                    // optional, set to null for infinite horizontal scroll
-                                    startDate: dateTime, //required
-                                    dayWidth: 40, //column width for each day
-                                    dayHeaderHeight: 35,
-                                    eventHeight: 25, //row height for events
-
-                                    stickyAreaWidth: 80, //sticky area width
-                                    showStickyArea:
-                                        true, //show sticky area or not
-                                    showDays: true, //show days or not
-                                    startOfTheWeek: WeekDay
-                                        .monday, //custom start of the week
-                                    weekHeaderHeight: 30,
-                                    weekEnds: const {
-                                      // WeekDay.saturday,
-                                      // WeekDay.sunday
-                                    }, //custom weekends
-                                    isExtraHoliday: (context, day) {
-                                      //define custom holiday logic for each day
-                                      return DateUtils.isSameDay(
-                                          DateTime(2023, 7, 1), day);
-                                    },
-                                    events: ganttdata)),
-                          )
-                        ]));
+                                )
+                              ])),
+                        );
                       }
                     })));
 
@@ -1986,23 +2112,20 @@ class _KeyEvents2State extends State<KeyEvents2> {
   }
 
   legends(Color color, String title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 5, bottom: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-              width: 80,
-              height: 28,
-              color: color,
-              padding: const EdgeInsets.all(5),
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.w900),
-              )),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+            width: 80,
+            height: 28,
+            color: color,
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.w900),
+            )),
+      ],
     );
   }
 
