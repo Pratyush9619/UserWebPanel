@@ -1,3 +1,4 @@
+import 'package:assingment/overview/key_events2.dart';
 import 'package:assingment/overview/material_vendor.dart';
 import 'package:assingment/screen/overview_page.dart';
 import 'package:assingment/widget/style.dart';
@@ -155,7 +156,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                         ? Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => KeyEvents(
+                                              builder: (context) => KeyEvents2(
                                                 depoName: suggestion,
                                                 cityName: widget.cityname,
                                               ),
@@ -311,7 +312,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           builder: (context, value, child) {
                             return Padding(
                               padding: const EdgeInsets.only(
-                                  bottom: 5, right: 10, left: 10),
+                                  bottom: 2, right: 10, left: 10),
                               child: Row(
                                 children: [
                                   Text('% Of Progress is '),
@@ -320,7 +321,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                     width: 40.0,
                                     child: CircularPercentIndicator(
                                       radius: 20.0,
-                                      lineWidth: 5.0,
+                                      lineWidth: 4.0,
                                       percent:
                                           (value.perProgress.toInt()) / 100,
                                       center: Text(
@@ -503,7 +504,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginRegister(),
+                                  builder: (context) => const LoginRegister(),
                                 ));
                             // exit(0);
                           },

@@ -14,6 +14,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import '../Authentication/auth_service.dart';
+import '../FirebaseApi/firebase_api.dart';
 import '../KeysEvents/Grid_DataTable51.dart';
 import '../KeysEvents/Grid_DataTableA10.dart';
 import '../KeysEvents/Grid_DataTableA7.dart';
@@ -86,7 +87,6 @@ class _KeyEvents2State extends State<KeyEvents2> {
   String? ae;
   List<int> srNo = [];
   DateTime dateTime = DateTime.now();
-  double totalvalue = 0.0;
 
   String? sdate1,
       sdate2,
@@ -251,6 +251,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
   double? totalPecProgress = 0.0;
   List<int> indicesToSkip = [0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
   ScrollController _scrollController = ScrollController();
+  final ScrollController _ganttChartController = ScrollController();
 
   @override
   void initState() {
@@ -344,6 +345,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                       text: '${widget.cityName} / ${widget.depoName}',
                       haveSynced: true,
                       store: () {
+                        FirebaseApi().defaultKeyEventsField(
+                            'KeyEventsTable', widget.depoName!);
+                        FirebaseApi().nestedKeyEventsField(
+                          'KeyEventsTable',
+                          widget.depoName!,
+                          'KeyDataTable',
+                          userId,
+                        );
                         storeData();
                       },
                     )),
@@ -357,6 +366,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                     stream: yourstream,
                     builder: (context, snapshot) {
                       ganttdata = [];
+                      totalPecProgress = 0.0;
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return LoadingPage();
                       }
@@ -382,7 +392,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
                         return SingleChildScrollView(
                           child: SizedBox(
-                              height: MediaQuery.of(context).size.height,
+                              height: MediaQuery.of(context).size.height * 0.93,
                               child: Row(children: [
                                 Expanded(
                                   child: SfDataGridTheme(
@@ -394,6 +404,27 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         )),
                                     child: SfDataGrid(
                                       source: _KeyDataSourceKeyEvents,
+                                      onSelectionChanged:
+                                          (addedRows, removedRows) {
+                                        if (addedRows.first
+                                                .getCells()
+                                                .first
+                                                .value ==
+                                            'A1') {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return ViewAllPdf(
+                                                userId: userId,
+                                                cityName: widget.cityName,
+                                                depoName: widget.depoName,
+                                                title: 'Key Events',
+                                                docId: addedRows.first
+                                                    .getCells()[1]
+                                                    .value);
+                                          }));
+                                        }
+                                      },
                                       allowEditing: true,
                                       frozenColumnsCount: 2,
                                       editingGestureType:
@@ -428,6 +459,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         ),
                                         GridColumn(
                                           columnName: 'Activity',
+                                          allowEditing: false,
                                           width: 250,
                                           label: Container(
                                             padding: const EdgeInsets.symmetric(
@@ -444,6 +476,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         ),
                                         GridColumn(
                                           columnName: 'OriginalDuration',
+                                          allowEditing: false,
                                           width: 80,
                                           label: Container(
                                             alignment: Alignment.center,
@@ -550,18 +583,18 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                             ),
                                           ),
                                         ),
-                                        GridColumn(
-                                          columnName: 'ReasonDelay',
-                                          label: Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'ReasonDelay',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              style: tableheader,
-                                            ),
-                                          ),
-                                        ),
+                                        // GridColumn(
+                                        //   columnName: 'ReasonDelay',
+                                        //   label: Container(
+                                        //     alignment: Alignment.center,
+                                        //     child: Text(
+                                        //       'ReasonDelay',
+                                        //       overflow:
+                                        //           TextOverflow.values.first,
+                                        //       style: tableheader,
+                                        //     ),
+                                        //   ),
+                                        // ),
                                         GridColumn(
                                           columnName: 'Unit',
                                           label: Container(
@@ -601,6 +634,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         ),
                                         GridColumn(
                                           columnName: 'BalancedQty',
+                                          allowEditing: false,
                                           label: Container(
                                             width: 150,
                                             alignment: Alignment.center,
@@ -628,6 +662,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         ),
                                         GridColumn(
                                           columnName: 'Weightage',
+                                          allowEditing: false,
                                           label: Container(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -644,58 +679,40 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   ),
                                 ),
                                 SingleChildScrollView(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                          width: 450,
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          child: GanttChartView(
-                                              scrollController:
-                                                  _scrollController,
-                                              maxDuration: null,
-                                              // const Duration(days: 30 * 2),
-                                              // optional, set to null for infinite horizontal scroll
-                                              startDate: dateTime, //required
-                                              dayWidth:
-                                                  35, //column width for each day
-                                              dayHeaderHeight: 35,
-                                              eventHeight:
-                                                  24, //row height for events
-                                              stickyAreaWidth:
-                                                  70, //sticky area width
-                                              showStickyArea:
-                                                  true, //show sticky area or not
-                                              showDays: true, //show days or not
-                                              startOfTheWeek: WeekDay
-                                                  .monday, //custom start of the week
-                                              weekHeaderHeight: 23,
-                                              weekEnds: const {
-                                                // WeekDay.saturday,
-                                                // WeekDay.sunday
-                                              }, //custom weekends
-                                              isExtraHoliday: (context, day) {
-                                                //define custom holiday logic for each day
-                                                return DateUtils.isSameDay(
-                                                    DateTime(2023, 7, 1), day);
-                                              },
-                                              events: ganttdata)),
-                                      SizedBox(
-                                        width: 450,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            legends(yellow, 'On Track'),
-                                            legends(green, 'On Time'),
-                                            legends(red, 'Delay'),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  child: SizedBox(
+                                      width: 450,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.93,
+                                      child: GanttChartView(
+                                          scrollController: _scrollController,
+                                          maxDuration: null,
+                                          // const Duration(days: 30 * 2),
+                                          // optional, set to null for infinite horizontal scroll
+                                          startDate: dateTime, //required
+                                          dayWidth:
+                                              35, //column width for each day
+                                          dayHeaderHeight: 35,
+                                          eventHeight:
+                                              24, //row height for events
+                                          stickyAreaWidth:
+                                              70, //sticky area width
+                                          showStickyArea:
+                                              true, //show sticky area or not
+                                          showDays: true, //show days or not
+                                          startOfTheWeek: WeekDay
+                                              .monday, //custom start of the week
+                                          weekHeaderHeight: 23,
+                                          weekEnds: const {
+                                            // WeekDay.saturday,
+                                            // WeekDay.sunday
+                                          }, //custom weekends
+                                          isExtraHoliday: (context, day) {
+                                            //define custom holiday logic for each day
+                                            return DateUtils.isSameDay(
+                                                DateTime(2023, 7, 1), day);
+                                          },
+                                          events: ganttdata)),
                                 )
                               ])),
                         );
@@ -709,9 +726,26 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           allsrNo.clear();
                           double totalWeightage = 0.0;
                           int totalScope = 0;
-                          int totalbalanceQty = 0;
                           int totalExecuted = 0;
+                          double totalperc = 0.0;
+                          double perc = 0.0;
                           alldata.asMap().forEach((index, element) {
+                            if (indicesToSkip.contains(index)) {
+                              int qtyExecuted = alldata[index]['QtyExecuted'];
+                              double weightage = alldata[index]['Weightage'];
+                              int scope = alldata[index]['QtyScope'];
+
+                              perc = ((qtyExecuted / scope) * weightage);
+                              double value = perc.isNaN ? 0.0 : perc;
+                              print(value);
+                              totalperc = totalperc + value;
+                              print(totalperc);
+                            }
+                            Future.delayed(Duration.zero, () {
+                              Provider.of<KeyProvider>(context, listen: false)
+                                  .saveProgressValue(totalperc);
+                            });
+
                             if (!indicesToSkip.contains(index)) {
                               _employees.add(Employee.fromJson(element));
                               allstartDate.add(alldata[index]['StartDate']);
@@ -739,20 +773,6 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               // totalWeightage = totalWeightage + weightage;
                               // print('balanceQty$totalbalanceQty');
                               // print('totalScope$totalScope');
-
-                              if (totalPecProgress!.isNaN) {
-                                Future.delayed(Duration.zero, () {
-                                  Provider.of<KeyProvider>(context,
-                                          listen: false)
-                                      .saveProgressValue(0);
-                                });
-                              } else {
-                                Future.delayed(Duration.zero, () {
-                                  Provider.of<KeyProvider>(context,
-                                          listen: false)
-                                      .saveProgressValue(totalPecProgress!);
-                                });
-                              }
                             } else if (index == 0) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[1]['StartDate'];
@@ -780,6 +800,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
                               }
+
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: activity!,
@@ -793,7 +814,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: ' ',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -812,6 +833,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               allactualEnd.add(aedate1!);
                               allsrNo.add(srNo);
                               double totalweightage = 0;
+
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
@@ -819,6 +841,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
+
                                 totalweightage = totalweightage + weightage;
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
@@ -837,7 +860,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -882,12 +905,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
-                                  weightage: 2));
+                                  weightage: totalweightage));
                             } else if (index == 12) {
                               dynamic srNo = alldata[index]['srNo'];
                               sdate1 = alldata[13]['StartDate'];
@@ -928,7 +951,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -973,7 +996,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -1018,7 +1041,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -1065,7 +1088,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -1111,7 +1134,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -1156,7 +1179,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -1202,7 +1225,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       durationParse(asdate1!, aedate1!),
                                   delay: durationParse(edate1!, aedate1!),
                                   reasonDelay: 'reasonDelay',
-                                  unit: 1,
+                                  unit: '',
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
@@ -1302,7 +1325,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
                         return SingleChildScrollView(
                           child: SizedBox(
-                              height: MediaQuery.of(context).size.height,
+                              height: MediaQuery.of(context).size.height * 0.93,
                               child: Row(children: [
                                 Expanded(
                                   child: SfDataGridTheme(
@@ -1314,8 +1337,48 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         )),
                                     child: SfDataGrid(
                                       source: _KeyDataSourceKeyEvents,
+
+                                      onSelectionChanged:
+                                          (addedRows, removedRows) {
+                                        if (addedRows.first
+                                                .getCells()
+                                                .first
+                                                .value ==
+                                            'A1') {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return ViewAllPdf(
+                                                userId: userId,
+                                                cityName: widget.cityName,
+                                                depoName: widget.depoName,
+                                                title: 'Key Events',
+                                                docId: addedRows.first
+                                                    .getCells()[1]
+                                                    .value);
+                                          }));
+                                        }
+                                      },
+                                      // onCellTap:
+                                      //     (DataGridCellTapDetails details) {
+                                      //   final DataGridRow row =
+                                      //       _KeyDataSourceKeyEvents
+                                      //           .effectiveRows[details
+                                      //               .rowColumnIndex.rowIndex -
+                                      //           1];
+
+                                      //   Navigator.of(context).push(
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) {
+                                      //     if (row.getCells().first.value ==
+                                      //         'A1') {
+                                      //       return
+                                      //     }
+                                      //     // ignore: null_check_always_fails
+                                      //     return null!;
+                                      //   }));
+                                      // },
                                       allowEditing: true,
-                                      frozenRowsCount: 0,
                                       frozenColumnsCount: 2,
                                       editingGestureType:
                                           EditingGestureType.tap,
@@ -1350,6 +1413,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         GridColumn(
                                           columnName: 'Activity',
                                           width: 250,
+                                          allowEditing: false,
                                           label: Container(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 16.0),
@@ -1366,6 +1430,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         GridColumn(
                                           columnName: 'OriginalDuration',
                                           width: 80,
+                                          allowEditing: false,
                                           label: Container(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -1471,18 +1536,18 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                             ),
                                           ),
                                         ),
-                                        GridColumn(
-                                          columnName: 'ReasonDelay',
-                                          label: Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'ReasonDelay',
-                                              overflow:
-                                                  TextOverflow.values.first,
-                                              style: tableheader,
-                                            ),
-                                          ),
-                                        ),
+                                        // GridColumn(
+                                        //   columnName: 'ReasonDelay',
+                                        //   label: Container(
+                                        //     alignment: Alignment.center,
+                                        //     child: Text(
+                                        //       'ReasonDelay',
+                                        //       overflow:
+                                        //           TextOverflow.values.first,
+                                        //       style: tableheader,
+                                        //     ),
+                                        //   ),
+                                        // ),
                                         GridColumn(
                                           columnName: 'Unit',
                                           label: Container(
@@ -1522,6 +1587,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         ),
                                         GridColumn(
                                           columnName: 'BalancedQty',
+                                          allowEditing: false,
                                           label: Container(
                                             width: 150,
                                             alignment: Alignment.center,
@@ -1549,6 +1615,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         ),
                                         GridColumn(
                                           columnName: 'Weightage',
+                                          allowEditing: false,
                                           label: Container(
                                             alignment: Alignment.center,
                                             child: Text(
@@ -1564,56 +1631,41 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                     ),
                                   ),
                                 ),
-                                SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                          width: 450,
-                                          child: GanttChartView(
-                                              scrollController:
-                                                  _scrollController,
-                                              maxDuration: null,
-                                              // const Duration(days: 30 * 2),
-                                              // optional, set to null for infinite horizontal scroll
-                                              startDate: dateTime, //required
-                                              dayWidth:
-                                                  35, //column width for each day
-                                              dayHeaderHeight: 35,
-                                              eventHeight:
-                                                  24, //row height for events
-                                              stickyAreaWidth:
-                                                  70, //sticky area width
-                                              showStickyArea:
-                                                  true, //show sticky area or not
-                                              showDays: true, //show days or not
-                                              startOfTheWeek: WeekDay
-                                                  .monday, //custom start of the week
-                                              weekHeaderHeight: 23,
-                                              weekEnds: const {
-                                                // WeekDay.saturday,
-                                                // WeekDay.sunday
-                                              }, //custom weekends
-                                              isExtraHoliday: (context, day) {
-                                                //define custom holiday logic for each day
-                                                return DateUtils.isSameDay(
-                                                    DateTime(2023, 7, 1), day);
-                                              },
-                                              events: ganttdata)),
-                                      SizedBox(
-                                        width: 450,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            legends(yellow, 'On Track'),
-                                            legends(green, 'On Time'),
-                                            legends(red, 'Delay'),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                SizedBox(
+                                    width: 450,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.93,
+                                    child: SingleChildScrollView(
+                                      child: GanttChartView(
+                                          scrollController: _scrollController,
+                                          maxDuration: null,
+                                          // const Duration(days: 30 * 2),
+                                          // optional, set to null for infinite horizontal scroll
+                                          startDate: dateTime, //required
+                                          dayWidth:
+                                              35, //column width for each day
+                                          dayHeaderHeight: 35,
+                                          eventHeight:
+                                              23, //row height for events
+                                          stickyAreaWidth:
+                                              70, //sticky area width
+                                          showStickyArea:
+                                              true, //show sticky area or not
+                                          showDays: true, //show days or not
+                                          startOfTheWeek: WeekDay
+                                              .monday, //custom start of the week
+                                          weekHeaderHeight: 23,
+                                          weekEnds: const {
+                                            // WeekDay.saturday,
+                                            // WeekDay.sunday
+                                          }, //custom weekends
+                                          isExtraHoliday: (context, day) {
+                                            //define custom holiday logic for each day
+                                            return DateUtils.isSameDay(
+                                                DateTime(2023, 7, 1), day);
+                                          },
+                                          events: ganttdata),
+                                    ))
                               ])),
                         );
                       }
