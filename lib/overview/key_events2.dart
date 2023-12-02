@@ -6,6 +6,7 @@ import 'package:assingment/KeysEvents/view_AllFiles.dart';
 import 'package:assingment/widget/nodata_available.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gantt_chart/gantt_chart.dart';
 import 'package:intl/intl.dart';
@@ -252,9 +253,15 @@ class _KeyEvents2State extends State<KeyEvents2> {
   List<int> indicesToSkip = [0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
   ScrollController _scrollController = ScrollController();
   final ScrollController _ganttChartController = ScrollController();
+  double totalperc = 0.0;
+  KeyProvider? _keyProvider;
 
   @override
   void initState() {
+    _keyProvider = Provider.of<KeyProvider>(context, listen: false);
+
+    _KeyDataSourceKeyEvents = KeyDataSourceKeyEvents(_employees, context);
+    _dataGridController = DataGridController();
     getUserId().whenComplete(() {
       yourstream = FirebaseFirestore.instance
           .collection('KeyEventsTable')
@@ -277,6 +284,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
   @override
   Widget build(BuildContext context) {
+    _keyProvider!.fetchDelayData(widget.depoName!, userId);
     menuwidget = [
       StatutoryAprovalA2(
         userid: userId,
@@ -339,12 +347,13 @@ class _KeyEvents2State extends State<KeyEvents2> {
                     preferredSize: const Size.fromHeight(50),
                     child: CustomAppBar(
                       isprogress: true,
-                      showDepoBar: true,
+                      showDepoBar: false,
                       toPlanning: true,
                       cityname: widget.cityName,
-                      text: '${widget.cityName} / ${widget.depoName}',
+                      text: '${widget.cityName}/${widget.depoName}',
                       haveSynced: true,
                       store: () {
+                        _showDialog(context);
                         FirebaseApi().defaultKeyEventsField(
                             'KeyEventsTable', widget.depoName!);
                         FirebaseApi().nestedKeyEventsField(
@@ -354,6 +363,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           userId,
                         );
                         storeData();
+                        setState(() {});
                       },
                     )),
 
@@ -720,6 +730,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         alldata = snapshot.data['data'] as List<dynamic>;
 
                         for (int i = 0; i < alldata.length; i++) {
+                          totalperc = 0.0;
                           _employees.clear();
                           allstartDate.clear();
                           allactualEnd.clear();
@@ -727,7 +738,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           double totalWeightage = 0.0;
                           int totalScope = 0;
                           int totalExecuted = 0;
-                          double totalperc = 0.0;
+
                           double perc = 0.0;
                           alldata.asMap().forEach((index, element) {
                             if (indicesToSkip.contains(index)) {
@@ -737,14 +748,8 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
                               perc = ((qtyExecuted / scope) * weightage);
                               double value = perc.isNaN ? 0.0 : perc;
-                              print(value);
                               totalperc = totalperc + value;
-                              print(totalperc);
                             }
-                            Future.delayed(Duration.zero, () {
-                              Provider.of<KeyProvider>(context, listen: false)
-                                  .saveProgressValue(totalperc);
-                            });
 
                             if (!indicesToSkip.contains(index)) {
                               _employees.add(Employee.fromJson(element));
@@ -1234,7 +1239,11 @@ class _KeyEvents2State extends State<KeyEvents2> {
                             }
                           });
                         }
-
+                        print(totalperc);
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Provider.of<KeyProvider>(context, listen: false)
+                              .saveProgressValue(totalperc);
+                        });
                         _KeyDataSourceKeyEvents =
                             KeyDataSourceKeyEvents(_employees, context);
                         _dataGridController = DataGridController();
@@ -1887,7 +1896,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
   int durationParse(String fromtime, String todate) {
     DateTime startdate = DateFormat('dd-MM-yyyy').parse(fromtime);
     DateTime enddate = DateFormat('dd-MM-yyyy').parse(todate);
-    return enddate.difference(startdate).inDays;
+    return enddate.add(Duration(days: 1)).difference(startdate).inDays;
   }
 
   List<Employee> getEmployeeData() {
@@ -2205,11 +2214,29 @@ class _KeyEvents2State extends State<KeyEvents2> {
       'data': tabledata2,
     }).whenComplete(() {
       tabledata2.clear();
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
       ));
     });
+  }
+
+  void _showDialog(BuildContext context) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        content: SizedBox(
+          height: 50,
+          width: 50,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: blue,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

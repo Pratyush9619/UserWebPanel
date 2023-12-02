@@ -116,7 +116,8 @@ class KeyDataSourceKeyEvents extends DataGridSource {
                   ? Alignment.center
                   : Alignment.center,
               color: columnbackgroundcolor,
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
               child:
                   dataGridCell.columnName == 'Activity' &&
                               dataGridCell.value ==
@@ -560,7 +561,7 @@ class KeyDataSourceKeyEvents extends DataGridSource {
 
                                                                             Duration
                                                                                 diff =
-                                                                                endDate.difference(date);
+                                                                                endDate.add(Duration(days: 1)).difference(date);
 
                                                                             Duration
                                                                                 calcDelay =

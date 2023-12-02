@@ -303,9 +303,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                legends(yellow, 'On Track'),
-                                legends(green, 'On Time'),
-                                legends(red, 'Delay'),
+                                legends(yellow, 'Base Line', blue),
+                                legends(green, 'On Time', white),
+                                legends(red, 'Delay', white),
                               ],
                             )),
                         Consumer<KeyProvider>(
@@ -315,7 +315,33 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   bottom: 2, right: 10, left: 10),
                               child: Row(
                                 children: [
-                                  Text('% Of Progress is '),
+                                  Container(
+                                    width: 150,
+                                    color: green,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                          'Project Duration \n ${value.duration} Days',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: white)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Container(
+                                    width: 150,
+                                    color: red,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                          'Project Delay \n ${value.delay} Days ',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: white)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text('% Of Progress is '),
                                   SizedBox(
                                     height: 50.0,
                                     width: 40.0,
@@ -560,21 +586,21 @@ class _CustomAppBarState extends State<CustomAppBar> {
   }
 }
 
-legends(Color color, String title) {
+legends(Color color, String title, Color textColor) {
   return Padding(
     padding: const EdgeInsets.only(top: 5, bottom: 5),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-            width: 70,
+            width: 75,
             height: 28,
             color: color,
             padding: const EdgeInsets.all(5),
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.w900),
+              style: TextStyle(fontWeight: FontWeight.w900, color: textColor),
             )),
       ],
     ),

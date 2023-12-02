@@ -11,16 +11,18 @@ List<dynamic> keySrno = [
   '1',
   '2',
   '3',
-  '4',
-  '5',
   'A3',
   '1',
   '2',
   '3',
+  '4',
+  '5',
+  '6',
   'A4',
   '1',
   '2',
   '3',
+  '4',
   'A5',
   '1',
   '2',
@@ -31,13 +33,10 @@ List<dynamic> keySrno = [
   '7',
   '8',
   '9',
-  '10',
   'A6',
   '1',
   '2',
   '3',
-  '4',
-  '5',
   'A7',
   '1',
   '2',
@@ -67,9 +66,6 @@ List<dynamic> keySrno = [
   '23',
   '24',
   '25',
-  '26',
-  '27',
-  '28',
   'A9',
   '1',
   '2',
@@ -81,51 +77,52 @@ List<dynamic> keySrno = [
   '8',
   '9',
   '10',
+  '11',
   'A10',
   '1',
   '2',
+  '3',
 ];
 List keyEvents = [
-  'Letter of Award reveived  from TML',
-  'Letter of Intent reveived  from TML',
-  'Site Survey, Job scope finalization  and final layout preparation',
+  'TML contract Award',
+  'Letter of Award reveived from TML',
+  'Site Survey, Job scope finalization and Proposed layout submission',
   'Initial survey of Depot with TML & STA Team',
-  'Details  survey of Depot with TPC Civil & Elecrical team',
-  'Survey Report submission with Existing & Proposed Layout  Drawings',
+  'Details survey of Depot with TPC Civil & Elecrical team including Soil testing',
+  '   Survey Report submission with Existing & Proposed Layout Drawings',
+  'Detailed Engineering for Approval of Civil & Electrical Layout, GA Drawing from TML',
+  'Preparation of Drawings of Civil Activities (Laypout,foundation, charging Bay & shed Aux. facilities)',
+  'Preparation of EV Layout Drawings of Electrical Activities (SLD, cable laying)',
+  'Preparation of Shed Lighting Drawings & Specification',
+  'Authority Approval for Depot Layout Drawing',
   'Job scope finalization & preparation of BOQ',
-  'Power Connection/ load applied by STA to Discom',
-  'Detailed Engineering for Approval of  Civil & Electrical  Layout, GA Drawing from TML',
-  'RFC Drawings of Civil Activities',
-  'EV Layout Drawings of Electrical Activities',
-  'Shed Lighting Drawings & Specification',
-  'Site Mobalization activity Completed',
-  'Deployment of  Civil Man Power',
-  'Deployment of  Electrical Man Power',
-  'Estabilisment of Site Project office',
-  'Approval of statutory clearances of BUS Depot',
+  'TML Approval for BOQ (Civil & Electical) ',
+  'Initial Approval of statutory clearances for EV Bus Depot',
   'Consent to Established-Pollution control board approval',
-  'Consent to Operate-Pollution control board approval',
-  'Fire NOC  for Electrical vehicle charging infrastructure',
-  'Chief Inspector of Factory /Director(DISH Approval)',
-  'CEIG/EI Approval',
-  'Charging Shed Errection Approval',
-  'Effluent treatment plant',
-  'Soild Waste Managent',
-  'ETP Plant ',
-  'Hazardous waste approval ',
-  'Procurement of Order Finalisation Completed',
-  'PR/PO Generation for  PSS',
-  'PR/PO Generation for Charger',
-  'PR/PO Generation for SFU Panel',
-  'PR/PO Generation for HT Cable',
-  'PR/PO Generation for LT Cable',
+  'Charging Shed Erection Approval',
+  'Fire NOC for Electrical vehicle charging infrastructure',
+  'Power Connection/ load applied by STA to Discom',
+  'Tender & L1 Vendor Finalisation ',
+  'Placement of PR/PO for PSS & RMU',
+  'Placement of PR/PO for Charger',
+  'Placement of PR/PO for SFU Panel',
+  'Placement of PR/PO for HT Cable',
+  'Placement of PR/PO for LT Cable',
+  'Placement of PR/PO for services Civil work',
+  'Placement of PR/PO for services Electrical work',
+  'Engg. Drawing Submission of equipment by OEM',
+  'Approval of Engg Drawing & manufacture clearence',
+  'Resource Mobalization activity',
+  'Deployment of Civil Man Power',
+  'Deployment of Electrical Man Power',
+  'Estabilisment of Site Project office',
   'Receipt of all Materials at Site',
-  'Delivery of PSS at Site',
+  'Delivery of PSS & RMU at Site',
   'Delivery of Charger at Site',
   'Delivery of SFU Panel at Site',
   'Delivery of HT Cable at Site',
-  'Delivery of  LT Cable at Site',
-  'Civil Infra Development completed at Bus Depot',
+  'Delivery of LT Cable at Site',
+  'Civil Active Infra Development completed at Bus Depot',
   'Concrete breaking',
   'Manual Excavation',
   'Soling',
@@ -140,7 +137,7 @@ List keyEvents = [
   'Shuttering of Raft (shed)',
   'Concreting of Raft (shed) and Curing',
   'Backfilling',
-  'Erection of shed structure',
+  'Erection of shed structure ( Traditional Shed )',
   'Roof sheeting',
   'Concreting around excavated area',
   'Thermoplastic paint',
@@ -150,103 +147,352 @@ List keyEvents = [
   'Compressor foundation and room',
   'DTB Room',
   'Road leveling and resurfacing',
-  'Painiting ',
+  'Painiting',
   'Electrical Infra Development completed at Bus Depot',
   'Earthing Pit erection with GI Flat',
-  'LA Arrangement with GI Flat on charging Shed',
-  'Installation of PSS',
+  'Installation of PSS & RMU',
   'Installation of Charger',
   'Installation of SFU Panel',
-  'Laying of HT  cable Erection',
-  'Laying of LT cable Erection',
+  'Laying of HT cable Erection',
+  ' Laying of LT cable Erection',
   'Installation of VTPN/SPN DB',
-  'Installation of Shed Lighting & other  arrangement',
-  'Commissioning & Testing  of Bus Depot',
-  'Bus Depot work Completed',
+  'Installation of Shed Lighting & other arrangement',
+  ' LA Arrangement with GI Flat on charging Shed',
+  'Commissioning & Testing of Bus Depot Electrical Infa',
+  'EI Approval for Electrical Equipment',
+  'Bus Depot Active Infra work Completed',
   'CMS Integration',
   'Bus Depot work Completed & Handover to TML',
+  'EV Bus Charging Active Infra Completed',
+
+  // 'Letter of Award reveived  from TML',
+  // 'Letter of Intent reveived  from TML',
+  // 'Site Survey, Job scope finalization  and final layout preparation',
+  // 'Initial survey of Depot with TML & STA Team',
+  // 'Details  survey of Depot with TPC Civil & Elecrical team',
+  // 'Survey Report submission with Existing & Proposed Layout  Drawings',
+  // 'Job scope finalization & preparation of BOQ',
+  // 'Power Connection/ load applied by STA to Discom',
+  // 'Detailed Engineering for Approval of  Civil & Electrical  Layout, GA Drawing from TML',
+  // 'RFC Drawings of Civil Activities',
+  // 'EV Layout Drawings of Electrical Activities',
+  // 'Shed Lighting Drawings & Specification',
+  // 'Site Mobalization activity Completed',
+  // 'Deployment of  Civil Man Power',
+  // 'Deployment of  Electrical Man Power',
+  // 'Estabilisment of Site Project office',
+  // 'Approval of statutory clearances of BUS Depot',
+  // 'Consent to Established-Pollution control board approval',
+  // 'Consent to Operate-Pollution control board approval',
+  // 'Fire NOC  for Electrical vehicle charging infrastructure',
+  // 'Chief Inspector of Factory /Director(DISH Approval)',
+  // 'CEIG/EI Approval',
+  // 'Charging Shed Errection Approval',
+  // 'Effluent treatment plant',
+  // 'Soild Waste Managent',
+  // 'ETP Plant ',
+  // 'Hazardous waste approval ',
+  // 'Procurement of Order Finalisation Completed',
+  // 'PR/PO Generation for  PSS',
+  // 'PR/PO Generation for Charger',
+  // 'PR/PO Generation for SFU Panel',
+  // 'PR/PO Generation for HT Cable',
+  // 'PR/PO Generation for LT Cable',
+  // 'Receipt of all Materials at Site',
+  // 'Delivery of PSS at Site',
+  // 'Delivery of Charger at Site',
+  // 'Delivery of SFU Panel at Site',
+  // 'Delivery of HT Cable at Site',
+  // 'Delivery of  LT Cable at Site',
+  // 'Civil Infra Development completed at Bus Depot',
+  // 'Concrete breaking',
+  // 'Manual Excavation',
+  // 'Soling',
+  // 'PCC & Curing',
+  // 'Reinforcement tying of Raft (charger Foundation)',
+  // 'Shuttering of Raft (charger Foundation)',
+  // 'Concreting of Raft (charger Foundation) and Curing',
+  // 'Reinforcement tying of pedestal (PSS)',
+  // 'Shuttering of pedestal (PSS Foundation)',
+  // 'Concreting of pedestal (PSS Foundation)',
+  // 'Reinforcement tying of Raft (shed)',
+  // 'Shuttering of Raft (shed)',
+  // 'Concreting of Raft (shed) and Curing',
+  // 'Backfilling',
+  // 'Erection of shed structure',
+  // 'Roof sheeting',
+  // 'Concreting around excavated area',
+  // 'Thermoplastic paint',
+  // 'Crash barrier',
+  // '5S activity',
+  // 'Cable Trenching (for burried cable)',
+  // 'Compressor foundation and room',
+  // 'DTB Room',
+  // 'Road leveling and resurfacing',
+  // 'Painiting ',
+  // 'Electrical Infra Development completed at Bus Depot',
+  // 'Earthing Pit erection with GI Flat',
+  // 'LA Arrangement with GI Flat on charging Shed',
+  // 'Installation of PSS',
+  // 'Installation of Charger',
+  // 'Installation of SFU Panel',
+  // 'Laying of HT  cable Erection',
+  // 'Laying of LT cable Erection',
+  // 'Installation of VTPN/SPN DB',
+  // 'Installation of Shed Lighting & other  arrangement',
+  // 'Commissioning & Testing  of Bus Depot',
+  // 'Bus Depot work Completed',
+  // 'CMS Integration',
+  // 'Bus Depot work Completed & Handover to TML',
+];
+List<String> startDate = [
+' 21-06-2023',
+'21-06-2023',
+'22-06-2023',
+'22-06-2023',
+'23-06-2023',
+'13-07-2023',
+'20-07-2023',
+'20-07-2023',
+'04-08-2023',
+'07-08-2023'
+'09-08-2023'
+'16-08-2023'
+'19-08-2023'
+'30-07-2023'
+'30-07-2023'
+'30-07-2023'
+'19-08-2023'
+'19-08-2023'
+'20-07-2023'
+'20-07-2023',
+'20-07-2023',
+'20-07-2023',
+'20-07-2023',
+'20-07-2023',
+'26-08-2023',
+'26-08-2023',
+'25-07-2023'
+'04-08-2023'
+'05-09-2023'
+'05-09-2023'
+05-09-2023
+05-09-2023
+30-07-2023
+30-07-2023
+30-07-2023
+30-07-2023
+30-07-2023
+30-07-2023
+10-09-2023
+10-09-2023
+16-09-2023
+22-09-2023
+25-09-2023
+27-09-2023
+07-10-2023
+14-10-2023
+09-10-2023
+17-10-2023
+24-10-2023
+14-10-2023
+26-10-2023
+26-10-2023
+04-11-2023
+06-11-2023
+01-12-2023
+09-12-2023
+18-12-2023
+18-12-2023
+25-12-2023
+09-12-2023
+04-11-2023
+04-11-2023
+29-11-2023
+19-12-2023
+02-10-2023
+02-10-2023
+18-12-2023
+28-10-2023
+23-10-2023
+11-11-2023
+12-10-2023
+12-10-2023
+12-10-2023
+17-11-2023
+22-12-2023
+26-12-2023
+28-12-2023
+28-12-2023
+28-12-2023
+06-01-2024
+
+];
+List<String> endDate = [
+  21-06-2023
+21-06-2023
+19-07-2023
+22-06-2023
+12-07-2023
+19-07-2023
+25-08-2023
+29-07-2023
+08-08-2023
+08-08-2023
+15-08-2023
+18-08-2023
+25-08-2023
+16-11-2023
+18-08-2023
+18-08-2023
+16-11-2023
+17-09-2023
+04-09-2023
+29-07-2023
+29-07-2023
+29-07-2023
+29-07-2023
+29-07-2023
+04-09-2023
+04-09-2023
+03-08-2023
+08-08-2023
+14-09-2023
+11-09-2023
+11-09-2023
+14-09-2023
+17-12-2023
+17-12-2023
+27-10-2023
+22-09-2023
+10-11-2023
+11-10-2023
+27-12-2023
+15-09-2023
+21-09-2023
+24-09-2023
+03-10-2023
+08-10-2023
+13-10-2023
+22-10-2023
+16-10-2023
+23-10-2023
+01-11-2023
+25-10-2023
+29-10-2023
+03-11-2023
+05-11-2023
+30-11-2023
+08-12-2023
+17-12-2023
+21-12-2023
+26-12-2023
+27-12-2023
+16-12-2023
+23-11-2023
+28-11-2023
+18-12-2023
+27-12-2023
+27-12-2023
+11-10-2023
+21-12-2023
+03-11-2023
+29-10-2023
+20-11-2023
+20-10-2023
+13-10-2023
+14-10-2023
+18-11-2023
+25-12-2023
+27-12-2023
+06-01-2024
+31-12-2023
+06-01-2024
+06-01-2024
+
 ];
 
 List<dynamic> weightage = [
-  100,
-  0,
-  2.5,
-  0.5,
-  1.0,
-  0.3,
-  0.5,
-  0.3,
-  2.5,
-  1.5,
-  0.7,
-  0.3,
-  2.5,
+  0.00,
+  0.00,
+  2.50,
+  1.00,
+  1.00,
+  0.50,
+  2.50,
+  1.00,
+  0.25,
+  0.10,
+  0.40,
+  0.30,
+  0.45,
+  10.00,
+  3.00,
+  2.00,
+  2.00,
+  3.00,
+  15.00,
+  2.00,
+  2.00,
+  2.00,
+  2.00,
+  2.00,
+  1.00,
+  1.00,
+  1.00,
+  2.00,
+  5.00,
   1.25,
   1.25,
-  2.5,
-  5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  15,
-  3.0,
-  3.0,
-  3.0,
-  3.0,
-  3.0,
-  15,
-  3.3,
-  3.3,
-  1.1,
-  1.1,
-  1.1,
-  10,
-  2.4,
-  0.9,
-  1.1,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  1.5,
-  6.6,
-  0.6,
-  0.6,
-  0.6,
-  1.1,
-  1.2,
-  1.1,
-  0.6,
-  0.3,
-  0.3,
-  0.3,
-  1.0,
-  0.5,
-  0.5,
-  0.8,
-  0.3,
-  30,
-  1,
-  0.20,
-  2,
-  2,
+  2.50,
+  15.00,
+  5.00,
+  3.00,
+  2.00,
+  3.00,
+  2.00,
+  30.00,
+  2.50,
+  0.90,
+  1.00,
+  1.50,
+  1.50,
+  1.50,
+  1.50,
+  1.50,
+  1.50,
+  6.50,
+  0.60,
+  0.60,
+  0.60,
+  1.00,
+  1.20,
+  1.00,
+  0.60,
+  0.30,
+  0.30,
+  0.30,
+  1.00,
   0.50,
-  4,
-  3,
+  1.00,
+  0.80,
+  0.30,
+  15.00,
+  1.00,
+  1.50,
+  1.00,
   0.50,
-  1.0,
-  1.0,
-  5,
-  0.5,
-  4.5,
+  1.50,
+  4.00,
+  1.50,
+  1.00,
+  1.00,
+  1.00,
+  1.00,
+  5.00,
+  0.50,
+  4.00,
+  0.50,
 ];
 List<Employee> getKeyEventsData() {
   List<Employee> list = [];
@@ -257,8 +503,9 @@ List<Employee> getKeyEventsData() {
         srNo: keySrno[i],
         activity: keyEvents[i],
         originalDuration: 1,
-        startDate: dmy,
-        endDate: dmy,
+        startDate: startDate[i],
+        // DateFormat('dd-MM-yyyy').format(DateTime.parse(startDate[i])),
+        endDate: endDate[i],
         actualstartDate: dmy,
         actualendDate: dmy,
         actualDuration: 0,

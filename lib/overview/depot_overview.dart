@@ -211,6 +211,22 @@ class _DepotOverviewState extends State<DepotOverview> {
                       )),
                 ),
                 cards(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      width: 250,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10), color: blue),
+                      child: Text(
+                        'Risk Register',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: white),
+                      )),
+                ),
                 Expanded(
                     child: StreamBuilder(
                   stream: _stream,
