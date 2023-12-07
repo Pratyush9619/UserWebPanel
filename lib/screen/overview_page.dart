@@ -215,6 +215,7 @@ class _OverviewPageState extends State<OverviewPage> {
                 child: Text(
                   desc,
                   textAlign: TextAlign.center,
+                  style: appFontSize,
                 ),
               )
             ],

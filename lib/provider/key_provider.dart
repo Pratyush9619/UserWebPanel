@@ -20,7 +20,9 @@ class KeyProvider extends ChangeNotifier {
   fetchDelayData(String depoName, dynamic userId) {
     int delayData = 0;
     int durationData = 0;
-    List<int> indicesToSkip = [0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
+    totaldelay = 0;
+    totalduration = 0;
+    List<int> indicesToSkip = [0, 2, 6, 13, 18, 28, 32, 38, 64, 76];
     FirebaseFirestore.instance
         .collection('KeyEventsTable')
         .doc(depoName)

@@ -55,7 +55,7 @@ class _CitiesPageState extends State<CitiesPage> {
               text: 'Cities',
               haveSynced: false,
             ),
-            preferredSize: Size.fromHeight(50)),
+            preferredSize: const Size.fromHeight(50)),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('CityName')
@@ -133,7 +133,10 @@ class _CitiesPageState extends State<CitiesPage> {
                       builder: (context) => DepotsPage(cityName: title),
                     ));
               },
-              child: Text(title)),
+              child: Text(
+                title,
+                style: appFontSize,
+              )),
         ],
       ),
     );
