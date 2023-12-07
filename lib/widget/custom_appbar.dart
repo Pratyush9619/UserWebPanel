@@ -111,6 +111,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             backgroundColor: blue,
             title: Text(
               widget.text.toString(),
+              style: appFontSize,
             ),
             actions: [
               widget.showDepoBar
@@ -303,8 +304,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                legends(yellow, 'Base Line', blue),
-                                legends(green, 'On Time', white),
+                                legends(yellow, 'Base Line', black),
+                                legends(green, 'On Time', black),
                                 legends(red, 'Delay', white),
                               ],
                             )),
@@ -316,7 +317,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 150,
+                                    width: 130,
                                     color: green,
                                     child: TextButton(
                                       onPressed: () {},
@@ -324,12 +325,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                           'Project Duration \n ${value.duration} Days',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              fontSize: 14, color: white)),
+                                              fontSize: 14, color: black)),
                                     ),
                                   ),
                                   const SizedBox(width: 5),
                                   Container(
-                                    width: 150,
+                                    width: 130,
                                     color: red,
                                     child: TextButton(
                                       onPressed: () {},
@@ -401,7 +402,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             },
                             child: Text(
                               'Sync Data',
-                              style: TextStyle(color: white, fontSize: 20),
+                              style: TextStyle(color: white, fontSize: 15),
                             )),
                       ),
                     )

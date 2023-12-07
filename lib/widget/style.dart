@@ -17,6 +17,7 @@ TextStyle tableheader = const TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 14,
 );
+TextStyle appFontSize =const TextStyle(fontSize: 14);
 TextStyle tableheaderwhitecolor =
     TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: white);
 TextStyle bodyText1 = GoogleFonts.ibmPlexSans(

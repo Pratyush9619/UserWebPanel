@@ -82,6 +82,11 @@ class _KeyEvents2State extends State<KeyEvents2> {
   List<String> actualstart = [];
   List<String> actualend = [];
 
+  List<String>? graphStartDate = [];
+  List<String>? graphEndDate = [];
+  List<String>? graphactualStartDate = [];
+  List<String>? graphactualEndDate = [];
+  List<dynamic>? graphsrNo = [];
   String? sd;
   String? ed;
   String? as;
@@ -250,7 +255,8 @@ class _KeyEvents2State extends State<KeyEvents2> {
   List<String> allactualEnd = [];
   List<String> allsrNo = [];
   double? totalPecProgress = 0.0;
-  List<int> indicesToSkip = [0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
+  List<int> indicesToSkip = [0, 2, 6, 13, 18, 28, 32, 38, 64, 76];
+  //[0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
   ScrollController _scrollController = ScrollController();
   final ScrollController _ganttChartController = ScrollController();
   double totalperc = 0.0;
@@ -284,7 +290,6 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
   @override
   Widget build(BuildContext context) {
-    _keyProvider!.fetchDelayData(widget.depoName!, userId);
     menuwidget = [
       StatutoryAprovalA2(
         userid: userId,
@@ -394,6 +399,11 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         // int year = int.parse(dateParts[2]);
 
                         // dateTime = DateTime(year, month, day);
+                        _keyProvider!.fetchDelayData(widget.depoName!, userId);
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Provider.of<KeyProvider>(context, listen: false)
+                              .saveProgressValue(totalperc);
+                        });
 
                         _employees = getKeyEventsData();
                         _KeyDataSourceKeyEvents =
@@ -727,6 +737,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               ])),
                         );
                       } else {
+                        _keyProvider!.fetchDelayData(widget.depoName!, userId);
                         alldata = snapshot.data['data'] as List<dynamic>;
 
                         for (int i = 0; i < alldata.length; i++) {
@@ -735,16 +746,30 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           allstartDate.clear();
                           allactualEnd.clear();
                           allsrNo.clear();
-                          double totalWeightage = 0.0;
-                          int totalScope = 0;
-                          int totalExecuted = 0;
+                          // double totalWeightage = 0.0;
+                          // int totalScope = 0;
+                          // int totalExecuted = 0;
 
                           double perc = 0.0;
+                          graphStartDate!.clear();
+                          graphEndDate!.clear();
+                          graphactualStartDate!.clear();
+                          graphactualEndDate!.clear();
                           alldata.asMap().forEach((index, element) {
+                            graphStartDate!.add(alldata[index]['StartDate']);
+                            graphEndDate!.add(alldata[index]['EndDate']);
+                            // allsrNo.add(alldata[i]['srNo']);
+
+                            graphactualStartDate!
+                                .add(alldata[index]['ActualStart']);
+                            graphactualEndDate!
+                                .add(alldata[index]['ActualEnd']);
+
                             if (indicesToSkip.contains(index)) {
                               int qtyExecuted = alldata[index]['QtyExecuted'];
                               double weightage = alldata[index]['Weightage'];
                               int scope = alldata[index]['QtyScope'];
+                              allsrNo.add(alldata[index]['srNo']);
 
                               perc = ((qtyExecuted / scope) * weightage);
                               double value = perc.isNaN ? 0.0 : perc;
@@ -753,53 +778,67 @@ class _KeyEvents2State extends State<KeyEvents2> {
 
                             if (!indicesToSkip.contains(index)) {
                               _employees.add(Employee.fromJson(element));
-                              allstartDate.add(alldata[index]['StartDate']);
-                              allendDate.add(alldata[index]['EndDate']);
-                              allactualstart.add(alldata[index]['ActualStart']);
-                              allactualEnd.add(alldata[index]['ActualEnd']!);
-                              allsrNo.add(alldata[index]['srNo']);
+                              graphsrNo!.add(alldata[index]['srNo']);
+                              // allstartDate.add(alldata[index]['StartDate']);
+                              // allendDate.add(alldata[index]['EndDate']);
+                              // allactualstart.add(alldata[index]['ActualStart']);
+                              // allactualEnd.add(alldata[index]['ActualEnd']!);
+                              // allsrNo.add(alldata[index]['srNo']);
 
-                              double weightage = alldata[index]['Weightage'];
-                              totalWeightage = totalWeightage + weightage;
+                              // double weightage = alldata[index]['Weightage'];
+                              // totalWeightage = totalWeightage + weightage;
 
-                              int scope = alldata[index]['QtyScope'];
-                              totalScope = totalScope + scope;
+                              // int scope = alldata[index]['QtyScope'];
+                              // totalScope = totalScope + scope;
 
                               // int balncQty = alldata[index]['BalancedQty'];
 
-                              int qtyExecuted = alldata[index]['QtyExecuted'];
-                              totalExecuted = totalExecuted + qtyExecuted;
+                              // int qtyExecuted = alldata[index]['QtyExecuted'];
+                              // totalExecuted = totalExecuted + qtyExecuted;
 
-                              totalPecProgress =
-                                  totalExecuted / totalScope * totalWeightage;
+                              // totalPecProgress =
+                              //     totalExecuted / totalScope * totalWeightage;
 
                               // totalbalanceQty = totalScope - totalExecuted;
 
                               // totalWeightage = totalWeightage + weightage;
                               // print('balanceQty$totalbalanceQty');
                               // print('totalScope$totalScope');
-                            } else if (index == 0) {
+                            }
+                            // }
+                            else if (index == 0) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[1]['StartDate'];
-                              edate1 = alldata[1]['EndDate'];
-                              asdate1 = alldata[1]['ActualStart'];
-                              aedate1 = alldata[1]['ActualEnd'];
+                              // sdate1 = alldata[1]['StartDate'];
+                              // edate1 = alldata[1]['EndDate'];
+                              // asdate1 = alldata[1]['ActualStart'];
+                              // aedate1 = alldata[1]['ActualEnd'];
                               activity = alldata[index]['Activity'];
 
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
+
                               double totalweightage = 0;
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
+
                               for (int i = 1; i < 2; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                sd = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 double weightage = alldata[i]['Weightage'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
 
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                                 totalweightage = totalweightage + weightage;
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
@@ -825,24 +864,32 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
+                              allstartDate.clear();
+                              allendDate.clear();
                             } else if (index == 2) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[3]['StartDate'];
-                              edate1 = alldata[7]['EndDate'];
-                              asdate1 = alldata[3]['ActualStart'];
-                              aedate1 = alldata[7]['ActualEnd'];
+                              // sdate1 = alldata[3]['StartDate'];
+                              // edate1 = alldata[5]['EndDate'];
+                              // asdate1 = alldata[3]['ActualStart'];
+                              // aedate1 = alldata[5]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
                               double totalweightage = 0;
 
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 3; i < 8; i++) {
+
+                              for (int i = 3; i < 6; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
+
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
@@ -851,14 +898,38 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                               }
+
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -871,24 +942,32 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
-                            } else if (index == 8) {
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
+                            } else if (index == 6) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[9]['StartDate'];
-                              edate1 = alldata[11]['EndDate'];
-                              asdate1 = alldata[9]['ActualStart'];
-                              aedate1 = alldata[11]['ActualEnd'];
+                              // sdate1 = alldata[7]['StartDate'];
+                              // edate1 = alldata[12]['EndDate'];
+                              // asdate1 = alldata[7]['ActualStart'];
+                              // aedate1 = alldata[12]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
 
                               double totalweightage = 0;
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 9; i < 12; i++) {
+
+                              for (int i = 7; i < 13; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
@@ -896,14 +975,38 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
+                              allendDate.clear();
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -916,24 +1019,32 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
-                            } else if (index == 12) {
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
+                            } else if (index == 13) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[13]['StartDate'];
-                              edate1 = alldata[15]['EndDate'];
-                              asdate1 = alldata[13]['ActualStart'];
-                              aedate1 = alldata[15]['ActualEnd'];
+                              // sdate1 = alldata[13]['StartDate'];
+                              // edate1 = alldata[17]['EndDate'];
+                              // asdate1 = alldata[13]['ActualStart'];
+                              // aedate1 = alldata[17]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
 
                               double totalweightage = 0;
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 13; i < 16; i++) {
+                              allendDate.clear();
+                              for (int i = 14; i < 18; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
@@ -942,14 +1053,38 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
+                              allendDate.clear();
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -962,23 +1097,31 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
-                            } else if (index == 16) {
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
+                            } else if (index == 18) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[17]['StartDate'];
-                              edate1 = alldata[26]['EndDate'];
-                              asdate1 = alldata[17]['ActualStart'];
-                              aedate1 = alldata[26]['ActualEnd'];
+                              // sdate1 = alldata[17]['StartDate'];
+                              // edate1 = alldata[26]['EndDate'];
+                              // asdate1 = alldata[17]['ActualStart'];
+                              // aedate1 = alldata[26]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
                               double totalweightage = 0;
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 17; i < 27; i++) {
+
+                              for (int i = 19; i < 27; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
@@ -987,14 +1130,37 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -1007,39 +1173,70 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
-                            } else if (index == 27) {
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
+                            } else if (index == 28) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[28]['StartDate'];
-                              edate1 = alldata[32]['EndDate'];
-                              asdate1 = alldata[28]['ActualStart'];
-                              aedate1 = alldata[32]['ActualEnd'];
+                              // sdate1 = alldata[28]['StartDate'];
+                              // edate1 = alldata[31]['EndDate'];
+                              // asdate1 = alldata[28]['ActualStart'];
+                              // aedate1 = alldata[31]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
                               double totalweightage = 0;
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 28; i < 33; i++) {
+                              allendDate.clear();
+                              for (int i = 29; i < 32; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
 
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -1052,41 +1249,70 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
-                            } else if (index == 33) {
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
+                            } else if (index == 32) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[34]['StartDate'];
-                              edate1 = alldata[38]['EndDate'];
-                              asdate1 = alldata[34]['ActualStart'];
-                              aedate1 = alldata[38]['ActualEnd'];
+                              // sdate1 = alldata[34]['StartDate'];
+                              // edate1 = alldata[36]['EndDate'];
+                              // asdate1 = alldata[34]['ActualStart'];
+                              // aedate1 = alldata[36]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
 
                               double totalweightage = 0;
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 34; i < 39; i++) {
+                              for (int i = 33; i < 37; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
 
                                 totalweightage = totalweightage + weightage;
 
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -1099,40 +1325,71 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
-                            } else if (index == 39) {
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
+                            } else if (index == 38) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[40]['StartDate'];
-                              edate1 = alldata[64]['EndDate'];
-                              asdate1 = alldata[40]['ActualStart'];
-                              aedate1 = alldata[64]['ActualEnd'];
+                              // sdate1 = alldata[40]['StartDate'];
+                              // edate1 = alldata[63]['EndDate'];
+                              // asdate1 = alldata[40]['ActualStart'];
+                              // aedate1 = alldata[63]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
                               double totalweightage = 0;
 
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 40; i < 65; i++) {
+                              allendDate.clear();
+                              for (int i = 39; i < 64; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
 
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -1145,39 +1402,70 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
-                            } else if (index == 65) {
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
+                            } else if (index == 64) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[66]['StartDate'];
-                              edate1 = alldata[75]['EndDate'];
-                              asdate1 = alldata[66]['ActualStart'];
-                              aedate1 = alldata[75]['ActualEnd'];
+                              // sdate1 = alldata[66]['StartDate'];
+                              // edate1 = alldata[75]['EndDate'];
+                              // asdate1 = alldata[66]['ActualStart'];
+                              // aedate1 = alldata[75]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
                               double totalweightage = 0;
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 66; i < 76; i++) {
+                              allendDate.clear();
+                              for (int i = 65; i < 76; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
 
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -1190,40 +1478,71 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
                             } else if (index == 76) {
                               dynamic srNo = alldata[index]['srNo'];
-                              sdate1 = alldata[77]['StartDate'];
-                              edate1 = alldata[78]['EndDate'];
-                              asdate1 = alldata[77]['ActualStart'];
-                              aedate1 = alldata[78]['ActualEnd'];
+                              // sdate1 = alldata[77]['StartDate'];
+                              // edate1 = alldata[78]['EndDate'];
+                              // asdate1 = alldata[77]['ActualStart'];
+                              // aedate1 = alldata[78]['ActualEnd'];
                               var acti = alldata[index]['Activity'];
-                              allstartDate.add(sdate1!);
-                              allendDate.add(edate1!);
-                              allactualstart.add(asdate1!);
-                              allactualEnd.add(aedate1!);
-                              allsrNo.add(srNo);
+                              // allstartDate.add(sdate1!);
+                              // allendDate.add(edate1!);
+                              // allactualstart.add(asdate1!);
+                              // allactualEnd.add(aedate1!);
+                              // allsrNo.add(srNo);
                               double totalweightage = 0;
 
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
+                              allendDate.clear();
                               for (int i = 77; i < 79; i++) {
+                                sdate1 = alldata[i]['StartDate'];
+                                edate1 = alldata[i]['EndDate'];
+                                asdate1 = alldata[i]['ActualStart'];
+                                aedate1 = alldata[i]['ActualEnd'];
                                 int scope = alldata[i]['QtyScope'];
                                 int executed = alldata[i]['QtyExecuted'];
                                 double weightage = alldata[i]['Weightage'];
                                 totalweightage = totalweightage + weightage;
 
+                                allstartDate.add(sdate1!);
+                                allendDate.add(edate1!);
+                                allactualstart.add(asdate1!);
+                                allactualEnd.add(aedate1!);
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
                               }
+                              List<DateTime> startDates = allstartDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+                              List<DateTime> dates = allendDate
+                                  .map((dateString) => DateFormat('dd-MM-yyyy')
+                                      .parse(dateString))
+                                  .toList();
+
+                              dates.sort();
+                              startDates.sort();
+
+                              DateTime lastDate = dates.last;
+                              DateTime startDate = startDates.first;
+                              String formattedStartdDate =
+                                  DateFormat('dd-MM-yyyy').format(startDate);
+                              String formatteEndDate =
+                                  DateFormat('dd-MM-yyyy').format(lastDate);
+
                               _employees.add(Employee(
                                   srNo: srNo,
                                   activity: acti!,
-                                  originalDuration:
-                                      durationParse(sdate1!, edate1!),
-                                  startDate: sdate1,
-                                  endDate: edate1,
+                                  originalDuration: durationParse(
+                                      formattedStartdDate, formatteEndDate),
+                                  startDate: formattedStartdDate,
+                                  endDate: formatteEndDate,
                                   actualstartDate: asdate1,
                                   actualendDate: aedate1,
                                   actualDuration:
@@ -1236,6 +1555,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   balanceQty: totalbalanceQty,
                                   percProgress: 0.5,
                                   weightage: totalweightage));
+                              allstartDate.clear();
+                              allendDate.clear();
+                              dates.clear();
                             }
                           });
                         }
@@ -1271,7 +1593,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         //         KeyDataSourceKeyEvents(_employees, context);
                         //     _dataGridController = DataGridController();
 
-                        List<String> dateParts = sdate1!.split('-');
+                        List<String> dateParts = sd!.split('-');
                         int day = int.parse(dateParts[0]);
                         int month = int.parse(dateParts[1]);
                         int year = int.parse(dateParts[2]);
@@ -1298,38 +1620,43 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         //   endDate: DateTime.now(),
                         //   //displayName: yAxis[i].toString()
                         // ));
-
-                        for (int i = 0; i < allstartDate.length; i++) {
-                          ganttdata.add(GanttAbsoluteEvent(
-                            suggestedColor: yellow,
-                            displayNameBuilder: (context) {
-                              // int sr = i + 2;
-                              // int ss = sr + 1;
-                              return allsrNo[i];
-                            },
-                            startDate:
-                                DateFormat('dd-MM-yyyy').parse(allstartDate[i]),
-                            endDate:
-                                DateFormat('dd-MM-yyyy').parse(allendDate[i]),
-                          ));
-
-                          ganttdata.add(GanttAbsoluteEvent(
-                            suggestedColor: DateFormat('dd-MM-yyyy')
-                                    .parse(allactualEnd[i])
-                                    .isBefore(DateFormat('dd-MM-yyyy')
-                                        .parse(allendDate[i])
-                                        .add(const Duration(days: 1)))
-                                ? green
-                                : red,
-                            displayNameBuilder: (context) {
-                              return '';
-                            },
-                            startDate: DateFormat('dd-MM-yyyy')
-                                .parse(allactualstart[i]),
-                            endDate:
-                                DateFormat('dd-MM-yyyy').parse(allactualEnd[i]),
-                            //displayName: yAxis[i].toString()
-                          ));
+                        int sr = 0;
+                        int gr = 0;
+                        int j = 0;
+                        int k = 0;
+                        for (int i = 0; i < graphStartDate!.length; i++) {
+                          if (indicesToSkip.contains(i)) {
+                            ganttdata.add(GanttAbsoluteEvent(
+                              suggestedColor: yellow,
+                              displayNameBuilder: (context) {
+                                j = sr++;
+                                return allsrNo[j];
+                              },
+                              startDate: DateFormat('dd-MM-yyyy')
+                                  .parse(graphStartDate![i]),
+                              endDate: DateFormat('dd-MM-yyyy')
+                                  .parse(graphEndDate![i]),
+                            ));
+                          } else {
+                            ganttdata.add(GanttAbsoluteEvent(
+                              suggestedColor: DateFormat('dd-MM-yyyy')
+                                      .parse(graphactualEndDate![i])
+                                      .isBefore(DateFormat('dd-MM-yyyy')
+                                          .parse(graphEndDate![i])
+                                          .add(const Duration(days: 1)))
+                                  ? green
+                                  : red,
+                              displayNameBuilder: (context) {
+                                k = gr++;
+                                return graphsrNo![k];
+                              },
+                              startDate: DateFormat('dd-MM-yyyy')
+                                  .parse(graphactualStartDate![k]),
+                              endDate: DateFormat('dd-MM-yyyy')
+                                  .parse(graphactualEndDate![k]),
+                              //displayName: yAxis[i].toString()
+                            ));
+                          }
                         }
 
                         return SingleChildScrollView(
@@ -1399,6 +1726,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       navigationMode: GridNavigationMode.cell,
                                       columnWidthMode: ColumnWidthMode.auto,
                                       controller: _dataGridController,
+                                      rowHeight: 55,
                                       columns: [
                                         GridColumn(
                                           columnName: 'srNo',
@@ -1655,7 +1983,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                               35, //column width for each day
                                           dayHeaderHeight: 35,
                                           eventHeight:
-                                              23, //row height for events
+                                              55, //row height for events
                                           stickyAreaWidth:
                                               70, //sticky area width
                                           showStickyArea:
@@ -1663,7 +1991,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                           showDays: true, //show days or not
                                           startOfTheWeek: WeekDay
                                               .monday, //custom start of the week
-                                          weekHeaderHeight: 23,
+                                          weekHeaderHeight: 22,
                                           weekEnds: const {
                                             // WeekDay.saturday,
                                             // WeekDay.sunday
@@ -2214,11 +2542,35 @@ class _KeyEvents2State extends State<KeyEvents2> {
       'data': tabledata2,
     }).whenComplete(() {
       tabledata2.clear();
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
+      for (var i in _KeyDataSourceKeyEvents.dataGridRows) {
+        for (var data in i.getCells()) {
+          tableData[data.columnName] = data.value;
+        }
+        tabledata2.add(tableData);
+        // print(tabledata2);
+        tableData = {};
+      }
+      FirebaseFirestore.instance
+          .collection('KeyEventsTable')
+          .doc(widget.depoName!)
+          .collection('KeyDataTable')
+          .doc(userId)
+          .collection('KeyAllEvents')
+          .doc('keyEvents')
+          // .collection(widget.userid!)
+          // .doc('${widget.depoName}${widget.keyEvents}')
+          .set({
+        'data': tabledata2,
+      }).whenComplete(() {
+        tabledata2.clear();
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text('Data are synced'),
+          backgroundColor: blue,
+        ));
+      });
+
+      tabledata2.clear();
     });
   }
 
