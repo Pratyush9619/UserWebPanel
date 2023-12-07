@@ -24,6 +24,7 @@ import '../provider/key_provider.dart';
 
 class CustomAppBar extends StatefulWidget {
   String? cityname;
+  int? progress;
   String? text;
   bool toOverviewPage;
   bool toOverview;
@@ -54,36 +55,37 @@ class CustomAppBar extends StatefulWidget {
   bool showDepoBar;
   TabBar? tabBar;
 
-  CustomAppBar({
-    this.isDownload = false,
-    this.cityname,
-    super.key,
-    this.text,
-    this.haveSynced = false,
-    this.haveSummary = false,
-    this.store,
-    this.onTap,
-    this.havedropdown = false,
-    this.havebottom = false,
-    this.isdetailedTab = false,
-    this.tabBar,
-    this.showDepoBar = false,
-    this.toChecklist = false,
-    this.toTesting = false,
-    this.toClosure = false,
-    this.toEasyMonitoring = false,
-    this.toSubmission = false,
-    this.toOverviewPage = false,
-    this.toOverview = false,
-    this.toPlanning = false,
-    this.toMaterial = false,
-    this.toMonthly = false,
-    this.toDetailEngineering = false,
-    this.toJmr = false,
-    this.toSafety = false,
-    this.isprogress = false,
-    this.totalValue,
-  });
+  CustomAppBar(
+      {this.cityname,
+      super.key,
+      this.text,
+      this.haveSynced = false,
+      this.haveSummary = false,
+      this.store,
+      this.onTap,
+      this.havedropdown = false,
+      this.havebottom = false,
+      this.isdetailedTab = false,
+      this.tabBar,
+      this.showDepoBar = false,
+      this.toChecklist = false,
+      this.toTesting = false,
+      this.toClosure = false,
+      this.toEasyMonitoring = false,
+      this.toSubmission = false,
+      this.toOverviewPage = false,
+      this.toOverview = false,
+      this.toPlanning = false,
+      this.toMaterial = false,
+      this.toMonthly = false,
+      this.toDetailEngineering = false,
+      this.toJmr = false,
+      this.toSafety = false,
+      this.isprogress = false,
+      this.totalValue,
+      this.isDownload = false,
+      this.donwloadFunction,
+      this.progress});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -103,6 +105,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
     super.initState();
   }
 
+  Future<int> checkPercent() async {
+    return widget.progress!.toInt();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,29 +119,38 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
             actions: [
               widget.isprogress
-                  ? Consumer<KeyProvider>(
-                      builder: (context, value, child) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: SizedBox(
-                            height: 18.0,
-                            width: 40.0,
-                            child: CircularPercentIndicator(
-                              radius: 20.0,
-                              lineWidth: 5.0,
-                              percent: (value.totalvalue.toInt()) / 100,
-                              center: Text(
-                                "${(value.totalvalue.toInt()) / 100 * 100}% ",
-                                textAlign: TextAlign.center,
-                                style: captionWhite,
+                  ? FutureBuilder<int>(
+                      future: checkPercent(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularPercentIndicator(radius: 2);
+                        } else if (snapshot.hasData) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: SizedBox(
+                              height: 18.0,
+                              width: 40.0,
+                              child: CircularPercentIndicator(
+                                radius: 20.0,
+                                lineWidth: 5.0,
+                                percent: (Provider.of<KeyProvider>(context)
+                                        .totalvalue
+                                        .toInt()) /
+                                    100,
+                                center: Text(
+                                  "${(widget.progress!.toInt()) / 100 * 100}% ",
+                                  textAlign: TextAlign.center,
+                                  style: captionWhite,
+                                ),
+                                progressColor: green,
+                                backgroundColor: red,
                               ),
-                              progressColor: green,
-                              backgroundColor: red,
                             ),
-                          ),
-                        );
-                      },
-                    )
+                          );
+                        }
+                        return Container();
+                      })
                   : Container(),
               widget.showDepoBar
                   ? Container(
