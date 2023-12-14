@@ -1,3 +1,4 @@
+import 'package:assingment/overview/key_events2.dart';
 import 'package:assingment/overview/material_vendor.dart';
 import 'package:assingment/screen/overview_page.dart';
 import 'package:assingment/widget/style.dart';
@@ -92,6 +93,8 @@ class CustomAppBar extends StatefulWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  KeyProvider? _keyProvider;
+  bool isLoading = true;
   dynamic userId;
   TextEditingController selectedDepoController = TextEditingController();
   String? rangeStartDate = DateFormat.yMMMMd().format(DateTime.now());
@@ -99,6 +102,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   void initState() {
+    _keyProvider = Provider.of<KeyProvider>(context, listen: false);
     getUserId().whenComplete(() {
       setState(() {});
     });
@@ -116,6 +120,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             backgroundColor: blue,
             title: Text(
               widget.text.toString(),
+              style: appFontSize,
             ),
             actions: [
               widget.isprogress
@@ -195,7 +200,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                         ? Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => KeyEvents(
+                                              builder: (context) => KeyEvents2(
                                                 depoName: suggestion,
                                                 cityName: widget.cityname,
                                               ),
@@ -332,6 +337,81 @@ class _CustomAppBarState extends State<CustomAppBar> {
               const SizedBox(
                 width: 10,
               ),
+              widget.isprogress
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width: 300,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                legends(yellow, 'Base Line', black),
+                                legends(green, 'On Time', black),
+                                legends(red, 'Delay', white),
+                              ],
+                            )),
+                        Consumer<KeyProvider>(
+                          builder: (context, value, child) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 2, right: 10, left: 10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    color: green,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                          'Project Duration \n ${value.duration} Days',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: black)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Container(
+                                    width: 130,
+                                    color: red,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                          'Project Delay \n ${value.delay} Days ',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: white)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text('% Of Progress is '),
+                                  SizedBox(
+                                    height: 50.0,
+                                    width: 40.0,
+                                    child: CircularPercentIndicator(
+                                      radius: 20.0,
+                                      lineWidth: 4.0,
+                                      percent:
+                                          (value.perProgress.toInt()) / 100,
+                                      center: Text(
+                                        // value.getName.toString(),
+                                        "${(value.perProgress.toInt())}% ",
+                                        textAlign: TextAlign.center,
+                                        style: captionWhite,
+                                      ),
+                                      progressColor: green,
+                                      backgroundColor: red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  : Container(),
               widget.haveSummary
                   ? Padding(
                       padding:
@@ -365,7 +445,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             },
                             child: Text(
                               'Sync Data',
-                              style: TextStyle(color: white, fontSize: 20),
+                              style: TextStyle(color: white, fontSize: 15),
                             )),
                       ),
                     )
@@ -393,7 +473,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           SizedBox(width: 5),
                           Text(
                             userId ?? '',
-                            style: const TextStyle(fontSize: 18),
+                            style: appFontSize,
                           )
                         ],
                       ))),
@@ -501,7 +581,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginRegister(),
+                                  builder: (context) => const LoginRegister(),
                                 ));
                             // exit(0);
                           },
@@ -555,4 +635,25 @@ class _CustomAppBarState extends State<CustomAppBar> {
       userId = value;
     });
   }
+}
+
+legends(Color color, String title, Color textColor) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 5, bottom: 5),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+            width: 75,
+            height: 28,
+            color: color,
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w900, color: textColor),
+            )),
+      ],
+    ),
+  );
 }

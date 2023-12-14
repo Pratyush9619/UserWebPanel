@@ -83,6 +83,7 @@ class _KeyEventsState extends State<KeyEvents> {
   String? as;
   String? ae;
   List<int> srNo = [];
+  DateTime? dateTime = DateTime.now();
   double totalvalue = 0.0;
 
   String? sdate2,
@@ -655,9 +656,9 @@ class _KeyEventsState extends State<KeyEvents> {
                                 print(totalvalue);
                               }
                             }
-                            Provider.of<KeyProvider>(context, listen: false)
-                                .saveCities(totalvalue);
                           }
+                          Provider.of<KeyProvider>(context, listen: false)
+                              .saveProgressValue(totalvalue);
                           startDate.clear();
                           enddate.clear();
                           actualstart.clear();
@@ -1121,15 +1122,14 @@ class _KeyEventsState extends State<KeyEvents> {
                                               maxDuration: null,
                                               // const Duration(days: 30 * 2),
                                               // optional, set to null for infinite horizontal scroll
-                                              startDate:
-                                                  // DateTime.parse(sdate2!),
-                                                  //  DateTime.parse(
-                                                  //     DateFormat('yyyy-MM-dd')
-                                                  //         .format(DateTime.parse(
-                                                  //             sdate2!))),
-                                                  //  DateTime(DateTime.parse(sdate2)),
-                                                  DateTime(
-                                                      2023, 8, 1), //required
+                                              startDate: dateTime!,
+                                              //  DateTime.parse(
+                                              //     DateFormat('yyyy-MM-dd')
+                                              //         .format(DateTime.parse(
+                                              //             sdate2!))),
+                                              //  DateTime(DateTime.parse(sdate2)),
+                                              // DateTime(
+                                              //     2023, 11, 1), //required
                                               dayWidth:
                                                   40, //column width for each day
                                               dayHeaderHeight: 33,
@@ -1172,6 +1172,14 @@ class _KeyEventsState extends State<KeyEvents> {
                           );
                         }
                       }
+
+                      // Parse the date string into a DateTime object
+                      List<String> dateParts = sdate2!.split('-');
+                      int day = int.parse(dateParts[0]);
+                      int month = int.parse(dateParts[1]);
+                      int year = int.parse(dateParts[2]);
+
+                      dateTime = DateTime(year, month, day);
                       _employees = getDefaultEmployeeData();
                       _KeyDataSourceKeyEvents =
                           KeyDataSourceKeyEvents(_employees, context);

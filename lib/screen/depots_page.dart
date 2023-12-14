@@ -126,7 +126,10 @@ class _DepotsPageState extends State<DepotsPage> {
                               cityName: widget.cityName, depoName: title),
                         ));
                   },
-                  child: Text(title))
+                  child: Text(
+                    title,
+                    style: appFontSize,
+                  ))
               // Container(
               //   padding: const EdgeInsets.only(left: 60),
               //   alignment: Alignment.center,
