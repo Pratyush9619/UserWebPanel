@@ -58,7 +58,7 @@ class _OverviewPageState extends State<OverviewPage> {
     // 'assets/overview_image/testing_commissioning.png',
     'assets/overview_image/testing_commissioning.png',
     'assets/overview_image/closure_report.png',
-    'assets/overview_image/easy_monitoring.jpg',
+    // 'assets/overview_image/easy_monitoring.jpg',
   ];
 
   @override
@@ -89,7 +89,7 @@ class _OverviewPageState extends State<OverviewPage> {
       'Depot Insides',
       // 'Testing & Commissioning Reports of Equipment',
       'Closure Report',
-      'Easy monitoring of O & M schedule for all the equipment of depots.',
+      // 'Easy monitoring of O & M schedule for all the equipment of depots.',
     ];
     pages = [
       DepotOverview(
@@ -155,10 +155,10 @@ class _OverviewPageState extends State<OverviewPage> {
         cityName: widget.cityName,
         depoName: widget.depoName,
       ),
-      KeyEvents2(
-        depoName: widget.depoName,
-        cityName: widget.cityName,
-      ),
+      // KeyEvents2(
+      //   depoName: widget.depoName,
+      //   cityName: widget.cityName,
+      // ),
     ];
     return Scaffold(
       appBar: PreferredSize(
