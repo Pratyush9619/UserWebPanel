@@ -265,20 +265,22 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
           ),
           body: _isloading
               ? LoadingPage()
-              : TabBarView(children: [
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                ]),
+              : TabBarView(
+                  children: [
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                  ],
+                ),
         ));
   }
 
