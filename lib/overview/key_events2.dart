@@ -258,7 +258,10 @@ class _KeyEvents2State extends State<KeyEvents2> {
   List<int> indicesToSkip = [0, 2, 6, 13, 18, 28, 32, 38, 64, 76];
   //[0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
   ScrollController _scrollController = ScrollController();
-  final ScrollController _ganttChartController = ScrollController();
+  ScrollController _horizontalscrollController = ScrollController();
+  final ScrollController _verticalGridController = ScrollController();
+  final ScrollController _dataGridScrollController = ScrollController();
+  // final ScrollController _ganttChartController = ScrollController();
   double totalperc = 0.0;
   KeyProvider? _keyProvider;
 
@@ -278,6 +281,16 @@ class _KeyEvents2State extends State<KeyEvents2> {
           .doc('keyEvents')
           // .doc('${widget.depoName}')
           .snapshots();
+
+      _verticalGridController.addListener(() {
+        _dataGridScrollController.jumpTo(_verticalGridController.offset);
+      });
+      _dataGridScrollController.addListener(() {
+        _verticalGridController.jumpTo(_dataGridScrollController.offset);
+      });
+      _scrollController.addListener(() {
+        _horizontalscrollController.jumpTo(_scrollController.offset);
+      });
 
       _isLoading = false;
       setState(() {});
@@ -399,6 +412,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                         // int year = int.parse(dateParts[2]);
 
                         // dateTime = DateTime(year, month, day);
+                        totalperc = 0.0;
+                        // print(widget.depoName);
+                        // print(userId);
                         _keyProvider!.fetchDelayData(widget.depoName!, userId);
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           Provider.of<KeyProvider>(context, listen: false)
@@ -751,6 +767,8 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           // int totalExecuted = 0;
 
                           double perc = 0.0;
+                          double percValue = 0.0;
+                          double progressValue = 0.0;
                           graphStartDate!.clear();
                           graphEndDate!.clear();
                           graphactualStartDate!.clear();
@@ -765,15 +783,17 @@ class _KeyEvents2State extends State<KeyEvents2> {
                             graphactualEndDate!
                                 .add(alldata[index]['ActualEnd']);
 
-                            if (indicesToSkip.contains(index)) {
+                            if (!indicesToSkip.contains(index)) {
                               int qtyExecuted = alldata[index]['QtyExecuted'];
                               double weightage = alldata[index]['Weightage'];
                               int scope = alldata[index]['QtyScope'];
                               allsrNo.add(alldata[index]['srNo']);
 
                               perc = ((qtyExecuted / scope) * weightage);
+                              // print('$index$perc');
                               double value = perc.isNaN ? 0.0 : perc;
                               totalperc = totalperc + value;
+                              print(totalperc);
                             }
 
                             if (!indicesToSkip.contains(index)) {
@@ -902,6 +922,17 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 allendDate.add(edate1!);
                                 allactualstart.add(asdate1!);
                                 allactualEnd.add(aedate1!);
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                // print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+                                // progressValue = percValue.isNaN
+                                //     ? 0.0
+                                //     : percValue + progressValue;
+                                progressValue = progressValue + percValue;
+                                // print(progressValue);
                               }
 
                               List<DateTime> startDates = allstartDate
@@ -940,11 +971,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 6) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[7]['StartDate'];
@@ -979,6 +1011,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 allendDate.add(edate1!);
                                 allactualstart.add(asdate1!);
                                 allactualEnd.add(aedate1!);
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                // print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1017,11 +1057,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 13) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[13]['StartDate'];
@@ -1057,6 +1098,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 allendDate.add(edate1!);
                                 allactualstart.add(asdate1!);
                                 allactualEnd.add(aedate1!);
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                // print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1095,11 +1144,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 18) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[17]['StartDate'];
@@ -1134,6 +1184,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 allendDate.add(edate1!);
                                 allactualstart.add(asdate1!);
                                 allactualEnd.add(aedate1!);
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                // print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1171,11 +1229,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 28) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[28]['StartDate'];
@@ -1210,6 +1269,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1247,11 +1314,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 32) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[34]['StartDate'];
@@ -1269,7 +1337,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               int totalScope = 0;
                               int totalExecuted = 0;
                               int totalbalanceQty = 0;
-                              for (int i = 33; i < 37; i++) {
+                              for (int i = 33; i < 38; i++) {
                                 sdate1 = alldata[i]['StartDate'];
                                 edate1 = alldata[i]['EndDate'];
                                 asdate1 = alldata[i]['ActualStart'];
@@ -1287,6 +1355,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1323,11 +1399,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 38) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[40]['StartDate'];
@@ -1363,6 +1440,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1400,11 +1485,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 64) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[66]['StartDate'];
@@ -1439,6 +1525,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1476,11 +1570,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             } else if (index == 76) {
                               dynamic srNo = alldata[index]['srNo'];
                               // sdate1 = alldata[77]['StartDate'];
@@ -1516,6 +1611,14 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                 totalScope = totalScope + scope;
                                 totalExecuted = totalExecuted + executed;
                                 totalbalanceQty = totalScope - totalExecuted;
+                                percValue = 1 /
+                                    100 *
+                                    ((executed / scope) * weightage * 100);
+
+                                print(percValue);
+                                percValue = percValue.isNaN ? 0.0 : percValue;
+
+                                progressValue = progressValue + percValue;
                               }
                               List<DateTime> startDates = allstartDate
                                   .map((dateString) => DateFormat('dd-MM-yyyy')
@@ -1553,11 +1656,12 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                   scope: totalScope,
                                   qtyExecuted: totalExecuted,
                                   balanceQty: totalbalanceQty,
-                                  percProgress: 0.5,
+                                  percProgress: progressValue,
                                   weightage: totalweightage));
                               allstartDate.clear();
                               allendDate.clear();
                               dates.clear();
+                              progressValue = 0.0;
                             }
                           });
                         }
@@ -1640,10 +1744,9 @@ class _KeyEvents2State extends State<KeyEvents2> {
                           } else {
                             ganttdata.add(GanttAbsoluteEvent(
                               suggestedColor: DateFormat('dd-MM-yyyy')
-                                      .parse(graphactualEndDate![i])
+                                      .parse(graphactualEndDate![k])
                                       .isBefore(DateFormat('dd-MM-yyyy')
-                                          .parse(graphEndDate![i])
-                                          .add(const Duration(days: 1)))
+                                          .parse(graphEndDate![k]))
                                   ? green
                                   : red,
                               displayNameBuilder: (context) {
@@ -1657,6 +1760,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                               //displayName: yAxis[i].toString()
                             ));
                           }
+                          k++;
                         }
 
                         return SingleChildScrollView(
@@ -1673,7 +1777,8 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                         )),
                                     child: SfDataGrid(
                                       source: _KeyDataSourceKeyEvents,
-
+                                      verticalScrollController:
+                                          _verticalGridController,
                                       onSelectionChanged:
                                           (addedRows, removedRows) {
                                         if (addedRows.first
@@ -1726,6 +1831,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                       navigationMode: GridNavigationMode.cell,
                                       columnWidthMode: ColumnWidthMode.auto,
                                       controller: _dataGridController,
+                                      headerRowHeight: 64,
                                       rowHeight: 55,
                                       columns: [
                                         GridColumn(
@@ -1968,41 +2074,86 @@ class _KeyEvents2State extends State<KeyEvents2> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                    width: 450,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.93,
-                                    child: SingleChildScrollView(
-                                      child: GanttChartView(
-                                          scrollController: _scrollController,
-                                          maxDuration: null,
-                                          // const Duration(days: 30 * 2),
-                                          // optional, set to null for infinite horizontal scroll
-                                          startDate: dateTime, //required
-                                          dayWidth:
-                                              35, //column width for each day
-                                          dayHeaderHeight: 35,
-                                          eventHeight:
-                                              55, //row height for events
-                                          stickyAreaWidth:
-                                              70, //sticky area width
-                                          showStickyArea:
-                                              true, //show sticky area or not
-                                          showDays: true, //show days or not
-                                          startOfTheWeek: WeekDay
-                                              .monday, //custom start of the week
-                                          weekHeaderHeight: 22,
-                                          weekEnds: const {
-                                            // WeekDay.saturday,
-                                            // WeekDay.sunday
-                                          }, //custom weekends
-                                          isExtraHoliday: (context, day) {
-                                            //define custom holiday logic for each day
-                                            return DateUtils.isSameDay(
-                                                DateTime(2023, 7, 1), day);
-                                          },
-                                          events: ganttdata),
-                                    ))
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                        width: 450,
+                                        height: 63,
+                                        child: SingleChildScrollView(
+                                          child: GanttChartView(
+                                              scrollController:
+                                                  _horizontalscrollController,
+                                              maxDuration: null,
+
+                                              // const Duration(days: 30 * 2),
+                                              // optional, set to null for infinite horizontal scroll
+                                              startDate: dateTime, //required
+                                              dayWidth:
+                                                  35, //column width for each day
+                                              dayHeaderHeight: 37,
+                                              eventHeight:
+                                                  55, //row height for events
+                                              stickyAreaWidth:
+                                                  70, //sticky area width
+                                              showStickyArea:
+                                                  false, //show sticky area or not
+                                              showDays: true, //show days or not
+                                              startOfTheWeek: WeekDay
+                                                  .monday, //custom start of the week
+                                              weekHeaderHeight: 25,
+                                              weekEnds: const {
+                                                // WeekDay.saturday,
+                                                // WeekDay.sunday
+                                              }, //custom weekends
+                                              // isExtraHoliday: (context, day) {
+                                              //   //define custom holiday logic for each day
+                                              //   return DateUtils.isSameDay(
+                                              //       DateTime(2023, 7, 1), day);
+                                              // },
+                                              events: []),
+                                        )),
+                                    SizedBox(
+                                        width: 450,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.83,
+                                        child: SingleChildScrollView(
+                                          controller: _dataGridScrollController,
+                                          child: GanttChartView(
+                                              scrollController:
+                                                  _scrollController,
+                                              maxDuration: null,
+
+                                              // const Duration(days: 30 * 2),
+                                              // optional, set to null for infinite horizontal scroll
+                                              startDate: dateTime, //required
+                                              dayWidth:
+                                                  35, //column width for each day
+                                              dayHeaderHeight: 0,
+                                              eventHeight:
+                                                  55, //row height for events
+                                              stickyAreaWidth:
+                                                  70, //sticky area width
+                                              showStickyArea:
+                                                  false, //show sticky area or not
+                                              showDays:
+                                                  false, //show days or not
+                                              startOfTheWeek: WeekDay
+                                                  .monday, //custom start of the week
+                                              weekHeaderHeight: 0,
+                                              weekEnds: const {
+                                                // WeekDay.saturday,
+                                                // WeekDay.sunday
+                                              }, //custom weekends
+                                              // isExtraHoliday: (context, day) {
+                                              //   //define custom holiday logic for each day
+                                              //   return DateUtils.isSameDay(
+                                              //       DateTime(2023, 7, 1), day);
+                                              // },
+                                              events: ganttdata),
+                                        )),
+                                  ],
+                                ),
                               ])),
                         );
                       }

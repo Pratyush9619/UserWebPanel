@@ -102,10 +102,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   void initState() {
-    _keyProvider = Provider.of<KeyProvider>(context, listen: false);
-    getUserId().whenComplete(() {
-      setState(() {});
+    Future.delayed(Duration.zero, () {
+      _keyProvider = Provider.of<KeyProvider>(context, listen: false);
+      getUserId().whenComplete(() {
+        setState(() {});
+      });
     });
+
     super.initState();
   }
 
@@ -365,7 +368,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                     child: TextButton(
                                       onPressed: () {},
                                       child: Text(
-                                          'Project Duration \n ${value.duration} Days',
+                                          'Project Duration \n ${durationParse(value.startdate, value.endDate)} Days',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14, color: black)),
@@ -378,7 +381,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                     child: TextButton(
                                       onPressed: () {},
                                       child: Text(
-                                          'Project Delay \n ${value.delay} Days ',
+                                          'Project Delay \n ${durationParse(value.actualDate, value.endDate)}  Days ',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14, color: white)),
@@ -656,4 +659,10 @@ legends(Color color, String title, Color textColor) {
       ],
     ),
   );
+}
+
+int durationParse(String fromtime, String todate) {
+  DateTime startdate = DateFormat('dd-MM-yyyy').parse(fromtime);
+  DateTime enddate = DateFormat('dd-MM-yyyy').parse(todate);
+  return enddate.add(Duration(days: 1)).difference(startdate).inDays;
 }
