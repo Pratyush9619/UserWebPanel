@@ -290,11 +290,10 @@ class _SignInPageState extends State<SignInPage> {
             _id == snap.docs[0]['Employee Id']) {
           _sharedPreferences = await SharedPreferences.getInstance();
           _sharedPreferences.setString('employeeId', _id).then((_) {
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => DashBoardScreen(),
-                ));
+                MaterialPageRoute(builder: (context) => DashBoardScreen()),
+                (route) => false);
           });
         } else {
           // ignore: use_build_context_synchronously

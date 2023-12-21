@@ -75,9 +75,12 @@ class _DepotsPageState extends State<DepotsPage> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 5),
                   itemBuilder: (context, index) {
-                    return cards(
-                      snapshot.data!.docs[index]['DepoUrl'],
-                      snapshot.data!.docs[index]['DepoName'],
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 50, top: 10),
+                      child: cards(
+                        snapshot.data!.docs[index]['DepoUrl'],
+                        snapshot.data!.docs[index]['DepoName'],
+                      ),
                     );
                   },
                 );
