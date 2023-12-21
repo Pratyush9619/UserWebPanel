@@ -114,6 +114,14 @@ class _CitiesPageState extends State<CitiesPage> {
               color: blue,
               image:
                   DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 2.0,
+                  spreadRadius: 0.0,
+                  offset: Offset(2.0, 2.0), // shadow direction: bottom right
+                )
+              ],
             ),
           ),
           const SizedBox(

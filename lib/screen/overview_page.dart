@@ -195,30 +195,33 @@ class _OverviewPageState extends State<OverviewPage> {
                 builder: (context) => pages[index],
               ));
         }),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: blue),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 80,
-                width: 80,
-                child: Image.asset(image, fit: BoxFit.cover),
-              ),
-              const SizedBox(height: 5),
-              Expanded(
-                child: Text(
-                  desc,
-                  textAlign: TextAlign.center,
-                  style: appFontSize,
+        child: Card(
+          elevation: 20,
+          child: Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: blue),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: Image.asset(image, fit: BoxFit.cover),
                 ),
-              )
-            ],
+                const SizedBox(height: 5),
+                Expanded(
+                  child: Text(
+                    desc,
+                    textAlign: TextAlign.center,
+                    style: appFontSize,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

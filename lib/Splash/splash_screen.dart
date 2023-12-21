@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:assingment/Authentication/auth_service.dart';
 import 'package:assingment/Authentication/login_register.dart';
+import 'package:assingment/screen/dashboard.dart';
 import 'package:assingment/screen/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class SplashScreenState extends State<SplashScreen> {
         const Duration(milliseconds: 2000),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) =>
-                user ? const HomePage() : const LoginRegister())));
+                user ? const DashBoardScreen() : const LoginRegister())));
     // user ? const LoginRegister() : const HomePage())));
   }
 
