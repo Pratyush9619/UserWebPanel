@@ -105,6 +105,15 @@ class _DepotsPageState extends State<DepotsPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: blue,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2.0,
+                      spreadRadius: 0.0,
+                      offset:
+                          Offset(2.0, 2.0), // shadow direction: bottom right
+                    )
+                  ],
                   image: DecorationImage(
                       image: NetworkImage(
                         img,
