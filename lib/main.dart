@@ -7,9 +7,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'screen/demand energy management/bar_graph.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp(
       options: const FirebaseOptions(
     apiKey: "AIzaSyCrSwVB12UIZ_wiLcsIqDeXb3cP6QKkMgM",
@@ -83,11 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // CitiesPage();
-        // OverviewPage(
-        //   depoName: 'sdsa',
-        // );
-        const SplashScreen();
+    return BarGraphScreen();
+    // CitiesPage();
+    // OverviewPage(
+    //   depoName: 'sdsa',
+    // );
+    //  SplashScreen();
   }
 }
