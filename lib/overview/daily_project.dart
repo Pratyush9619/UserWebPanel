@@ -52,7 +52,7 @@ class _DailyProjectState extends State<DailyProject> {
           widget.cityName!, widget.depoName!, selectedDate!, userId);
       _dataGridController = DataGridController();
 
-      _isloading = false;
+      _isloading = false; 
       setState(() {});
     });
 
@@ -626,7 +626,7 @@ class _DailyProjectState extends State<DailyProject> {
                 activityDetails: "",
                 progress: '',
                 status: ''));
-            _dailyDataSource.buildDataGridRows();
+            _dailyDataSource.buildDataGridRows(); 
             _dailyDataSource.updateDatagridSource();
           })),
     );

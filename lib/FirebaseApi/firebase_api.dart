@@ -34,6 +34,28 @@ class FirebaseApi extends ChangeNotifier {
     await ref.writeToFile(file);
   }
 
+   energydefaultKeyEventsField(String collectionName, String deponame ,String year, String yearName) {
+    FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(deponame)
+        .collection(year)
+        .doc(yearName)
+        .set({'depoName': deponame});
+  }
+
+ energynestedKeyEventsField(String collectionName, String deponame1,
+      String collectionName1, String userid, String month , String monthName) {
+    FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(deponame1)
+        .collection(collectionName1)
+        .doc(userid)
+        .collection(month)
+        .doc(monthName)
+        .set({'depoName': deponame1});
+  }
+
+
   defaultKeyEventsField(String collectionName, String deponame) {
     FirebaseFirestore.instance
         .collection(collectionName)
