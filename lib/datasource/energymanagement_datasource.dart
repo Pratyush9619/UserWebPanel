@@ -168,21 +168,21 @@ class EnergyManagementDatasource extends DataGridSource {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<dynamic>(columnName: 'VehicleNo', value: newCellValue);
       _energyManagement[dataRowIndex].vehicleNo = newCellValue;
-    } else if (column.columnName == 'PssNo') {
+    } else if (column.columnName == 'pssNo') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<int>(columnName: 'PssNo', value: newCellValue);
+          DataGridCell<int>(columnName: 'pssNo', value: newCellValue);
       _energyManagement[dataRowIndex].pssNo = newCellValue;
-    } else if (column.columnName == 'ChargerId') {
+    } else if (column.columnName == 'chargerId') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<dynamic>(columnName: 'ChargerId', value: newCellValue);
+          DataGridCell<dynamic>(columnName: 'chargerId', value: newCellValue);
       _energyManagement[dataRowIndex].chargerId = newCellValue;
     } else if (column.columnName == 'StartSoc') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<int>(columnName: 'StartSoc', value: newCellValue);
+          DataGridCell<int>(columnName: 'StartSoc', value: newCellValue as int);
       _energyManagement[dataRowIndex].startSoc = newCellValue;
-    } else if (column.columnName == 'EndSoc') {
+    } else if (column.columnName == 'endSoc') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<int>(columnName: 'EndSoc', value: newCellValue);
+          DataGridCell<int>(columnName: 'endSoc', value: newCellValue);
       _energyManagement[dataRowIndex].endSoc = newCellValue;
     } else if (column.columnName == 'SatrtDate') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -233,19 +233,12 @@ class EnergyManagementDatasource extends DataGridSource {
     // into the current non-modified [DataGridCell].
     newCellValue = null;
 
-    final bool isNumericType = column.columnName == 'OriginalDuration' ||
-        column.columnName == 'srNo' ||
+    final bool isNumericType = column.columnName == 'pssNo' ||
+        column.columnName == 'chargerId' ||
         // column.columnName == 'EndDate' ||
         // column.columnName == 'ActualStart' ||
-        // column.columnName == 'ActualEnd' ||
-        column.columnName == 'ActualDuration' ||
-        column.columnName == 'Delay' ||
-        column.columnName == 'Unit' ||
-        column.columnName == 'QtyScope' ||
-        column.columnName == 'QtyExecuted' ||
-        column.columnName == 'BalancedQty' ||
-        column.columnName == 'Progress' ||
-        column.columnName == 'Weightage';
+        column.columnName == 'endSoc' ||
+        column.columnName == 'startSoc';
 
     final bool isDateTimeType = column.columnName == 'StartDate' ||
         column.columnName == 'EndDate' ||

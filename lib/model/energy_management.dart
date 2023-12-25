@@ -31,25 +31,21 @@ class EnergyManagementModel {
   double enrgyConsumed;
   dynamic timeInterval;
 
-  // factory Employee.fromJson(Map<String, dynamic> json) {
-  //   return Employee(
-  //       srNo: json['srNo'],
-  //       activity: json['Activity'],
-  //       originalDuration: json['OriginalDuration'],
-  //       startDate: json['StartDate'],
-  //       endDate: json['EndDate'],
-  //       actualstartDate: json['ActualStart'],
-  //       actualendDate: json['ActualEnd'],
-  //       actualDuration: json['ActualDuration'],
-  //       delay: json['Delay'],
-  //       reasonDelay: json['ReasonDelay'],
-  //       unit: json['Unit'],
-  //       scope: json['QtyScope'],
-  //       qtyExecuted: json['QtyExecuted'],
-  //       balanceQty: json['BalancedQty'],
-  //       percProgress: json['Progress'],
-  //       weightage: json['Weightage']);
-  // }
+  factory EnergyManagementModel.fromJson(Map<String, dynamic> json) {
+    return EnergyManagementModel(
+        srNo: json['srNo'],
+        depotName: json['DepotName'],
+        vehicleNo: json['VehicleNo'],
+        pssNo: json['pssNo'],
+        chargerId: json['chargerId'],
+        startSoc: json['startSoc'],
+        endSoc: json['endSoc'],
+        startDate: json['startDate'],
+        endDate: json['endDate'],
+        totalTime: json['totalTime'],
+        enrgyConsumed: json['enrgyConsumed'],
+        timeInterval: json['timeInterval']);
+  }
 
   DataGridRow getDataGridRow() {
     return DataGridRow(cells: <DataGridCell>[
