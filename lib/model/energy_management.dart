@@ -15,7 +15,7 @@ class EnergyManagementModel {
       required this.endDate,
       required this.totalTime,
       // this.dependency,
-      required this.enrgyConsumed,
+      required this.energyConsumed,
       required this.timeInterval});
 
   dynamic srNo;
@@ -28,7 +28,7 @@ class EnergyManagementModel {
   String startDate;
   String endDate;
   String totalTime;
-  double enrgyConsumed;
+  double energyConsumed;
   dynamic timeInterval;
 
   factory EnergyManagementModel.fromJson(Map<String, dynamic> json) {
@@ -43,7 +43,7 @@ class EnergyManagementModel {
         startDate: json['startDate'],
         endDate: json['endDate'],
         totalTime: json['totalTime'],
-        enrgyConsumed: json['enrgyConsumed'],
+        energyConsumed: json['energyConsumed'],
         timeInterval: json['timeInterval']);
   }
 
@@ -59,7 +59,7 @@ class EnergyManagementModel {
       DataGridCell<String>(columnName: 'startDate', value: startDate),
       DataGridCell<String>(columnName: 'endDate', value: endDate),
       DataGridCell<String>(columnName: 'totalTime', value: totalTime),
-      DataGridCell<double>(columnName: 'enrgyConsumed', value: enrgyConsumed),
+      DataGridCell<double>(columnName: 'energyConsumed', value: energyConsumed),
       DataGridCell<dynamic>(columnName: 'timeInterval', value: timeInterval),
     ]);
   }

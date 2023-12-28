@@ -1,4 +1,5 @@
 import 'package:assingment/Splash/splash_screen.dart';
+import 'package:assingment/provider/energy_provider.dart';
 import 'package:assingment/provider/key_provider.dart';
 import 'package:assingment/provider/selected_row_index.dart';
 import 'package:assingment/provider/summary_provider.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => KeyProvider()),
         ChangeNotifierProvider(create: (context) => SummaryProvider()),
         ChangeNotifierProvider(create: (context) => SelectedRowIndexModel()),
+        ChangeNotifierProvider(create: (context) => EnergyProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

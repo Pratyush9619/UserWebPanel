@@ -498,7 +498,7 @@ class _ClosureReportState extends State<ClosureReport> {
                       // alldata = '';
                       // alldata = snapshot.data['data'] as List<dynamic>;
                       // qualitylisttable1.clear();
-                      alldata.forEach((element) {});
+                      // alldata.forEach((element) {});
                       return SfDataGridTheme(
                         data: SfDataGridThemeData(headerColor: blue),
                         child: SfDataGrid(
@@ -535,7 +535,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                             GridColumn(
                               columnName: 'Content',
-                              width: 450,
+                              width: 700,
                               allowEditing: false,
                               label: Container(
                                 padding: const EdgeInsets.all(8.0),
@@ -553,7 +553,7 @@ class _ClosureReportState extends State<ClosureReport> {
                               columnName: 'Upload',
                               allowEditing: false,
                               visible: true,
-                              width: 150,
+                              width: 250,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
@@ -569,7 +569,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             GridColumn(
                               columnName: 'View',
                               allowEditing: false,
-                              width: 150,
+                              width: 250,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
