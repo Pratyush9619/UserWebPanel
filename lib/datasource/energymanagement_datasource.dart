@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../model/energy_management.dart';
+import '../widget/style.dart';
 
 class EnergyManagementDatasource extends DataGridSource {
   BuildContext mainContext;
@@ -46,6 +47,19 @@ class EnergyManagementDatasource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    void addRowAtIndex(int index, EnergyManagementModel rowData) {
+      _energyManagement.insert(index, rowData);
+      buildDataGridRows();
+      notifyListeners();
+      // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
+    }
+
+    void removeRowAtIndex(int index) {
+      _energyManagement.removeAt(index);
+      buildDataGridRows();
+      notifyListeners();
+    }
+
     DateTime? rangeStartDate = DateTime.now();
     DateTime? date;
     Duration difference;
@@ -140,15 +154,46 @@ class EnergyManagementDatasource extends DataGridSource {
                   : (dataGridCell.columnName == 'totalTime')
                       ? Text(
                           '${difference.inHours}:${difference.inMinutes % 60}:${difference.inSeconds % 60}')
-
-                      // : (dataGridCell.columnName == 'timeInterval')
-                      //     ? Text(
-                      //         '${startDate.hour}:${startDate.minute} - ${startDate.add(const Duration(hours: 6)).hour}:${startDate.add(const Duration(hours: 6)).minute}')
-
-                      : Text(
-                          dataGridCell.value.toString(),
-                          textAlign: TextAlign.center,
-                        ));
+                      : (dataGridCell.columnName == 'Add')
+                          ? ElevatedButton(
+                              onPressed: () {
+                                addRowAtIndex(
+                                    dataRowIndex + 1,
+                                    EnergyManagementModel(
+                                        srNo: dataRowIndex + 2,
+                                        depotName: depoName!,
+                                        vehicleNo: 'vehicleNo',
+                                        pssNo: 1,
+                                        chargerId: 1,
+                                        startSoc: 1,
+                                        endSoc: 1,
+                                        startDate:
+                                            DateFormat('dd-MM-yyyy HH:mm:ss')
+                                                .format(DateTime.now()),
+                                        endDate:
+                                            DateFormat('dd-MM-yyyy HH:mm:ss')
+                                                .format(DateTime.now()),
+                                        totalTime:
+                                            DateFormat('dd-MM-yyyy HH:mm:ss')
+                                                .format(DateTime.now()),
+                                        energyConsumed: 1500,
+                                        timeInterval:
+                                            '${DateTime.now().hour}:${DateTime.now().minute} - ${DateTime.now().add(const Duration(hours: 6)).hour}:${DateTime.now().add(const Duration(hours: 6)).minute}'));
+                              },
+                              child: const Text('Add'))
+                          : (dataGridCell.columnName == 'Delete')
+                              ? IconButton(
+                                  onPressed: () {
+                                    removeRowAtIndex(dataRowIndex);
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: red,
+                                  ))
+                              : Text(
+                                  dataGridCell.value.toString(),
+                                  textAlign: TextAlign.center,
+                                ));
     }).toList());
   }
 

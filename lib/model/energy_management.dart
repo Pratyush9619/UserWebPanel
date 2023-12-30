@@ -61,6 +61,8 @@ class EnergyManagementModel {
       DataGridCell<String>(columnName: 'totalTime', value: totalTime),
       DataGridCell<double>(columnName: 'energyConsumed', value: energyConsumed),
       DataGridCell<dynamic>(columnName: 'timeInterval', value: timeInterval),
+       const DataGridCell(columnName: 'Add', value: null),
+      const DataGridCell(columnName: 'Delete', value: null)
     ]);
   }
 }

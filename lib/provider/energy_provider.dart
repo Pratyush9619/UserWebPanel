@@ -3,23 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EnergyProvider extends ChangeNotifier {
-  List<dynamic> intervalListData = [''];
-  List<dynamic> energyListData = [0];
+  List<dynamic> intervalListData = [];
+  List<dynamic> energyListData = [];
 
   List<dynamic> get intervalData => intervalListData;
   List<dynamic> get energyData => energyListData;
 
-  fetchGraphData(String depoName, dynamic userId) {
+  fetchGraphData(String cityName, String depoName, dynamic userId) {
     final List<dynamic> timeIntervalList = [];
     final List<dynamic> energyConsumedList = [];
     timeIntervalList.clear();
     energyConsumedList.clear();
     int currentMonth = DateTime.now().month;
-    String monthName =
-        DateFormat('MMMM').format(DateTime(2000, currentMonth, 1));
+    String monthName = DateFormat('MMMM').format(DateTime.now());
 
     FirebaseFirestore.instance
         .collection('EnergyManagementTable')
+        .doc(cityName)
+        .collection('Depots')
         .doc(depoName)
         .collection('Year')
         .doc(DateTime.now().year.toString())
@@ -36,6 +37,7 @@ class EnergyProvider extends ChangeNotifier {
         for (int i = 0; i < value.data()!['data'].length; i++) {
           timeIntervalList.add(value.data()!['data'][i]['timeInterval']);
           energyConsumedList.add(value.data()!['data'][i]['energyConsumed']);
+          print(energyConsumedList);
         }
 
         intervalListData = timeIntervalList;
@@ -43,8 +45,8 @@ class EnergyProvider extends ChangeNotifier {
 
         notifyListeners();
       } else {
-        intervalListData = [''];
-        energyListData = [0];
+        intervalListData = timeIntervalList;
+        energyListData = energyConsumedList;
 
         notifyListeners();
       }
