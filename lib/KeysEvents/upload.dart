@@ -1,14 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:assingment/widget/style.dart';
+import 'dart:typed_data';
+
+import 'package:assingment/KeysEvents/view_AllFiles.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../widget/custom_appbar.dart';
+import '../widget/style.dart';
 
 class UploadDocument extends StatefulWidget {
   String? title;
@@ -49,8 +48,9 @@ class _UploadDocumentState extends State<UploadDocument> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: PreferredSize(
+            // ignore: sort_child_properties_last
             child: CustomAppBar(
-              text: '${widget.cityName}/${widget.depoName}/Upload Checklist',
+              text: '${widget.cityName}/${widget.depoName}/Upload',
               haveSynced: false,
             ),
             preferredSize: const Size.fromHeight(50)),
@@ -197,7 +197,8 @@ class _UploadDocumentState extends State<UploadDocument> {
                               String refname = (widget.title ==
                                       'QualityChecklist'
                                   ? '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}/${result!.files.first.name}'
-                                  : widget.pagetitle == 'ClosureReport'
+                                  : widget.pagetitle == 'ClosureReport' ||
+                                          widget.pagetitle == 'Overview Page'
                                       ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${result!.files.first.name}'
                                       : '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.fldrName}/${result!.files.first.name}');
 
@@ -238,7 +239,24 @@ class _UploadDocumentState extends State<UploadDocument> {
                       child: Text(
                           'Back to ${widget.title == 'QualityChecklist' ? 'Quality Checklist' : widget.pagetitle}')),
                 ),
-              )
+              ),
+              widget.pagetitle == 'Overview Page'
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return ViewAllPdf(
+                              title: 'Overview Page',
+                              cityName: widget.cityName,
+                              depoName: widget.depoName,
+                              userId: widget.userId,
+                              docId: 'OverviewepoImages',
+                            );
+                          },
+                        ));
+                      },
+                      child: const Text('View File'))
+                  : Container()
             ],
           ),
         ));

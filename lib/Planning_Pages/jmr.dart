@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:assingment/Jmr/jmr_home.dart';
+import 'package:assingment/overview/Jmr/jmr_home.dart';
 import 'package:assingment/components/loading_page.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +13,12 @@ class Jmr extends StatefulWidget {
   int? finalLenOfView;
   String? cityName;
   String? depoName;
-  Jmr({super.key, this.cityName, this.depoName, this.finalLenOfView});
+  Jmr({
+    super.key,
+    this.cityName,
+    this.depoName,
+    this.finalLenOfView,
+  });
 
   @override
   State<Jmr> createState() => _JmrState();
@@ -28,7 +33,18 @@ class _JmrState extends State<Jmr> {
   List tabsForJmr = ['Civil', 'Electrical'];
 
   dynamic userId;
-  List<String> title = ['R1', 'R2', 'R3', 'R4', 'R5'];
+  List<String> title = [
+    'R1',
+    'R2',
+    'R3',
+    'R4',
+    'R5',
+    'R6',
+    'R7',
+    'R8',
+    'R9',
+    'R10'
+  ];
 
   @override
   void initState() {

@@ -105,6 +105,15 @@ class _DepotsPageState extends State<DepotsPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: blue,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2.0,
+                      spreadRadius: 0.0,
+                      offset:
+                          Offset(2.0, 2.0), // shadow direction: bottom right
+                    )
+                  ],
                   image: DecorationImage(
                       image: NetworkImage(
                         img,
@@ -126,7 +135,10 @@ class _DepotsPageState extends State<DepotsPage> {
                               cityName: widget.cityName, depoName: title),
                         ));
                   },
-                  child: Text(title))
+                  child: Text(
+                    title,
+                    style: appFontSize,
+                  ))
               // Container(
               //   padding: const EdgeInsets.only(left: 60),
               //   alignment: Alignment.center,

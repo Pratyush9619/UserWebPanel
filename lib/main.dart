@@ -1,12 +1,19 @@
 import 'package:assingment/Splash/splash_screen.dart';
+import 'package:assingment/provider/key_provider.dart';
+import 'package:assingment/provider/selected_row_index.dart';
 import 'package:assingment/provider/summary_provider.dart';
+import 'package:assingment/screen/demand%20energy%20management/demandScreen.dart';
+import 'package:assingment/screen/demand%20energy%20management/search_widget.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'screen/demand energy management/bar_graph.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
       options: const FirebaseOptions(
     apiKey: "AIzaSyCrSwVB12UIZ_wiLcsIqDeXb3cP6QKkMgM",
@@ -15,6 +22,7 @@ void main() async {
     storageBucket: "tp-zap-solz.appspot.com",
     projectId: "tp-zap-solz",
   ));
+
   runApp(const MyApp());
 }
 
@@ -26,7 +34,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => KeyProvider()),
         ChangeNotifierProvider(create: (context) => SummaryProvider()),
+        ChangeNotifierProvider(create: (context) => SelectedRowIndexModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -77,11 +87,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // CitiesPage();
-        // OverviewPage(
-        //   depoName: 'sdsa',
-        // );
-        const SplashScreen();
+    return const SplashScreen();
+    //  SearchWidget();
+    // const DemandEnergyScreen();
+    // BarGraphScreen();
+    // CitiesPage();
+    // OverviewPage(
+    //   depoName: 'sdsa',
+    // );
+    //  SplashScreen();
   }
 }

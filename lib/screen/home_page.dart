@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:assingment/screen/cities_page.dart';
 import 'package:assingment/widget/style.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -64,46 +63,50 @@ class _HomePageState extends State<HomePage> {
                 }),
               ),
               Positioned(
-                  bottom: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: SizedBox(
-                      height: 48,
-                      width: MediaQuery.of(context).size.width - 30,
-                      // width: 340,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            // minimumSize: MediaQuery.of(context).size,
-                            backgroundColor: blue,
+                bottom: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: SizedBox(
+                    height: 48,
+                    width: MediaQuery.of(context).size.width - 30,
+                    // width: 340,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        // minimumSize: MediaQuery.of(context).size,
+                        backgroundColor: blue,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CitiesPage(),
+                            ));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Proceed',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: almostWhite,
+                                fontWeight: FontWeight.w500),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CitiesPage(),
-                                ));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Proceed',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: almostWhite,
-                                      fontWeight: FontWeight.w500)),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              const Icon(
-                                Icons.forward,
-                                size: 35,
-                              )
-                            ],
-                          )),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          const Icon(
+                            Icons.forward,
+                            size: 35,
+                          ),
+                        ],
+                      ),
                     ),
-                  ))
+                  ),
+                ),
+              ),
             ],
           ),
         ));

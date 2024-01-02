@@ -84,7 +84,7 @@ class QualityRoofingDataSource extends DataGridSource {
                             cityName: cityName,
                             depoName: depoName,
                             userId: userId,
-                            fldrName: 'WC&R Table',
+                            fldrName: 'Roofing Table',
                             date: currentDate,
                             srNo: row.getCells()[0].value,
                           ),
@@ -104,7 +104,7 @@ class QualityRoofingDataSource extends DataGridSource {
                                       cityName: cityName,
                                       depoName: depoName,
                                       userId: userId,
-                                      fldrName: 'WC&R Table',
+                                      fldrName: 'Roofing Table',
                                       date: currentDate,
                                       srNo: row.getCells()[0].value,
                                     )));

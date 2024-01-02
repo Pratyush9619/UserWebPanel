@@ -1,6 +1,7 @@
 import 'package:assingment/Authentication/auth_service.dart';
 import 'package:assingment/Authentication/register.dart';
 import 'package:assingment/Authentication/reset_password.dart';
+import 'package:assingment/screen/dashboard.dart';
 import 'package:assingment/screen/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,6 +70,7 @@ class _SignInPageState extends State<SignInPage> {
 
                               return null;
                             },
+
                             style: bodyText2White60,
                             keyboardType: TextInputType.emailAddress,
                             // onSaved: (value) {
@@ -76,6 +78,7 @@ class _SignInPageState extends State<SignInPage> {
                             //   _email = value;
                             // },
                           ),
+
                           const SizedBox(height: 24),
                           TextFormField(
                             textInputAction: TextInputAction.done,
@@ -287,18 +290,20 @@ class _SignInPageState extends State<SignInPage> {
             _id == snap.docs[0]['Employee Id']) {
           _sharedPreferences = await SharedPreferences.getInstance();
           _sharedPreferences.setString('employeeId', _id).then((_) {
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ));
+                MaterialPageRoute(builder: (context) => DashBoardScreen()),
+                (route) => false);
           });
         } else {
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Password is not correct')));
+            const SnackBar(
+              content: Text('Password is not correct'),
+            ),
+          );
         }
       } catch (e) {
         // ignore: use_build_context_synchronously

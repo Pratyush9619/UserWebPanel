@@ -9,6 +9,11 @@ Color blue = Color.fromARGB(255, 9, 83, 161);
 Color lightblue = Color(0xff009eff);
 Color white = Color(0xffffffff);
 
+TextStyle closureTextStyle = const TextStyle(
+  fontSize: 13,
+  fontWeight: FontWeight.bold,
+);
+
 TextStyle formtext = const TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.bold,
@@ -17,6 +22,7 @@ TextStyle tableheader = const TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 14,
 );
+TextStyle appFontSize =const TextStyle(fontSize: 14);
 TextStyle tableheaderwhitecolor =
     TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: white);
 TextStyle bodyText1 = GoogleFonts.ibmPlexSans(

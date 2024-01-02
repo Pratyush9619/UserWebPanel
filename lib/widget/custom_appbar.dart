@@ -1,11 +1,12 @@
+import 'package:assingment/overview/key_events2.dart';
 import 'package:assingment/overview/material_vendor.dart';
 import 'package:assingment/screen/overview_page.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../Authentication/auth_service.dart';
@@ -20,9 +21,11 @@ import '../overview/detailed_Eng.dart';
 import '../overview/key_events.dart';
 import '../overview/monthly_project.dart';
 import '../overview/testing_report.dart';
+import '../provider/key_provider.dart';
 
 class CustomAppBar extends StatefulWidget {
   String? cityname;
+  int? progress;
   String? text;
   bool toOverviewPage;
   bool toOverview;
@@ -37,6 +40,10 @@ class CustomAppBar extends StatefulWidget {
   bool toTesting;
   bool toClosure;
   bool toEasyMonitoring;
+  bool isDownload;
+  VoidCallback? donwloadFunction;
+  bool isprogress;
+  dynamic totalValue;
 
   // final IconData? icon;
   final bool haveSynced;
@@ -47,42 +54,47 @@ class CustomAppBar extends StatefulWidget {
   bool havedropdown;
   bool isdetailedTab;
   bool showDepoBar;
-
   TabBar? tabBar;
 
-  CustomAppBar({
-    this.cityname,
-    super.key,
-    this.text,
-    this.haveSynced = false,
-    this.haveSummary = false,
-    this.store,
-    this.onTap,
-    this.havedropdown = false,
-    this.havebottom = false,
-    this.isdetailedTab = false,
-    this.tabBar,
-    this.showDepoBar = false,
-    this.toChecklist = false,
-    this.toTesting = false,
-    this.toClosure = false,
-    this.toEasyMonitoring = false,
-    this.toSubmission = false,
-    this.toOverviewPage = false,
-    this.toOverview = false,
-    this.toPlanning = false,
-    this.toMaterial = false,
-    this.toMonthly = false,
-    this.toDetailEngineering = false,
-    this.toJmr = false,
-    this.toSafety = false,
-  });
+  CustomAppBar(
+      {this.cityname,
+      super.key,
+      this.text,
+      this.haveSynced = false,
+      this.haveSummary = false,
+      this.store,
+      this.onTap,
+      this.havedropdown = false,
+      this.havebottom = false,
+      this.isdetailedTab = false,
+      this.tabBar,
+      this.showDepoBar = false,
+      this.toChecklist = false,
+      this.toTesting = false,
+      this.toClosure = false,
+      this.toEasyMonitoring = false,
+      this.toSubmission = false,
+      this.toOverviewPage = false,
+      this.toOverview = false,
+      this.toPlanning = false,
+      this.toMaterial = false,
+      this.toMonthly = false,
+      this.toDetailEngineering = false,
+      this.toJmr = false,
+      this.toSafety = false,
+      this.isprogress = false,
+      this.totalValue,
+      this.isDownload = false,
+      this.donwloadFunction,
+      this.progress});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  KeyProvider? _keyProvider;
+  bool isLoading = true;
   dynamic userId;
   TextEditingController selectedDepoController = TextEditingController();
   String? rangeStartDate = DateFormat.yMMMMd().format(DateTime.now());
@@ -90,10 +102,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   void initState() {
-    getUserId().whenComplete(() {
-      setState(() {});
+    Future.delayed(Duration.zero, () {
+      _keyProvider = Provider.of<KeyProvider>(context, listen: false);
+      getUserId().whenComplete(() {
+        setState(() {});
+      });
     });
+
     super.initState();
+  }
+
+  Future<int> checkPercent() async {
+    return widget.progress!.toInt();
   }
 
   @override
@@ -103,8 +123,43 @@ class _CustomAppBarState extends State<CustomAppBar> {
             backgroundColor: blue,
             title: Text(
               widget.text.toString(),
+              style: appFontSize,
             ),
             actions: [
+              widget.isprogress
+                  ? FutureBuilder<int>(
+                      future: checkPercent(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularPercentIndicator(radius: 2);
+                        } else if (snapshot.hasData) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: SizedBox(
+                              height: 18.0,
+                              width: 40.0,
+                              child: CircularPercentIndicator(
+                                radius: 20.0,
+                                lineWidth: 5.0,
+                                percent: (Provider.of<KeyProvider>(context)
+                                        .totalvalue
+                                        .toInt()) /
+                                    100,
+                                center: Text(
+                                  "${(widget.progress!.toInt()) / 100 * 100}% ",
+                                  textAlign: TextAlign.center,
+                                  style: captionWhite,
+                                ),
+                                progressColor: green,
+                                backgroundColor: red,
+                              ),
+                            ),
+                          );
+                        }
+                        return Container();
+                      })
+                  : Container(),
               widget.showDepoBar
                   ? Container(
                       padding: const EdgeInsets.all(5.0),
@@ -148,7 +203,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                         ? Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => KeyEvents(
+                                              builder: (context) => KeyEvents2(
                                                 depoName: suggestion,
                                                 cityName: widget.cityname,
                                               ),
@@ -285,6 +340,81 @@ class _CustomAppBarState extends State<CustomAppBar> {
               const SizedBox(
                 width: 10,
               ),
+              widget.isprogress
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width: 300,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                legends(yellow, 'Base Line', black),
+                                legends(green, 'On Time', black),
+                                legends(red, 'Delay', white),
+                              ],
+                            )),
+                        Consumer<KeyProvider>(
+                          builder: (context, value, child) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 2, right: 10, left: 10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 130,
+                                    color: green,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                          'Project Duration \n ${durationParse(value.startdate, value.endDate)} Days',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: black)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Container(
+                                    width: 130,
+                                    color: red,
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                          'Project Delay \n ${durationParse(value.actualDate, value.endDate)}  Days ',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: white)),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text('% Of Progress is '),
+                                  SizedBox(
+                                    height: 50.0,
+                                    width: 40.0,
+                                    child: CircularPercentIndicator(
+                                      radius: 20.0,
+                                      lineWidth: 4.0,
+                                      percent:
+                                          (value.perProgress.toInt()) / 100,
+                                      center: Text(
+                                        // value.getName.toString(),
+                                        "${(value.perProgress.toInt())}% ",
+                                        textAlign: TextAlign.center,
+                                        style: captionWhite,
+                                      ),
+                                      progressColor: green,
+                                      backgroundColor: red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  : Container(),
               widget.haveSummary
                   ? Padding(
                       padding:
@@ -318,10 +448,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             },
                             child: Text(
                               'Sync Data',
-                              style: TextStyle(color: white, fontSize: 20),
+                              style: TextStyle(color: white, fontSize: 15),
                             )),
                       ),
                     )
+                  : Container(),
+              widget.isDownload
+                  ? ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(blue)),
+                      onPressed: widget.donwloadFunction,
+                      child: const Icon(Icons.download))
                   : Container(),
               Padding(
                   padding: const EdgeInsets.only(right: 40),
@@ -339,7 +476,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           SizedBox(width: 5),
                           Text(
                             userId ?? '',
-                            style: const TextStyle(fontSize: 18),
+                            style: appFontSize,
                           )
                         ],
                       ))),
@@ -447,7 +584,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginRegister(),
+                                  builder: (context) => const LoginRegister(),
                                 ));
                             // exit(0);
                           },
@@ -501,4 +638,31 @@ class _CustomAppBarState extends State<CustomAppBar> {
       userId = value;
     });
   }
+}
+
+legends(Color color, String title, Color textColor) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 5, bottom: 5),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+            width: 75,
+            height: 28,
+            color: color,
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w900, color: textColor),
+            )),
+      ],
+    ),
+  );
+}
+
+int durationParse(String fromtime, String todate) {
+  DateTime startdate = DateFormat('dd-MM-yyyy').parse(fromtime);
+  DateTime enddate = DateFormat('dd-MM-yyyy').parse(todate);
+  return enddate.add(Duration(days: 1)).difference(startdate).inDays;
 }

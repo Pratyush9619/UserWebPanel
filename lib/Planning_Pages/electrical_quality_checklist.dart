@@ -142,58 +142,58 @@ class _ElectricalQualityChecklistState
 
     getUserId().whenComplete(() => {
           getControllersData(),
-          getTableData().whenComplete(() => {
-                qualitylisttable1 = checkTable ? getData() : data,
-                _qualityPSSDataSource = QualityPSSDataSource(
-                    qualitylisttable1, widget.depoName!, widget.cityName!),
-                _dataGridController = DataGridController(),
-              }),
+          getTableData().whenComplete(() {
+            qualitylisttable1 = checkTable ? getData() : data;
+            _qualityPSSDataSource = QualityPSSDataSource(
+                qualitylisttable1, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable2 = checkTable ? rmu_getData() : data;
+            _qualityrmuDataSource = QualityrmuDataSource(
+                qualitylisttable2, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable3 = checkTable ? ct_getData() : data;
+            _qualityctDataSource = QualityctDataSource(
+                qualitylisttable3, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable4 = checkTable ? cmu_getData() : data;
+            _qualitycmuDataSource = QualitycmuDataSource(
+                qualitylisttable4, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable5 = checkTable ? acdb_getData() : data;
+            _qualityacdDataSource = QualityacdDataSource(
+                qualitylisttable5, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable6 = checkTable ? ci_getData() : data;
+            _qualityCIDataSource = QualityCIDataSource(
+                qualitylisttable6, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable7 = checkTable ? cdi_getData() : data;
+            _qualityCDIDataSource = QualityCDIDataSource(
+                qualitylisttable7, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable8 = checkTable ? msp_getData() : data;
+            _qualityMSPDataSource = QualityMSPDataSource(
+                qualitylisttable8, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable9 = checkTable ? charger_getData() : data;
+            _qualityChargerDataSource = QualityChargerDataSource(
+                qualitylisttable9, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable10 = checkTable ? earth_pit_getData() : data;
+            _qualityEPDataSource = QualityEPDataSource(
+                qualitylisttable10, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+          }),
         });
-
-    qualitylisttable2 = rmu_getData();
-    _qualityrmuDataSource = QualityrmuDataSource(
-        qualitylisttable2, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable3 = ct_getData();
-    _qualityctDataSource = QualityctDataSource(
-        qualitylisttable3, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable4 = cmu_getData();
-    _qualitycmuDataSource = QualitycmuDataSource(
-        qualitylisttable4, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable5 = acdb_getData();
-    _qualityacdDataSource = QualityacdDataSource(
-        qualitylisttable5, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable6 = ci_getData();
-    _qualityCIDataSource = QualityCIDataSource(
-        qualitylisttable6, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable7 = cdi_getData();
-    _qualityCDIDataSource = QualityCDIDataSource(
-        qualitylisttable7, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable8 = msp_getData();
-    _qualityMSPDataSource = QualityMSPDataSource(
-        qualitylisttable8, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable9 = charger_getData();
-    _qualityChargerDataSource = QualityChargerDataSource(
-        qualitylisttable9, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-
-    qualitylisttable10 = earth_pit_getData();
-    _qualityEPDataSource = QualityEPDataSource(
-        qualitylisttable10, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
   }
 
   @override
@@ -203,7 +203,7 @@ class _ElectricalQualityChecklistState
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            toolbarHeight: 20,
+            toolbarHeight: 8,
             bottom: TabBar(
               labelColor: Colors.yellow,
               labelStyle: buttonWhite,
@@ -273,56 +273,80 @@ class _ElectricalQualityChecklistState
                 return Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
-                      height: 80,
-                      decoration: BoxDecoration(color: lightblue),
+                      padding: const EdgeInsets.only(top: 8),
+                      height: 50,
+                      // decoration: BoxDecoration(color: lightblue),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          // Row(
+                          //   children: [
+                          //     Image.asset('assets/Tata-Power.jpeg',
+                          //         height: 50, width: 100),
+                          //     const Text('TATA POWER'),
+                          //   ],
+                          // ),
+                          Text(
+                            title[int.parse(_selectedIndex.toString())],
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: blue),
+                          ),
                           Row(
                             children: [
-                              Image.asset('assets/Tata-Power.jpeg',
-                                  height: 50, width: 100),
-                              const Text('TATA POWER'),
+                              Text(
+                                'Choose Date : ',
+                                style: TextStyle(
+                                  color: blue,
+                                  fontSize: 17,
+                                ),
+                              ),
+                              ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStatePropertyAll(blue)),
+                                  onPressed: () => _selectDate(context),
+                                  child: Text(
+                                    DateFormat('MMMM dd, yyyy')
+                                        .format(currentDate),
+                                    style: GoogleFonts.aBeeZee(
+                                        fontSize: 15, color: white),
+                                  )),
                             ],
                           ),
                           Text(
-                            title[int.parse(_selectedIndex.toString())],
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                          ElevatedButton(
-                              style: const ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.white)),
-                              onPressed: () => _selectDate(context),
-                              child: Text(
-                                DateFormat('MMMM dd, yyyy').format(currentDate),
-                                style: GoogleFonts.aBeeZee(
-                                    fontSize: 15, color: Colors.black),
-                              )),
-                          const Text('TPCL /DIST/EV/CHECKLIST ')
+                            'TPCL /DIST/EV/CHECKLIST',
+                            style: TextStyle(color: blue),
+                          )
                         ],
                       ),
                     ),
                     Container(
-                        decoration: BoxDecoration(color: lightblue),
+                        padding: const EdgeInsets.only(
+                            bottom: 10, left: 50, right: 50),
+                        // decoration: BoxDecoration(color: lightblue),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      const SizedBox(
+                                      SizedBox(
                                           width: 150,
                                           child: Text(
-                                            'Employee Name',
+                                            'Employee Name : ',
+                                            style: TextStyle(color: blue),
                                           )),
                                       const SizedBox(width: 5),
                                       Expanded(
@@ -339,8 +363,9 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: blue),
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -365,19 +390,20 @@ class _ElectricalQualityChecklistState
                                   ),
                                 ),
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      const SizedBox(
+                                      SizedBox(
                                           width: 150,
                                           child: Text(
-                                            'Doc No.:TPCL/ DIST-EV',
+                                            'Doc No. TPCL / DIST-EV:',
+                                            style: TextStyle(color: blue),
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
@@ -392,8 +418,9 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: blue),
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -416,8 +443,8 @@ class _ElectricalQualityChecklistState
                                   ),
                                 ),
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -426,9 +453,10 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' VENDOR NAME',
+                                            'Vendor Name : ',
+                                            style: TextStyle(color: blue),
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
@@ -443,8 +471,9 @@ class _ElectricalQualityChecklistState
                                                                       top: 0,
                                                                       bottom: 0,
                                                                       left: 5)),
-                                                      style: const TextStyle(
-                                                          fontSize: 15),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: blue),
                                                     )
                                                   : Container(
                                                       width: 120,
@@ -467,8 +496,8 @@ class _ElectricalQualityChecklistState
                                   ),
                                 ),
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -477,9 +506,10 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' DATE',
+                                            'Date : ',
+                                            style: TextStyle(color: blue),
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
@@ -536,8 +566,8 @@ class _ElectricalQualityChecklistState
                             Column(
                               children: [
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -546,9 +576,10 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' OLA NUMBER',
+                                            'OLA Number : ',
+                                            style: TextStyle(color: blue),
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
@@ -584,8 +615,8 @@ class _ElectricalQualityChecklistState
                                   ),
                                 ),
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -594,9 +625,10 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' PANEL SR NO.',
+                                            'Panel Sr No. : ',
+                                            style: TextStyle(color: blue),
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
@@ -635,8 +667,8 @@ class _ElectricalQualityChecklistState
                                   ),
                                 ),
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -645,9 +677,10 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            ' Depot Name',
+                                            'Depot Name',
+                                            style: TextStyle(color: blue),
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
@@ -686,8 +719,8 @@ class _ElectricalQualityChecklistState
                                   ),
                                 ),
                                 Container(
-                                  color: lightblue,
-                                  width: 625,
+                                  // color: lightblue,
+                                  width: 550,
                                   padding: const EdgeInsets.all(3),
                                   child: Row(
                                     mainAxisAlignment:
@@ -696,9 +729,10 @@ class _ElectricalQualityChecklistState
                                       Container(
                                           width: 150,
                                           child: Text(
-                                            'CustomerName',
+                                            'Customer Name : ',
+                                            style: TextStyle(color: blue),
                                           )),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Expanded(
                                           child: Container(
                                               height: 30,
@@ -1264,57 +1298,57 @@ class _ElectricalQualityChecklistState
       checkTable = false;
     }
 
-    if (_selectedIndex == 0) {
-      qualitylisttable1 = checkTable ? getData() : data;
-      _qualityPSSDataSource = QualityPSSDataSource(
-          qualitylisttable1, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 1) {
-      qualitylisttable2 = checkTable ? rmu_getData() : data;
-      _qualityrmuDataSource = QualityrmuDataSource(
-          qualitylisttable2, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 2) {
-      qualitylisttable3 = checkTable ? ct_getData() : data;
-      _qualityctDataSource = QualityctDataSource(
-          qualitylisttable3, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 3) {
-      qualitylisttable4 = checkTable ? cmu_getData() : data;
-      _qualitycmuDataSource = QualitycmuDataSource(
-          qualitylisttable4, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 4) {
-      qualitylisttable5 = checkTable ? acdb_getData() : data;
-      _qualityacdDataSource = QualityacdDataSource(
-          qualitylisttable5, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 5) {
-      qualitylisttable6 = checkTable ? ci_getData() : data;
-      _qualityCIDataSource = QualityCIDataSource(
-          qualitylisttable6, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 6) {
-      qualitylisttable7 = checkTable ? cdi_getData() : data;
-      _qualityCDIDataSource = QualityCDIDataSource(
-          qualitylisttable7, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 7) {
-      qualitylisttable8 = checkTable ? msp_getData() : data;
-      _qualityMSPDataSource = QualityMSPDataSource(
-          qualitylisttable8, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 8) {
-      qualitylisttable9 = checkTable ? charger_getData() : data;
-      _qualityChargerDataSource = QualityChargerDataSource(
-          qualitylisttable9, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 9) {
-      qualitylisttable10 = checkTable ? earth_pit_getData() : data;
-      _qualityEPDataSource = QualityEPDataSource(
-          qualitylisttable10, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    }
+    // if (_selectedIndex == 0) {
+    //   qualitylisttable1 = checkTable ? getData() : data;
+    //   _qualityPSSDataSource = QualityPSSDataSource(
+    //       qualitylisttable1, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 1) {
+    //   qualitylisttable2 = checkTable ? rmu_getData() : data;
+    //   _qualityrmuDataSource = QualityrmuDataSource(
+    //       qualitylisttable2, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 2) {
+    //   qualitylisttable3 = checkTable ? ct_getData() : data;
+    //   _qualityctDataSource = QualityctDataSource(
+    //       qualitylisttable3, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 3) {
+    //   qualitylisttable4 = checkTable ? cmu_getData() : data;
+    //   _qualitycmuDataSource = QualitycmuDataSource(
+    //       qualitylisttable4, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 4) {
+    //   qualitylisttable5 = checkTable ? acdb_getData() : data;
+    //   _qualityacdDataSource = QualityacdDataSource(
+    //       qualitylisttable5, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 5) {
+    //   qualitylisttable6 = checkTable ? ci_getData() : data;
+    //   _qualityCIDataSource = QualityCIDataSource(
+    //       qualitylisttable6, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 6) {
+    //   qualitylisttable7 = checkTable ? cdi_getData() : data;
+    //   _qualityCDIDataSource = QualityCDIDataSource(
+    //       qualitylisttable7, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 7) {
+    //   qualitylisttable8 = checkTable ? msp_getData() : data;
+    //   _qualityMSPDataSource = QualityMSPDataSource(
+    //       qualitylisttable8, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 8) {
+    //   qualitylisttable9 = checkTable ? charger_getData() : data;
+    //   _qualityChargerDataSource = QualityChargerDataSource(
+    //       qualitylisttable9, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 9) {
+    //   qualitylisttable10 = checkTable ? earth_pit_getData() : data;
+    //   _qualityEPDataSource = QualityEPDataSource(
+    //       qualitylisttable10, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // }
 
     _isloading = false;
     setState(() {});
