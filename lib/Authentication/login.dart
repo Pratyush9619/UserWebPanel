@@ -289,11 +289,11 @@ class _SignInPageState extends State<SignInPage> {
         if (_pass == snap.docs[0]['Password'] &&
             _id == snap.docs[0]['Employee Id']) {
           _sharedPreferences = await SharedPreferences.getInstance();
-          _sharedPreferences.setString('employeeId', _id).then((_) {
+          _sharedPreferences.setString('employeeId', _id).whenComplete(() {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DashBoardScreen(),
+                  builder: (context) => const DashBoardScreen(),
                 ));
           });
         } else {
@@ -307,21 +307,9 @@ class _SignInPageState extends State<SignInPage> {
           );
         }
       } catch (e) {
-        // ignore: use_build_context_synchronously
-        String error = '';
-        if (e.toString() ==
-            'RangeError (index): Invalid value: Valid value range is empty: 0') {
-          setState(() {
-            error = 'Employee Id does not exist!';
-          });
-        } else {
-          setState(() {
-            error = 'Error occured!';
-          });
-        }
         Navigator.pop(context);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error)));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error Occured${e.toString()}')));
       }
     }
   }
