@@ -2,6 +2,8 @@ import 'package:assingment/Splash/splash_screen.dart';
 import 'package:assingment/provider/key_provider.dart';
 import 'package:assingment/provider/selected_row_index.dart';
 import 'package:assingment/provider/summary_provider.dart';
+import 'package:assingment/screen/demand%20energy%20management/demandScreen.dart';
+import 'package:assingment/screen/demand%20energy%20management/search_widget.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BarGraphScreen();
+    return const SplashScreen();
+    //  SearchWidget();
+    // const DemandEnergyScreen();
+    // BarGraphScreen();
     // CitiesPage();
     // OverviewPage(
     //   depoName: 'sdsa',
