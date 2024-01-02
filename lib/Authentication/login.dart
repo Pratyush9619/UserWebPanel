@@ -292,7 +292,8 @@ class _SignInPageState extends State<SignInPage> {
           _sharedPreferences.setString('employeeId', _id).then((_) {
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => DashBoardScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const DashBoardScreen()),
                 (route) => false);
           });
         } else {

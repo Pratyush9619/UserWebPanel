@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:assingment/KeysEvents/viewFIle.dart';
 import 'package:assingment/KeysEvents/view_excel.dart';
-import 'package:excel/excel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
-
+import 'package:path_provider/path_provider.dart';
 import '../FirebaseApi/firebase_api.dart';
 import '../widget/style.dart';
 import 'package:http/http.dart' as http;
@@ -42,8 +43,31 @@ class _ImagePageState extends State<ImagePage> {
           IconButton(
             icon: const Icon(Icons.file_download),
             onPressed: () async {
-              await FirebaseApi.downloadFile(widget.file.ref);
+              Reference storageReference = FirebaseStorage.instance
+                  .ref()
+                  .child(widget.file.ref.fullPath.toString());
+              print(storageReference);
 
+              String downloadURL = await storageReference.getDownloadURL();
+              print("Download URL: $downloadURL");
+              final http.Response response =
+                  await http.get(Uri.parse(downloadURL));
+
+              if (response.statusCode == 200) {
+                // Get the local directory where you can save the file
+                final Directory appDocDir =
+                    await getApplicationDocumentsDirectory();
+                final String localPath =
+                    '${appDocDir.path}/downloaded_image.jpg';
+
+                // Write the file
+                final File file = File(localPath);
+                await file.writeAsBytes(response.bodyBytes);
+
+                print('Image downloaded and saved to: $localPath');
+              } else {
+                throw Exception('Failed to download image');
+              }
               final snackBar = SnackBar(
                 content: Text('Downloaded ${widget.file.name}'),
               );

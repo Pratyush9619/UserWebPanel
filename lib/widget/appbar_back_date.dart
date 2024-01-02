@@ -62,9 +62,7 @@ class _CustomAppBarState extends State<CustomAppBarBackDate> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: blue,
-            title: Text(
-              widget.text.toString(),
-            ),
+            title: Text(widget.text.toString(), style: appFontSize),
             actions: [
               Container(
                 padding: const EdgeInsets.all(5.0),

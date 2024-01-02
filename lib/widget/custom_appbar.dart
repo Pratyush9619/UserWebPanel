@@ -428,7 +428,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             onPressed: widget.onTap,
                             child: Text(
                               'View Summary',
-                              style: TextStyle(color: white, fontSize: 20),
+                              style: TextStyle(color: white, fontSize: 15),
                             )),
                       ),
                     )

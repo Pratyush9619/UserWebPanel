@@ -567,7 +567,7 @@ class _ClosureReportState extends State<ClosureReport> {
                               columnName: 'Upload',
                               allowEditing: false,
                               visible: true,
-                              width: 150,
+                              width: 250,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
@@ -583,7 +583,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             GridColumn(
                               columnName: 'View',
                               allowEditing: false,
-                              width: 150,
+                              width: 250,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),

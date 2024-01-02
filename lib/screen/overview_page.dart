@@ -13,7 +13,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../Authentication/auth_service.dart';
 import '../components/Loading_page.dart';
+import '../model/energy_management.dart';
 import '../overview/depot_overview.dart';
+import '../overview/energy_management.dart';
 import '../overview/key_events2.dart';
 import '../overview/monthly_project.dart';
 import '../widget/custom_appbar.dart';
@@ -58,7 +60,7 @@ class _OverviewPageState extends State<OverviewPage> {
     // 'assets/overview_image/testing_commissioning.png',
     'assets/overview_image/testing_commissioning.png',
     'assets/overview_image/closure_report.png',
-    // 'assets/overview_image/easy_monitoring.jpg',
+    'assets/overview_image/easy_monitoring.jpg',
   ];
 
   @override
@@ -90,7 +92,7 @@ class _OverviewPageState extends State<OverviewPage> {
       'Depot Insides',
       // 'Testing & Commissioning Reports of Equipment',
       'Closure Report',
-      // 'Easy monitoring of O & M schedule for all the equipment of depots.',
+      'Depot Demand Energy Management',
     ];
     pages = [
       DepotOverview(
@@ -156,6 +158,11 @@ class _OverviewPageState extends State<OverviewPage> {
         cityName: widget.cityName,
         depoName: widget.depoName,
       ),
+      EnergyManagement(
+        cityName: widget.cityName,
+        depoName: widget.depoName,
+        userId: userId,
+      )
       // KeyEvents2(
       //   depoName: widget.depoName,
       //   cityName: widget.cityName,
