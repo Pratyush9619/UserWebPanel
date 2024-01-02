@@ -1,17 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:assingment/KeysEvents/viewFIle.dart';
+import 'dart:typed_data';
+
 import 'package:assingment/KeysEvents/view_AllFiles.dart';
-import 'package:assingment/Planning_Pages/quality_checklist.dart';
-import 'package:assingment/widget/style.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../widget/custom_appbar.dart';
+import '../widget/style.dart';
 
 class UploadDocument extends StatefulWidget {
   String? title;

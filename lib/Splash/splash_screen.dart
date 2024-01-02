@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'package:assingment/Authentication/auth_service.dart';
 import 'package:assingment/Authentication/login_register.dart';
 import 'package:assingment/screen/dashboard.dart';
-import 'package:assingment/screen/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';

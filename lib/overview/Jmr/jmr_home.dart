@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:html';
 import 'package:assingment/components/loading_page.dart';
 import 'package:assingment/model/jmr.dart';
 import 'package:assingment/widget/style.dart';
@@ -161,8 +161,8 @@ class _JMRPageState extends State<JMRPage> {
               appBar: PreferredSize(
                 // ignore: sort_child_properties_last
                 child: CustomAppBar(
-                    // isDownload: true,
-                    // donwloadFunction: _generatePDF,
+                    isDownload: true,
+                    donwloadFunction: _generatePDF,
                     text:
                         '${widget.cityName} / ${widget.depoName} / ${widget.title.toString()}',
                     // icon: Icons.logout,

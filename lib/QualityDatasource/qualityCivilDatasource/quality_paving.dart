@@ -83,7 +83,7 @@ class QualityPavingDataSource extends DataGridSource {
                             cityName: cityName,
                             depoName: depoName,
                             userId: userId,
-                            fldrName: 'Pavinging Table',
+                            fldrName: 'Paving Table',
                             date: currentDate,
                             srNo: row.getCells()[0].value,
                           ),
@@ -103,7 +103,7 @@ class QualityPavingDataSource extends DataGridSource {
                                       cityName: cityName,
                                       depoName: depoName,
                                       userId: userId,
-                                      fldrName: 'Pavinging Table',
+                                      fldrName: 'Paving Table',
                                       date: currentDate,
                                       srNo: row.getCells()[0].value,
                                     )));

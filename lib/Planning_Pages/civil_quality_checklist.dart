@@ -144,59 +144,72 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
 
     getUserId().whenComplete(() => {
           getControllersData(),
-          getTableData().whenComplete(() => {
-                qualitylisttable1 = checkTable ? excavation_getData() : data,
-                _qualityExcavationDataSource = QualityExcavationDataSource(
-                    qualitylisttable1, widget.depoName!, widget.cityName!),
-                _dataGridController = DataGridController(),
-              }),
+          getTableData().whenComplete(() {
+            qualitylisttable1 = checkTable ? excavation_getData() : data;
+            _qualityExcavationDataSource = QualityExcavationDataSource(
+                qualitylisttable1, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+
+            qualitylisttable2 = checkTable ? backfilling_getData() : data;
+            _qualityBackFillingDataSource = QualityBackFillingDataSource(
+              qualitylisttable2,
+              widget.cityName!,
+              widget.depoName!,
+            );
+            _dataGridController = DataGridController();
+            qualitylisttable3 = checkTable ? massonary_getData() : data;
+            _qualityMassonaryDataSource = QualityMassonaryDataSource(
+              qualitylisttable3,
+              widget.cityName!,
+              widget.depoName!,
+            );
+            _dataGridController = DataGridController();
+            qualitylisttable4 = checkTable ? glazzing_getData() : data;
+            _qualityGlazzingDataSource = QualityGlazzingDataSource(
+              qualitylisttable4,
+              widget.cityName!,
+              widget.depoName!,
+            );
+            _dataGridController = DataGridController();
+            qualitylisttable5 = checkTable ? ceilling_getData() : data;
+            _qualityCeillingDataSource = QualityCeillingDataSource(
+                qualitylisttable5, widget.cityName!, widget.depoName!);
+            qualitylisttable6 = checkTable ? florring_getData() : data;
+            _qualityflooringDataSource = QualityflooringDataSource(
+              qualitylisttable6,
+              widget.cityName!,
+              widget.depoName!,
+            );
+            _dataGridController = DataGridController();
+            qualitylisttable7 = checkTable ? inspection_getData() : data;
+            _qualityInspectionDataSource = QualityInspectionDataSource(
+                qualitylisttable7, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+            qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
+            _qualityIroniteflooringDataSource =
+                QualityIroniteflooringDataSource(
+                    qualitylisttable8, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+            qualitylisttable9 = checkTable ? painting_getData() : data;
+            _qualityPaintingDataSource = QualityPaintingDataSource(
+                qualitylisttable9, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+            qualitylisttable10 = checkTable ? paving_getData() : data;
+            _qualityPavingDataSource = QualityPavingDataSource(
+                qualitylisttable10, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+            qualitylisttable11 = checkTable ? roofing_getData() : data;
+            _qualityRoofingDataSource = QualityRoofingDataSource(
+                qualitylisttable11, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+            qualitylisttable12 = checkTable ? proofing_getData() : data;
+            _qualityProofingDataSource = QualityProofingDataSource(
+                qualitylisttable12, widget.cityName!, widget.depoName!);
+            _dataGridController = DataGridController();
+          }),
         });
 
     super.initState();
-
-    qualitylisttable2 = backfilling_getData();
-    _qualityBackFillingDataSource = QualityBackFillingDataSource(
-        qualitylisttable2, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable3 = massonary_getData();
-    _qualityMassonaryDataSource = QualityMassonaryDataSource(
-        qualitylisttable3, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable4 = glazzing_getData();
-    _qualityGlazzingDataSource = QualityGlazzingDataSource(
-        qualitylisttable4, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable5 = ceilling_getData();
-    _qualityCeillingDataSource = QualityCeillingDataSource(
-        qualitylisttable5, widget.depoName!, widget.cityName!);
-    qualitylisttable6 = florring_getData();
-    _qualityflooringDataSource = QualityflooringDataSource(
-        qualitylisttable6, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable7 = inspection_getData();
-    _qualityInspectionDataSource = QualityInspectionDataSource(
-        qualitylisttable7, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable8 = ironite_florring_getData();
-    _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
-        qualitylisttable8, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable9 = painting_getData();
-    _qualityPaintingDataSource = QualityPaintingDataSource(
-        qualitylisttable9, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable10 = paving_getData();
-    _qualityPavingDataSource = QualityPavingDataSource(
-        qualitylisttable10, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable11 = roofing_getData();
-    _qualityRoofingDataSource = QualityRoofingDataSource(
-        qualitylisttable11, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
-    qualitylisttable12 = proofing_getData();
-    _qualityProofingDataSource = QualityProofingDataSource(
-        qualitylisttable12, widget.depoName!, widget.cityName!);
-    _dataGridController = DataGridController();
   }
 
   @override
@@ -206,7 +219,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            toolbarHeight: 20,
+            toolbarHeight: 5,
             bottom: TabBar(
               labelColor: Colors.yellow,
               labelStyle: buttonWhite,
@@ -224,8 +237,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
               onTap: (value) async {
                 _selectedIndex = value;
                 checkTable = true;
-                selectedDate =
-                    DateFormat('MMMM dd, yyyy').format(DateTime.now());
+                selectedDate = DateFormat.yMMMMd().format(DateTime.now());
                 currentDate = DateTime.now();
                 setBoolean();
                 getControllersData();
@@ -253,20 +265,22 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
           ),
           body: _isloading
               ? LoadingPage()
-              : TabBarView(children: [
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                  civilupperScreen(),
-                ]),
+              : TabBarView(
+                  children: [
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                    civilupperScreen(),
+                  ],
+                ),
         ));
   }
 
@@ -284,42 +298,60 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
           return Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
-                height: 80,
-                decoration: BoxDecoration(color: lightblue),
+                padding: const EdgeInsets.only(top: 8),
+                height: 50,
+                // decoration: BoxDecoration(color: lightblue),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    // Row(
+                    //   children: [
+                    //     Image.asset('assets/Tata-Power.jpeg',
+                    //         height: 50, width: 100),
+                    //     const Text('TATA POWER'),
+                    //   ],
+                    // ),
+                    Text(
+                      civil_title[int.parse(_selectedIndex.toString())],
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: blue),
+                    ),
                     Row(
                       children: [
-                        Image.asset('assets/Tata-Power.jpeg',
-                            height: 50, width: 100),
-                        const Text('TATA POWER'),
+                        Text(
+                          'Choose Date : ',
+                          style: TextStyle(
+                            color: blue,
+                            fontSize: 17,
+                          ),
+                        ),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(blue)),
+                            onPressed: () => _selectDate(context),
+                            child: Text(
+                              DateFormat('MMMM dd, yyyy').format(currentDate),
+                              style: GoogleFonts.aBeeZee(
+                                  fontSize: 15, color: white),
+                            )),
                       ],
                     ),
                     Text(
-                      civil_title[int.parse(_selectedIndex.toString())],
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.white)),
-                        onPressed: () => _selectDate(context),
-                        child: Text(
-                          DateFormat('MMMM dd, yyyy').format(currentDate),
-                          style: GoogleFonts.aBeeZee(
-                              fontSize: 15, color: Colors.black),
-                        )),
-                    const Text('TPCL /DIST/EV/CHECKLIST ')
+                      'TPCL/DIST/EV/CHECKLIST',
+                      style: TextStyle(color: blue, fontSize: 17),
+                    )
                   ],
                 ),
               ),
               Container(
-                  decoration: BoxDecoration(color: lightblue),
+                  padding:
+                      const EdgeInsets.only(left: 50, right: 50, bottom: 10),
+                  // decoration: BoxDecoration(color: lightblue),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Column(
@@ -327,16 +359,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const SizedBox(
+                                SizedBox(
                                     width: 150,
                                     child: Text(
-                                      'Project',
+                                      'Project : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -346,16 +379,14 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                             ? TextFormField(
                                                 controller:
                                                     projectNameController,
-                                                decoration:
-                                                    const InputDecoration(
+                                                decoration: InputDecoration(
+                                                  labelStyle:
+                                                      TextStyle(color: black),
                                                   contentPadding:
-                                                      EdgeInsets.only(
-                                                          top: 0,
-                                                          bottom: 0,
-                                                          left: 5),
+                                                      const EdgeInsets.all(3),
                                                 ),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -370,16 +401,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                const SizedBox(
+                                SizedBox(
                                     width: 150,
                                     child: Text(
-                                      'Location',
+                                      'Location : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -396,8 +428,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -412,16 +444,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Vendor / Sub Vendor',
+                                    child: Text(
+                                      'Vendor / Sub Vendor : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -437,8 +470,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -453,16 +486,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Drawing No:',
+                                    child: Text(
+                                      'Drawing No :',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -478,8 +512,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -498,8 +532,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                       Column(
                         children: [
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -507,9 +541,10 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                 Container(
                                     width: 150,
                                     child: Text(
-                                      'Date',
+                                      'Date : ',
+                                      style: TextStyle(color: blue),
                                     )),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Expanded(
                                     child: Container(
                                         height: 30,
@@ -523,8 +558,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -539,16 +574,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Component of the Structure',
+                                    child: Text(
+                                      'Component of the Structure : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -565,8 +601,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -581,16 +617,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Grid / Axis & Level',
+                                    child: Text(
+                                      'Grid / Axis & Level : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -606,8 +643,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -622,16 +659,17 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                             ),
                           ),
                           Container(
-                            color: lightblue,
-                            width: 600,
+                            // color: lightblue,
+                            width: 550,
                             padding: const EdgeInsets.all(3),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
                                     width: 150,
-                                    child: const Text(
-                                      'Type of Filling',
+                                    child: Text(
+                                      'Type of Filling : ',
+                                      style: TextStyle(color: blue),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -647,8 +685,8 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                                                                 top: 0,
                                                                 bottom: 0,
                                                                 left: 5)),
-                                                style: const TextStyle(
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                    fontSize: 15, color: blue),
                                               )
                                             : Container(
                                                 width: 120,
@@ -1154,64 +1192,64 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
       checkTable = false;
     }
 
-    if (_selectedIndex == 1) {
-      qualitylisttable2 = checkTable ? backfilling_getData() : data;
-      _qualityBackFillingDataSource = QualityBackFillingDataSource(
-          qualitylisttable2, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 2) {
-      qualitylisttable3 = checkTable ? massonary_getData() : data;
-      _qualityMassonaryDataSource = QualityMassonaryDataSource(
-          qualitylisttable3, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 3) {
-      qualitylisttable4 = checkTable ? glazzing_getData() : data;
-      _qualityGlazzingDataSource = QualityGlazzingDataSource(
-          qualitylisttable4, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 4) {
-      qualitylisttable5 = checkTable ? ceilling_getData() : data;
-      _qualityCeillingDataSource = QualityCeillingDataSource(
-          qualitylisttable5, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 5) {
-      qualitylisttable6 = checkTable ? florring_getData() : data;
-      _qualityflooringDataSource = QualityflooringDataSource(
-          qualitylisttable6, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 6) {
-      qualitylisttable7 = checkTable ? inspection_getData() : data;
-      _qualityInspectionDataSource = QualityInspectionDataSource(
-          qualitylisttable7, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 7) {
-      qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
-      _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
-          qualitylisttable8, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 8) {
-      qualitylisttable9 = checkTable ? painting_getData() : data;
-      _qualityPaintingDataSource = QualityPaintingDataSource(
-          qualitylisttable9, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 9) {
-      qualitylisttable10 = checkTable ? paving_getData() : data;
-      _qualityPavingDataSource = QualityPavingDataSource(
-          qualitylisttable10, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 10) {
-      print('roofing');
-      qualitylisttable11 = checkTable ? roofing_getData() : data;
-      _qualityRoofingDataSource = QualityRoofingDataSource(
-          qualitylisttable11, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    } else if (_selectedIndex == 11) {
-      print('Proofing');
-      qualitylisttable12 = checkTable ? proofing_getData() : data;
-      _qualityProofingDataSource = QualityProofingDataSource(
-          qualitylisttable12, widget.depoName!, widget.cityName!);
-      _dataGridController = DataGridController();
-    }
+    // if (_selectedIndex == 1) {
+    //   qualitylisttable2 = checkTable ? backfilling_getData() : data;
+    //   _qualityBackFillingDataSource = QualityBackFillingDataSource(
+    //       qualitylisttable2, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 2) {
+    //   qualitylisttable3 = checkTable ? massonary_getData() : data;
+    //   _qualityMassonaryDataSource = QualityMassonaryDataSource(
+    //       qualitylisttable3, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 3) {
+    //   qualitylisttable4 = checkTable ? glazzing_getData() : data;
+    //   _qualityGlazzingDataSource = QualityGlazzingDataSource(
+    //       qualitylisttable4, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 4) {
+    //   qualitylisttable5 = checkTable ? ceilling_getData() : data;
+    //   _qualityCeillingDataSource = QualityCeillingDataSource(
+    //       qualitylisttable5, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 5) {
+    //   qualitylisttable6 = checkTable ? florring_getData() : data;
+    //   _qualityflooringDataSource = QualityflooringDataSource(
+    //       qualitylisttable6, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 6) {
+    //   qualitylisttable7 = checkTable ? inspection_getData() : data;
+    //   _qualityInspectionDataSource = QualityInspectionDataSource(
+    //       qualitylisttable7, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 7) {
+    //   qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
+    //   _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
+    //       qualitylisttable8, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 8) {
+    //   qualitylisttable9 = checkTable ? painting_getData() : data;
+    //   _qualityPaintingDataSource = QualityPaintingDataSource(
+    //       qualitylisttable9, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 9) {
+    //   qualitylisttable10 = checkTable ? paving_getData() : data;
+    //   _qualityPavingDataSource = QualityPavingDataSource(
+    //       qualitylisttable10, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 10) {
+    //   print('roofing');
+    //   qualitylisttable11 = checkTable ? roofing_getData() : data;
+    //   _qualityRoofingDataSource = QualityRoofingDataSource(
+    //       qualitylisttable11, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // } else if (_selectedIndex == 11) {
+    //   print('Proofing');
+    //   qualitylisttable12 = checkTable ? proofing_getData() : data;
+    //   _qualityProofingDataSource = QualityProofingDataSource(
+    //       qualitylisttable12, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // }
 
     _isloading = false;
     setState(() {});
@@ -1220,6 +1258,7 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
 
 CivilstoreData(BuildContext context, String depoName, String currentDate,
     List<bool> isTabSelected, String selectedTabName) {
+  print(currentDate);
   Map<String, dynamic> excavationTableData = {};
   Map<String, dynamic> backfillingTableData = {};
   Map<String, dynamic> massonaryTableData = {};
@@ -1233,7 +1272,6 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
   Map<String, dynamic> proofingTableData = {};
 
   if (isTabSelected[0]) {
-    print('$currentDate');
     for (var i in _qualityExcavationDataSource.dataGridRows) {
       for (var data in i.getCells()) {
         if (data.columnName != 'button' ||
@@ -1256,7 +1294,7 @@ CivilstoreData(BuildContext context, String depoName, String currentDate,
         .doc(currentDate)
         .set({
       'data': excavationtabledatalist,
-    }).whenComplete(() {
+    }).whenComplete(() async {
       FirebaseApi().nestedKeyEventsField(
           'CivilQualityChecklist', depoName, 'userId', userId);
       FirebaseApi().nestedKeyEventsField(

@@ -85,7 +85,7 @@ class QualityIroniteflooringDataSource extends DataGridSource {
                             cityName: cityName,
                             depoName: depoName,
                             userId: userId,
-                            fldrName: 'I.F Table',
+                            fldrName: 'Flooring Table',
                             date: currentDate,
                             srNo: row.getCells()[0].value,
                           ),
@@ -105,7 +105,7 @@ class QualityIroniteflooringDataSource extends DataGridSource {
                                       cityName: cityName,
                                       depoName: depoName,
                                       userId: userId,
-                                      fldrName: 'I.F Table',
+                                      fldrName: 'Flooring Table',
                                       date: currentDate,
                                       srNo: row.getCells()[0].value,
                                     )));

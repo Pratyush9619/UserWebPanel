@@ -40,7 +40,7 @@ class AuthService {
       String id) async {
     FirebaseFirestore.instance
         .collection("User")
-        .doc(firebaseauth.currentUser!.displayName)
+        .doc('$firstname $lastname')
         .set({
       "FirstName": firstname,
       "LastName": lastname,

@@ -105,8 +105,8 @@ class FirebaseApi extends ChangeNotifier {
   }
 
   nestedKeyEventsField(String collectionName, String deponame1,
-      String collectionName1, String userid) {
-    FirebaseFirestore.instance
+      String collectionName1, String userid) async {
+    await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(deponame1)
         .collection(collectionName1)

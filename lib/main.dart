@@ -19,6 +19,7 @@ void main() async {
     storageBucket: "tp-zap-solz.appspot.com",
     projectId: "tp-zap-solz",
   ));
+
   runApp(const MyApp());
 }
 
@@ -84,11 +85,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // CitiesPage();
-        // OverviewPage(
-        //   depoName: 'sdsa',
-        // );
-        const SplashScreen();
+    return const SplashScreen();
+    //  SearchWidget();
+    // const DemandEnergyScreen();
+    // BarGraphScreen();
+    // CitiesPage();
+    // OverviewPage(
+    //   depoName: 'sdsa',
+    // );
+    //  SplashScreen();
   }
 }
