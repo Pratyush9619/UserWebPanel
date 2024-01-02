@@ -122,10 +122,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text('City Name',
                                       overflow: TextOverflow.values.first,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -139,10 +136,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Details Item Description',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)),
+                                      style: tableheaderwhitecolor),
                                 ),
                               ),
                               GridColumn(
@@ -158,10 +152,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text('OLA No',
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)),
+                                      style: tableheaderwhitecolor),
                                 ),
                               ),
                               GridColumn(
@@ -177,10 +168,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text('Vendor Name',
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -190,17 +178,14 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
-                                width: 150,
+                                width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('OEM Drawing Approval by Engg',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -218,10 +203,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text(
                                       'Manufacturing clearance Given to OEM',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -239,10 +221,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text(
                                       'Delivery time line after Placement of CRO',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -259,10 +238,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('CRO release to Vendor',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -279,10 +255,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('CRO Number ',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -299,10 +272,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Unit',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -319,10 +289,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Qty',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -339,10 +306,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Receipt of Material at site',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -425,10 +389,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text('City Name',
                                       overflow: TextOverflow.values.first,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -442,10 +403,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Details Item Description',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)),
+                                      style: tableheaderwhitecolor),
                                 ),
                               ),
                               GridColumn(
@@ -461,10 +419,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text('OLA No',
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)),
+                                      style: tableheaderwhitecolor),
                                 ),
                               ),
                               GridColumn(
@@ -480,10 +435,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text('Vendor Name',
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -493,7 +445,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
-                                width: 150,
+                                width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
@@ -501,10 +453,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   child: Text('OEM Drawing Approval by Engg',
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -523,10 +472,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       textAlign: TextAlign.center,
                                       'Manufacturing clearance Given to OEM',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -545,10 +491,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       textAlign: TextAlign.center,
                                       'Delivery time line after Placement of CRO',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -567,10 +510,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       textAlign: TextAlign.center,
                                       'CRO release to Vendor',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -589,10 +529,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       textAlign: TextAlign.center,
                                       'CRO Number ',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -609,10 +546,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Unit',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -629,10 +563,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Qty',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -649,10 +580,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   alignment: Alignment.center,
                                   child: Text('Receipt of Material at site',
                                       overflow: TextOverflow.values.first,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: white)
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),

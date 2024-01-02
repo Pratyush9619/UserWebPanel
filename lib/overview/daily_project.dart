@@ -52,7 +52,7 @@ class _DailyProjectState extends State<DailyProject> {
           widget.cityName!, widget.depoName!, selectedDate!, userId);
       _dataGridController = DataGridController();
 
-      _isloading = false; 
+      _isloading = false;
       setState(() {});
     });
 
@@ -152,15 +152,11 @@ class _DailyProjectState extends State<DailyProject> {
                                 child: Text('Date',
                                     overflow: TextOverflow.values.first,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
                             ),
-
                             GridColumn(
                               columnName: 'SiNo',
                               visible: false,
@@ -173,73 +169,11 @@ class _DailyProjectState extends State<DailyProject> {
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
                             ),
-                            // GridColumn(
-                            //   columnName: 'Date',
-                            //   autoFitPadding:
-                            //       tablepadding,
-                            //   allowEditing: false,
-                            //   width: 160,
-                            //   label: Container(
-                            //     padding: tablepadding,
-                            //     alignment: Alignment.center,
-                            //     child: Text('Date',
-                            //         textAlign: TextAlign.center,
-                            //         overflow: TextOverflow.values.first,
-                            //         style: TextStyle(
-                            //             fontWeight: FontWeight.bold,
-                            //             fontSize: 16,
-                            //             color: white)),
-                            //   ),
-                            // ),
-                            // GridColumn(
-                            //   visible: false,
-                            //   columnName: 'State',
-                            //   autoFitPadding:
-                            //       tablepadding,
-                            //   allowEditing: true,
-                            //   width: 120,
-                            //   label: Container(
-                            //     padding: tablepadding,
-                            //     alignment: Alignment.center,
-                            //     child: Text('State',
-                            //         textAlign: TextAlign.center,
-                            //         overflow: TextOverflow.values.first,
-                            //         style: TextStyle(
-                            //             fontWeight: FontWeight.bold,
-                            //             fontSize: 16,
-                            //             color: white)
-                            //         //    textAlign: TextAlign.center,
-                            //         ),
-                            //   ),
-                            // ),
-                            // GridColumn(
-                            //   visible: false,
-                            //   columnName: 'DepotName',
-                            //   autoFitPadding:
-                            //       tablepadding,
-                            //   allowEditing: true,
-                            //   width: 150,
-                            //   label: Container(
-                            //     padding: tablepadding,
-                            //     alignment: Alignment.center,
-                            //     child: Text('Depot Name',
-                            //         overflow: TextOverflow.values.first,
-                            //         style: TextStyle(
-                            //             fontWeight: FontWeight.bold,
-                            //             fontSize: 16,
-                            //             color: white)
-                            //         //    textAlign: TextAlign.center,
-                            //         ),
-                            //   ),
-                            // ),
                             GridColumn(
                               columnName: 'TypeOfActivity',
                               autoFitPadding: tablepadding,
@@ -250,10 +184,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Type of Activity',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -268,10 +199,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Activity Details',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -287,10 +215,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Progress',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -305,10 +230,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Remark / Status',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -323,10 +245,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Upload Image',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -341,10 +260,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('View Image',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -359,10 +275,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('ADD Row',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -377,10 +290,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -436,10 +346,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 child: Text('Date',
                                     overflow: TextOverflow.values.first,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -456,10 +363,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 child: Text('SI No.',
                                     overflow: TextOverflow.values.first,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -474,10 +378,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Type of Activity',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -492,10 +393,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Activity Details',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -510,10 +408,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Progress',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -528,10 +423,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Remark / Status',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -546,10 +438,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Upload Image',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -564,10 +453,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('view Image',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -582,10 +468,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -600,10 +483,7 @@ class _DailyProjectState extends State<DailyProject> {
                                 alignment: Alignment.center,
                                 child: Text('Delete Row',
                                     overflow: TextOverflow.values.first,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: white)
+                                    style: tableheaderwhitecolor
                                     //    textAlign: TextAlign.center,
                                     ),
                               ),
@@ -626,7 +506,7 @@ class _DailyProjectState extends State<DailyProject> {
                 activityDetails: "",
                 progress: '',
                 status: ''));
-            _dailyDataSource.buildDataGridRows(); 
+            _dailyDataSource.buildDataGridRows();
             _dailyDataSource.updateDatagridSource();
           })),
     );
