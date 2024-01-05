@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:assingment/Authentication/login_register.dart';
-import 'package:assingment/screen/dashboard.dart';
+import 'package:assingment/screen/ev_dashboard.dart';
+import 'package:assingment/screen/split_dashboard/split_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,10 +23,13 @@ class SplashScreenState extends State<SplashScreen> {
     _getCurrentUser();
     // user = FirebaseAuth.instance.currentUser == null;
     Timer(
-        const Duration(milliseconds: 2000),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) =>
-                user ? const DashBoardScreen() : const LoginRegister())));
+      const Duration(milliseconds: 1500),
+      () => user
+          ? Navigator.pushNamedAndRemoveUntil(
+              context, '/splitDashboard', arguments: true, (route) => false)
+          : Navigator.pushNamedAndRemoveUntil(
+              context, '/login', (route) => false),
+    );
     // user ? const LoginRegister() : const HomePage())));
   }
 

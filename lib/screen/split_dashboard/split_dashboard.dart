@@ -1,3 +1,5 @@
+import 'package:assingment/components/page_routeBuilder.dart';
+import 'package:assingment/screen/cities_page.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:flutter/material.dart';
 
@@ -72,7 +74,7 @@ class SplitDashboard extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, '/o&mDashboard',
+                          Navigator.pushNamed(context, '/demand',
                               arguments: true);
                         },
                         child: Card(
@@ -83,7 +85,7 @@ class SplitDashboard extends StatelessWidget {
                             decoration: const BoxDecoration(
                                 image: DecorationImage(
                                     image: AssetImage(
-                                        'assets/onm_dashboard.png'))),
+                                        'assets/demand_energy.png'))),
                           ),
                         ),
                       ),
@@ -95,10 +97,10 @@ class SplitDashboard extends StatelessWidget {
                           style: ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(blue)),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/o&mDashboard',
+                            Navigator.pushNamed(context, '/demand',
                                 arguments: true);
                           },
-                          child: const Text('O & M Analysis Dashboard'),
+                          child: const Text('EV Bus Depot Management System'),
                         ),
                       )
                     ],
@@ -119,7 +121,9 @@ class SplitDashboard extends StatelessWidget {
               style:
                   ButtonStyle(backgroundColor: MaterialStatePropertyAll(blue)),
               onPressed: () {
-                Navigator.pushNamed(context, '/cities');
+                Navigator.push(
+                    context, CustomPageRoute(page: const CitiesPage()));
+                // Navigator.pushNamed(context, '/cities');
               },
               child: const Text('Proceed to Cities'),
             ),

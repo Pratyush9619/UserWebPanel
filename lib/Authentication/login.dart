@@ -1,8 +1,9 @@
 import 'package:assingment/Authentication/auth_service.dart';
 import 'package:assingment/Authentication/register.dart';
 import 'package:assingment/Authentication/reset_password.dart';
-import 'package:assingment/screen/dashboard.dart';
+import 'package:assingment/screen/ev_dashboard.dart';
 import 'package:assingment/screen/home_page.dart';
+import 'package:assingment/screen/split_dashboard/split_dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -290,11 +291,8 @@ class _SignInPageState extends State<SignInPage> {
             _id == snap.docs[0]['Employee Id']) {
           _sharedPreferences = await SharedPreferences.getInstance();
           _sharedPreferences.setString('employeeId', _id).then((_) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DashBoardScreen()),
-                (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/splitDashboard', (route) => false);
           });
         } else {
           // ignore: use_build_context_synchronously

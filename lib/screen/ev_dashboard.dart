@@ -13,17 +13,17 @@ import '../provider/selected_row_index.dart';
 import '../widget/style.dart';
 import '../widget/table_loading.dart';
 
-class DashBoardScreen extends StatefulWidget {
+class EvDashboardScreen extends StatefulWidget {
   final Function? callbackFun;
-  const DashBoardScreen({Key? key, this.callbackFun}) : super(key: key);
+  const EvDashboardScreen({Key? key, this.callbackFun}) : super(key: key);
 
   static const String id = 'admin-page';
 
   @override
-  State<DashBoardScreen> createState() => _DashBoardScreenState();
+  State<EvDashboardScreen> createState() => _EvDashboardScreenState();
 }
 
-class _DashBoardScreenState extends State<DashBoardScreen> {
+class _EvDashboardScreenState extends State<EvDashboardScreen> {
   List estimatedEndDate = [];
   var currentPage = DrawerSection.evDashboard;
 
@@ -1862,6 +1862,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                             ],
                           ),
+
                           Divider(
                             endIndent: 10,
                             indent: 5,
@@ -1926,49 +1927,59 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: SizedBox(
-                        height: 40,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(blue)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CitiesPage(),
-                                ));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Proceed',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: almostWhite,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              const Icon(
-                                Icons.forward,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                ],
+              ),
+            ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            height: 40,
+            child: ElevatedButton(
+              style:
+                  ButtonStyle(backgroundColor: MaterialStatePropertyAll(blue)),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Back to Dashboard'),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            height: 40,
+            child: ElevatedButton(
+              style:
+                  ButtonStyle(backgroundColor: MaterialStatePropertyAll(blue)),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CitiesPage(),
+                    ));
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Proceed',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: almostWhite,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const Icon(
+                    Icons.forward,
+                    size: 20,
                   ),
                 ],
               ),
             ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -1995,9 +2006,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     List<List<dynamic>> tempList2 = [];
 
     try {
-      setState(() {
-        isLoading = true;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+        });
+      }
 
       FilePickerResult? result = await FilePicker.platform
           .pickFiles(allowedExtensions: ['xlsx'], type: FileType.custom);
@@ -2209,9 +2222,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       //Storing Excel Data into Firestore Database
       await storeExcel();
 
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     } catch (e, stackTrace) {
       print('Error decoding Excel file: $e');
       print(stackTrace);
@@ -2366,9 +2381,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       budgetActualTotalList.add(actualTotalList);
     }
 
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   void showCustomAlert() {

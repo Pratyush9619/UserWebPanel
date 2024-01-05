@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'dart:html' as html;
 import 'package:assingment/KeysEvents/viewFIle.dart';
 import 'package:assingment/KeysEvents/view_excel.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -46,28 +47,12 @@ class _ImagePageState extends State<ImagePage> {
               Reference storageReference = FirebaseStorage.instance
                   .ref()
                   .child(widget.file.ref.fullPath.toString());
-              print(storageReference);
 
               String downloadURL = await storageReference.getDownloadURL();
-              print("Download URL: $downloadURL");
-              final http.Response response =
-                  await http.get(Uri.parse(downloadURL));
+              String fileName = storageReference.name;
+              // print("Download URL: $downloadURL");
+              downloadImage(downloadURL, fileName);
 
-              if (response.statusCode == 200) {
-                // Get the local directory where you can save the file
-                final Directory appDocDir =
-                    await getApplicationDocumentsDirectory();
-                final String localPath =
-                    '${appDocDir.path}/downloaded_image.jpg';
-
-                // Write the file
-                final File file = File(localPath);
-                await file.writeAsBytes(response.bodyBytes);
-
-                print('Image downloaded and saved to: $localPath');
-              } else {
-                throw Exception('Failed to download image');
-              }
               final snackBar = SnackBar(
                 content: Text('Downloaded ${widget.file.name}'),
               );
@@ -110,4 +95,11 @@ class _ImagePageState extends State<ImagePage> {
                     ),
     );
   }
+
+  void downloadImage(String imageUrl, String fileName) {
+    html.AnchorElement anchorElement = html.AnchorElement(href: imageUrl);
+    anchorElement.download = fileName;
+    anchorElement.click();
+  }
+  
 }

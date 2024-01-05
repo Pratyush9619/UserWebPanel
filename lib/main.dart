@@ -1,8 +1,11 @@
 import 'package:assingment/Splash/splash_screen.dart';
+import 'package:assingment/provider/All_Depo_Select_Provider.dart';
+import 'package:assingment/provider/demandEnergyProvider.dart';
 import 'package:assingment/provider/energy_provider.dart';
 import 'package:assingment/provider/key_provider.dart';
 import 'package:assingment/provider/selected_row_index.dart';
 import 'package:assingment/provider/summary_provider.dart';
+import 'package:assingment/route_builder/routeGenerator.dart';
 import 'package:assingment/screen/demand%20energy%20management/demandScreen.dart';
 import 'package:assingment/screen/demand%20energy%20management/search_widget.dart';
 import 'package:assingment/widget/style.dart';
@@ -38,9 +41,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => KeyProvider()),
         ChangeNotifierProvider(create: (context) => SummaryProvider()),
         ChangeNotifierProvider(create: (context) => SelectedRowIndexModel()),
-        ChangeNotifierProvider(create: (context) => EnergyProvider())
+        ChangeNotifierProvider(create: (context) => EnergyProvider()),
+        ChangeNotifierProvider(create: (context) => AllDepoSelectProvider()),
+        ChangeNotifierProvider(create: (context) => DemandEnergyProvider())
       ],
       child: MaterialApp(
+        // initialRoute: '/splash',
+        onGenerateRoute: RouteGenerator.generateRoute,
         debugShowCheckedModeBanner: false,
         title: 'TP-EV-PMIS',
         theme: ThemeData(

@@ -1048,6 +1048,17 @@ class _JMRPageState extends State<JMRPage> {
       (await rootBundle.load('assets/Tata-Power.jpeg')).buffer.asUint8List(),
     );
 
+    List<List<dynamic>> fieldData = [
+      ['Project :', projectName.text],
+      ['Ref Number :', refNo.text],
+      ['LOI Ref Number :', loiRefNum.text],
+      ['Date :', date.text],
+      ['Site Location :', siteLocation.text],
+      ['Note :', note.text],
+      ['Start Date :', startDate.text],
+      ['End Date :', endDate.text],
+    ];
+
     List<pw.TableRow> rows = [];
 
     rows.add(pw.TableRow(children: [
@@ -1174,6 +1185,107 @@ class _JMRPageState extends State<JMRPage> {
 
     final pdf = pw.Document(
       pageMode: PdfPageMode.outlines,
+    );
+
+    pdf.addPage(
+      pw.MultiPage(
+        theme: pw.ThemeData.withFont(
+            base: pw.Font.ttf(fontData1), bold: pw.Font.ttf(fontData2)),
+        pageFormat: const PdfPageFormat(1300, 900,
+            marginLeft: 70, marginRight: 70, marginBottom: 80, marginTop: 40),
+        orientation: pw.PageOrientation.natural,
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        header: (pw.Context context) {
+          return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              decoration: const pw.BoxDecoration(
+                  border: pw.Border(
+                      bottom:
+                          pw.BorderSide(width: 0.5, color: PdfColors.grey))),
+              child: pw.Column(children: [
+                pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Text('Jmr Report',
+                          textScaleFactor: 2,
+                          style: const pw.TextStyle(color: PdfColors.blue700)),
+                      pw.Container(
+                        width: 120,
+                        height: 120,
+                        child: pw.Image(profileImage),
+                      ),
+                    ]),
+              ]));
+        },
+        footer: (pw.Context context) {
+          return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+              child: pw.Text('UserID - $userId',
+                  textScaleFactor: 1.5,
+                  // 'Page ${context.pageNumber} of ${context.pagesCount}',
+                  style: pw.Theme.of(context)
+                      .defaultTextStyle
+                      .copyWith(color: PdfColors.black)));
+        },
+        build: (pw.Context context) => <pw.Widget>[
+          pw.Column(children: [
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.RichText(
+                      text: pw.TextSpan(children: [
+                    const pw.TextSpan(
+                        text: 'Place : ',
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 17)),
+                    pw.TextSpan(
+                        text: '${widget.cityName} / ${widget.depoName}',
+                        style: const pw.TextStyle(
+                            color: PdfColors.blue700, fontSize: 15))
+                  ])),
+                  // pw.RichText(
+                  //     text: pw.TextSpan(children: [
+                  //   const pw.TextSpan(
+                  //       text: 'Date : ',
+                  //       style:
+                  //           pw.TextStyle(color: PdfColors.black, fontSize: 17)),
+                  //   pw.TextSpan(
+                  //       text: date.text,
+                  //       style: const pw.TextStyle(
+                  //           color: PdfColors.blue700, fontSize: 15))
+                  // ])),
+                  pw.RichText(
+                      text: pw.TextSpan(children: [
+                    const pw.TextSpan(
+                        text: 'UserID : ',
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 15)),
+                    pw.TextSpan(
+                        text: '$userId',
+                        style: const pw.TextStyle(
+                            color: PdfColors.blue700, fontSize: 15))
+                  ])),
+                ]),
+            pw.SizedBox(height: 20)
+          ]),
+          pw.SizedBox(height: 10),
+          pw.Table.fromTextArray(
+            columnWidths: {
+              0: const pw.FixedColumnWidth(100),
+              1: const pw.FixedColumnWidth(100),
+            },
+            headers: ['Details', 'Values'],
+            headerStyle: headerStyle,
+            headerPadding: const pw.EdgeInsets.all(10.0),
+            data: fieldData,
+            cellHeight: 35,
+            cellStyle: cellStyle,
+          )
+        ],
+      ),
     );
 
     pdf.addPage(
