@@ -1,6 +1,7 @@
 import 'package:assingment/components/loading_page.dart';
 import 'package:assingment/screen/depots_page.dart';
 import 'package:assingment/screen/mumbai_depots.dart';
+import 'package:assingment/widget/custom_container.dart';
 import 'package:assingment/widget/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -66,20 +67,29 @@ class _CitiesPageState extends State<CitiesPage> {
               return GridView.builder(
                 itemCount: snapshot.data!.docs.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 5),
+                    crossAxisCount: 4, childAspectRatio: 1.5),
                 itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: (() {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DepotsPage(
-                              cityName: snapshot.data!.docs[index]['CityName'],
-                            ),
-                          ));
-                    }),
-                    child: cards(snapshot.data!.docs[index]['ImageUrl'],
-                        snapshot.data!.docs[index]['CityName'], index),
+                  return Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: GestureDetector(
+                        onTap: (() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DepotsPage(
+                                  cityName: snapshot.data!.docs[index]
+                                      ['CityName'],
+                                ),
+                              ));
+                        }),
+                        child: cards(
+                            context,
+                            snapshot.data!.docs[index]['CityName'],
+                            snapshot.data!.docs[index]['ImageUrl'],
+                            index)
+                        // cards(snapshot.data!.docs[index]['ImageUrl'],
+                        //     snapshot.data!.docs[index]['CityName'], index),
+                        ),
                   );
                 },
               );
@@ -101,54 +111,54 @@ class _CitiesPageState extends State<CitiesPage> {
         );
   }
 
-  Widget cards(String img, String title, int index) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          Container(
-            height: 150,
-            width: 150,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: blue,
-              image:
-                  DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 2.0,
-                  spreadRadius: 0.0,
-                  offset: Offset(2.0, 2.0), // shadow direction: bottom right
-                )
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                //   minimumSize: MediaQuery.of(context).size,
-                backgroundColor: blue,
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DepotsPage(cityName: title),
-                    ));
-              },
-              child: Text(
-                title,
-                style: appFontSize,
-              )),
-        ],
-      ),
-    );
-  }
+  // Widget cards(String img, String title, int index) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(10.0),
+  //     child: Column(
+  //       children: [
+  //         Container(
+  //           height: 150,
+  //           width: 150,
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(20),
+  //             color: blue,
+  //             image:
+  //                 DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
+  //             boxShadow: const [
+  //               BoxShadow(
+  //                 color: Colors.black,
+  //                 blurRadius: 2.0,
+  //                 spreadRadius: 0.0,
+  //                 offset: Offset(2.0, 2.0), // shadow direction: bottom right
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //         const SizedBox(
+  //           height: 10,
+  //         ),
+  //         ElevatedButton(
+  //             style: ElevatedButton.styleFrom(
+  //               shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(10.0)),
+  //               //   minimumSize: MediaQuery.of(context).size,
+  //               backgroundColor: blue,
+  //             ),
+  //             onPressed: () {
+  //               Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                     builder: (context) => DepotsPage(cityName: title),
+  //                   ));
+  //             },
+  //             child: Text(
+  //               title,
+  //               style: appFontSize,
+  //             )),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   void onToScreen(int index) {
     Navigator.push(
