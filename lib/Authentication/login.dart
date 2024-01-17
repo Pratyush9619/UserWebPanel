@@ -1,14 +1,9 @@
-import 'package:assingment/Authentication/auth_service.dart';
-import 'package:assingment/Authentication/register.dart';
 import 'package:assingment/Authentication/reset_password.dart';
-import 'package:assingment/screen/ev_dashboard.dart';
-import 'package:assingment/screen/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../components/loading_page.dart';
 import '../widget/style.dart';
 
@@ -342,8 +337,8 @@ class _SignInPageState extends State<SignInPage> {
           });
         }
         Navigator.pop(context);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error)));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error Occured${e.toString()}')));
       }
     }
   }

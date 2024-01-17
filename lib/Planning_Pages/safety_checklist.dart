@@ -656,7 +656,7 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                                                           : '',
                                                       style: TextStyle(
                                                           fontSize: 15,
-                                                          color: blue),
+                                                          color: black),
                                                       onChanged: (value) {
                                                         address = value;
                                                       },
@@ -766,7 +766,7 @@ class _SafetyChecklistState extends State<SafetyChecklist> {
                                                           : '',
                                                       style: TextStyle(
                                                           fontSize: 15,
-                                                          color: blue),
+                                                          color: black),
                                                       onChanged: (value) {
                                                         latitude = value;
                                                       },

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../components/loading_page.dart';
 import '../widget/custom_appbar.dart';
+import '../widget/custom_container.dart';
 
 class DepotsPage extends StatefulWidget {
   String cityName;
@@ -73,12 +74,33 @@ class _DepotsPageState extends State<DepotsPage> {
                 return GridView.builder(
                   itemCount: snapshot.data!.docs.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5),
+                      crossAxisCount: 4, childAspectRatio: 1.5),
                   itemBuilder: (context, index) {
-                    return cards(
-                      snapshot.data!.docs[index]['DepoUrl'],
-                      snapshot.data!.docs[index]['DepoName'],
+                    return Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OverviewPage(
+                                  cityName: widget.cityName,
+                                  depoName: snapshot.data!.docs[index]
+                                      ['DepoName'],
+                                ),
+                              ));
+                        },
+                        child: cards(
+                            context,
+                            snapshot.data!.docs[index]['DepoName'],
+                            snapshot.data!.docs[index]['DepoUrl'],
+                            index),
+                      ),
                     );
+                    // cards(
+                    //   snapshot.data!.docs[index]['DepoUrl'],
+                    //   snapshot.data!.docs[index]['DepoName'],
+                    // );
                   },
                 );
               } else {
@@ -92,71 +114,71 @@ class _DepotsPageState extends State<DepotsPage> {
         });
   }
 
-  Widget cards(String img, String title) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: blue,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 2.0,
-                      spreadRadius: 0.0,
-                      offset:
-                          Offset(2.0, 2.0), // shadow direction: bottom right
-                    )
-                  ],
-                  image: DecorationImage(
-                      image: NetworkImage(
-                        img,
-                      ),
-                      fit: BoxFit.fill),
-                ),
-              ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      backgroundColor: blue),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OverviewPage(
-                              cityName: widget.cityName, depoName: title),
-                        ));
-                  },
-                  child: Text(
-                    title,
-                    style: appFontSize,
-                  ))
-              // Container(
-              //   padding: const EdgeInsets.only(left: 60),
-              //   alignment: Alignment.center,
-              //   height: 20,
-              //   //   width: 100,
-              //   // color: blue,
-              //   child: Text(
-              //     title,
-              //     style: TextStyle(
-              //         color: white, fontWeight: FontWeight.bold, fontSize: 18),
-              //   ),
-              // )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget cards(String img, String title) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(10.0),
+  //     child: Stack(
+  //       children: [
+  //         Column(
+  //           children: [
+  //             Container(
+  //               height: 150,
+  //               width: 150,
+  //               decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.circular(20),
+  //                 color: blue,
+  //                 boxShadow: const [
+  //                   BoxShadow(
+  //                     color: Colors.black,
+  //                     blurRadius: 2.0,
+  //                     spreadRadius: 0.0,
+  //                     offset:
+  //                         Offset(2.0, 2.0), // shadow direction: bottom right
+  //                   )
+  //                 ],
+  //                 image: DecorationImage(
+  //                     image: NetworkImage(
+  //                       img,
+  //                     ),
+  //                     fit: BoxFit.fill),
+  //               ),
+  //             ),
+  //             SizedBox(height: 10),
+  //             ElevatedButton(
+  //                 style: ElevatedButton.styleFrom(
+  //                     shape: RoundedRectangleBorder(
+  //                         borderRadius: BorderRadius.circular(10)),
+  //                     backgroundColor: blue),
+  //                 onPressed: () {
+  //                   Navigator.push(
+  //                       context,
+  //                       MaterialPageRoute(
+  //                         builder: (context) => OverviewPage(
+  //                             cityName: widget.cityName, depoName: title),
+  //                       ));
+  //                 },
+  //                 child: Text(
+  //                   title,
+  //                   style: appFontSize,
+  //                 ))
+  //             // Container(
+  //             //   padding: const EdgeInsets.only(left: 60),
+  //             //   alignment: Alignment.center,
+  //             //   height: 20,
+  //             //   //   width: 100,
+  //             //   // color: blue,
+  //             //   child: Text(
+  //             //     title,
+  //             //     style: TextStyle(
+  //             //         color: white, fontWeight: FontWeight.bold, fontSize: 18),
+  //             //   ),
+  //             // )
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
 // void onToScreen(int index) {
 //   Navigator.push(

@@ -89,7 +89,7 @@ class _OverviewPageState extends State<OverviewPage> {
       'FQP Checklist for Civil,Electrical work & Quality Checklist',
       // 'Quality check list & observation',
       // 'FQP Checklist for Civil & Electrical work',
-      'Depot Insides',
+      'Depot Insightes',
       // 'Testing & Commissioning Reports of Equipment',
       'Closure Report',
       'Depot Demand Energy Management',
@@ -182,55 +182,61 @@ class _OverviewPageState extends State<OverviewPage> {
       body: _isLoading
           ? LoadingPage()
           : GridView.count(
-              crossAxisCount: 6,
+              crossAxisCount: 4,
               mainAxisSpacing: 10,
-              childAspectRatio: 1.0,
+              childAspectRatio: 1.5,
               children: List.generate(desription.length, (index) {
-                return cards(desription[index], imagedata[index], index);
+                return Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: cards(desription[index], imagedata[index], index),
+                );
               }),
             ),
     );
   }
 
-  Widget cards(String desc, String image, int index) {
-    return Padding(
-      padding: const EdgeInsets.all(17.0),
-      child: GestureDetector(
-        onTap: (() {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => pages[index],
-              ));
-        }),
-        child: Card(
-          elevation: 20,
-          child: Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: blue),
+  Widget cards(String desc, String img, int index) {
+    return GestureDetector(
+      onTap: (() {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => pages[index],
+            ));
+      }),
+      child: Container(
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: blue,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Image.asset(image, fit: BoxFit.cover),
-                ),
-                const SizedBox(height: 5),
-                Expanded(
-                  child: Text(
-                    desc,
-                    textAlign: TextAlign.center,
-                    style: appFontSize,
-                  ),
-                )
-              ],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 5,
+                offset: const Offset(0, 2), // changes position of shadow
+              ),
+            ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 80,
+              width: 80,
+              child: Image.asset(img, fit: BoxFit.cover),
             ),
-          ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: Text(
+                desc,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+            )
+          ],
         ),
       ),
     );

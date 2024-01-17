@@ -333,10 +333,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                   alignment: Alignment.center,
                                   child: Text('Add Row',
                                       overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      )
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -353,10 +350,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                   alignment: Alignment.center,
                                   child: Text('Delete Row',
                                       overflow: TextOverflow.values.first,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      )
+                                      style: tableheaderwhitecolor
                                       //    textAlign: TextAlign.center,
                                       ),
                                 ),
@@ -754,5 +748,4 @@ class _EnergyManagementState extends State<EnergyManagement> {
       );
     }));
   }
-
 }

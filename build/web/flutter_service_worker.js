@@ -4,9 +4,8 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "assets/animations/loading_animation.gif": "d9e9dc0a3353fa6c8c5fd32048c97d6d",
-"assets/AssetManifest.json": "6fd48c2ba960db95677ee052b24bb4fd",
+"assets/AssetManifest.json": "bd1ba1517fe886f2e8727e80395fe569",
 "assets/assets/bus.jpg": "cc9739029f286241f736a3350fa154bf",
-"assets/assets/demand_energy.png": "3df0da3d5b35242fb7e3a1803a28408a",
 "assets/assets/Depot.jpeg": "a05d450c9a27a857163a1a732f77f2b3",
 "assets/assets/depots/Ahmedabad.jpg": "b33157eb06df31bfd4bc3f0ec117cc16",
 "assets/assets/depots/Bengluru.jpg": "b3085a3d4eb37ef1dda93175da937375",
@@ -17,7 +16,6 @@ const RESOURCES = {
 "assets/assets/depots/Lucknow.jpg": "17538aad121867737159550761d46f64",
 "assets/assets/depots/Mumbai.jpg": "c923b7547cd16a9be6f0128df16a5b63",
 "assets/assets/depots/patna.jpg": "e379f5f205dbac4e1f3222b7ba0057de",
-"assets/assets/ev_dashboard.png": "c853556edcabddb75bb6882d24f0ad98",
 "assets/assets/excel.png": "53b758ea8c12c7bd1582d992f31ce1ac",
 "assets/assets/GIS.pdf": "6b8bdc356b5f1c64a73d1cf4ce0d47d5",
 "assets/assets/Green.jpeg": "f94bab74093a242ab2d772629297a118",
@@ -89,10 +87,10 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "d57bf5a79745ec7b7a018753e982332a",
-"/": "d57bf5a79745ec7b7a018753e982332a",
+"index.html": "65cef06703f125ecd6bbaef6900d9c66",
+"/": "65cef06703f125ecd6bbaef6900d9c66",
 "logo.png": "c26f228bef8b939865b61c4e040d7c3d",
-"main.dart.js": "5a6d20b36d59979324222717b91e8f0e",
+"main.dart.js": "62ac4bc2efeea8cf9156b336ed5bce91",
 "manifest.json": "f73ff0d48fe203730f88c6f9643dd732",
 "version.json": "1c0ada4c30372f55569c5a98db5c8fcc"
 };
