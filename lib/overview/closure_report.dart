@@ -438,7 +438,7 @@ class _ClosureReportState extends State<ClosureReport> {
                           columns: [
                             GridColumn(
                               columnName: 'srNo',
-                              width: 80,
+                              width: 100,
                               autoFitPadding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               allowEditing: false,
@@ -456,7 +456,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                             GridColumn(
                               columnName: 'Content',
-                              width: 1000,
+                              width: 550,
                               allowEditing: false,
                               label: Container(
                                 padding: const EdgeInsets.all(8.0),
@@ -474,7 +474,7 @@ class _ClosureReportState extends State<ClosureReport> {
                               columnName: 'Upload',
                               allowEditing: false,
                               visible: true,
-                              width: 150,
+                              width: 300,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
@@ -492,7 +492,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             GridColumn(
                               columnName: 'View',
                               allowEditing: false,
-                              width: 150,
+                              width: 300,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
@@ -531,7 +531,7 @@ class _ClosureReportState extends State<ClosureReport> {
                           columns: [
                             GridColumn(
                               columnName: 'srNo',
-                              width: 80,
+                              width: 120,
                               autoFitPadding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               allowEditing: false,
@@ -549,7 +549,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             ),
                             GridColumn(
                               columnName: 'Content',
-                              width: 1000,
+                              width: 550,
                               allowEditing: false,
                               label: Container(
                                 padding: const EdgeInsets.all(8.0),
@@ -567,7 +567,7 @@ class _ClosureReportState extends State<ClosureReport> {
                               columnName: 'Upload',
                               allowEditing: false,
                               visible: true,
-                              width: 250,
+                              width: 300,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
@@ -583,7 +583,7 @@ class _ClosureReportState extends State<ClosureReport> {
                             GridColumn(
                               columnName: 'View',
                               allowEditing: false,
-                              width: 250,
+                              width: 300,
                               label: Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),

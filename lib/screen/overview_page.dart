@@ -89,7 +89,7 @@ class _OverviewPageState extends State<OverviewPage> {
       'FQP Checklist for Civil,Electrical work & Quality Checklist',
       // 'Quality check list & observation',
       // 'FQP Checklist for Civil & Electrical work',
-      'Depot Insides',
+      'Depot Insightes',
       // 'Testing & Commissioning Reports of Equipment',
       'Closure Report',
       'Depot Demand Energy Management',

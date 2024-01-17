@@ -123,7 +123,7 @@ class _DailyProjectState extends State<DailyProject> {
                     );
                     _dataGridController = DataGridController();
                     return SfDataGridTheme(
-                      data: SfDataGridThemeData(headerColor: lightblue),
+                      data: SfDataGridThemeData(headerColor: blue),
                       child: SfDataGrid(
                           source: _dailyDataSource,
                           allowEditing: true,
@@ -318,7 +318,7 @@ class _DailyProjectState extends State<DailyProject> {
                       _dailyDataSource.updateDatagridSource();
                     });
                     return SfDataGridTheme(
-                      data: SfDataGridThemeData(headerColor: lightblue),
+                      data: SfDataGridThemeData(headerColor: blue),
                       child: SfDataGrid(
                           source: _dailyDataSource,
                           allowEditing: true,

@@ -105,7 +105,7 @@ class _MonthlyProjectState extends State<MonthlyProject> {
                       Expanded(
                           flex: 1,
                           child: SfDataGridTheme(
-                            data: SfDataGridThemeData(headerColor: lightblue),
+                            data: SfDataGridThemeData(headerColor: blue),
                             child: SfDataGrid(
                                 source: monthlyDataSource,
                                 allowEditing: true,
@@ -313,9 +313,7 @@ class _MonthlyProjectState extends State<MonthlyProject> {
                       Expanded(
                           flex: 1,
                           child: SfDataGridTheme(
-                            data: SfDataGridThemeData(
-                              
-                              headerColor: lightblue),
+                            data: SfDataGridThemeData(headerColor: blue),
                             child: SfDataGrid(
                                 source: monthlyDataSource,
                                 allowEditing: true,
