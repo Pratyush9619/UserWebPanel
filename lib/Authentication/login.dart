@@ -281,10 +281,36 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
 
-      QuerySnapshot snap = await FirebaseFirestore.instance
-          .collection('User')
-          .where('Employee Id', isEqualTo: _id)
-          .get();
+      QuerySnapshot specialUserSnap =
+          await FirebaseFirestore.instance.collection('specialUsers').get();
+
+      List<dynamic> specialUserList =
+          specialUserSnap.docs.map((e) => e.id).toList();
+
+      bool IsSpecialUser = false;
+
+      for (var user in specialUserList) {
+        if (_id == user) {
+          IsSpecialUser = true;
+          break;
+        }
+      }
+
+      QuerySnapshot snap;
+
+      if (IsSpecialUser) {
+        snap = await FirebaseFirestore.instance
+            .collection('specialUsers')
+            .where('Employee Id', isEqualTo: _id)
+            .get();
+        print('Login Id: $_id');
+      } else {
+        snap = await FirebaseFirestore.instance
+            .collection('User')
+            .where('Employee Id', isEqualTo: _id)
+            .get();
+        print('Login Id: $_id');
+      }
 
       try {
         if (_pass == snap.docs[0]['Password'] &&
