@@ -1,4 +1,5 @@
 import 'package:assingment/components/loading_page.dart';
+import 'package:assingment/components/page_routeBuilder.dart';
 import 'package:assingment/screen/depots_page.dart';
 import 'package:assingment/screen/mumbai_depots.dart';
 import 'package:assingment/widget/custom_container.dart';
@@ -52,11 +53,11 @@ class _CitiesPageState extends State<CitiesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
             child: CustomAppBar(
               text: 'Cities',
               haveSynced: false,
-            ),
-            preferredSize: const Size.fromHeight(50)),
+            )),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('CityName')
@@ -75,12 +76,19 @@ class _CitiesPageState extends State<CitiesPage> {
                         onTap: (() {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => DepotsPage(
+                              CustomPageRoute(
+                                page: DepotsPage(
                                   cityName: snapshot.data!.docs[index]
                                       ['CityName'],
                                 ),
-                              ));
+                              )
+                              // MaterialPageRoute(
+                              //   builder: (context) => DepotsPage(
+                              //     cityName: snapshot.data!.docs[index]
+                              //         ['CityName'],
+                              //   ),
+                              // )
+                              );
                         }),
                         child: cards(
                             context,
@@ -161,10 +169,10 @@ class _CitiesPageState extends State<CitiesPage> {
   // }
 
   void onToScreen(int index) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => menuWidget[index],
-        ));
+    Navigator.push(context, CustomPageRoute(page: menuWidget[index])
+        // MaterialPageRoute(
+        //   builder: (context) => menuWidget[index],
+        // )
+        );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:assingment/components/page_routeBuilder.dart';
 import 'package:assingment/screen/mumbai_depots.dart';
 import 'package:assingment/screen/overview_page.dart';
 import 'package:assingment/widget/style.dart';
@@ -25,6 +26,7 @@ class _DepotsPageState extends State<DepotsPage> {
     'assets/bus.jpg',
     'assets/bus.jpg',
   ];
+
   List<String> citiesname = [
     'Jammu',
     'Shrinagar',
@@ -46,11 +48,11 @@ class _DepotsPageState extends State<DepotsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
             child: CustomAppBar(
               text: ' ${widget.cityName} / Depots ',
               haveSynced: false,
-            ),
-            preferredSize: const Size.fromHeight(50)),
+            )),
         body: getDepots()
         // GridView.count(
         //     crossAxisCount: 2,
@@ -82,13 +84,21 @@ class _DepotsPageState extends State<DepotsPage> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => OverviewPage(
+                              CustomPageRoute(
+                                page: OverviewPage(
                                   cityName: widget.cityName,
                                   depoName: snapshot.data!.docs[index]
                                       ['DepoName'],
                                 ),
-                              ));
+                              )
+                              // MaterialPageRoute(
+                              //   builder: (context) => OverviewPage(
+                              //     cityName: widget.cityName,
+                              //     depoName: snapshot.data!.docs[index]
+                              //         ['DepoName'],
+                              //   ),
+                              // )
+                              );
                         },
                         child: cards(
                             context,

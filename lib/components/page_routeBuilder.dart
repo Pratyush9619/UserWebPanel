@@ -5,8 +5,8 @@ class CustomPageRoute extends PageRouteBuilder {
   CustomPageRoute({required this.page})
       : super(
           pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: const Duration(milliseconds: 1000),
-          reverseTransitionDuration: const Duration(milliseconds: 1000),
+          transitionDuration: const Duration(milliseconds: 400),
+          reverseTransitionDuration: const Duration(milliseconds: 400),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             var begin = const Offset(1.0, 0.0);
             var end = const Offset(0.0, 0.0);
@@ -16,10 +16,12 @@ class CustomPageRoute extends PageRouteBuilder {
               curve: Curves.easeInOut,
             );
 
-            return SlideTransition(
-              position: tween.animate(curvedAnimation),
-              child: child,
-            );
+            return FadeTransition(opacity: animation, child: child);
+
+            // return SlideTransition(
+            //   position: tween.animate(curvedAnimation),
+            //   child: child,
+            // );
           },
         );
 }

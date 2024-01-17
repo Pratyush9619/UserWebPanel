@@ -231,8 +231,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                     child: StreamBuilder(
                   stream: _stream,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData ||
-                        snapshot.data!.toString() == false) {
+                    if (!snapshot.hasData || snapshot.data.exists == false) {
                       return SfDataGrid(
                         source: _employeeDataSource,
                         allowEditing: true,
